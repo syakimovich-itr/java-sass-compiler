@@ -143,10 +143,6 @@ public class ScssStylesheet extends Node {
             return null;
         }
 
-        // FIXME Is this actually intended? /John 1.3.2013
-        File file = new File(identifier);
-        file = file.getCanonicalFile();
-
         ScssStylesheet stylesheet = documentHandler.getStyleSheet();
         if (parentStylesheet == null) {
             // Use default resolvers
@@ -202,7 +198,7 @@ public class ScssStylesheet extends Node {
      * @return the resolvers used to resolving imports
      */
     public List<ScssStylesheetResolver> getResolvers() {
-        return Collections.unmodifiableList(resolvers);
+        return resolvers;
     }
 
     /**
@@ -212,7 +208,7 @@ public class ScssStylesheet extends Node {
      *            the resolvers to set
      */
     public void setResolvers(List<ScssStylesheetResolver> resolvers) {
-        this.resolvers = new ArrayList<ScssStylesheetResolver>(resolvers);
+        this.resolvers = resolvers;
     }
 
     /**
