@@ -985,7 +985,7 @@ public class LexicalUnitImpl implements LexicalUnit, SCSSLexicalUnit,
                     text = ColorUtil.rgbToColorString(rgb);
                     break;
                 }
-                // else fall through to the function branch
+                //$FALL-THROUGH$ else fall through to the function branch
             case LexicalUnit.SAC_COUNTER_FUNCTION:
             case LexicalUnit.SAC_COUNTERS_FUNCTION:
             case LexicalUnit.SAC_RECT_FUNCTION:
