@@ -16,10 +16,8 @@
 
 package com.vaadin.sass.internal;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,7 +26,6 @@ import java.util.List;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-import com.yahoo.platform.yui.compressor.CssCompressor;
 import org.w3c.css.sac.CSSException;
 import org.w3c.css.sac.InputSource;
 
@@ -383,17 +380,6 @@ public class ScssStylesheet extends Node {
     }
 
     public void write(Writer writer) throws IOException {
-        write(writer, false);
-    }
-
-    public void write(Writer writer, boolean minify) throws IOException {
-        if (minify) {
-            InputStreamReader reader = new InputStreamReader(
-                    new ByteArrayInputStream(printState().getBytes("UTF-8")));
-            CssCompressor compressor = new CssCompressor(reader);
-            compressor.compress(writer, -1);
-        } else {
-            writer.write(printState());
-        }
+        writer.write(printState());
     }
 }
