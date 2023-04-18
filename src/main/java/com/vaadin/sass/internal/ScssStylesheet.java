@@ -34,7 +34,6 @@ import com.vaadin.sass.internal.handler.SCSSErrorHandler;
 import com.vaadin.sass.internal.parser.ParseException;
 import com.vaadin.sass.internal.parser.Parser;
 import com.vaadin.sass.internal.parser.SCSSParseException;
-import com.vaadin.sass.internal.resolver.ClassloaderResolver;
 import com.vaadin.sass.internal.resolver.FilesystemResolver;
 import com.vaadin.sass.internal.resolver.ScssStylesheetResolver;
 import com.vaadin.sass.internal.tree.Node;
@@ -171,7 +170,6 @@ public class ScssStylesheet extends Node {
         if (resolvers == null) {
             // Use default resolvers
             stylesheet.addResolver(new FilesystemResolver());
-            stylesheet.addResolver(new ClassloaderResolver());
         } else {
             // Use parent resolvers
             stylesheet.setResolvers(resolvers);

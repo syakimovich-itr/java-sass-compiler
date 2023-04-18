@@ -22,7 +22,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.vaadin.sass.internal.resolver.AbstractResolver;
-import com.vaadin.sass.internal.resolver.ClassloaderResolver;
 import com.vaadin.sass.internal.resolver.FilesystemResolver;
 
 public class VaadinResolverTest {
@@ -30,11 +29,6 @@ public class VaadinResolverTest {
     @Test
     public void testFilesystemResolverPathNormalization() throws Exception {
         testPathNormalization(new FilesystemResolver());
-    }
-
-    @Test
-    public void testClassloaderResolverPathNormalization() throws Exception {
-        testPathNormalization(new ClassloaderResolver());
     }
 
     public void testPathNormalization(AbstractResolver resolver)
