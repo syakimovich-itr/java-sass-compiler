@@ -46,7 +46,7 @@ public class ScssStylesheet extends Node {
 
     private String charset;
 
-    private List<ScssStylesheetResolver> resolvers = new ArrayList<ScssStylesheetResolver>();
+    private ScssStylesheetResolver resolver;
 
     // relative path to use when importing files etc.
     private String prefix = "";
@@ -123,8 +123,8 @@ public class ScssStylesheet extends Node {
             ScssStylesheet parentStylesheet,
             SCSSDocumentHandler documentHandler, SCSSErrorHandler errorHandler)
             throws CSSException, IOException {
-        List<ScssStylesheetResolver> resolvers = parentStylesheet != null ? parentStylesheet.getResolvers() : null;
-        return get( identifier, parentStylesheet, documentHandler, errorHandler, resolvers );
+        ScssStylesheetResolver resolver = parentStylesheet != null ? parentStylesheet.resolver : null;
+        return get( identifier, parentStylesheet, documentHandler, errorHandler, resolver );
     }
 
     /**
@@ -142,14 +142,14 @@ public class ScssStylesheet extends Node {
      *            Instance of document handler. May not be null.
      * @param errorHandler
      *            Instance of error handler. May not be null.
-     * @param resolvers the used resolvers
+     * @param resolver the used resolver
      * @return
      * @throws CSSException
      * @throws IOException
      */
     public static ScssStylesheet get(String identifier,
             ScssStylesheet parentStylesheet,
-            SCSSDocumentHandler documentHandler, SCSSErrorHandler errorHandler, List<ScssStylesheetResolver> resolvers )
+            SCSSDocumentHandler documentHandler, SCSSErrorHandler errorHandler, ScssStylesheetResolver resolver )
             throws CSSException, IOException {
         SCSSErrorHandler.set(errorHandler);
         /*
@@ -166,12 +166,12 @@ public class ScssStylesheet extends Node {
         }
 
         ScssStylesheet stylesheet = documentHandler.getStyleSheet();
-        if (resolvers == null) {
+        if (resolver == null) {
             // Use default resolvers
-            stylesheet.addResolver(new FilesystemResolver());
+            stylesheet.resolver = new FilesystemResolver();
         } else {
             // Use parent resolvers
-            stylesheet.setResolvers(resolvers);
+            stylesheet.resolver = resolver;
         }
         InputSource source = stylesheet.resolveStylesheet(identifier,
                 parentStylesheet);
@@ -201,7 +201,7 @@ public class ScssStylesheet extends Node {
 
     public InputSource resolveStylesheet(String identifier,
             ScssStylesheet parentStylesheet) {
-        for (ScssStylesheetResolver resolver : getResolvers()) {
+        if( resolver != null ) {
             InputSource source = resolver.resolve(parentStylesheet, identifier);
             if (source != null) {
                 uri = source.getURI();
@@ -210,35 +210,6 @@ public class ScssStylesheet extends Node {
         }
 
         return null;
-    }
-
-    /**
-     * Retrieves a list of resolvers to use when resolving imports
-     * 
-     * @return the resolvers used to resolving imports
-     */
-    public List<ScssStylesheetResolver> getResolvers() {
-        return resolvers;
-    }
-
-    /**
-     * Sets the list of resolvers to use when resolving imports
-     * 
-     * @param resolvers
-     *            the resolvers to set
-     */
-    public void setResolvers(List<ScssStylesheetResolver> resolvers) {
-        this.resolvers = resolvers;
-    }
-
-    /**
-     * Adds the given resolver to the resolver list
-     * 
-     * @param resolver
-     *            The resolver to add
-     */
-    public void addResolver(ScssStylesheetResolver resolver) {
-        resolvers.add(resolver);
     }
 
     public List<String> getSourceUris() {
