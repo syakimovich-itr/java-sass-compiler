@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import org.w3c.css.sac.CSSException;
@@ -377,21 +376,6 @@ public class ScssStylesheet extends Node {
         }
         String output = string.toString();
         return output;
-    }
-
-    static {
-        String logFile = System.getProperty("java.util.logging.config.file");
-        if (logFile == null) {
-            try {
-                LogManager.getLogManager().readConfiguration(
-                        ScssStylesheet.class
-                                .getResourceAsStream("/logging.properties"));
-            } catch (SecurityException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     @Override
