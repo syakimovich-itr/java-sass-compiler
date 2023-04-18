@@ -16,7 +16,6 @@
 
 package com.vaadin.sass.internal;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
@@ -45,7 +44,7 @@ public class ScssStylesheet extends Node {
 
     private static final long serialVersionUID = 3849790204404961608L;
 
-    private File file;
+    private String uri;
 
     private String charset;
 
@@ -126,6 +125,34 @@ public class ScssStylesheet extends Node {
             ScssStylesheet parentStylesheet,
             SCSSDocumentHandler documentHandler, SCSSErrorHandler errorHandler)
             throws CSSException, IOException {
+        List<ScssStylesheetResolver> resolvers = parentStylesheet != null ? parentStylesheet.getResolvers() : null;
+        return get( identifier, parentStylesheet, documentHandler, errorHandler, resolvers );
+    }
+
+    /**
+     * Main entry point for the SASS compiler. Takes in a file, an optional
+     * parent stylesheet, and document and error handlers. Then builds up a
+     * ScssStylesheet tree out of it. Calling compile() on it will transform
+     * SASS into CSS. Calling printState() will print out the SCSS/CSS.
+     * 
+     * @param identifier
+     *            The file path. If null then null is returned.
+     * @param parentStylesheet
+     *            Style sheet from which to inherit resolvers and encoding. May
+     *            be null.
+     * @param documentHandler
+     *            Instance of document handler. May not be null.
+     * @param errorHandler
+     *            Instance of error handler. May not be null.
+     * @param resolvers the used resolvers
+     * @return
+     * @throws CSSException
+     * @throws IOException
+     */
+    public static ScssStylesheet get(String identifier,
+            ScssStylesheet parentStylesheet,
+            SCSSDocumentHandler documentHandler, SCSSErrorHandler errorHandler, List<ScssStylesheetResolver> resolvers )
+            throws CSSException, IOException {
         SCSSErrorHandler.set(errorHandler);
         /*
          * The encoding to be used is passed through "encoding" parameter. the
@@ -141,13 +168,13 @@ public class ScssStylesheet extends Node {
         }
 
         ScssStylesheet stylesheet = documentHandler.getStyleSheet();
-        if (parentStylesheet == null) {
+        if (resolvers == null) {
             // Use default resolvers
             stylesheet.addResolver(new FilesystemResolver());
             stylesheet.addResolver(new ClassloaderResolver());
         } else {
             // Use parent resolvers
-            stylesheet.setResolvers(parentStylesheet.getResolvers());
+            stylesheet.setResolvers(resolvers);
         }
         InputSource source = stylesheet.resolveStylesheet(identifier,
                 parentStylesheet);
@@ -180,8 +207,7 @@ public class ScssStylesheet extends Node {
         for (ScssStylesheetResolver resolver : getResolvers()) {
             InputSource source = resolver.resolve(parentStylesheet, identifier);
             if (source != null) {
-                File f = new File(source.getURI());
-                setFile(f);
+                uri = source.getURI();
                 return source;
             }
         }
@@ -292,17 +318,14 @@ public class ScssStylesheet extends Node {
         return Collections.singleton((Node) this);
     }
 
-    public void setFile(File file) {
-        this.file = file;
-    }
-
     /**
      * Returns the directory containing this style sheet
      * 
      * @return The directory containing this style sheet
      */
     public String getDirectory() {
-        return file.getParent();
+        int idx = uri.lastIndexOf( '/' );
+        return idx < 0 ? "" : uri.substring( 0, idx );
     }
 
     /**
@@ -311,7 +334,7 @@ public class ScssStylesheet extends Node {
      * @return The full file name for this style sheet
      */
     public String getFileName() {
-        return file.getPath();
+        return uri;
     }
 
     public static final void warning(String msg) {
