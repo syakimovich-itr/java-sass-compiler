@@ -759,6 +759,7 @@ public class LexicalUnitImpl implements LexicalUnit, SCSSLexicalUnit,
             if (var != null) {
                 return var.getExpr().replaceVariables(context);
             }
+            throw new ParseException( "Variable was not resolved: " + simpleAsString(), line, column );
         }
         return this;
     }
@@ -974,12 +975,6 @@ public class LexicalUnitImpl implements LexicalUnit, SCSSLexicalUnit,
     public String buildString(BuildStringStrategy strategy) {
         short type = getLexicalUnitType();
         String text = simpleAsString();
-
-        switch( type ) {
-            case SCSS_VARIABLE:
-                throw new ParseException( "Variable was not resolved: " + text, line, column );
-        }
-
         if (text == null) {
             switch (type) {
             case LexicalUnit.SAC_URI:
