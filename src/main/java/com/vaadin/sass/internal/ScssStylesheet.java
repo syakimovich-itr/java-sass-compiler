@@ -53,6 +53,8 @@ public class ScssStylesheet extends Node {
 
     private List<String> sourceUris = new ArrayList<String>();
 
+    private ScssStylesheet parent;
+
     /**
      * Read in a file SCSS and parse it into a ScssStylesheet
      * 
@@ -173,11 +175,13 @@ public class ScssStylesheet extends Node {
             // Use parent resolvers
             stylesheet.resolver = resolver;
         }
-        InputSource source = stylesheet.resolveStylesheet(identifier,
-                parentStylesheet);
-        if (source == null) {
+        stylesheet.parent = parentStylesheet;
+        InputSource source = stylesheet.resolveSource( identifier, parentStylesheet );
+        if( source == null ) {
             return null;
         }
+        stylesheet.uri = source.getURI();
+
         if (parentStylesheet != null) {
             source.setEncoding(parentStylesheet.getCharset());
         }
@@ -199,14 +203,9 @@ public class ScssStylesheet extends Node {
         return stylesheet;
     }
 
-    public InputSource resolveStylesheet(String identifier,
-            ScssStylesheet parentStylesheet) {
+    public InputSource resolveSource( String identifier, ScssStylesheet parentStylesheet ) {
         if( resolver != null ) {
-            InputSource source = resolver.resolve(parentStylesheet, identifier);
-            if (source != null) {
-                uri = source.getURI();
-                return source;
-            }
+            return resolver.resolve( parentStylesheet, identifier );
         }
 
         return null;
@@ -250,7 +249,7 @@ public class ScssStylesheet extends Node {
      * @throws Exception
      */
     public void compile(ScssContext.UrlMode urlMode) throws Exception {
-        ScssContext context = new ScssContext(urlMode);
+        ScssContext context = new ScssContext( urlMode, this );
         traverse(context);
         ExtendNodeHandler.modifyTree(context, this);
     }

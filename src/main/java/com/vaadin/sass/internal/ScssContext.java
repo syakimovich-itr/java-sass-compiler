@@ -45,6 +45,8 @@ public class ScssContext {
 
     private Scope scope = new Scope();
 
+    private ScssStylesheet stylesheet;
+
     /**
      * Collection of mappings from an @extend-selector (its simple selector
      * sequence) to a containing block's selectors. E.g. the following
@@ -58,8 +60,9 @@ public class ScssContext {
      */
     private Set<Extension> extendsSet = new LinkedHashSet<Extension>();
 
-    public ScssContext(UrlMode urlMode) {
+    public ScssContext(UrlMode urlMode, ScssStylesheet stylesheet ) {
         this.urlMode = urlMode;
+        this.stylesheet = stylesheet;
     }
 
     public void defineFunction(FunctionDefNode function) {
@@ -180,4 +183,19 @@ public class ScssContext {
         this.urlMode = urlMode;
     }
 
+    /**
+     * The current stylesheet 
+     * @return the stylesheet
+     */
+    public ScssStylesheet getStylesheet() {
+        return stylesheet;
+    }
+
+    /**
+     * Change the stylesheet
+     * @param stylesheet the new value
+     */
+    public void setStylesheet( ScssStylesheet stylesheet ) {
+        this.stylesheet = stylesheet;
+    }
 }

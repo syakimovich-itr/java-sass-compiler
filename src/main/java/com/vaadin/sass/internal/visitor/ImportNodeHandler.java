@@ -91,12 +91,14 @@ public class ImportNodeHandler {
             }
 
             if (imported != null) {
+                context.setStylesheet( imported );
                 // traverse the imported nodes normally in the correct context
                 Node tempParent = new TemporaryNode(importNode.getParentNode(),
                         importedChildren);
                 Collection<Node> result = tempParent.traverseChildren(context);
 
                 styleSheet.addSourceUris(imported.getSourceUris());
+                context.setStylesheet( styleSheet );
                 return result;
             }
         } else {

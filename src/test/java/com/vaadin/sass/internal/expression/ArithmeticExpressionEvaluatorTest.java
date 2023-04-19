@@ -33,7 +33,7 @@ public class ArithmeticExpressionEvaluatorTest {
 
     private LexicalUnitImpl evaluate(SassListItem... terms) {
         // clean context every time - no variables etc.
-        ScssContext context = new ScssContext(UrlMode.MIXED);
+        ScssContext context = new ScssContext( UrlMode.MIXED, null );
         return (LexicalUnitImpl) evaluator.evaluate(context,
                 Arrays.asList(terms));
     }
