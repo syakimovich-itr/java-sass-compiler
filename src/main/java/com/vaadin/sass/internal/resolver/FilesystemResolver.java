@@ -56,7 +56,7 @@ public class FilesystemResolver extends AbstractResolver {
     @Override
     public InputSource resolveNormalized(String identifier) {
         String fileName = identifier;
-        if (!fileName.endsWith(".css")) {
+        if( !fileName.endsWith( ".css" ) && !fileName.endsWith( ".png" ) ) {
             fileName += ".scss";
         }
 

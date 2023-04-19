@@ -15,6 +15,7 @@
  */
 package com.vaadin.sass.internal.parser.function;
 
+import com.vaadin.sass.internal.ScssContext;
 import com.vaadin.sass.internal.parser.FormalArgumentList;
 import com.vaadin.sass.internal.parser.LexicalUnitImpl;
 import com.vaadin.sass.internal.parser.ParseException;
@@ -37,8 +38,8 @@ public abstract class AbstractSingleParameterFunctionGenerator extends
     }
 
     @Override
-    protected SassListItem computeForArgumentList(LexicalUnitImpl function,
-            FormalArgumentList arglist) {
+    protected SassListItem computeForArgumentList(ScssContext context,
+            LexicalUnitImpl function, FormalArgumentList arglist) {
         SassListItem param = getParam(arglist, 0);
         if (!(param instanceof LexicalUnitImpl)) {
             throw new ParseException("Function " + function.getFunctionName()

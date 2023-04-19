@@ -15,6 +15,7 @@
  */
 package com.vaadin.sass.internal.parser.function;
 
+import com.vaadin.sass.internal.ScssContext;
 import com.vaadin.sass.internal.parser.ActualArgumentList;
 import com.vaadin.sass.internal.parser.FormalArgumentList;
 import com.vaadin.sass.internal.parser.LexicalUnitImpl;
@@ -33,8 +34,8 @@ public class TransparencyModificationFunctionGenerator extends
     }
 
     @Override
-    protected SassListItem computeForArgumentList(LexicalUnitImpl function,
-            FormalArgumentList actualArguments) {
+    protected SassListItem computeForArgumentList(ScssContext context,
+            LexicalUnitImpl function, FormalArgumentList actualArguments) {
         checkParameters(function, actualArguments);
         float factor = 1.0f; // for opacify/fade-in
         if ("fade-out".equals(function.getFunctionName())

@@ -15,6 +15,7 @@
  */
 package com.vaadin.sass.internal.parser.function;
 
+import com.vaadin.sass.internal.ScssContext;
 import com.vaadin.sass.internal.parser.FormalArgumentList;
 import com.vaadin.sass.internal.parser.LexicalUnitImpl;
 import com.vaadin.sass.internal.parser.ParseException;
@@ -32,8 +33,8 @@ public class MixFunctionGenerator extends AbstractFunctionGenerator {
     }
 
     @Override
-    protected SassListItem computeForArgumentList(LexicalUnitImpl function,
-            FormalArgumentList actualArguments) {
+    protected SassListItem computeForArgumentList(ScssContext context,
+            LexicalUnitImpl function, FormalArgumentList actualArguments) {
         LexicalUnitImpl color1 = checkAndGetColor(actualArguments, "color-1",
                 function);
         LexicalUnitImpl color2 = checkAndGetColor(actualArguments, "color-2",

@@ -69,7 +69,7 @@ public abstract class AbstractFunctionGenerator implements
                     + function.getLineNumber() + ", column "
                     + function.getColumnNumber() + ": [" + e.getMessage() + "]");
         }
-        return computeForArgumentList(function, functionArguments);
+        return computeForArgumentList(context, function, functionArguments);
     }
 
     /**
@@ -78,7 +78,8 @@ public abstract class AbstractFunctionGenerator implements
      * This method is called by compute(), which also forms the parameter list
      * actualArguments by replacing the formal arguments of the function with
      * their actual values.
-     * 
+     * @param context
+     *            current compilation context
      * @param function
      *            The function to be evaluated. The function object can be used
      *            to determine which function to evaluate when a function
@@ -88,10 +89,10 @@ public abstract class AbstractFunctionGenerator implements
      *            The argument list of the function, obtained by replacing all
      *            formal arguments with the corresponding values of the actual
      *            argument list of the function.
+     * 
      * @return The value of the function.
      */
-    protected abstract SassListItem computeForArgumentList(
-            LexicalUnitImpl function, FormalArgumentList actualArguments);
+    protected abstract SassListItem computeForArgumentList( ScssContext context, LexicalUnitImpl function, FormalArgumentList actualArguments );
 
     /**
      * Returns true if this function should ensure that all parameters have been

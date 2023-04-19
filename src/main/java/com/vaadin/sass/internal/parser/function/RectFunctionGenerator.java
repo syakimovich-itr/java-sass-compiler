@@ -27,6 +27,7 @@ import static org.w3c.css.sac.LexicalUnit.SAC_POINT;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vaadin.sass.internal.ScssContext;
 import com.vaadin.sass.internal.parser.ActualArgumentList;
 import com.vaadin.sass.internal.parser.ArgumentList;
 import com.vaadin.sass.internal.parser.FormalArgumentList;
@@ -47,8 +48,8 @@ public class RectFunctionGenerator extends AbstractFunctionGenerator {
     }
 
     @Override
-    protected SassListItem computeForArgumentList(LexicalUnitImpl function,
-            FormalArgumentList actualArguments) {
+    protected SassListItem computeForArgumentList(ScssContext context,
+            LexicalUnitImpl function, FormalArgumentList actualArguments) {
 
         ArgumentList actualParams = (ArgumentList) getParam(actualArguments, 0);
         List<SassListItem> resultParams = new ArrayList<SassListItem>();

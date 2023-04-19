@@ -15,6 +15,7 @@
  */
 package com.vaadin.sass.internal.parser.function;
 
+import com.vaadin.sass.internal.ScssContext;
 import com.vaadin.sass.internal.parser.FormalArgumentList;
 import com.vaadin.sass.internal.parser.LexicalUnitImpl;
 import com.vaadin.sass.internal.parser.ParseException;
@@ -32,8 +33,8 @@ public class SaturationModificationFunctionGenerator extends
     }
 
     @Override
-    public SassListItem computeForArgumentList(LexicalUnitImpl function,
-            FormalArgumentList actualArguments) {
+    public SassListItem computeForArgumentList(ScssContext context,
+            LexicalUnitImpl function, FormalArgumentList actualArguments) {
         LexicalUnitImpl color = checkAndGetColor(function, actualArguments);
         float amount = checkAndGetAmount(function, actualArguments);
         float alpha = ColorUtil.getAlpha(color);

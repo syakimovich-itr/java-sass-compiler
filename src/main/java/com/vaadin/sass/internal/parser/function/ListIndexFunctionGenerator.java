@@ -15,6 +15,7 @@
  */
 package com.vaadin.sass.internal.parser.function;
 
+import com.vaadin.sass.internal.ScssContext;
 import com.vaadin.sass.internal.parser.FormalArgumentList;
 import com.vaadin.sass.internal.parser.LexicalUnitImpl;
 import com.vaadin.sass.internal.parser.SassList;
@@ -29,8 +30,8 @@ public class ListIndexFunctionGenerator extends AbstractFunctionGenerator {
     }
 
     @Override
-    protected SassListItem computeForArgumentList(LexicalUnitImpl function,
-            FormalArgumentList actualArguments) {
+    protected SassListItem computeForArgumentList(ScssContext context,
+            LexicalUnitImpl function, FormalArgumentList actualArguments) {
         SassListItem listItem = getParam(actualArguments, "list");
         SassListItem item = getParam(actualArguments, "value");
         int index = -1;

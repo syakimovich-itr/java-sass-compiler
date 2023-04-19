@@ -607,7 +607,7 @@ public class LexicalUnitImpl implements LexicalUnit, SCSSLexicalUnit,
         return new LexicalUnitImpl(line, column, SAC_STRING_VALUE, s);
     }
 
-    static LexicalUnitImpl createURL(int line, int column, String s) {
+    public static LexicalUnitImpl createURL(int line, int column, String s) {
         return new LexicalUnitImpl(line, column, SAC_URI, s);
     }
 
@@ -839,6 +839,16 @@ public class LexicalUnitImpl implements LexicalUnit, SCSSLexicalUnit,
         return null;
     }
 
+    /**
+     * Register a custom sass function.
+     * @param generator the implementation of the custom function
+     */
+    public static void registerCustomFunction( SCSSFunctionGenerator generator ) {
+        for (String functionName : generator.getFunctionNames()) {
+            SERIALIZERS.put(functionName, generator );
+        }
+    }
+
     private static SCSSFunctionGenerator getGenerator(String funcName) {
         return SERIALIZERS.get(funcName);
     }
@@ -1060,9 +1070,7 @@ public class LexicalUnitImpl implements LexicalUnit, SCSSLexicalUnit,
         symbols.setDecimalSeparator('.');
         CSS_FLOAT_FORMAT.setDecimalFormatSymbols(symbols);
         for (SCSSFunctionGenerator serializer : initSerializers()) {
-            for (String functionName : serializer.getFunctionNames()) {
-                SERIALIZERS.put(functionName, serializer);
-            }
+            registerCustomFunction( serializer );
         }
     }
 
