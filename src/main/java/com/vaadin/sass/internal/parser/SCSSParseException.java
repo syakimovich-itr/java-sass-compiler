@@ -22,13 +22,14 @@ public class SCSSParseException extends ParseException {
     public SCSSParseException(ParseException parseException, String fileName) {
         this.parseException = parseException;
         this.fileName = fileName;
+        initCause( parseException );
     }
 
     @Override
     public String getMessage() {
         StringBuilder builder = new StringBuilder();
-        builder.append("Error when parsing file ").append(fileName)
-                .append("\n").append(parseException.getMessage());
+        builder.append("Error when parsing file '").append(fileName)
+                .append("'\n").append(parseException.getMessage());
         return builder.toString();
     }
 }
