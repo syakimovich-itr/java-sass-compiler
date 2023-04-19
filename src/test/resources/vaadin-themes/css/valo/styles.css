@@ -1626,7 +1626,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .valo .v-verticallayout-well, .valo .v-horizontallayout-well {
-	background: #f5f5f5;
+	background: whitesmoke;
 	color: #454545;
 	-webkit-box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.05), inset 0 2px 3px rgba(0, 0, 0, 0.05);
 	box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.05), inset 0 2px 3px rgba(0, 0, 0, 0.05);
@@ -3540,7 +3540,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .valo .v-csslayout-well {
-	background: #f5f5f5;
+	background: whitesmoke;
 	color: #454545;
 	-webkit-box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.05), inset 0 2px 3px rgba(0, 0, 0, 0.05);
 	box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.05), inset 0 2px 3px rgba(0, 0, 0, 0.05);
@@ -7932,7 +7932,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .valo .v-table-row-odd {
-	background-color: #f5f5f5;
+	background-color: whitesmoke;
 }
 
 .valo .v-table [class*="-row"].v-selected {
@@ -9019,7 +9019,7 @@ div.v-layout.v-horizontal.v-widget {
 	line-height: 37px;
 	font-size: 15px;
 	font-weight: 300;
-	color: #696969;
+	color: dimgray;
 	width: auto !important;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -9566,7 +9566,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .valo .v-panel-well {
-	background: #f5f5f5;
+	background: whitesmoke;
 	color: #454545;
 	-webkit-box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.05), inset 0 2px 3px rgba(0, 0, 0, 0.05);
 	box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.05), inset 0 2px 3px rgba(0, 0, 0, 0.05);
@@ -10729,8 +10729,8 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo .v-richtextarea .gwt-ToggleButton-down, .valo .v-richtextarea .gwt-ToggleButton-down-hovering {
 	background-color: #e0e0e0;
-	background-image: -webkit-linear-gradient(bottom, #e0e0e0 2%, #dcdcdc 98%);
-	background-image: linear-gradient(to top,#e0e0e0 2%, #dcdcdc 98%);
+	background-image: -webkit-linear-gradient(bottom, #e0e0e0 2%, gainsboro 98%);
+	background-image: linear-gradient(to top,#e0e0e0 2%, gainsboro 98%);
 }
 
 .valo .v-richtextarea .gwt-RichTextToolbar-top img {
