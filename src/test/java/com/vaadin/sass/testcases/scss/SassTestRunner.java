@@ -139,5 +139,24 @@ public class SassTestRunner extends BlockJUnit4ClassRunner {
             return String.format("%s[%s]", getMethod().getName(),
                     Arrays.toString(params));
         }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean equals( Object obj ) {
+            if( super.equals( obj ) && getClass() == obj.getClass() ) {
+                return Arrays.equals( params, ((ParameterizedFrameworkMethod)obj).params );
+            }
+            return false;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public int hashCode() {
+            return super.hashCode() + Arrays.hashCode( params );
+        }
     }
 }
