@@ -58,10 +58,6 @@ public class ScssContext {
      */
     private Set<Extension> extendsSet = new LinkedHashSet<Extension>();
 
-    public ScssContext() {
-        this(UrlMode.MIXED);
-    }
-
     public ScssContext(UrlMode urlMode) {
         this.urlMode = urlMode;
     }
