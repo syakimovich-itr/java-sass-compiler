@@ -36,29 +36,30 @@ public abstract class LoopNodeHandler {
      * @param loopNode
      *            node to replace
      * @param loopVariables
-     *            iterable of the loop variable instances for each iteration -
+     *            iterable of the loop variables instances for each iteration -
      *            typically a collection for a fixed iteration count loop
      */
-    protected static Collection<Node> replaceLoopNode(ScssContext context,
-            Node loopNode, Iterable<Variable> loopVariables) {
+    protected static Collection<Node> replaceLoopNode( ScssContext context, Node loopNode, Iterable<List<Variable>> loopVariables ) {
         // the type of this node does not matter much as long as it can have
         // children that can be traversed
-        TemporaryNode tempParent = new TemporaryNode(loopNode.getParentNode());
-        for (final Variable var : loopVariables) {
-            iteration(context, loopNode.getChildren(), tempParent, var);
+        TemporaryNode tempParent = new TemporaryNode( loopNode.getParentNode() );
+        List<Node> children = loopNode.getChildren();
+        for( final List<Variable> vars : loopVariables ) {
+            iteration( context, children, tempParent, vars );
         }
         // the newly created nodes have already been traversed
         return tempParent.getChildren();
     }
 
-    private static void iteration(ScssContext context, List<Node> loopChildren,
-            TemporaryNode newParent, Variable loopVar) {
+    private static void iteration( ScssContext context, List<Node> loopChildren, TemporaryNode newParent, List<Variable> loopVariables ) {
         context.openVariableScope();
         try {
-            context.addVariable(loopVar);
-            for (final Node child : loopChildren) {
+            for( Variable loopVar : loopVariables ) {
+                context.addVariable( loopVar );
+            }
+            for( final Node child : loopChildren ) {
                 Node copy = child.copy();
-                newParent.appendAndTraverse(context, copy);
+                newParent.appendAndTraverse( context, copy );
             }
         } finally {
             context.closeVariableScope();

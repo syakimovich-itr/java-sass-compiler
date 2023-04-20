@@ -17,6 +17,7 @@
 package com.vaadin.sass.internal.tree.controldirective;
 
 import java.util.Collection;
+import java.util.List;
 
 import com.vaadin.sass.internal.ScssContext;
 import com.vaadin.sass.internal.parser.SassList;
@@ -30,18 +31,18 @@ public class EachDefNode extends Node implements IVariableNode,
         NodeWithUrlContent {
     private static final long serialVersionUID = 7943948981204906221L;
 
-    private String var;
+    private List<String> variableNames;
     private SassListItem list;
 
-    public EachDefNode(String var, SassListItem list) {
+    public EachDefNode( List<String> variableNames, SassListItem list) {
         super();
-        this.var = var;
+        this.variableNames = variableNames;
         this.list = list;
     }
 
     private EachDefNode(EachDefNode nodeToCopy) {
         super(nodeToCopy);
-        var = nodeToCopy.var;
+        variableNames = nodeToCopy.variableNames;
         list = nodeToCopy.list;
     }
 
@@ -53,13 +54,13 @@ public class EachDefNode extends Node implements IVariableNode,
         }
     }
 
-    public String getVariableName() {
-        return var;
+    public List<String> getVariableNames() {
+        return variableNames;
     }
 
     @Override
     public String toString() {
-        return "Each Definition Node: {variable : " + var + ", "
+        return "Each Definition Node: {variable : " + variableNames + ", "
                 + "children : " + list + "}";
     }
 

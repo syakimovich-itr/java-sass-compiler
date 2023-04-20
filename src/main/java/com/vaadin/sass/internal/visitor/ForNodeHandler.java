@@ -17,6 +17,8 @@ package com.vaadin.sass.internal.visitor;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import com.vaadin.sass.internal.ScssContext;
 import com.vaadin.sass.internal.parser.LexicalUnitImpl;
@@ -34,14 +36,15 @@ public class ForNodeHandler extends LoopNodeHandler {
         if (forNode.isExclusive()) {
             toInt = toInt - 1;
         }
-        Collection<Variable> indices = new ArrayList<Variable>();
-        for (int idx = fromInt; idx <= toInt; ++idx) {
-            LexicalUnitImpl idxUnit = LexicalUnitImpl.createInteger(forNode
-                    .getFrom().getLineNumber(), forNode.getFrom()
-                    .getColumnNumber(), idx);
-            indices.add(new Variable(forNode.getVariableName(), idxUnit));
+        Collection<List<Variable>> indices = new ArrayList<>();
+        for( int idx = fromInt; idx <= toInt; ++idx ) {
+            LexicalUnitImpl idxUnit = LexicalUnitImpl.createInteger( //
+                                                                     forNode.getFrom().getLineNumber(), //
+                                                                     forNode.getFrom().getColumnNumber(), //
+                                                                     idx );
+            indices.add( Collections.singletonList( new Variable( forNode.getVariableName(), idxUnit ) ) );
         }
-        return replaceLoopNode(context, forNode, indices);
+        return replaceLoopNode( context, forNode, indices );
     }
 
     private static int getInt(ScssContext context, SassListItem item) {

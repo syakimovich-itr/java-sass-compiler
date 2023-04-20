@@ -66,7 +66,7 @@ public interface SCSSDocumentHandler extends DocumentHandler {
     void property(StringInterpolationSequence name, SassListItem value,
             boolean important, String comment);
 
-    void startEachDirective(String variable, SassListItem list);
+    void startEachDirective( List<String> variables, SassListItem list );
 
     void endEachDirective();
 

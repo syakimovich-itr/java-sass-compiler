@@ -1586,14 +1586,16 @@ void elseDirective() :
 
 void eachDirective() :
 {
-    Token var;
-    SassList list = null;
+    List<String> vars = new ArrayList<String>();
+    SassList list;
 }
 {
     < EACH_SYM >
     (< S >)*
-    var = < VARIABLE > (< S >)* < EACH_IN > (< S >)*
-    list = expressionList() { documentHandler.startEachDirective(var.image, list.flatten()); }
+    { vars.add(variableName()); }
+    ( <COMMA> (< S >)* { vars.add(variableName()); } )*
+    < EACH_IN > (< S >)*
+    list = expressionList() { documentHandler.startEachDirective(vars, list.flatten()); }
     < LBRACE >(< S >)*
     ( ifContentStatement() )*
     < RBRACE >(< S >)*
@@ -1686,14 +1688,16 @@ void functionElseDirective() :
 
 void functionEachDirective() :
 {
-    Token var;
-    SassList list = null;
+    List<String> vars = new ArrayList<String>();
+    SassList list;
 }
 {
     < EACH_SYM >
     (< S >)*
-    var = < VARIABLE > (< S >)* < EACH_IN > (< S >)*
-    list = expressionList() { documentHandler.startEachDirective(var.image, list.flatten()); }
+    { vars.add(variableName()); }
+    ( <COMMA> (< S >)* { vars.add(variableName()); } )*
+    < EACH_IN > (< S >)*
+    list = expressionList() { documentHandler.startEachDirective(vars, list.flatten()); }
     < LBRACE >(< S >)*
     ( functionBlockStatement() )*
     < RBRACE >(< S >)*

@@ -120,8 +120,8 @@ public class SCSSDocumentHandlerImpl implements SCSSDocumentHandler {
     }
 
     @Override
-    public void startEachDirective(String var, SassListItem list) {
-        EachDefNode node = new EachDefNode(var, list);
+    public void startEachDirective( List<String> variables, SassListItem list ) {
+        EachDefNode node = new EachDefNode( variables, list );
         nodeStack.peek().appendChild(node);
         nodeStack.push(node);
     }

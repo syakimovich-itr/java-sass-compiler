@@ -17,8 +17,12 @@ package com.vaadin.sass.internal.visitor;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import com.vaadin.sass.internal.ScssContext;
+import com.vaadin.sass.internal.parser.LexicalUnitImpl;
+import com.vaadin.sass.internal.parser.SassList;
 import com.vaadin.sass.internal.parser.SassListItem;
 import com.vaadin.sass.internal.parser.Variable;
 import com.vaadin.sass.internal.tree.Node;
@@ -26,14 +30,27 @@ import com.vaadin.sass.internal.tree.controldirective.EachDefNode;
 
 public class EachNodeHandler extends LoopNodeHandler {
 
-    public static Collection<Node> traverse(ScssContext context,
-            EachDefNode eachNode) {
-        Collection<Variable> loopVariables = new ArrayList<Variable>();
-        for (final SassListItem var : eachNode.getVariables()) {
-            loopVariables.add(new Variable(eachNode.getVariableName()
-                    .substring(1), var));
-        }
-        return replaceLoopNode(context, eachNode, loopVariables);
-    }
+    public static Collection<Node> traverse( ScssContext context, EachDefNode eachNode ) {
+        List<String> names = eachNode.getVariableNames();
+        int size = names.size();
+        Collection<List<Variable>> loopVariables = new ArrayList<>();
 
+        for( final SassListItem var : eachNode.getVariables() ) {
+            if( size == 1 ) {
+                loopVariables.add( Collections.singletonList( new Variable( names.get( 0 ), var ) ) );
+            } else {
+                List<Variable> eachVars = new ArrayList<>();
+                loopVariables.add( eachVars );
+                SassList varList = (SassList)var;
+                int count = varList.size();
+                for( int i = 0; i < size; i++ ) {
+                    SassListItem value = count > i ? //
+                        varList.get( i ) : // 
+                        LexicalUnitImpl.createNull( var.getLineNumber(), var.getColumnNumber() );
+                    eachVars.add( new Variable( names.get( i ), value ) );
+                }
+            }
+        }
+        return replaceLoopNode( context, eachNode, loopVariables );
+    }
 }
