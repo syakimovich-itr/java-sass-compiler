@@ -2638,15 +2638,7 @@ LexicalUnitImpl function(char operator) :
     ( n=<FUNCTION> | n=<NOT_FUNCTION> ) ( <S> )*  
     {
         String fname = convertIdent(n.image);
-        if ("filename(".equals(fname)) {
-            String body = skipStatementUntilSemiColon();
-            String fileName = source.getURI();
-            String currentDir = System.getProperty("user.dir");
-            if (fileName.startsWith(currentDir.replace("\\", "/"))) {
-                fileName = fileName.substring(currentDir.length());
-            }
-            return LexicalUnitImpl.createIdent(n.beginLine, n.beginColumn, fileName);
-        } else if("expression(".equals(fname)){
+        if("expression(".equals(fname)){
             String body = skipStatementUntilSemiColon();
             return LexicalUnitImpl.createIdent(n.beginLine, n.beginColumn, fname+body);
         }
@@ -2662,7 +2654,7 @@ LexicalUnitImpl function(char operator) :
         }            
         String f = convertIdent(n.image);
         // f contains the opening parenthesis of the function call
-        return LexicalUnitImpl.createFunction(n.beginLine, n.beginColumn, f.substring(0, f.length() -1), params);
+        return LexicalUnitImpl.createFunction( n.beginLine, n.beginColumn, f.substring(0, f.length() -1), params, source.getURI() );
     }
 }
 

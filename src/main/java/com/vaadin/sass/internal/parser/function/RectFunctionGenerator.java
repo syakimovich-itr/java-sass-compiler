@@ -89,8 +89,7 @@ public class RectFunctionGenerator extends AbstractFunctionGenerator {
             return LexicalUnitImpl.createRect(function.getLineNumber(),
                     function.getColumnNumber(), params);
         } else {
-            return LexicalUnitImpl.createFunction(function.getLineNumber(),
-                    function.getColumnNumber(), "rect", params);
+            return LexicalUnitImpl.createFunction( function.getLineNumber(), function.getColumnNumber(), "rect", params, function.getUri() );
         }
 
     }

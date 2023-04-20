@@ -98,6 +98,7 @@ public class LexicalUnitImpl implements LexicalUnit, SCSSLexicalUnit,
     private StringInterpolationSequence s;
     private String fname;
     private ActualArgumentList params;
+    private String uri;
 
     private String printState;
 
@@ -134,11 +135,15 @@ public class LexicalUnitImpl implements LexicalUnit, SCSSLexicalUnit,
         this.s = s;
     }
 
-    LexicalUnitImpl(short type, int line, int column, String fname,
-            ActualArgumentList params) {
+    LexicalUnitImpl( short type, int line, int column, String fname, ActualArgumentList params ) {
+        this( type, line, column, fname, params, null );
+    }
+
+    LexicalUnitImpl( short type, int line, int column, String fname, ActualArgumentList params, String uri ) {
         this(line, column, type);
         this.fname = fname;
         this.params = params;
+        this.uri = uri;
     }
 
     public int getLineNumber() {
@@ -326,6 +331,14 @@ public class LexicalUnitImpl implements LexicalUnit, SCSSLexicalUnit,
     }
 
     /**
+     * Get the URI, where a function is define
+     * @return the uri
+     */
+    public String getUri() {
+        return uri;
+    }
+
+    /**
      * Prints out the current state of the node tree. Will return SCSS before
      * compile and CSS after.
      * 
@@ -440,6 +453,7 @@ public class LexicalUnitImpl implements LexicalUnit, SCSSLexicalUnit,
         copy.fname = fname;
         copy.sdimension = sdimension;
         copy.params = params;
+        copy.uri = uri;
         return copy;
     }
 
@@ -626,9 +640,8 @@ public class LexicalUnitImpl implements LexicalUnit, SCSSLexicalUnit,
                 params);
     }
 
-    public static LexicalUnitImpl createFunction(int line, int column,
-            String fname, ActualArgumentList params) {
-        return new LexicalUnitImpl(SAC_FUNCTION, line, column, fname, params);
+    public static LexicalUnitImpl createFunction( int line, int column, String fname, ActualArgumentList params, String uri ) {
+        return new LexicalUnitImpl( SAC_FUNCTION, line, column, fname, params, uri );
     }
 
     public static boolean checkLexicalUnitType(SassListItem item,
@@ -812,8 +825,7 @@ public class LexicalUnitImpl implements LexicalUnit, SCSSLexicalUnit,
             SCSSFunctionGenerator generator = getGenerator(getFunctionName());
             LexicalUnitImpl copy = this;
             if (!"if".equals(getFunctionName())) {
-                copy = createFunction(line, column, fname,
-                        params.evaluateFunctionsAndExpressions(context, true));
+                copy = createFunction( line, column, fname, params.evaluateFunctionsAndExpressions( context, true ), uri );
             }
             if (generator == null) {
                 SassListItem result = copy.replaceCustomFunctions(context);

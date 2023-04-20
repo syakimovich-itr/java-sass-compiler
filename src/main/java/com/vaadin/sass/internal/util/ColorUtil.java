@@ -642,7 +642,7 @@ public class ColorUtil {
         ActualArgumentList args = new ActualArgumentList(
                 SassList.Separator.COMMA, redUnit, greenUnit, blueUnit,
                 alphaUnit);
-        return LexicalUnitImpl.createFunction(line, column, "rgba", args);
+        return LexicalUnitImpl.createFunction( line, column, "rgba", args, null );
     }
 
     public static LexicalUnitImpl createHslaColor(float hue, float saturation,
@@ -658,7 +658,7 @@ public class ColorUtil {
         ActualArgumentList args = new ActualArgumentList(
                 SassList.Separator.COMMA, hueUnit, saturationUnit,
                 lightnessUnit, alphaUnit);
-        return LexicalUnitImpl.createFunction(line, column, "hsla", args);
+        return LexicalUnitImpl.createFunction( line, column, "hsla", args, null );
     }
 
     public static LexicalUnitImpl createHslaOrHslColor(float[] hsl,
@@ -694,7 +694,7 @@ public class ColorUtil {
                 cn, lightness);
         ActualArgumentList hslParams = new ActualArgumentList(Separator.COMMA,
                 hueUnit, saturationUnit, lightnessUnit);
-        return LexicalUnitImpl.createFunction(ln, cn, "hsl", hslParams);
+        return LexicalUnitImpl.createFunction( ln, cn, "hsl", hslParams, null );
     }
 
     private static LexicalUnitImpl adjust(LexicalUnitImpl color,
