@@ -425,41 +425,41 @@ public class Parser implements org.w3c.css.sac.Parser {
     }
 
     private void reportError(Locator l, Exception e) {
-	if (errorHandler != null) {
-	    if (e instanceof ParseException) {
-		// construct a clean error message.
-		ParseException pe = (ParseException) e;
-		if (pe.specialConstructor) {
-		    StringBuffer errorM = new StringBuffer();
-		    if (pe.currentToken != null) {
-			errorM.append("encountered \"")
-			    .append(pe.currentToken.next);
-		    }
-		    errorM.append('"');
-		    if (pe.expectedTokenSequences.length != 0) {
-			errorM.append(". Was expecting one of: ");
-			for (int i = 0; i < pe.expectedTokenSequences.length; i++) {
-			    for (int j = 0; j < pe.expectedTokenSequences[i].length; j++) {
-				int kind = pe.expectedTokenSequences[i][j];
-				if (kind != S) {
-				    errorM.append(pe.tokenImage[kind]);
-				    errorM.append(' ');
-				}
-			    }
-			}
-		    }
-		    errorHandler.error(new CSSParseException(errorM.toString(), 
-							     l, e));
-		} else {
-		    errorHandler.error(new CSSParseException(e.getMessage(), 
-							     l, e));
-		}
-	    } else if (e == null) {
-		errorHandler.error(new CSSParseException("error", l, null));
-	    } else {
-		errorHandler.error(new CSSParseException(e.getMessage(), l, e));
-	    }
-	}
+        if( errorHandler != null ) {
+            CSSParseException ex;
+            if( e instanceof ParseException ) {
+                // construct a clean error message.
+                ParseException pe = (ParseException)e;
+                if( pe.specialConstructor ) {
+                    StringBuffer errorM = new StringBuffer();
+                    if( pe.currentToken != null ) {
+                        errorM.append( "encountered " ).append( '"' ).append( pe.currentToken.next );
+                    }
+                    errorM.append( '"' );
+                    if( pe.expectedTokenSequences.length != 0 ) {
+                        errorM.append( ". Was expecting one of: " );
+                        for( int i = 0; i < pe.expectedTokenSequences.length; i++ ) {
+                            for( int j = 0; j < pe.expectedTokenSequences[i].length; j++ ) {
+                                int kind = pe.expectedTokenSequences[i][j];
+                                if( kind != S ) {
+                                    errorM.append( pe.tokenImage[kind] );
+                                    errorM.append( ' ' );
+                                }
+                            }
+                        }
+                    }
+                    ex = new CSSParseException( errorM.toString(), l, e );
+                } else {
+                    ex = new CSSParseException( e.getMessage(), l, e );
+                }
+            } else if( e == null ) {
+                ex = new CSSParseException( "error", l, null );
+            } else {
+                ex = new CSSParseException( e.getMessage(), l, e );
+            }
+            ex.initCause( e );
+            errorHandler.error( ex );
+        }
     }
 
     private void reportWarningSkipText(Locator l, String text) {
