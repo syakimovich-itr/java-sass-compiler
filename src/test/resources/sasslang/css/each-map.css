@@ -1,0 +1,17 @@
+.icon-eye:before {
+  display: inline-block;
+  font-family: "Icon Font";
+  content: "\f112";
+}
+
+.icon-start:before {
+  display: inline-block;
+  font-family: "Icon Font";
+  content: "\f12e";
+}
+
+.icon-stop:before {
+  display: inline-block;
+  font-family: "Icon Font";
+  content: "\f12f";
+}

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2013 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -2273,7 +2274,7 @@ SassListItem parenthesizedExpression(char op):
     SassList list;
 }
 {
-    ("(" (<S>)* list = expressionList() ")" (<S>)*)
+    (<LPARAN> (<S>)* list = parenthesizedExpressionList() <RPARAN> (<S>)*)
    {
        SassListItem result = list.flatten();
        if(op == '-'){
@@ -2284,6 +2285,37 @@ SassListItem parenthesizedExpression(char op):
        }
        return result;
    } 
+}
+
+SassList parenthesizedExpressionList():
+{
+    List<SassListItem> primaryList = new ArrayList<SassListItem>();
+    int line = token.beginLine;
+    int column = token.beginColumn;
+    SassList subList;
+    boolean isMap = false;
+}
+{
+    subList = expressionSubList(){ primaryList.add(subList); }
+    ( < COMMA > (<S>)* subList = expressionSubList(){ primaryList.add(subList); }
+    | < COLON > (<S>)* subList = expressionSubList(){
+        int last = primaryList.size()-1;
+        primaryList.set( last, new MapItem( primaryList.get( last ), subList ));
+        isMap = true; 
+    }
+    )*
+    {
+        if( isMap ) {
+            for( SassListItem item : primaryList ) {
+                if( !(item instanceof MapItem) ) {
+                    throw new ParseException("Invalid map", item );
+                }
+            }
+        }
+        SassList result = new SassList(SassList.Separator.COMMA, primaryList);
+        result.setSourcePosition(line, column);
+        return result;
+    }
 }
 
 /**
