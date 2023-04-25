@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -44,9 +45,11 @@ public interface SCSSDocumentHandler extends DocumentHandler {
 
     void endFunctionDirective();
 
-    void debugDirective(String message);
+    void errorDirective( SassListItem message );
 
-    void warnDirective(String message);
+    void debugDirective( SassListItem message );
+
+    void warnDirective( SassListItem message );
 
     void startForDirective(String var, SassListItem from, SassListItem to,
             boolean exclusive);

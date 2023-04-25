@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -35,7 +36,8 @@ import com.vaadin.sass.internal.parser.Variable;
 import com.vaadin.sass.internal.selector.Selector;
 import com.vaadin.sass.internal.tree.BlockNode;
 import com.vaadin.sass.internal.tree.CommentNode;
-import com.vaadin.sass.internal.tree.ConsoleMessageNode;
+import com.vaadin.sass.internal.tree.MessageNode;
+import com.vaadin.sass.internal.tree.MessageNode.MessageLevel;
 import com.vaadin.sass.internal.tree.ContentNode;
 import com.vaadin.sass.internal.tree.ExtendNode;
 import com.vaadin.sass.internal.tree.FontFaceNode;
@@ -95,15 +97,21 @@ public class SCSSDocumentHandlerImpl implements SCSSDocumentHandler {
     }
 
     @Override
-    public void debugDirective(String message) {
-        ConsoleMessageNode node = new ConsoleMessageNode(message, false);
-        nodeStack.peek().appendChild(node);
+    public void debugDirective( SassListItem message ) {
+        MessageNode node = new MessageNode( message, MessageLevel.debug );
+        nodeStack.peek().appendChild( node );
     }
 
     @Override
-    public void warnDirective(String message) {
-        ConsoleMessageNode node = new ConsoleMessageNode(message, true);
-        nodeStack.peek().appendChild(node);
+    public void warnDirective( SassListItem message ) {
+        MessageNode node = new MessageNode( message, MessageLevel.warn );
+        nodeStack.peek().appendChild( node );
+    }
+
+    @Override
+    public void errorDirective( SassListItem message ) {
+        MessageNode node = new MessageNode( message, MessageLevel.error );
+        nodeStack.peek().appendChild( node );
     }
 
     @Override

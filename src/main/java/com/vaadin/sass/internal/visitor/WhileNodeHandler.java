@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -45,9 +46,7 @@ public class WhileNodeHandler {
         while (evaluateCondition(context, whileNode)) {
             ArrayList<Node> nodes = iteration(context, whileNode);
             if (nodes.size() == 0) {
-                SCSSErrorHandler.get().traverseError(new ParseException(
-                        "@while loop iteration did nothing, infinite loop",
-                        whileNode));
+                SCSSErrorHandler.get().error( new ParseException( "@while loop iteration did nothing, infinite loop", whileNode ) );
                 return result;
             }
             TemporaryNode temp = new TemporaryNode(parent, nodes);

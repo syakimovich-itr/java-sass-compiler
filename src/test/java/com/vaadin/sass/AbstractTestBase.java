@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -21,12 +22,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-import junit.framework.Assert;
-
 import org.apache.commons.io.IOUtils;
 import org.w3c.css.sac.CSSException;
 
 import com.vaadin.sass.internal.ScssStylesheet;
+import com.vaadin.sass.internal.handler.SCSSDocumentHandlerImpl;
+import com.vaadin.sass.testcases.scss.AssertErrorHandler;
+
+import junit.framework.Assert;
 
 public abstract class AbstractTestBase {
 
@@ -40,7 +43,7 @@ public abstract class AbstractTestBase {
     public ScssStylesheet getStyleSheet(String filename)
             throws URISyntaxException, CSSException, IOException {
         File file = getFile(filename);
-        stylesheet = ScssStylesheet.get(file.getAbsolutePath());
+        stylesheet = ScssStylesheet.get(file.getAbsolutePath(), null, new SCSSDocumentHandlerImpl(), new AssertErrorHandler() );
         return stylesheet;
     }
 

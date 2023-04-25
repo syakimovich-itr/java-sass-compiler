@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -72,7 +73,7 @@ public class CompassImports extends AbstractTestBase {
         comparisonCss = comparisonCss.replaceAll(CR, "");
         File file = getFile(scss);
         FilesystemResolver resolver = new FilesystemResolver(additionalPath);
-        ScssStylesheet sheet = ScssStylesheet.get( file.getAbsolutePath(), null, new SCSSDocumentHandlerImpl(), new SCSSErrorHandler(), resolver );
+        ScssStylesheet sheet = ScssStylesheet.get( file.getAbsolutePath(), null, new SCSSDocumentHandlerImpl(), new AssertErrorHandler(), resolver );
         Assert.assertNotNull(sheet);
 
         sheet.compile();

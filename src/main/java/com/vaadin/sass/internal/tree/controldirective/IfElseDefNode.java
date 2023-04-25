@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -49,7 +50,7 @@ public class IfElseDefNode extends Node {
         try {
             return IfElseNodeHandler.traverse(context, this);
         } catch (Exception e) {
-            SCSSErrorHandler.get().traverseError(e);
+            SCSSErrorHandler.get().error( e );
             return Collections.emptyList();
         }
     }

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -28,7 +29,6 @@ import org.w3c.css.sac.CSSException;
 import org.w3c.css.sac.InputSource;
 
 import com.vaadin.sass.internal.handler.SCSSDocumentHandler;
-import com.vaadin.sass.internal.handler.SCSSDocumentHandlerImpl;
 import com.vaadin.sass.internal.handler.SCSSErrorHandler;
 import com.vaadin.sass.internal.parser.ParseException;
 import com.vaadin.sass.internal.parser.Parser;
@@ -63,43 +63,6 @@ public class ScssStylesheet extends Node {
      */
     public ScssStylesheet() {
         super();
-    }
-
-    /**
-     * Main entry point for the SASS compiler. Takes in a file and builds up a
-     * ScssStylesheet tree out of it. Calling compile() on it will transform
-     * SASS into CSS. Calling printState() will print out the SCSS/CSS.
-     * 
-     * @param identifier
-     *            The file path. If null then null is returned.
-     * @return
-     * @throws CSSException
-     * @throws IOException
-     */
-    public static ScssStylesheet get(String identifier) throws CSSException,
-            IOException {
-        return get(identifier, null);
-    }
-
-    /**
-     * Main entry point for the SASS compiler. Takes in a file and an optional
-     * parent style sheet, then builds up a ScssStylesheet tree out of it.
-     * Calling compile() on it will transform SASS into CSS. Calling
-     * printState() will print out the SCSS/CSS.
-     * 
-     * @param identifier
-     *            The file path. If null then null is returned.
-     * @param parentStylesheet
-     *            Style sheet from which to inherit resolvers and encoding. May
-     *            be null.
-     * @return
-     * @throws CSSException
-     * @throws IOException
-     */
-    public static ScssStylesheet get(String identifier,
-            ScssStylesheet parentStylesheet) throws CSSException, IOException {
-        return get(identifier, parentStylesheet, new SCSSDocumentHandlerImpl(),
-                new SCSSErrorHandler());
     }
 
     /**

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -55,8 +56,7 @@ public class ImportNodeHandler {
             }
         }
         if (styleSheet == null) {
-            SCSSErrorHandler.get().traverseError(
-                    "Nested import in an invalid context");
+            SCSSErrorHandler.get().error( "Nested import in an invalid context" );
             return Collections.emptyList();
         }
         if (!importNode.isPureCssImport()) {
@@ -68,10 +68,7 @@ public class ImportNodeHandler {
                 imported = ScssStylesheet.get(importNode.getUri(), styleSheet,
                         new SCSSDocumentHandlerImpl(), SCSSErrorHandler.get());
                 if (imported == null) {
-                    SCSSErrorHandler.get().traverseError(
-                            "Import '" + importNode.getUri() + "' in '"
-                                    + styleSheet.getFileName()
-                                    + "' could not be found");
+                    SCSSErrorHandler.get().error( "Import '" + importNode.getUri() + "' in '" + styleSheet.getFileName() + "' could not be found" );
                     return Collections.emptyList();
                 }
 
@@ -86,7 +83,7 @@ public class ImportNodeHandler {
 
                 importedChildren = new ArrayList<Node>(imported.getChildren());
             } catch (Exception e) {
-                SCSSErrorHandler.get().traverseError(e);
+                SCSSErrorHandler.get().error( e );
                 return Collections.emptyList();
             }
 
@@ -103,10 +100,7 @@ public class ImportNodeHandler {
             }
         } else {
             if (styleSheet != importNode.getParentNode()) {
-                SCSSErrorHandler
-                        .get()
-                        .traverseError(
-                                "CSS imports can only be used at the top level, not as nested imports. Within style rules, use SCSS imports.");
+                SCSSErrorHandler.get().error( "CSS imports can only be used at the top level, not as nested imports. Within style rules, use SCSS imports." );
                 return Collections.emptyList();
 
             }

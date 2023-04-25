@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -39,8 +40,7 @@ public class MixinNodeHandler {
             MixinNode node) {
         MixinDefNode mixinDef = context.getMixinDefinition(node.getName());
         if (mixinDef == null) {
-            SCSSErrorHandler.get().traverseError(
-                    "Mixin Definition: " + node.getName() + " not found");
+            SCSSErrorHandler.get().error( "Mixin Definition: " + node.getName() + " not found" );
             return Collections.emptyList();
         }
         return replaceMixinNode(context, node, mixinDef);

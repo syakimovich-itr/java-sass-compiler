@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -28,8 +29,6 @@ import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
-import org.w3c.css.sac.CSSException;
-import org.w3c.css.sac.CSSParseException;
 
 import com.vaadin.sass.internal.ScssStylesheet;
 import com.vaadin.sass.internal.handler.SCSSDocumentHandler;
@@ -86,31 +85,7 @@ public abstract class AbstractDirectoryScanningSassTests {
         File scssFile = getSassLangResourceFile(scssResourceName);
 
         SCSSDocumentHandler documentHandler = new SCSSDocumentHandlerImpl();
-        SCSSErrorHandler errorHandler = new SCSSErrorHandler() {
-            @Override
-            public void error(CSSParseException arg0) throws CSSException {
-                super.error(arg0);
-                Assert.fail(arg0.getMessage());
-            }
-
-            @Override
-            public void fatalError(CSSParseException arg0) throws CSSException {
-                super.error(arg0);
-                Assert.fail(arg0.getMessage());
-            }
-
-            @Override
-            public void traverseError(Exception e) {
-                super.traverseError(e);
-                Assert.fail(e.getMessage());
-            }
-
-            @Override
-            public void traverseError(String message) {
-                super.traverseError(message);
-                Assert.fail(message);
-            }
-        };
+        SCSSErrorHandler errorHandler = new AssertErrorHandler();
 
         ScssStylesheet scssStylesheet = ScssStylesheet.get(
                 scssFile.getCanonicalPath(), null, documentHandler,

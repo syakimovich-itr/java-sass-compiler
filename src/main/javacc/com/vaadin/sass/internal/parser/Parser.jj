@@ -42,10 +42,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.w3c.css.sac.ConditionFactory;
 import org.w3c.css.sac.Condition;
@@ -76,7 +72,7 @@ import com.vaadin.sass.internal.selector.*;
  * @author Philippe Le H�garet
  * @version $Revision: 1.15 $
  */
-public class Parser implements org.w3c.css.sac.Parser {
+public class Parser {
 
     // replaces all \t, \n, etc with this StringBuffer.
     static final StringBuilder SPACE = new StringBuilder(" ");
@@ -84,7 +80,7 @@ public class Parser implements org.w3c.css.sac.Parser {
     // the document handler for the parser
     protected SCSSDocumentHandlerImpl documentHandler;
     // the error handler for the parser
-    protected ErrorHandler errorHandler;
+    protected SCSSErrorHandler errorHandler;
     // the input source for the parser
     protected InputSource source;
 
@@ -131,7 +127,7 @@ public class Parser implements org.w3c.css.sac.Parser {
     /**
      * Set the error handler for this parser
      */    
-    public void setErrorHandler(ErrorHandler error) {
+    public void setErrorHandler( SCSSErrorHandler error ) {
 	this.errorHandler = error;
     }
     
@@ -604,6 +600,7 @@ TOKEN :
   | <INCLUDE_SYM        : "@include"> : PARSE_FUNCTIONNAME_WHITESPACE_ALLOWED_STATE
   | <FUNCTION_SYM       : "@function"> : PARSE_FUNCTIONNAME_WHITESPACE_ALLOWED_STATE
   | <RETURN_SYM         : "@return">
+  | <ERROR_SYM          : "@error">
   | <DEBUG_SYM          : "@debug">
   | <WARN_SYM           : "@warn">
   | <FOR_SYM            : "@for">
@@ -1893,31 +1890,40 @@ Interpolation interpolation() :
 void debuggingDirective() :
 {}
 {
-  debugDirective() | warnDirective()
+  errorDirective() | debugDirective() | warnDirective()
+}
+
+void errorDirective() :
+{
+    SassList l;
+}
+{
+    <ERROR_SYM> ( <S> )* l=expressionList() semicolonTerminator()
+    {
+        documentHandler.errorDirective( l.flatten() );
+    }
 }
 
 void debugDirective() :
-{}
 {
-    <DEBUG_SYM>
+    SassList l;
+}
+{
+    <DEBUG_SYM> ( <S> )* l=expressionList() semicolonTerminator()
     {
-        // could use StringInterpolationSequence but that would require a new parser state 
-        String content = skipStatementUntil(new int[] {SEMICOLON,RBRACE,EOF});
-        documentHandler.debugDirective(content);
+        documentHandler.debugDirective( l.flatten() );
     }
-    ( (";" (<S>)*) | acceptMissingSemicolon(RBRACE, EOF))
 }
 
 void warnDirective() :
-{}
 {
-    <WARN_SYM>
+    SassList l;
+}
+{
+    <WARN_SYM> ( <S> )* l=expressionList() semicolonTerminator()
     { 
-        // could use StringInterpolationSequence but that would require a new parser state 
-        String content = skipStatementUntil(new int[] {SEMICOLON,RBRACE,EOF});
-        documentHandler.warnDirective(content);
+        documentHandler.warnDirective( l.flatten() );
     }
-    ( (";" (<S>)*) | acceptMissingSemicolon(RBRACE, EOF))
 }
 
 void forDirective() :
