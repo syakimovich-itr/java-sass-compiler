@@ -2300,10 +2300,18 @@ SassList parenthesizedExpressionList():
     int column = token.beginColumn;
     SassList subList;
     boolean isMap = false;
+    int commaCount = 0;
+    Token n;
 }
 {
     subList = expressionSubList(){ primaryList.add(subList); }
-    ( < COMMA > (<S>)* subList = expressionSubList(){ primaryList.add(subList); }
+    (n=<COMMA> (<S>)* (
+            subList = expressionSubList() { primaryList.add(subList);commaCount = 0; }
+         )? {
+            // accept only one comma at end of a list
+            if( commaCount>1 ) throw new ParseException("Expected expression after comma", n.beginLine, n.beginColumn );
+            commaCount++;
+         }
     | < COLON > (<S>)* subList = expressionSubList(){
         int last = primaryList.size()-1;
         primaryList.set( last, new MapItem( primaryList.get( last ), subList ));
