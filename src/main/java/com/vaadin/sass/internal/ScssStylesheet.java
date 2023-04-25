@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.w3c.css.sac.CSSException;
 import org.w3c.css.sac.InputSource;
@@ -268,7 +267,7 @@ public class ScssStylesheet extends Node {
     }
 
     public static final void warning(String msg) {
-        Logger.getLogger(ScssStylesheet.class.getName()).warning(msg);
+        SCSSErrorHandler.get().warning( msg );
     }
 
     public String getCharset() {

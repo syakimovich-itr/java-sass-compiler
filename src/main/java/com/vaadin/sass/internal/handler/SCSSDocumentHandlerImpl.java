@@ -20,8 +20,6 @@ package com.vaadin.sass.internal.handler;
 import java.util.Collection;
 import java.util.List;
 import java.util.Stack;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.w3c.css.sac.CSSException;
 import org.w3c.css.sac.InputSource;
@@ -410,8 +408,7 @@ public class SCSSDocumentHandlerImpl implements SCSSDocumentHandler {
     }
 
     private void log(String msg) {
-        Logger.getLogger(SCSSDocumentHandlerImpl.class.getName()).log(
-                Level.INFO, msg);
+        SCSSErrorHandler.get().debug( msg );
     }
 
     @Override

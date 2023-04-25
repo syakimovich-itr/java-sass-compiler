@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -19,10 +20,9 @@ package com.vaadin.sass.internal.tree;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import com.vaadin.sass.internal.ScssContext;
+import com.vaadin.sass.internal.handler.SCSSErrorHandler;
 import com.vaadin.sass.internal.parser.ActualArgumentList;
 import com.vaadin.sass.internal.parser.SassList;
 import com.vaadin.sass.internal.parser.Variable;
@@ -114,8 +114,8 @@ public class MixinNode extends Node implements IVariableNode,
             replaceVariablesForChildren(context);
             // inner scope is managed by MixinNodeHandler
             return MixinNodeHandler.traverse(context, this);
-        } catch (Exception e) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, e);
+        } catch( Exception ex ) {
+            SCSSErrorHandler.get().warning( ex );
             // TODO is ignoring this exception appropriate?
             return Collections.emptyList();
         }

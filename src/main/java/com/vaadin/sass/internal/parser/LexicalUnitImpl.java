@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -334,6 +335,7 @@ public class LexicalUnitImpl implements LexicalUnit, SCSSLexicalUnit,
      * Get the URI, where a function is define
      * @return the uri
      */
+    @Override
     public String getUri() {
         return uri;
     }

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -145,8 +146,7 @@ public class ParseException extends CSSException {
         if (!specialConstructor) {
             String message = super.getMessage();
             if (currentUnit != null) {
-                message = message + " at line " + currentUnit.getLineNumber()
-                        + ", column " + currentUnit.getColumnNumber();
+                message = message + " at line " + currentUnit.getLineNumber() + ", column " + currentUnit.getColumnNumber() + getLocation( currentUnit.getUri() );
             } else if (currentNode != null) {
                 message = message + getNodeLocation();
             }
@@ -254,11 +254,15 @@ public class ParseException extends CSSException {
         if (root != null) {
             fileName = ((ScssStylesheet) root).getFileName();
         }
-        if (fileName != null) {
+        return getLocation( fileName );
+    }
+
+    private String getLocation( String fileName ) {
+        if( fileName != null ) {
+            fileName = fileName.substring( fileName.lastIndexOf( '/' ) + 1 );
             return ", in file " + fileName;
         } else {
             return "";
         }
     }
-
 }

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -23,12 +24,10 @@
  */
 package com.vaadin.sass.internal.parser;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import org.w3c.css.sac.Locator;
 
 import com.vaadin.sass.internal.handler.SCSSDocumentHandlerImpl;
+import com.vaadin.sass.internal.handler.SCSSErrorHandler;
 
 /**
  * @version $Revision: 1.2 $
@@ -148,7 +147,6 @@ public class LocatorImpl implements Locator {
     }
 
     private void log(String msg) {
-        Logger.getLogger(SCSSDocumentHandlerImpl.class.getName()).log(
-                Level.SEVERE, msg);
+        SCSSErrorHandler.get().debug( msg );
     }
 }

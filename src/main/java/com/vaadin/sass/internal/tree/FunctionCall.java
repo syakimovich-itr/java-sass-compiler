@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -17,11 +18,10 @@
 package com.vaadin.sass.internal.tree;
 
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import com.vaadin.sass.internal.Scope;
 import com.vaadin.sass.internal.ScssContext;
+import com.vaadin.sass.internal.handler.SCSSErrorHandler;
 import com.vaadin.sass.internal.parser.ActualArgumentList;
 import com.vaadin.sass.internal.parser.FormalArgumentList;
 import com.vaadin.sass.internal.parser.LexicalUnitImpl;
@@ -41,6 +41,7 @@ public class FunctionCall {
         ActualArgumentList invocationArglist = invocation.getParameterList()
                 .expandVariableArguments();
         SassListItem value = null;
+        Exception cause = null;
         // only parameters are evaluated in current scope, body in
         // top-level scope
         try {
@@ -77,13 +78,14 @@ public class FunctionCall {
             } finally {
                 context.closeVariableScope(previousScope);
             }
-        } catch (Exception e) {
-            Logger.getLogger(FunctionCall.class.getName()).log(Level.SEVERE,
-                    null, e);
+        } catch( Exception ex ) {
+            cause = ex;
+            SCSSErrorHandler.get().warning( ex );
         }
         if (value == null) {
-            throw new ParseException("Function " + invocation.getFunctionName()
-                    + " did not return a value", invocation);
+            ParseException pex = new ParseException( "Function " + invocation.getFunctionName() + " did not return a value", invocation );
+            pex.initCause( cause );
+            throw pex;
         }
         return value;
     }
