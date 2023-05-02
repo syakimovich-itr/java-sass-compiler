@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -54,6 +55,6 @@ public class RGBFunctionGenerator extends AbstractFunctionGenerator {
         }
         ActualArgumentList params = new ActualArgumentList(
                 SassList.Separator.COMMA, components);
-        return LexicalUnitImpl.createRGBColor(line, column, params);
+        return LexicalUnitImpl.createRGBColor( function.getUri(), line, column, params );
     }
 }

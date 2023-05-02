@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -41,7 +42,6 @@ public class PercentageFunctionGenerator extends
         int intValue = Math.round(value);
         value = ((float) intValue) / LexicalUnitImpl.PRECISION;
 
-        return LexicalUnitImpl.createPercentage(firstParam.getLineNumber(),
-                firstParam.getColumnNumber(), value);
+        return LexicalUnitImpl.createPercentage( firstParam.getUri(), firstParam.getLineNumber(), firstParam.getColumnNumber(), value );
     }
 }

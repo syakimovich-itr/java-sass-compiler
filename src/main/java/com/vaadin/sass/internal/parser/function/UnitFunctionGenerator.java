@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -35,7 +36,6 @@ public class UnitFunctionGenerator extends
                     + "() must be a number", firstParam);
         }
         String unit = firstParam.getDimensionUnitText();
-        return LexicalUnitImpl.createString(firstParam.getLineNumber(),
-                firstParam.getColumnNumber(), unit);
+        return LexicalUnitImpl.createString( firstParam.getUri(), firstParam.getLineNumber(), firstParam.getColumnNumber(), unit );
     }
 }

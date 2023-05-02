@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -621,44 +622,29 @@ public class ColorUtil {
 
     public static LexicalUnitImpl createHexColor(int red, int green, int blue,
             int line, int column) {
-        return LexicalUnitImpl.createIdent(line, column,
-                rgbToColorString(new int[] { red, green, blue }));
+        return LexicalUnitImpl.createIdent( null, line, column, rgbToColorString( new int[] { red, green, blue } ) );
     }
 
     public static LexicalUnitImpl createHexColor(int[] rgb, int line, int column) {
         return createHexColor(rgb[0], rgb[1], rgb[2], line, column);
     }
 
-    public static LexicalUnitImpl createRgbaColor(int red, int green, int blue,
-            float alpha, int line, int column) {
-        LexicalUnitImpl redUnit = LexicalUnitImpl.createNumber(line, column,
-                red);
-        LexicalUnitImpl greenUnit = LexicalUnitImpl.createNumber(line, column,
-                green);
-        LexicalUnitImpl blueUnit = LexicalUnitImpl.createNumber(line, column,
-                blue);
-        LexicalUnitImpl alphaUnit = LexicalUnitImpl.createNumber(line, column,
-                alpha);
-        ActualArgumentList args = new ActualArgumentList(
-                SassList.Separator.COMMA, redUnit, greenUnit, blueUnit,
-                alphaUnit);
-        return LexicalUnitImpl.createFunction( line, column, "rgba", args, null );
+    public static LexicalUnitImpl createRgbaColor( int red, int green, int blue, float alpha, int line, int column ) {
+        LexicalUnitImpl redUnit = LexicalUnitImpl.createNumber( null, line, column, red );
+        LexicalUnitImpl greenUnit = LexicalUnitImpl.createNumber( null, line, column, green );
+        LexicalUnitImpl blueUnit = LexicalUnitImpl.createNumber( null, line, column, blue );
+        LexicalUnitImpl alphaUnit = LexicalUnitImpl.createNumber( null, line, column, alpha );
+        ActualArgumentList args = new ActualArgumentList( SassList.Separator.COMMA, redUnit, greenUnit, blueUnit, alphaUnit );
+        return LexicalUnitImpl.createFunction( null, line, column, "rgba", args );
     }
 
-    public static LexicalUnitImpl createHslaColor(float hue, float saturation,
-            float lightness, float alpha, int line, int column) {
-        LexicalUnitImpl hueUnit = LexicalUnitImpl.createNumber(line, column,
-                hue);
-        LexicalUnitImpl saturationUnit = LexicalUnitImpl.createPercentage(line,
-                column, saturation);
-        LexicalUnitImpl lightnessUnit = LexicalUnitImpl.createPercentage(line,
-                column, lightness);
-        LexicalUnitImpl alphaUnit = LexicalUnitImpl.createNumber(line, column,
-                alpha);
-        ActualArgumentList args = new ActualArgumentList(
-                SassList.Separator.COMMA, hueUnit, saturationUnit,
-                lightnessUnit, alphaUnit);
-        return LexicalUnitImpl.createFunction( line, column, "hsla", args, null );
+    public static LexicalUnitImpl createHslaColor( float hue, float saturation, float lightness, float alpha, int line, int column ) {
+        LexicalUnitImpl hueUnit = LexicalUnitImpl.createNumber( null, line, column, hue );
+        LexicalUnitImpl saturationUnit = LexicalUnitImpl.createPercentage( null, line, column, saturation );
+        LexicalUnitImpl lightnessUnit = LexicalUnitImpl.createPercentage( null, line, column, lightness );
+        LexicalUnitImpl alphaUnit = LexicalUnitImpl.createNumber( null, line, column, alpha );
+        ActualArgumentList args = new ActualArgumentList( SassList.Separator.COMMA, hueUnit, saturationUnit, lightnessUnit, alphaUnit );
+        return LexicalUnitImpl.createFunction( null, line, column, "hsla", args );
     }
 
     public static LexicalUnitImpl createHslaOrHslColor(float[] hsl,
@@ -685,16 +671,12 @@ public class ColorUtil {
         }
     }
 
-    private static LexicalUnitImpl createHslFunction(float hue,
-            float saturation, float lightness, int ln, int cn) {
-        LexicalUnitImpl hueUnit = LexicalUnitImpl.createNumber(ln, cn, hue);
-        LexicalUnitImpl saturationUnit = LexicalUnitImpl.createPercentage(ln,
-                cn, saturation);
-        LexicalUnitImpl lightnessUnit = LexicalUnitImpl.createPercentage(ln,
-                cn, lightness);
-        ActualArgumentList hslParams = new ActualArgumentList(Separator.COMMA,
-                hueUnit, saturationUnit, lightnessUnit);
-        return LexicalUnitImpl.createFunction( ln, cn, "hsl", hslParams, null );
+    private static LexicalUnitImpl createHslFunction( float hue, float saturation, float lightness, int ln, int cn ) {
+        LexicalUnitImpl hueUnit = LexicalUnitImpl.createNumber( null, ln, cn, hue );
+        LexicalUnitImpl saturationUnit = LexicalUnitImpl.createPercentage( null, ln, cn, saturation );
+        LexicalUnitImpl lightnessUnit = LexicalUnitImpl.createPercentage( null, ln, cn, lightness );
+        ActualArgumentList hslParams = new ActualArgumentList( Separator.COMMA, hueUnit, saturationUnit, lightnessUnit );
+        return LexicalUnitImpl.createFunction( null, ln, cn, "hsl", hslParams );
     }
 
     private static LexicalUnitImpl adjust(LexicalUnitImpl color,

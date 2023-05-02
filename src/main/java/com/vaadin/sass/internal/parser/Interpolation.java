@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -132,8 +133,7 @@ public class Interpolation implements SassListItem, Serializable {
     public SassListItem replaceInterpolation() {
         if (expression instanceof LexicalUnitImpl) {
             String unquotedString = expression.unquotedString();
-            return new LexicalUnitImpl(getLineNumber(), getLineNumber(),
-                    LexicalUnitImpl.SAC_IDENT, unquotedString);
+            return new LexicalUnitImpl( null, getLineNumber(), getLineNumber(), LexicalUnitImpl.SAC_IDENT, unquotedString );
         } else {
             return expression;
         }

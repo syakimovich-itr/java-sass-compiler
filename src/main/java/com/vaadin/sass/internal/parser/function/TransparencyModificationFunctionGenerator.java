@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -107,12 +108,10 @@ public class TransparencyModificationFunctionGenerator extends
     }
 
     private LexicalUnitImpl createNumber(LexicalUnitImpl parent, float value) {
-        return LexicalUnitImpl.createNumber(parent.getLineNumber(),
-                parent.getColumnNumber(), value);
+        return LexicalUnitImpl.createNumber( parent.getUri(), parent.getLineNumber(), parent.getColumnNumber(), value );
     }
 
     private LexicalUnitImpl createNumber(LexicalUnitImpl parent, int value) {
-        return LexicalUnitImpl.createNumber(parent.getLineNumber(),
-                parent.getColumnNumber(), value);
+        return LexicalUnitImpl.createNumber( parent.getUri(), parent.getLineNumber(), parent.getColumnNumber(), value );
     }
 }

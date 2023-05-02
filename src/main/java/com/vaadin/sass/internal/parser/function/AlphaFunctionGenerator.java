@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -44,8 +45,7 @@ public class AlphaFunctionGenerator extends AbstractFunctionGenerator {
             SassListItem last = parameterList.get(parameterList.size() - 1);
             opacity = ((LexicalUnitImpl) last).getFloatValue();
         }
-        return LexicalUnitImpl.createNumber(function.getLineNumber(),
-                function.getColumnNumber(), opacity);
+        return LexicalUnitImpl.createNumber( function.getUri(), function.getLineNumber(), function.getColumnNumber(), opacity );
     }
 
     private void checkParameters(LexicalUnitImpl function,

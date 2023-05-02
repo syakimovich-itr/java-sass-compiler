@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2014 Vaadin Ltd.
+ * Copyright 2023 i-net software
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -144,7 +144,7 @@ public class CustomTests extends AbstractDirectoryScanningSassTests {
                 ImageIO.write( image, "PNG", out );
 
                 String base64url = "\"data:image/png;base64," + Base64.getEncoder().encodeToString( out.toByteArray() ) + '\"';
-                return LexicalUnitImpl.createURL( function.getLineNumber(), function.getColumnNumber(), base64url );
+                return LexicalUnitImpl.createURL( function.getUri(), function.getLineNumber(), function.getColumnNumber(), base64url );
             } catch( IOException ex ) {
                 throw new RuntimeException( ex );
             }

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -46,12 +47,10 @@ public class ListIndexFunctionGenerator extends AbstractFunctionGenerator {
                 }
             }
         }
-        if (index == -1) {
-            return LexicalUnitImpl.createIdent(function.getLineNumber(),
-                    function.getColumnNumber(), "false");
+        if( index == -1 ) {
+            return LexicalUnitImpl.createIdent( function.getUri(), function.getLineNumber(), function.getColumnNumber(), "false" );
         } else {
-            return LexicalUnitImpl.createInteger(function.getLineNumber(),
-                    function.getColumnNumber(), index);
+            return LexicalUnitImpl.createInteger( function.getUri(), function.getLineNumber(), function.getColumnNumber(), index );
         }
     }
 }

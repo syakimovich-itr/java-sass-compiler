@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -35,9 +36,7 @@ public class UnitlessFunctionGenerator extends
                     + "() must be a number", firstParam);
         }
         Boolean value = "".equals(firstParam.getDimensionUnitText());
-        LexicalUnitImpl result = LexicalUnitImpl.createIdent(
-                firstParam.getLineNumber(), firstParam.getColumnNumber(),
-                value.toString());
+        LexicalUnitImpl result = LexicalUnitImpl.createIdent( firstParam.getUri(), firstParam.getLineNumber(), firstParam.getColumnNumber(), value.toString() );
         return result;
     }
 }

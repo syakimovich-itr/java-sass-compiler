@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -59,16 +60,13 @@ public class ColorComponentFunctionGenerator extends AbstractFunctionGenerator {
         if (hslComponent) {
             float[] components = ColorUtil.colorToHsl(color);
             if (componentNumber == 0) {
-                return LexicalUnitImpl.createDEG(color.getLineNumber(),
-                        color.getColumnNumber(), components[componentNumber]);
+                return LexicalUnitImpl.createDEG( color.getUri(), color.getLineNumber(), color.getColumnNumber(), components[componentNumber] );
             } else {
-                return LexicalUnitImpl.createPercentage(color.getLineNumber(),
-                        color.getColumnNumber(), components[componentNumber]);
+                return LexicalUnitImpl.createPercentage( color.getUri(), color.getLineNumber(), color.getColumnNumber(), components[componentNumber] );
             }
         } else {
             int[] components = ColorUtil.colorToRgb(color);
-            return LexicalUnitImpl.createInteger(color.getLineNumber(),
-                    color.getColumnNumber(), components[componentNumber]);
+            return LexicalUnitImpl.createInteger( color.getUri(), color.getLineNumber(), color.getColumnNumber(), components[componentNumber] );
         }
     }
 

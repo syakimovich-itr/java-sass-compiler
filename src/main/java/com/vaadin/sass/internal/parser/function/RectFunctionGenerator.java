@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -85,11 +86,10 @@ public class RectFunctionGenerator extends AbstractFunctionGenerator {
         }
         ActualArgumentList params = new ActualArgumentList(
                 SassList.Separator.COMMA, resultParams);
-        if (params.size() == 4) {
-            return LexicalUnitImpl.createRect(function.getLineNumber(),
-                    function.getColumnNumber(), params);
+        if( params.size() == 4 ) {
+            return LexicalUnitImpl.createRect( function.getUri(), function.getLineNumber(), function.getColumnNumber(), params );
         } else {
-            return LexicalUnitImpl.createFunction( function.getLineNumber(), function.getColumnNumber(), "rect", params, function.getUri() );
+            return LexicalUnitImpl.createFunction( function.getUri(), function.getLineNumber(), function.getColumnNumber(), "rect", params );
         }
 
     }

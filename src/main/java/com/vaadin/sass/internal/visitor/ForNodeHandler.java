@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -38,9 +39,10 @@ public class ForNodeHandler extends LoopNodeHandler {
         }
         Collection<List<Variable>> indices = new ArrayList<>();
         for( int idx = fromInt; idx <= toInt; ++idx ) {
-            LexicalUnitImpl idxUnit = LexicalUnitImpl.createInteger( //
-                                                                     forNode.getFrom().getLineNumber(), //
-                                                                     forNode.getFrom().getColumnNumber(), //
+            SassListItem from = forNode.getFrom();
+            LexicalUnitImpl idxUnit = LexicalUnitImpl.createInteger( from.getUri(), //
+                                                                     from.getLineNumber(), //
+                                                                     from.getColumnNumber(), //
                                                                      idx );
             indices.add( Collections.singletonList( new Variable( forNode.getVariableName(), idxUnit ) ) );
         }

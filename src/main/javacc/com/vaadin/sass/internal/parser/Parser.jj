@@ -2229,7 +2229,7 @@ List<SassListItem> operator() :
 
     list = nonCommaOperator(){ return list; }
     | n="," 
-          {unit = LexicalUnitImpl.createComma(n.beginLine, n.beginColumn); } 
+          {unit = LexicalUnitImpl.createComma( source.getURI(), n.beginLine, n.beginColumn); } 
       ( <S> {spaceAfter = true;} )* 
       {
           return createList(unit, spaceAfter);
@@ -2241,7 +2241,7 @@ List<SassListItem> createList(SassListItem item, boolean spaceAfter) {
    if (spaceAfter){
       ArrayList<SassListItem> result = new ArrayList<SassListItem>();
       result.add(item);
-      result.add(LexicalUnitImpl.createSpace(item.getLineNumber(), item.getColumnNumber()));
+      result.add(LexicalUnitImpl.createSpace( source.getURI(), item.getLineNumber(), item.getColumnNumber()));
       return result;
    } else {
       return Collections.<SassListItem>singletonList(item);
@@ -2285,8 +2285,8 @@ SassListItem parenthesizedExpression(char op):
        SassListItem result = list.flatten();
        if(op == '-'){
            result = SassExpression.createExpression(
-              LexicalUnitImpl.createNumber(token.beginLine, token.beginColumn, -1),
-              LexicalUnitImpl.createMultiply(token.beginLine, token.beginColumn),
+              LexicalUnitImpl.createNumber( source.getURI(), token.beginLine, token.beginColumn, -1),
+              LexicalUnitImpl.createMultiply( source.getURI(), token.beginLine, token.beginColumn),
               result);
        }
        return result;
@@ -2352,14 +2352,14 @@ List<SassListItem> booleanOperator() :
 }
 {
 (
-    (n = < COMPARE > { operator = LexicalUnitImpl.createEquals(n.beginLine, n.beginColumn); }
-    |n = < SUCCEEDS > { operator = LexicalUnitImpl.createLessThan(n.beginLine, n.beginColumn); }
-    |n = < GTE > { operator = LexicalUnitImpl.createGreaterThanOrEqualTo(n.beginLine, n.beginColumn);  }
-    |n = < PRECEDES > { operator = LexicalUnitImpl.createGreaterThan(n.beginLine, n.beginColumn); }
-    |n = < LTE > { operator = LexicalUnitImpl.createLessThanOrEqualTo(n.beginLine, n.beginColumn); }
-    |n = < NOT_EQ > { operator = LexicalUnitImpl.createNotEqual(n.beginLine, n.beginColumn); } 
-    |n = < AND > { operator = LexicalUnitImpl.createAnd(n.beginLine, n.beginColumn); }
-    |n = < OR > { operator = LexicalUnitImpl.createOr(n.beginLine, n.beginColumn); }
+    (n = < COMPARE >  { operator = LexicalUnitImpl.createEquals( source.getURI(), n.beginLine, n.beginColumn); }
+    |n = < SUCCEEDS > { operator = LexicalUnitImpl.createLessThan( source.getURI(), n.beginLine, n.beginColumn); }
+    |n = < GTE >      { operator = LexicalUnitImpl.createGreaterThanOrEqualTo( source.getURI(), n.beginLine, n.beginColumn);  }
+    |n = < PRECEDES > { operator = LexicalUnitImpl.createGreaterThan( source.getURI(), n.beginLine, n.beginColumn); }
+    |n = < LTE >      { operator = LexicalUnitImpl.createLessThanOrEqualTo( source.getURI(), n.beginLine, n.beginColumn); }
+    |n = < NOT_EQ >   { operator = LexicalUnitImpl.createNotEqual( source.getURI(), n.beginLine, n.beginColumn); } 
+    |n = < AND >      { operator = LexicalUnitImpl.createAnd( source.getURI(), n.beginLine, n.beginColumn); }
+    |n = < OR >       { operator = LexicalUnitImpl.createOr( source.getURI(), n.beginLine, n.beginColumn); }
     ) (<S> {spaceAfter = true; })* 
 ){
     return createList(operator, spaceAfter);
@@ -2385,11 +2385,11 @@ List<SassListItem> nonCommaOperator() :
      * 2. parenthesis is not supported now.
      */
     ( n="/" ( <S> {spaceAfter = true;} )*
-         { unit = LexicalUnitImpl.createSlash(n.beginLine, n.beginColumn); }
+         { unit = LexicalUnitImpl.createSlash( source.getURI(), n.beginLine, n.beginColumn); }
      | n="*" ( <S> {spaceAfter = true;} )*
-         { unit =  LexicalUnitImpl.createMultiply(n.beginLine, n.beginColumn); }
+         { unit =  LexicalUnitImpl.createMultiply( source.getURI(), n.beginLine, n.beginColumn); }
      | n="%" ( <S> {spaceAfter = true;} )*
-         { unit = LexicalUnitImpl.createModulo(n.beginLine, n.beginColumn); }
+         { unit = LexicalUnitImpl.createModulo( source.getURI(), n.beginLine, n.beginColumn); }
      /*
       * for '+', since it can be either a binary operator or an unary operator,
       * which is ambiguous. To avoid this, the binary operator '+' always has
@@ -2398,9 +2398,9 @@ List<SassListItem> nonCommaOperator() :
      */
 
      | n="+" ( <S> {spaceAfter = true;} )+
-         { unit = LexicalUnitImpl.createAdd(n.beginLine, n.beginColumn); }
+         { unit = LexicalUnitImpl.createAdd( source.getURI(), n.beginLine, n.beginColumn); }
      | n="-" ( <S> {spaceAfter = true;} )+
-         { unit = LexicalUnitImpl.createMinus(n.beginLine, n.beginColumn); }
+         { unit = LexicalUnitImpl.createMinus( source.getURI(), n.beginLine, n.beginColumn); }
     )
     {
       return createList(unit, spaceAfter);
@@ -2478,8 +2478,8 @@ SassListItem parenthesizedNumericExpr(char op):
    {
        if(op == '-'){
            result = SassExpression.createExpression(
-              LexicalUnitImpl.createNumber(token.beginLine, token.beginColumn, -1),
-              LexicalUnitImpl.createMultiply(token.beginLine, token.beginColumn),
+              LexicalUnitImpl.createNumber( source.getURI(), token.beginLine, token.beginColumn, -1),
+              LexicalUnitImpl.createMultiply( source.getURI(), token.beginLine, token.beginColumn),
               result);
        }
        return result;
@@ -2498,12 +2498,12 @@ List<SassListItem> variableTerm(char op) :
     n = <VARIABLE> (<S> {spaceAfter = true;})*
     {
         varName = convertIdent(n.image.substring(1));
-        result = LexicalUnitImpl.createVariable(n.beginLine, n.beginColumn, varName);
+        result = LexicalUnitImpl.createVariable( source.getURI(), n.beginLine, n.beginColumn, varName);
         
         if (op == '-') {
             result = SassExpression.createExpression(
-              LexicalUnitImpl.createNumber(n.beginLine, n.beginColumn, -1),
-              LexicalUnitImpl.createMultiply(n.beginLine, n.beginColumn),
+              LexicalUnitImpl.createNumber( source.getURI(), n.beginLine, n.beginColumn, -1),
+              LexicalUnitImpl.createMultiply( source.getURI(), n.beginLine, n.beginColumn),
               result
               );
         }
@@ -2534,43 +2534,43 @@ List<SassListItem> numberTerm(char op) :
 }
 {
     (n=<NUMBER>
-	{ result = LexicalUnitImpl.createNumber(n.beginLine, n.beginColumn, number(op, n, 0)); }
+	{ result = LexicalUnitImpl.createNumber( source.getURI(), n.beginLine, n.beginColumn, number(op, n, 0)); }
     | n=<PERCENTAGE>
-	{ result = LexicalUnitImpl.createPercentage(n.beginLine, n.beginColumn, number(op, n, 1)); }
+	{ result = LexicalUnitImpl.createPercentage( source.getURI(), n.beginLine, n.beginColumn, number(op, n, 1)); }
     | n=<PT>
-	{ result = LexicalUnitImpl.createPT(n.beginLine, n.beginColumn, number(op, n, 2)); }
+	{ result = LexicalUnitImpl.createPT( source.getURI(), n.beginLine, n.beginColumn, number(op, n, 2)); }
     | n=<CM>
-	{ result = LexicalUnitImpl.createCM(n.beginLine, n.beginColumn, number(op, n, 2)); }
+	{ result = LexicalUnitImpl.createCM( source.getURI(), n.beginLine, n.beginColumn, number(op, n, 2)); }
     | n=<MM>
-	{ result = LexicalUnitImpl.createMM(n.beginLine, n.beginColumn, number(op, n, 2)); }
+	{ result = LexicalUnitImpl.createMM( source.getURI(), n.beginLine, n.beginColumn, number(op, n, 2)); }
     | n=<PC>
-	{ result = LexicalUnitImpl.createPC(n.beginLine, n.beginColumn, number(op, n, 2)); }
+	{ result = LexicalUnitImpl.createPC( source.getURI(), n.beginLine, n.beginColumn, number(op, n, 2)); }
     | n=<IN>
-	{ result = LexicalUnitImpl.createIN(n.beginLine, n.beginColumn, number(op, n, 2)); }
+	{ result = LexicalUnitImpl.createIN( source.getURI(), n.beginLine, n.beginColumn, number(op, n, 2)); }
     | n=<PX>
-	{ result = LexicalUnitImpl.createPX(n.beginLine, n.beginColumn, number(op, n, 2)); }
+	{ result = LexicalUnitImpl.createPX( source.getURI(), n.beginLine, n.beginColumn, number(op, n, 2)); }
     | n=<EMS>
-	{ result = LexicalUnitImpl.createEMS(n.beginLine, n.beginColumn, number(op, n, 2)); }
+	{ result = LexicalUnitImpl.createEMS( source.getURI(), n.beginLine, n.beginColumn, number(op, n, 2)); }
     | n=<LEM>
-        { result = LexicalUnitImpl.createLEM(n.beginLine, n.beginColumn, number(op, n, 3)); }
+        { result = LexicalUnitImpl.createLEM( source.getURI(), n.beginLine, n.beginColumn, number(op, n, 3)); }
     | n=<REM>       
-        { result = LexicalUnitImpl.createREM(n.beginLine, n.beginColumn, number(op, n, 3)); }
+        { result = LexicalUnitImpl.createREM( source.getURI(), n.beginLine, n.beginColumn, number(op, n, 3)); }
     | n=<EXS>
-	{ result = LexicalUnitImpl.createEXS(n.beginLine, n.beginColumn, number(op, n, 2)); }
+	{ result = LexicalUnitImpl.createEXS( source.getURI(), n.beginLine, n.beginColumn, number(op, n, 2)); }
     | n=<DEG>
-	{ result = LexicalUnitImpl.createDEG(n.beginLine, n.beginColumn, number(op, n, 3)); }
+	{ result = LexicalUnitImpl.createDEG( source.getURI(), n.beginLine, n.beginColumn, number(op, n, 3)); }
     | n=<RAD>
-	{ result = LexicalUnitImpl.createRAD(n.beginLine, n.beginColumn, number(op, n, 3)); }
+	{ result = LexicalUnitImpl.createRAD( source.getURI(), n.beginLine, n.beginColumn, number(op, n, 3)); }
     | n=<GRAD>
-	{ result = LexicalUnitImpl.createGRAD(n.beginLine, n.beginColumn, number(op, n, 4)); }
+	{ result = LexicalUnitImpl.createGRAD( source.getURI(), n.beginLine, n.beginColumn, number(op, n, 4)); }
     | n=<SECOND>
-	{ result = LexicalUnitImpl.createS(n.beginLine, n.beginColumn, number(op, n, 1)); }
+	{ result = LexicalUnitImpl.createS( source.getURI(), n.beginLine, n.beginColumn, number(op, n, 1)); }
     | n=<MS>
-	{ result = LexicalUnitImpl.createMS(n.beginLine, n.beginColumn, number(op, n, 2)); }
+	{ result = LexicalUnitImpl.createMS( source.getURI(), n.beginLine, n.beginColumn, number(op, n, 2)); }
     | n=<HZ>
-	{ result = LexicalUnitImpl.createHZ(n.beginLine, n.beginColumn, number(op, n, 2)); }
+	{ result = LexicalUnitImpl.createHZ( source.getURI(), n.beginLine, n.beginColumn, number(op, n, 2)); }
     | n=<KHZ>
-	{ result = LexicalUnitImpl.createKHZ(n.beginLine, n.beginColumn, number(op, n, 3)); }
+	{ result = LexicalUnitImpl.createKHZ( source.getURI(), n.beginLine, n.beginColumn, number(op, n, 3)); }
     | n=<DIMEN>
 	{
 	    s = n.image;
@@ -2580,7 +2580,7 @@ List<SassListItem> numberTerm(char op) :
 		i++;
 	    }
 
-	    result = LexicalUnitImpl.createDimen(n.beginLine, n.beginColumn, 
+	    result = LexicalUnitImpl.createDimen( source.getURI(), n.beginLine, n.beginColumn, 
 						 number(op,n,s.length()-i), s.substring(i));
 	}) ( <S> { spaceAfter = true; } )*
 	{
@@ -2630,15 +2630,15 @@ List<SassListItem> stringTerm(char op) :
 	{
 	  s = convertStringIndex(n.image, 1, n.image.length() -1);
 	  if (op != ' ') { s = "" + op + s; }
-	  result = LexicalUnitImpl.createString(n.beginLine, n.beginColumn, s);}
+	  result = LexicalUnitImpl.createString( source.getURI(), n.beginLine, n.beginColumn, s);}
   | (< DOT >{ s="."; })?(iis = identInterpolationString()){
         if(op != ' ') { s = "" + op + s; }
         if(!"".equals(s)) { iis.add(0, new StringItem(s)); }
         StringInterpolationSequence sis = new StringInterpolationSequence(iis);
 	    if ("inherit".equals(sis.toString())) {
-	        result = LexicalUnitImpl.createInherit(beginLine, beginColumn);
+	        result = LexicalUnitImpl.createInherit( source.getURI(), beginLine, beginColumn);
 	    } else {
-	        result = LexicalUnitImpl.createIdent(beginLine, beginColumn, sis);
+	        result = LexicalUnitImpl.createIdent( source.getURI(), beginLine, beginColumn, sis);
 	    }
 
     // TODO fix this - no prev
@@ -2690,7 +2690,7 @@ LexicalUnitImpl function(char operator) :
         String fname = convertIdent(n.image);
         if("expression(".equals(fname)){
             String body = skipStatementUntilSemiColon();
-            return LexicalUnitImpl.createIdent(n.beginLine, n.beginColumn, fname+body);
+            return LexicalUnitImpl.createIdent( source.getURI(), n.beginLine, n.beginColumn, fname+body);
         }
     }
     ( items = argValuelist() (<ELLIPSIS> {hasVariableArguments = true; } (<S>)*)?){
@@ -2704,7 +2704,7 @@ LexicalUnitImpl function(char operator) :
         }            
         String f = convertIdent(n.image);
         // f contains the opening parenthesis of the function call
-        return LexicalUnitImpl.createFunction( n.beginLine, n.beginColumn, f.substring(0, f.length() -1), params, source.getURI() );
+        return LexicalUnitImpl.createFunction(  source.getURI(), n.beginLine, n.beginColumn, f.substring(0, f.length() -1), params );
     }
 }
 
@@ -2718,16 +2718,16 @@ LexicalUnitImpl unicode() :
      String s = n.image.substring(2);
      int index = s.indexOf('-');
      if (index == -1) {
-	 params.add(LexicalUnitImpl.createInteger(n.beginLine, n.beginColumn, Integer.parseInt(s, 16)));
+	 params.add(LexicalUnitImpl.createInteger( source.getURI(), n.beginLine, n.beginColumn, Integer.parseInt(s, 16)));
      } else {
 	 String s1 = s.substring(0, index);
 	 String s2 = s.substring(index);
 
-	 params.add(LexicalUnitImpl.createInteger(n.beginLine, n.beginColumn, Integer.parseInt(s1, 16)));
-	 params.add(LexicalUnitImpl.createInteger(n.beginLine, n.beginColumn, Integer.parseInt(s2, 16)));
+	 params.add(LexicalUnitImpl.createInteger( source.getURI(), n.beginLine, n.beginColumn, Integer.parseInt(s1, 16)));
+	 params.add(LexicalUnitImpl.createInteger( source.getURI(), n.beginLine, n.beginColumn, Integer.parseInt(s2, 16)));
      }
 
-     return LexicalUnitImpl.createUnicodeRange(n.beginLine, n.beginColumn, new SassList(SassList.Separator.COMMA, params));
+     return LexicalUnitImpl.createUnicodeRange( source.getURI(), n.beginLine, n.beginColumn, new SassList(SassList.Separator.COMMA, params));
  }
 }
 
@@ -2738,7 +2738,7 @@ LexicalUnitImpl url() :
   n=<URL>
  {
    String urlname = n.image.substring(4, n.image.length()-1).trim();
-   return LexicalUnitImpl.createURL(n.beginLine, n.beginColumn, urlname); 
+   return LexicalUnitImpl.createURL( source.getURI(), n.beginLine, n.beginColumn, urlname); 
  }
 }
 
@@ -2760,7 +2760,7 @@ LexicalUnitImpl hexcolor() :
 	 throw new CSSParseException("invalid hexadecimal notation for RGB: " + s, 
 				     getLocator());
      }
-     return LexicalUnitImpl.createIdent(n.beginLine, n.beginColumn, n.image);
+     return LexicalUnitImpl.createIdent( source.getURI(), n.beginLine, n.beginColumn, n.image);
  }
 }
 

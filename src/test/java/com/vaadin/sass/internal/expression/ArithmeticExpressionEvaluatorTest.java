@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -38,28 +39,17 @@ public class ArithmeticExpressionEvaluatorTest {
                 Arrays.asList(terms));
     }
 
-    private final LexicalUnitImpl operand2 = LexicalUnitImpl.createInteger(0,
-            0, 2);
-    private final LexicalUnitImpl operatorMultiply = LexicalUnitImpl
-            .createMultiply(0, 0);
-    private final LexicalUnitImpl operand3 = LexicalUnitImpl.createInteger(0,
-            0, 3);
-    private final LexicalUnitImpl operatorMinus = LexicalUnitImpl.createMinus(
-            0, 0);
-    private final LexicalUnitImpl operand4 = LexicalUnitImpl.createInteger(0,
-            0, 4);
-    private final LexicalUnitImpl operand2cm = LexicalUnitImpl.createCM(0, 0,
- 2);
-    private final LexicalUnitImpl operand3px = LexicalUnitImpl.createPX(0, 0,
- 3);
-    private final LexicalUnitImpl operand3cm = LexicalUnitImpl.createCM(0, 0,
- 3);
-    private final LexicalUnitImpl operand4cm = LexicalUnitImpl.createCM(0, 0,
- 4);
-    private final LexicalUnitImpl operatorDivide = LexicalUnitImpl.createSlash(
-            0, 0);
-    private final LexicalUnitImpl operatorComma = LexicalUnitImpl.createComma(
-            2, 3);
+    private final LexicalUnitImpl operand2         = LexicalUnitImpl.createInteger( null, 0, 0, 2 );
+    private final LexicalUnitImpl operatorMultiply = LexicalUnitImpl.createMultiply( null, 0, 0 );
+    private final LexicalUnitImpl operand3         = LexicalUnitImpl.createInteger( null, 0, 0, 3 );
+    private final LexicalUnitImpl operatorMinus    = LexicalUnitImpl.createMinus( null, 0, 0 );
+    private final LexicalUnitImpl operand4         = LexicalUnitImpl.createInteger( null, 0, 0, 4 );
+    private final LexicalUnitImpl operand2cm       = LexicalUnitImpl.createCM( null, 0, 0, 2 );
+    private final LexicalUnitImpl operand3px       = LexicalUnitImpl.createPX( null, 0, 0, 3 );
+    private final LexicalUnitImpl operand3cm       = LexicalUnitImpl.createCM( null, 0, 0, 3 );
+    private final LexicalUnitImpl operand4cm       = LexicalUnitImpl.createCM( null, 0, 0, 4 );
+    private final LexicalUnitImpl operatorDivide   = LexicalUnitImpl.createSlash( null, 0, 0 );
+    private final LexicalUnitImpl operatorComma    = LexicalUnitImpl.createComma( null, 2, 3 );
 
     @Test
     public void testPrecedenceSameAsAppearOrder() {

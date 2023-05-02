@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -64,7 +65,7 @@ public class SassLangTests extends AbstractDirectoryScanningSassTests {
             String fileName = function.getUri();
             int idx = fileName.indexOf( "/sasslang/" );
             fileName = "/target/test-classes" + fileName.substring( idx );
-            return LexicalUnitImpl.createIdent( function.getLineNumber(), function.getColumnNumber(), fileName );
+            return LexicalUnitImpl.createIdent( function.getUri(), function.getLineNumber(), function.getColumnNumber(), fileName );
         }
     }
 }

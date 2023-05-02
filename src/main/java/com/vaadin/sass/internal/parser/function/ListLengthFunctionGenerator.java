@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -39,8 +40,7 @@ public class ListLengthFunctionGenerator extends AbstractFunctionGenerator {
         } else {
             length = 1;
         }
-        return LexicalUnitImpl.createInteger(function.getLineNumber(),
-                function.getColumnNumber(), length);
+        return LexicalUnitImpl.createInteger( function.getUri(), function.getLineNumber(), function.getColumnNumber(), length );
     }
 
 }

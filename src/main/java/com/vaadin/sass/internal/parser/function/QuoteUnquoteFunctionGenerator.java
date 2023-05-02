@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -40,13 +41,11 @@ public class QuoteUnquoteFunctionGenerator extends
             if (isQuoted(result)) {
                 return firstParam;
             } else {
-                return LexicalUnitImpl.createString(firstParam.getLineNumber(),
-                        firstParam.getColumnNumber(), result);
+                return LexicalUnitImpl.createString( firstParam.getUri(), firstParam.getLineNumber(), firstParam.getColumnNumber(), result );
             }
         } else {
             result = unquote(result);
-            return LexicalUnitImpl.createIdent(firstParam.getLineNumber(),
-                    firstParam.getColumnNumber(), result);
+            return LexicalUnitImpl.createIdent( firstParam.getUri(), firstParam.getLineNumber(), firstParam.getColumnNumber(), result );
         }
     }
 
