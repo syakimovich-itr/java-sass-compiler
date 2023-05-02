@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -27,13 +28,10 @@ public class RoundFunctionGenerator extends
     }
 
     @Override
-    protected LexicalUnitImpl computeForParam(String functionName,
-            LexicalUnitImpl param) {
+    protected LexicalUnitImpl computeForParam( LexicalUnitImpl function, LexicalUnitImpl param ) {
         // duplicate the behavior of sass-lang implementation, as Math.round()
         // behaves differently for negative halves
         float value = param.getFloatValue();
-        return param.copyWithValue(Math.signum(value)
-                * Math.round(Math.abs(value)));
+        return param.copyWithValue( Math.signum( value ) * Math.round( Math.abs( value ) ) );
     }
-
 }

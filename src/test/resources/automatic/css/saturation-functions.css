@@ -31,3 +31,10 @@
   d: rgba(54, 99, 84, 0.8);
   g: rgba(77, 77, 77, 0.8);
 }
+
+.css {
+  filter1: grayscale(0);
+  filter2: grayscale(0.2);
+  filter3: grayscale(60%);
+  filter4: grayscale(1);
+}

@@ -29,11 +29,9 @@ public class UnitFunctionGenerator extends
     }
 
     @Override
-    protected LexicalUnitImpl computeForParam(String functionName,
-            LexicalUnitImpl firstParam) {
-        if (!firstParam.isNumber()) {
-            throw new ParseException("The parameter of " + functionName
-                    + "() must be a number", firstParam);
+    protected LexicalUnitImpl computeForParam( LexicalUnitImpl function, LexicalUnitImpl firstParam ) {
+        if( !firstParam.isNumber() ) {
+            throw new ParseException( "The parameter of " + function.getFunctionName() + "() must be a number", firstParam );
         }
         String unit = firstParam.getDimensionUnitText();
         return LexicalUnitImpl.createString( firstParam.getUri(), firstParam.getLineNumber(), firstParam.getColumnNumber(), unit );

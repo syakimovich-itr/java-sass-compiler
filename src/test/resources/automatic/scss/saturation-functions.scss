@@ -36,3 +36,9 @@
     d: desaturate($color, 30%);
     g: grayscale($color);
 }
+.css {
+    filter1: grayscale(0);
+    filter2: grayscale(0.20);
+    filter3: grayscale(60%);
+    filter4: grayscale(1);
+}

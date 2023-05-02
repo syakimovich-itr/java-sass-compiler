@@ -29,13 +29,11 @@ public class UnitlessFunctionGenerator extends
     }
 
     @Override
-    protected LexicalUnitImpl computeForParam(String functionName,
-            LexicalUnitImpl firstParam) {
-        if (!firstParam.isNumber()) {
-            throw new ParseException("The parameter of " + functionName
-                    + "() must be a number", firstParam);
+    protected LexicalUnitImpl computeForParam( LexicalUnitImpl function, LexicalUnitImpl firstParam ) {
+        if( !firstParam.isNumber() ) {
+            throw new ParseException( "The parameter of " + function.getFunctionName() + "() must be a number", firstParam );
         }
-        Boolean value = "".equals(firstParam.getDimensionUnitText());
+        Boolean value = "".equals( firstParam.getDimensionUnitText() );
         LexicalUnitImpl result = LexicalUnitImpl.createIdent( firstParam.getUri(), firstParam.getLineNumber(), firstParam.getColumnNumber(), value.toString() );
         return result;
     }

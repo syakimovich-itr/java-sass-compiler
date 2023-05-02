@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -27,9 +28,8 @@ public class CeilFunctionGenerator extends
     }
 
     @Override
-    protected LexicalUnitImpl computeForParam(String functionName,
-            LexicalUnitImpl param) {
-        return param.copyWithValue((float) Math.ceil(param.getFloatValue()));
+    protected LexicalUnitImpl computeForParam( LexicalUnitImpl function, LexicalUnitImpl param ) {
+        return param.copyWithValue( (float)Math.ceil( param.getFloatValue() ) );
     }
 
 }

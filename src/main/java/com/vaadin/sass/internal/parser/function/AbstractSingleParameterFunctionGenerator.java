@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -46,7 +47,7 @@ public abstract class AbstractSingleParameterFunctionGenerator extends
                     + " must have exactly one single value parameter", function);
         }
         LexicalUnitImpl firstParam = (LexicalUnitImpl) param;
-        return computeForParam(function.getFunctionName(), firstParam);
+        return computeForParam( function, firstParam );
     }
 
     /**
@@ -55,13 +56,12 @@ public abstract class AbstractSingleParameterFunctionGenerator extends
      * This method must not modify firstParam. If necessary, the implementation
      * should copy the parameter before making modifications.
      * 
-     * @param functionName
-     *            The name of the function whose value is to be computed.
+     * @param function
+     *            The function whose value is to be computed.
      * @param firstParam
      *            The only parameter of the function.
      * @return
      */
-    protected abstract LexicalUnitImpl computeForParam(String functionName,
-            LexicalUnitImpl firstParam);
+    protected abstract LexicalUnitImpl computeForParam( LexicalUnitImpl function, LexicalUnitImpl firstParam );
 
 }

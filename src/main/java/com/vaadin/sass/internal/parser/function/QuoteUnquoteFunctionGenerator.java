@@ -28,16 +28,14 @@ public class QuoteUnquoteFunctionGenerator extends
     }
 
     @Override
-    protected LexicalUnitImpl computeForParam(String functionName,
-            LexicalUnitImpl firstParam) {
+    protected LexicalUnitImpl computeForParam( LexicalUnitImpl function, LexicalUnitImpl firstParam ) {
         if (!LexicalUnitImpl.checkLexicalUnitType(firstParam,
                 LexicalUnitImpl.SAC_IDENT, LexicalUnitImpl.SAC_STRING_VALUE,
                 LexicalUnitImpl.SAC_URI)) {
-            throw new ParseException("The parameter of " + functionName
-                    + "() must be a string", firstParam);
+            throw new ParseException( "The parameter of " + function.getFunctionName() + "() must be a string", firstParam );
         }
         String result = firstParam.printState();
-        if ("quote".equals(functionName)) {
+        if( "quote".equals( function.getFunctionName() ) ) {
             if (isQuoted(result)) {
                 return firstParam;
             } else {

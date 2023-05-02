@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -29,18 +30,16 @@ public class GrayscaleFunctionGenerator extends
     }
 
     @Override
-    protected LexicalUnitImpl computeForParam(String functionName,
-            LexicalUnitImpl firstParam) {
-        if (!ColorUtil.isColor(firstParam) && !ColorUtil.isRgba(firstParam)
-                && !ColorUtil.isHsla(firstParam)) {
-            throw new ParseException(
-                    "The argument of grayscale() must be a valid color",
-                    firstParam);
+    protected LexicalUnitImpl computeForParam( LexicalUnitImpl function, LexicalUnitImpl firstParam ) {
+        if( ColorUtil.isColor( firstParam ) || ColorUtil.isRgba( firstParam ) || ColorUtil.isHsla( firstParam ) ) {
+            float[] hsl = ColorUtil.colorToHsl( firstParam );
+            hsl[1] = 0;
+            float alpha = ColorUtil.getAlpha( firstParam );
+            return ColorUtil.createHslaOrHslColor( hsl, alpha, firstParam.getLineNumber(), firstParam.getColumnNumber() );
         }
-        float[] hsl = ColorUtil.colorToHsl(firstParam);
-        hsl[1] = 0;
-        float alpha = ColorUtil.getAlpha(firstParam);
-        return ColorUtil.createHslaOrHslColor(hsl, alpha,
-                firstParam.getLineNumber(), firstParam.getColumnNumber());
+        if( firstParam.isNumber() ) {
+            return function; // css filter function
+        }
+        throw new ParseException( "The argument of grayscale() must be a valid color or number", firstParam );
     }
 }
