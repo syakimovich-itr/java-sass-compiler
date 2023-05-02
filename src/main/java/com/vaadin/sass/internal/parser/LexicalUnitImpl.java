@@ -43,6 +43,7 @@ import com.vaadin.sass.internal.parser.function.AdjustColorFunctionGenerator;
 import com.vaadin.sass.internal.parser.function.AlphaFunctionGenerator;
 import com.vaadin.sass.internal.parser.function.CeilFunctionGenerator;
 import com.vaadin.sass.internal.parser.function.ColorComponentFunctionGenerator;
+import com.vaadin.sass.internal.parser.function.ComparableFunctionGenerator;
 import com.vaadin.sass.internal.parser.function.DarkenFunctionGenerator;
 import com.vaadin.sass.internal.parser.function.DefaultFunctionGenerator;
 import com.vaadin.sass.internal.parser.function.FloorFunctionGenerator;
@@ -106,7 +107,7 @@ public class LexicalUnitImpl implements LexicalUnit, SCSSLexicalUnit,
     LexicalUnitImpl( String uri, int line, int column, short type ) {
         this.uri = uri;
         this.line = line;
-        this.column = column - 1;
+        this.column = column;
         this.type = type;
     }
 
@@ -411,19 +412,33 @@ public class LexicalUnitImpl implements LexicalUnit, SCSSLexicalUnit,
         return copy;
     }
 
-    protected short checkAndGetUnit(LexicalUnitImpl another) {
-        if (getLexicalUnitType() != SAC_INTEGER
-                && getLexicalUnitType() != SAC_REAL
-                && another.getLexicalUnitType() != SAC_INTEGER
-                && another.getLexicalUnitType() != SAC_REAL
-                && getLexicalUnitType() != another.getLexicalUnitType()) {
-            throw new IncompatibleUnitsException(printState());
+    public short checkAndGetUnit( LexicalUnitImpl another ) {
+        short thisType = this.type;
+        short otherType = another.type;
+        if( thisType == otherType ) {
+            return thisType;
         }
-        if (another.getLexicalUnitType() != SAC_INTEGER
-                && another.getLexicalUnitType() != SAC_REAL) {
-            return another.getLexicalUnitType();
+        switch( otherType ) {
+            case SAC_INTEGER:
+            case SAC_REAL:
+                return thisType;
+
+            case SAC_CENTIMETER:
+            case SAC_MILLIMETER:
+            case SAC_INCH:
+                switch( thisType ) {
+                    case SAC_CENTIMETER:
+                    case SAC_MILLIMETER:
+                    case SAC_INCH:
+                        return thisType;
+                }
         }
-        return getLexicalUnitType();
+        switch( thisType ) {
+            case SAC_INTEGER:
+            case SAC_REAL:
+                return otherType;
+        }
+        throw new IncompatibleUnitsException( printState() + " <> " + another.printState() );
     }
 
     public LexicalUnitImpl modulo(LexicalUnitImpl another) {
@@ -636,8 +651,9 @@ public class LexicalUnitImpl implements LexicalUnit, SCSSLexicalUnit,
         if (!(item instanceof LexicalUnitImpl)) {
             return false;
         }
+        short itemType = ((LexicalUnitImpl)item).getLexicalUnitType();
         for (short s : lexicalUnitTypes) {
-            if (((LexicalUnitImpl) item).getLexicalUnitType() == s) {
+            if (itemType == s) {
                 return true;
             }
         }
@@ -855,6 +871,7 @@ public class LexicalUnitImpl implements LexicalUnit, SCSSLexicalUnit,
         list.add(new AbsFunctionGenerator());
         list.add(new AdjustColorFunctionGenerator());
         list.add(new CeilFunctionGenerator());
+        list.add(new ComparableFunctionGenerator());
         list.add(new DarkenFunctionGenerator());
         list.add(new FloorFunctionGenerator());
         list.add(new GrayscaleFunctionGenerator());
