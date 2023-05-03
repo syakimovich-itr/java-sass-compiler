@@ -1,0 +1,15 @@
+.tag-primary {
+  val: orange;
+}
+
+.tag-secondary {
+  val: yellow;
+}
+
+.tag-success {
+  val: green;
+}
+
+.tag-info {
+  val: blue;
+}

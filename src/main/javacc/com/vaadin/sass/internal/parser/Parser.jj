@@ -2314,14 +2314,14 @@ SassList parenthesizedExpressionList():
          }
     | < COLON > (<S>)* subList = expressionSubList(){
         int last = primaryList.size()-1;
-        primaryList.set( last, new MapItem( primaryList.get( last ), subList ));
+        primaryList.set( last, new SassList( SassList.Separator.COLON, primaryList.get( last ), subList ) );
         isMap = true; 
     }
     )*
     {
         if( isMap ) {
             for( SassListItem item : primaryList ) {
-                if( !(item instanceof MapItem) ) {
+                if( item.getClass() == SassList.class && ((SassList)item).getSeparator() != SassList.Separator.COLON ) {
                     throw new ParseException("Invalid map", item );
                 }
             }

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -34,7 +35,9 @@ public class SassList implements SassListItem, Iterable<SassListItem>,
         Serializable {
 
     public enum Separator {
-        COMMA(", "), SPACE(" ");
+        COMMA(", "), SPACE(" "), 
+        /** used for map items */
+        COLON(":");
         private String separator;
 
         private Separator(String sep) {
@@ -164,17 +167,18 @@ public class SassList implements SassListItem, Iterable<SassListItem>,
         return flatten(this);
     }
 
-    private static SassListItem flatten(SassListItem item) {
-        if (item instanceof SassList) {
-            SassList sassList = (SassList) item;
-            if (sassList.size() == 1) {
-                return flatten(sassList.get(0));
+    private static SassListItem flatten( SassListItem item ) {
+        if( item instanceof SassList ) {
+            SassList sassList = (SassList)item;
+            int size = sassList.size();
+            if( size == 1 ) {
+                return flatten( sassList.get( 0 ) );
             } else {
-                List<SassListItem> list = new ArrayList<SassListItem>();
-                for (SassListItem inner : sassList) {
-                    list.add(flatten(inner));
+                List<SassListItem> items = sassList.items;
+                for( int i = 0; i < size; i++ ) {
+                    items.set( i, flatten( items.get( i ) ) );
                 }
-                return new SassList(sassList.getSeparator(), list);
+                return sassList;
             }
         } else {
             return item;
@@ -315,6 +319,10 @@ public class SassList implements SassListItem, Iterable<SassListItem>,
 
     public SassListItem get(int index) {
         return items.get(index);
+    }
+
+    public void addAllTo( List<SassListItem> target ) {
+        target.addAll( items );
     }
 
     @Override

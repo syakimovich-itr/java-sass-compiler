@@ -1,0 +1,18 @@
+$colors-base: (
+  "primary":    orange,
+  "secondary":  yellow,
+);
+
+$colors: map-merge(
+    $colors-base,
+    (
+       "success":    green,
+       "info":       blue
+    )
+);
+
+@each $key, $val in $colors {
+  .tag-#{$key}{
+    val: $val;
+  }
+}
