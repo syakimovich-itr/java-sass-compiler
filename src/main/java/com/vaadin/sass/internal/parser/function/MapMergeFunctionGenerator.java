@@ -34,8 +34,8 @@ public class MapMergeFunctionGenerator extends AbstractFunctionGenerator {
 
     @Override
     protected SassListItem computeForArgumentList( ScssContext context, LexicalUnitImpl function, FormalArgumentList actualArguments ) {
-        SassList x = toMap( getParam( actualArguments, "map1" ) );
-        SassList y = toMap( getParam( actualArguments, "map2" ) );
+        SassList x = getMapParam( "map1", function, actualArguments );
+        SassList y = getMapParam( "map2", function, actualArguments );
 
         ArrayList<SassListItem> items = new ArrayList<>();
         x.addAllTo( items );
@@ -43,7 +43,8 @@ public class MapMergeFunctionGenerator extends AbstractFunctionGenerator {
         return new SassList( Separator.COLON, items );
     }
 
-    private SassList toMap( SassListItem map ) {
+    private SassList getMapParam( String paramName, LexicalUnitImpl function, FormalArgumentList actualArguments ) {
+        SassListItem map = getParam( actualArguments, paramName );
         if( map instanceof SassList ) {
             SassList list = (SassList)map;
             if( list.size() > 0 ) {
@@ -56,6 +57,6 @@ public class MapMergeFunctionGenerator extends AbstractFunctionGenerator {
                 return list;
             }
         }
-        throw new ParseException( "Param is not a map: " + map.printState(), map );
+        throw new ParseException( "Param " + paramName + " of function map-merge(map1,map2) is not a map: " + map.printState(), function );
     }
 }

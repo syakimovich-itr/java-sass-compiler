@@ -78,12 +78,12 @@ public class SassList implements SassListItem, Iterable<SassListItem>,
 
     @Override
     public int getLineNumber() {
-        return line;
+        return line < 0 && items.size() > 0 ? items.get(  0 ).getLineNumber() : line;
     }
 
     @Override
     public int getColumnNumber() {
-        return column;
+        return column < 0 && items.size() > 0 ? items.get(  0 ).getColumnNumber() : column;
     }
 
     public void setSourcePosition(int line, int column) {
