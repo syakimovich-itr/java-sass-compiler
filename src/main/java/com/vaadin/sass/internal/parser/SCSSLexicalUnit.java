@@ -257,6 +257,11 @@ public interface SCSSLexicalUnit {
     static final short        SCSS_OPERATOR_NOT         = 107;
     static final short        SCSS_NULL                 = 110;
 
+    /**
+     * Result of SASS function get-function(x)
+     */
+    static final short        SCSS_GET_FUNCTION         = 111;
+
     static final short        SAC_LEM                   = 200;
     static final short        SAC_REM                   = 201;
 

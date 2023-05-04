@@ -39,12 +39,14 @@ import com.vaadin.sass.internal.expression.exception.IncompatibleUnitsException;
 import com.vaadin.sass.internal.parser.function.AbsFunctionGenerator;
 import com.vaadin.sass.internal.parser.function.AdjustColorFunctionGenerator;
 import com.vaadin.sass.internal.parser.function.AlphaFunctionGenerator;
+import com.vaadin.sass.internal.parser.function.CallFunctionGenerator;
 import com.vaadin.sass.internal.parser.function.CeilFunctionGenerator;
 import com.vaadin.sass.internal.parser.function.ColorComponentFunctionGenerator;
 import com.vaadin.sass.internal.parser.function.ComparableFunctionGenerator;
 import com.vaadin.sass.internal.parser.function.DarkenFunctionGenerator;
 import com.vaadin.sass.internal.parser.function.DefaultFunctionGenerator;
 import com.vaadin.sass.internal.parser.function.FloorFunctionGenerator;
+import com.vaadin.sass.internal.parser.function.GetFunctionFunctionGenerator;
 import com.vaadin.sass.internal.parser.function.GrayscaleFunctionGenerator;
 import com.vaadin.sass.internal.parser.function.IfFunctionGenerator;
 import com.vaadin.sass.internal.parser.function.LightenFunctionGenerator;
@@ -615,6 +617,10 @@ public class LexicalUnitImpl implements SCSSLexicalUnit,
         return new LexicalUnitImpl( uri, SAC_FUNCTION, line, column, fname, params );
     }
 
+    public static LexicalUnitImpl createGetFunction(  String uri, int line, int column, String fname ) {
+        return new LexicalUnitImpl( uri, SCSS_GET_FUNCTION, line, column, fname, null );
+    }
+
     public static boolean checkLexicalUnitType(SassListItem item,
             short... lexicalUnitTypes) {
         if (!(item instanceof LexicalUnitImpl)) {
@@ -789,24 +795,24 @@ public class LexicalUnitImpl implements SCSSLexicalUnit,
     }
 
     @Override
-    public SassListItem evaluateFunctionsAndExpressions(ScssContext context,
-            boolean evaluateArithmetics) {
-        if (params != null && !"calc".equals(getFunctionName())) {
-            SCSSFunctionGenerator generator = getGenerator(getFunctionName());
+    public SassListItem evaluateFunctionsAndExpressions( ScssContext context, boolean evaluateArithmetics ) {
+        String functionName = getFunctionName();
+        if( params != null && !"calc".equals( functionName ) ) {
+            SCSSFunctionGenerator generator = getGenerator( functionName );
             LexicalUnitImpl copy = this;
-            if (!"if".equals(getFunctionName())) {
+            if( !"if".equals( functionName ) ) {
                 copy = createFunction( uri, line, column, fname, params.evaluateFunctionsAndExpressions( context, true ) );
             }
-            if (generator == null) {
-                SassListItem result = copy.replaceCustomFunctions(context);
-                if (result != null) {
+            if( generator == null ) {
+                SassListItem result = copy.replaceCustomFunctions( context );
+                if( result != null ) {
                     return result;
                 }
             }
-            if (generator == null) {
+            if( generator == null ) {
                 generator = DEFAULT_SERIALIZER;
             }
-            return generator.compute(context, copy);
+            return generator.compute( context, copy );
         } else {
             return this;
         }
@@ -839,10 +845,12 @@ public class LexicalUnitImpl implements SCSSLexicalUnit,
         List<SCSSFunctionGenerator> list = new LinkedList<SCSSFunctionGenerator>();
         list.add(new AbsFunctionGenerator());
         list.add(new AdjustColorFunctionGenerator());
+        list.add(new CallFunctionGenerator());
         list.add(new CeilFunctionGenerator());
         list.add(new ComparableFunctionGenerator());
         list.add(new DarkenFunctionGenerator());
         list.add(new FloorFunctionGenerator());
+        list.add(new GetFunctionFunctionGenerator());
         list.add(new GrayscaleFunctionGenerator());
         list.add(new IfFunctionGenerator());
         list.add(new LightenFunctionGenerator());
