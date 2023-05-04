@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -26,7 +27,6 @@ import org.w3c.css.sac.CSSException;
 import com.vaadin.sass.AbstractTestBase;
 import com.vaadin.sass.internal.ScssStylesheet;
 import com.vaadin.sass.internal.handler.SCSSDocumentHandler;
-import com.vaadin.sass.internal.handler.SCSSDocumentHandlerImpl;
 import com.vaadin.sass.internal.parser.Parser;
 import com.vaadin.sass.internal.tree.BlockNode;
 
@@ -37,7 +37,7 @@ public class Interpolation extends AbstractTestBase {
     public void testParser() throws CSSException, URISyntaxException,
             IOException {
         Parser parser = new Parser();
-        SCSSDocumentHandler handler = new SCSSDocumentHandlerImpl();
+        SCSSDocumentHandler handler = new SCSSDocumentHandler();
         parser.setDocumentHandler(handler);
         parser.parseStyleSheet(getClass().getResource(scss).getPath());
         ScssStylesheet root = handler.getStyleSheet();

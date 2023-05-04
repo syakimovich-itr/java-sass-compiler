@@ -22,11 +22,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
-import org.w3c.css.sac.LexicalUnit;
-
 import com.vaadin.sass.internal.parser.ActualArgumentList;
 import com.vaadin.sass.internal.parser.LexicalUnitImpl;
 import com.vaadin.sass.internal.parser.ParseException;
+import com.vaadin.sass.internal.parser.SCSSLexicalUnit;
 import com.vaadin.sass.internal.parser.SassList;
 import com.vaadin.sass.internal.parser.SassList.Separator;
 
@@ -219,8 +218,7 @@ public class ColorUtil {
      * @return true if unit represents an RGB method call
      */
     public static boolean isRgbFunction(LexicalUnitImpl unit) {
-        if (!LexicalUnitImpl.checkLexicalUnitType(unit,
-                LexicalUnit.SAC_FUNCTION, LexicalUnit.SAC_RGBCOLOR)) {
+        if( !LexicalUnitImpl.checkLexicalUnitType( unit, SCSSLexicalUnit.SAC_FUNCTION, SCSSLexicalUnit.SAC_RGBCOLOR ) ) {
             return false;
         }
         if (unit.getParameterList().size() != 3
@@ -239,7 +237,7 @@ public class ColorUtil {
      * @return true if unit represents an RGBA value
      */
     public static boolean isRgba(LexicalUnitImpl unit) {
-        return unit.getLexicalUnitType() == LexicalUnit.SAC_FUNCTION
+        return unit.getLexicalUnitType() == SCSSLexicalUnit.SAC_FUNCTION
                 && "rgba".equals(unit.getFunctionName())
                 && (unit.getParameterList().size() == 2 || unit
                         .getParameterList().size() == 4);
@@ -254,7 +252,7 @@ public class ColorUtil {
      * @return true if unit represents an HSLA value
      */
     public static boolean isHsla(LexicalUnitImpl unit) {
-        return unit.getLexicalUnitType() == LexicalUnit.SAC_FUNCTION
+        return unit.getLexicalUnitType() == SCSSLexicalUnit.SAC_FUNCTION
                 && "hsla".equals(unit.getFunctionName())
                 && unit.getParameterList().size() == 4;
     }
@@ -268,7 +266,7 @@ public class ColorUtil {
      * @return true if unit represents a hexadecimal color
      */
     public static boolean isHexColor(LexicalUnitImpl unit) {
-        return unit.getLexicalUnitType() == LexicalUnit.SAC_IDENT
+        return unit.getLexicalUnitType() == SCSSLexicalUnit.SAC_IDENT
                 && isHexColor(unit.getStringValue());
     }
 
@@ -284,7 +282,7 @@ public class ColorUtil {
      * @return true if unit represents a color name
      */
     public static boolean isColorName(LexicalUnitImpl unit) {
-        return unit.getLexicalUnitType() == LexicalUnit.SAC_IDENT
+        return unit.getLexicalUnitType() == SCSSLexicalUnit.SAC_IDENT
                 && colorNameToHex.containsKey(unit.getStringValue());
     }
 
@@ -297,7 +295,7 @@ public class ColorUtil {
      * @return true if unit represents as HSL color
      */
     public static boolean isHslColor(LexicalUnitImpl unit) {
-        return unit.getLexicalUnitType() == LexicalUnit.SAC_FUNCTION
+        return unit.getLexicalUnitType() == SCSSLexicalUnit.SAC_FUNCTION
                 && "hsl".equals(unit.getFunctionName())
                 && unit.getParameterList().size() == 3;
     }

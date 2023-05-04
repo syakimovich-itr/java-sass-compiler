@@ -22,8 +22,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import org.w3c.css.sac.LexicalUnit;
-
 import com.vaadin.sass.internal.ScssContext;
 import com.vaadin.sass.internal.expression.ArithmeticExpressionEvaluator;
 import com.vaadin.sass.internal.expression.BinaryOperator;
@@ -284,7 +282,7 @@ public class SassExpression implements SassListItem, Serializable {
         // optimization as this is called very frequently
         if (item instanceof LexicalUnitImpl) {
             LexicalUnitImpl unit = (LexicalUnitImpl) item;
-            return unit.getLexicalUnitType() == LexicalUnit.SAC_IDENT
+            return unit.getLexicalUnitType() == SCSSLexicalUnit.SAC_IDENT
                     && WHITESPACE_PATTERN.matcher(unit.getStringValue())
                             .matches();
         }

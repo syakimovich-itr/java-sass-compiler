@@ -24,7 +24,7 @@ import java.util.List;
 
 import com.vaadin.sass.internal.ScssContext;
 import com.vaadin.sass.internal.ScssStylesheet;
-import com.vaadin.sass.internal.handler.SCSSDocumentHandlerImpl;
+import com.vaadin.sass.internal.handler.SCSSDocumentHandler;
 import com.vaadin.sass.internal.handler.SCSSErrorHandler;
 import com.vaadin.sass.internal.tree.ImportNode;
 import com.vaadin.sass.internal.tree.Node;
@@ -59,7 +59,7 @@ public class ImportNodeHandler {
                 // set parent's charset to imported node.
 
                 imported = ScssStylesheet.get(importNode.getUri(), styleSheet,
-                        new SCSSDocumentHandlerImpl(), SCSSErrorHandler.get());
+                        new SCSSDocumentHandler(), SCSSErrorHandler.get());
                 if (imported == null) {
                     SCSSErrorHandler.get().error( "Import '" + importNode.getUri() + "' in '" + styleSheet.getFileName() + "' could not be found" );
                     return Collections.emptyList();

@@ -20,13 +20,13 @@ import java.util.Arrays;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.w3c.css.sac.LexicalUnit;
 
 import com.vaadin.sass.internal.ScssContext;
 import com.vaadin.sass.internal.ScssContext.UrlMode;
 import com.vaadin.sass.internal.expression.exception.ArithmeticException;
 import com.vaadin.sass.internal.expression.exception.IncompatibleUnitsException;
 import com.vaadin.sass.internal.parser.LexicalUnitImpl;
+import com.vaadin.sass.internal.parser.SCSSLexicalUnit;
 import com.vaadin.sass.internal.parser.SassListItem;
 
 public class ArithmeticExpressionEvaluatorTest {
@@ -79,7 +79,7 @@ public class ArithmeticExpressionEvaluatorTest {
         LexicalUnitImpl result = evaluate(operand2cm, operatorMultiply,
                 operand3);
         Assert.assertEquals(6, result.getIntegerValue());
-        Assert.assertEquals(LexicalUnit.SAC_CENTIMETER,
+        Assert.assertEquals(SCSSLexicalUnit.SAC_CENTIMETER,
                 result.getLexicalUnitType());
     }
 
@@ -89,7 +89,7 @@ public class ArithmeticExpressionEvaluatorTest {
         LexicalUnitImpl result = evaluate(operand2, operatorMultiply,
                 operand3cm);
         Assert.assertEquals(6, result.getIntegerValue());
-        Assert.assertEquals(LexicalUnit.SAC_CENTIMETER,
+        Assert.assertEquals(SCSSLexicalUnit.SAC_CENTIMETER,
                 result.getLexicalUnitType());
     }
 
@@ -99,7 +99,7 @@ public class ArithmeticExpressionEvaluatorTest {
         LexicalUnitImpl result = evaluate(operand4cm, operatorDivide,
                 operand2cm);
         Assert.assertEquals(2, result.getIntegerValue());
-        Assert.assertEquals(LexicalUnit.SAC_REAL, result.getLexicalUnitType());
+        Assert.assertEquals(SCSSLexicalUnit.SAC_REAL, result.getLexicalUnitType());
     }
 
     @Test
@@ -107,7 +107,7 @@ public class ArithmeticExpressionEvaluatorTest {
         // 4cm / 2 = 2cm
         LexicalUnitImpl result = evaluate(operand4cm, operatorDivide, operand2);
         Assert.assertEquals(2, result.getIntegerValue());
-        Assert.assertEquals(LexicalUnit.SAC_CENTIMETER,
+        Assert.assertEquals(SCSSLexicalUnit.SAC_CENTIMETER,
                 result.getLexicalUnitType());
     }
 

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -22,14 +23,13 @@ import java.net.URISyntaxException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.w3c.css.sac.CSSException;
-import org.w3c.css.sac.LexicalUnit;
 
 import com.vaadin.sass.AbstractTestBase;
 import com.vaadin.sass.internal.ScssStylesheet;
 import com.vaadin.sass.internal.handler.SCSSDocumentHandler;
-import com.vaadin.sass.internal.handler.SCSSDocumentHandlerImpl;
 import com.vaadin.sass.internal.parser.LexicalUnitImpl;
 import com.vaadin.sass.internal.parser.Parser;
+import com.vaadin.sass.internal.parser.SCSSLexicalUnit;
 import com.vaadin.sass.internal.tree.BlockNode;
 import com.vaadin.sass.internal.tree.MixinDefNode;
 import com.vaadin.sass.internal.tree.MixinNode;
@@ -43,7 +43,7 @@ public class Mixins extends AbstractTestBase {
     public void testParser() throws CSSException, URISyntaxException,
             IOException {
         Parser parser = new Parser();
-        SCSSDocumentHandler handler = new SCSSDocumentHandlerImpl();
+        SCSSDocumentHandler handler = new SCSSDocumentHandler();
         parser.setDocumentHandler(handler);
         parser.parseStyleSheet(getClass().getResource(scss).getPath());
         ScssStylesheet root = handler.getStyleSheet();
@@ -60,7 +60,7 @@ public class Mixins extends AbstractTestBase {
                 .getName());
         Assert.assertEquals("radius", mixinDefNode1.getArglist().get(1)
                 .getName());
-        Assert.assertEquals(LexicalUnit.SAC_PIXEL, mixinDefNode1.getArglist()
+        Assert.assertEquals(SCSSLexicalUnit.SAC_PIXEL, mixinDefNode1.getArglist()
                 .get(1).getExpr().getContainedValue().getLexicalUnitType());
         Assert.assertEquals(3f, mixinDefNode1.getArglist().get(1).getExpr()
                 .getContainedValue().getFloatValue(), 0f);

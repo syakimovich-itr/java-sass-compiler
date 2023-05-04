@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -15,8 +16,6 @@
  */
 
 package com.vaadin.sass.internal.expression;
-
-import org.w3c.css.sac.LexicalUnit;
 
 import com.vaadin.sass.internal.expression.exception.ArithmeticException;
 import com.vaadin.sass.internal.parser.LexicalUnitImpl;
@@ -88,7 +87,7 @@ public enum BinaryOperator {
             return createBooleanUnit(getFloatValue(leftValue) >= getFloatValue(rightValue));
         }
     },
-    ADD(LexicalUnit.SAC_OPERATOR_PLUS, 4) {
+    ADD(LexicalUnitImpl.SAC_OPERATOR_PLUS, 4) {
         @Override
         public LexicalUnitImpl eval(SassListItem leftValue,
                 SassListItem rightValue) {
@@ -137,28 +136,28 @@ public enum BinaryOperator {
             }
         }
     },
-    MINUS(LexicalUnit.SAC_OPERATOR_MINUS, 4) {
+    MINUS(LexicalUnitImpl.SAC_OPERATOR_MINUS, 4) {
         @Override
         public LexicalUnitImpl evalInternal(LexicalUnitImpl leftValue,
                 LexicalUnitImpl rightValue) {
             return leftValue.minus(rightValue);
         }
     },
-    MUL(LexicalUnit.SAC_OPERATOR_MULTIPLY, 5) {
+    MUL(LexicalUnitImpl.SAC_OPERATOR_MULTIPLY, 5) {
         @Override
         public LexicalUnitImpl evalInternal(LexicalUnitImpl leftValue,
                 LexicalUnitImpl rightValue) {
             return leftValue.multiply(rightValue);
         }
     },
-    DIV(LexicalUnit.SAC_OPERATOR_SLASH, 5) {
+    DIV(LexicalUnitImpl.SAC_OPERATOR_SLASH, 5) {
         @Override
         public LexicalUnitImpl evalInternal(LexicalUnitImpl leftValue,
                 LexicalUnitImpl rightValue) {
             return leftValue.divide(rightValue);
         }
     },
-    MOD(LexicalUnit.SAC_OPERATOR_MOD, 5) {
+    MOD(LexicalUnitImpl.SAC_OPERATOR_MOD, 5) {
         @Override
         public LexicalUnitImpl evalInternal(LexicalUnitImpl leftValue,
                 LexicalUnitImpl rightValue) {

@@ -26,7 +26,7 @@ package com.vaadin.sass.internal.parser;
 
 import org.w3c.css.sac.Locator;
 
-import com.vaadin.sass.internal.handler.SCSSDocumentHandlerImpl;
+import com.vaadin.sass.internal.handler.SCSSDocumentHandler;
 import com.vaadin.sass.internal.handler.SCSSErrorHandler;
 
 /**

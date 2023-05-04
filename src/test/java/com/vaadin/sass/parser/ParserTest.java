@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -23,7 +24,6 @@ import org.junit.Test;
 import org.w3c.css.sac.InputSource;
 
 import com.vaadin.sass.internal.handler.SCSSDocumentHandler;
-import com.vaadin.sass.internal.handler.SCSSDocumentHandlerImpl;
 import com.vaadin.sass.internal.parser.Parser;
 
 public class ParserTest {
@@ -31,7 +31,7 @@ public class ParserTest {
     @Test
     public void testCanIngoreSingleLineComment() {
         Parser parser = new Parser();
-        SCSSDocumentHandler handler = new SCSSDocumentHandlerImpl();
+        SCSSDocumentHandler handler = new SCSSDocumentHandler();
         parser.setDocumentHandler(handler);
         try {
             parser.parseStyleSheet(new InputSource(new StringReader(

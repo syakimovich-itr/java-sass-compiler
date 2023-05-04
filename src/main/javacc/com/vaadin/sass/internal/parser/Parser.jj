@@ -53,7 +53,6 @@ import org.w3c.css.sac.ErrorHandler;
 import org.w3c.css.sac.CSSException;
 import org.w3c.css.sac.CSSParseException;
 import org.w3c.css.sac.Locator;
-import org.w3c.css.sac.LexicalUnit;
 
 import org.w3c.flute.parser.selectors.SelectorFactoryImpl;
 import org.w3c.flute.parser.selectors.ConditionFactoryImpl;
@@ -78,7 +77,7 @@ public class Parser {
     static final StringBuilder SPACE = new StringBuilder(" ");
 
     // the document handler for the parser
-    protected SCSSDocumentHandlerImpl documentHandler;
+    protected SCSSDocumentHandler documentHandler;
     // the error handler for the parser
     protected SCSSErrorHandler errorHandler;
     // the input source for the parser
@@ -112,8 +111,8 @@ public class Parser {
     /**
      * Set the document handler for this parser
      */    
-    public void setDocumentHandler(DocumentHandler handler) {
-	this.documentHandler = (SCSSDocumentHandlerImpl) handler;
+    public void setDocumentHandler( SCSSDocumentHandler handler ) {
+        this.documentHandler = handler;
     }
 
     public void setSelectorFactory(SelectorFactory selectorFactory) {
@@ -263,7 +262,7 @@ public class Parser {
         return _parseSelectors();
     }
 
-    public LexicalUnit parsePropertyValue(InputSource source) 
+    public SCSSLexicalUnit parsePropertyValue(InputSource source) 
 	    throws CSSException, IOException {
         // We don't use the org.w3c.css.sac.Selector interface (not easily extended to
         // SCSS syntax), so don't even try wrapping com.vaadin.sass.selector.Selectors 
@@ -2010,7 +2009,7 @@ Node supportsDirective(){
 
 void nestedProperties():
 {StringInterpolationSequence name;
-LexicalUnit exp;}
+SCSSLexicalUnit exp;}
 {
     name=property()
     ":" ( <S> )* 

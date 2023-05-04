@@ -21,15 +21,12 @@ import java.io.File;
 import java.io.IOException;
 
 import org.junit.Assert;
-
 import org.junit.Test;
 import org.w3c.css.sac.CSSException;
 
 import com.vaadin.sass.AbstractTestBase;
 import com.vaadin.sass.internal.ScssStylesheet;
 import com.vaadin.sass.internal.handler.SCSSDocumentHandler;
-import com.vaadin.sass.internal.handler.SCSSDocumentHandlerImpl;
-import com.vaadin.sass.internal.handler.SCSSErrorHandler;
 import com.vaadin.sass.internal.parser.Parser;
 import com.vaadin.sass.internal.resolver.FilesystemResolver;
 import com.vaadin.sass.internal.tree.ImportNode;
@@ -45,7 +42,7 @@ public class CompassImports extends AbstractTestBase {
     @Test
     public void testParser() throws CSSException, IOException {
         Parser parser = new Parser();
-        SCSSDocumentHandler handler = new SCSSDocumentHandlerImpl();
+        SCSSDocumentHandler handler = new SCSSDocumentHandler();
         parser.setDocumentHandler(handler);
         parser.parseStyleSheet(getClass().getResource(scssOtherDirectory)
                 .getPath());
@@ -73,7 +70,7 @@ public class CompassImports extends AbstractTestBase {
         comparisonCss = comparisonCss.replaceAll(CR, "");
         File file = getFile(scss);
         FilesystemResolver resolver = new FilesystemResolver(additionalPath);
-        ScssStylesheet sheet = ScssStylesheet.get( file.getAbsolutePath(), null, new SCSSDocumentHandlerImpl(), new AssertErrorHandler(), resolver );
+        ScssStylesheet sheet = ScssStylesheet.get( file.getAbsolutePath(), null, new SCSSDocumentHandler(), new AssertErrorHandler(), resolver );
         Assert.assertNotNull(sheet);
 
         sheet.compile();

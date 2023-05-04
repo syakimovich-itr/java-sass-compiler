@@ -19,91 +19,343 @@ package com.vaadin.sass.internal.handler;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Stack;
 
 import org.w3c.css.sac.CSSException;
-import org.w3c.css.sac.DocumentHandler;
+import org.w3c.css.sac.InputSource;
 import org.w3c.css.sac.SACMediaList;
 
 import com.vaadin.sass.internal.ScssStylesheet;
+import com.vaadin.sass.internal.parser.SCSSLexicalUnit;
 import com.vaadin.sass.internal.parser.SassListItem;
 import com.vaadin.sass.internal.parser.StringInterpolationSequence;
 import com.vaadin.sass.internal.parser.Variable;
 import com.vaadin.sass.internal.selector.Selector;
+import com.vaadin.sass.internal.tree.BlockNode;
+import com.vaadin.sass.internal.tree.CommentNode;
+import com.vaadin.sass.internal.tree.ContentNode;
+import com.vaadin.sass.internal.tree.ExtendNode;
+import com.vaadin.sass.internal.tree.FontFaceNode;
+import com.vaadin.sass.internal.tree.FunctionDefNode;
+import com.vaadin.sass.internal.tree.ImportNode;
+import com.vaadin.sass.internal.tree.KeyframeSelectorNode;
+import com.vaadin.sass.internal.tree.KeyframesNode;
+import com.vaadin.sass.internal.tree.MediaNode;
+import com.vaadin.sass.internal.tree.MessageNode;
+import com.vaadin.sass.internal.tree.MessageNode.MessageLevel;
+import com.vaadin.sass.internal.tree.MicrosoftRuleNode;
+import com.vaadin.sass.internal.tree.MixinDefNode;
+import com.vaadin.sass.internal.tree.MixinNode;
+import com.vaadin.sass.internal.tree.NestPropertiesNode;
+import com.vaadin.sass.internal.tree.Node;
+import com.vaadin.sass.internal.tree.ReturnNode;
+import com.vaadin.sass.internal.tree.RuleNode;
+import com.vaadin.sass.internal.tree.SimpleNode;
+import com.vaadin.sass.internal.tree.VariableNode;
+import com.vaadin.sass.internal.tree.controldirective.EachDefNode;
+import com.vaadin.sass.internal.tree.controldirective.ElseNode;
+import com.vaadin.sass.internal.tree.controldirective.ForNode;
+import com.vaadin.sass.internal.tree.controldirective.IfElseDefNode;
+import com.vaadin.sass.internal.tree.controldirective.IfNode;
+import com.vaadin.sass.internal.tree.controldirective.WhileNode;
 
-public interface SCSSDocumentHandler extends DocumentHandler {
-    ScssStylesheet getStyleSheet();
+public class SCSSDocumentHandler {
 
-    void variable(String name, SassListItem value, boolean guarded);
+    private final ScssStylesheet styleSheet;
+    Stack<Node> nodeStack = new Stack<Node>();
 
-    void startMixinDirective(String name, Collection<Variable> args,
-            boolean hasVariableArgs);
+    public SCSSDocumentHandler() {
+        this(new ScssStylesheet());
+    }
 
-    void endMixinDirective();
+    public SCSSDocumentHandler(ScssStylesheet styleSheet) {
+        this.styleSheet = styleSheet;
+        nodeStack.push(styleSheet);
+    }
 
-    void startFunctionDirective(String name, Collection<Variable> args,
-            boolean hasVariableArgs);
+    public ScssStylesheet getStyleSheet() {
+        return styleSheet;
+    }
 
-    void endFunctionDirective();
+    public void startDocument(InputSource source) throws CSSException {
+        nodeStack.push(styleSheet);
+    }
 
-    void errorDirective( SassListItem message );
+    public void endDocument(InputSource source) throws CSSException {
+    }
 
-    void debugDirective( SassListItem message );
+    public void variable(String name, SassListItem value, boolean guarded) {
+        VariableNode node = new VariableNode(name, value, guarded);
+        nodeStack.peek().appendChild(node);
+    }
 
-    void warnDirective( SassListItem message );
+    public void debugDirective( SassListItem message ) {
+        MessageNode node = new MessageNode( message, MessageLevel.debug );
+        nodeStack.peek().appendChild( node );
+    }
 
-    void startForDirective(String var, SassListItem from, SassListItem to,
-            boolean exclusive);
+    public void warnDirective( SassListItem message ) {
+        MessageNode node = new MessageNode( message, MessageLevel.warn );
+        nodeStack.peek().appendChild( node );
+    }
 
-    void endForDirective();
+    public void errorDirective( SassListItem message ) {
+        MessageNode node = new MessageNode( message, MessageLevel.error );
+        nodeStack.peek().appendChild( node );
+    }
 
-    void startWhileDirective(SassListItem evaluator);
+    public void startForDirective(String var, SassListItem from,
+            SassListItem to, boolean exclusive) {
+        ForNode node = new ForNode(var, from, to, exclusive);
+        nodeStack.peek().appendChild(node);
+        nodeStack.push(node);
+    }
 
-    void endWhileDirective();
+    public void endForDirective() {
+        nodeStack.pop();
+    }
 
-    void startNestedProperties(StringInterpolationSequence name);
+    public void startEachDirective( List<String> variables, SassListItem list ) {
+        EachDefNode node = new EachDefNode( variables, list );
+        nodeStack.peek().appendChild(node);
+        nodeStack.push(node);
+    }
 
-    void endNestedProperties(StringInterpolationSequence name);
+    public void endEachDirective() {
+        nodeStack.pop();
+    }
 
-    void importStyle(String uri, SACMediaList media, boolean isURL);
+    public void startWhileDirective(SassListItem condition) {
+        WhileNode node = new WhileNode(condition);
+        nodeStack.peek().appendChild(node);
+        nodeStack.push(node);
+    }
 
-    void property(StringInterpolationSequence name, SassListItem value,
-            boolean important, String comment);
+    public void endWhileDirective() {
+        nodeStack.pop();
+    }
 
-    void startEachDirective( List<String> variables, SassListItem list );
+    public void comment(String text) throws CSSException {
+        CommentNode node = new CommentNode(text);
+        nodeStack.peek().appendChild(node);
+    }
 
-    void endEachDirective();
+    public void ignorableAtRule(String atRule) throws CSSException {
+        log("ignorableAtRule(String atRule): " + atRule);
+    }
 
-    void startIfElseDirective();
+    public void namespaceDeclaration(String prefix, String uri)
+            throws CSSException {
+        log("namespaceDeclaration(String prefix, String uri): " + prefix + ", "
+                + uri);
+    }
 
-    void endIfElseDirective();
+    public void importStyle(String uri, SACMediaList media,
+            String defaultNamespaceURI) throws CSSException {
+    }
 
-    void ifDirective(SassListItem evaluator);
+    public void startMedia(SACMediaList media) throws CSSException {
+        MediaNode node = new MediaNode(media);
+        nodeStack.peek().appendChild(node);
+        nodeStack.push(node);
+    }
 
-    void elseDirective();
+    public void endMedia(SACMediaList media) throws CSSException {
+        nodeStack.pop();
+    }
 
-    void startSelector(List<Selector> selectors) throws CSSException;
+    public void startPage(String name, String pseudo_page) throws CSSException {
+        log("startPage(String name, String pseudo_page): " + name + ", "
+                + pseudo_page);
+    }
 
-    void endSelector() throws CSSException;
+    public void endPage(String name, String pseudo_page) throws CSSException {
+        log("endPage(String name, String pseudo_page): " + name + ", "
+                + pseudo_page);
+    }
 
-    void extendDirective(List<Selector> list, boolean optional);
+    public void startFontFace() throws CSSException {
+        FontFaceNode node = new FontFaceNode();
+        nodeStack.peek().appendChild(node);
+        nodeStack.push(node);
+    }
 
-    void microsoftDirective(String name, StringInterpolationSequence value);
+    public void endFontFace() throws CSSException {
+        nodeStack.pop();
+    }
 
-    void startKeyFrames(String keyframeName,
-            StringInterpolationSequence animationname);
+    public void startSelector(List<Selector> selectors) throws CSSException {
+        BlockNode node = new BlockNode(selectors);
+        nodeStack.peek().appendChild(node);
+        nodeStack.push(node);
+    }
 
-    void endKeyFrames();
+    public void endSelector() throws CSSException {
+        nodeStack.pop();
+    }
 
-    void startKeyframeSelector(String selector);
+    public void property(StringInterpolationSequence name, SassListItem value,
+            boolean important) throws CSSException {
+        property(name, value, important, null);
+    }
 
-    void endKeyframeSelector();
+    public void property(StringInterpolationSequence name, SassListItem value,
+            boolean important, String comment) {
+        RuleNode node = new RuleNode(name, value, important, comment);
+        nodeStack.peek().appendChild(node);
+    }
 
-    void contentDirective();
+    public void extendDirective(List<Selector> list, boolean optional) {
+        ExtendNode node = new ExtendNode(list, optional);
+        nodeStack.peek().appendChild(node);
+    }
 
-    void returnDirective(SassListItem expr);
+    public void startNestedProperties(StringInterpolationSequence name) {
+        NestPropertiesNode node = new NestPropertiesNode(name);
+        nodeStack.peek().appendChild(node);
+        nodeStack.push(node);
+    }
 
-    void startInclude(String name, List<Variable> args, boolean hasVariableArgs);
+    public void endNestedProperties(StringInterpolationSequence name) {
+        nodeStack.pop();
+    }
 
-    void endInclude();
+    public void startMixinDirective(String name, Collection<Variable> args,
+            boolean hasVariableArgs) {
+        MixinDefNode node = new MixinDefNode(name.trim(), args, hasVariableArgs);
+        nodeStack.peek().appendChild(node);
+        nodeStack.push(node);
+    }
+
+    public void endMixinDirective() {
+        nodeStack.pop();
+    }
+
+    public void startFunctionDirective(String name, Collection<Variable> args,
+            boolean hasVariableArgs) {
+        FunctionDefNode node = new FunctionDefNode(name.trim(), args,
+                hasVariableArgs);
+        nodeStack.peek().appendChild(node);
+        nodeStack.push(node);
+    }
+
+    public void endFunctionDirective() {
+        nodeStack.pop();
+    }
+
+    public void importStyle(String uri, SACMediaList media, boolean isURL) {
+        ImportNode node = new ImportNode(uri, media, isURL);
+        nodeStack.peek().appendChild(node);
+    }
+
+    public void startIfElseDirective() {
+        final IfElseDefNode node = new IfElseDefNode();
+        nodeStack.peek().appendChild(node);
+        nodeStack.push(node);
+    }
+
+    public void ifDirective(SassListItem evaluator) {
+        if (nodeStack.peek() instanceof IfNode) {
+            nodeStack.pop();
+        }
+        IfNode node = new IfNode(evaluator);
+        nodeStack.peek().appendChild(node);
+        nodeStack.push(node);
+    }
+
+    public void elseDirective() {
+        if (nodeStack.peek() instanceof IfNode) {
+            nodeStack.pop();
+        }
+        ElseNode node = new ElseNode();
+        nodeStack.peek().appendChild(node);
+        nodeStack.push(node);
+    }
+
+    public void endIfElseDirective() {
+        if ((nodeStack.peek() instanceof ElseNode)
+                || (nodeStack.peek() instanceof IfNode)) {
+            nodeStack.pop();
+        }
+        nodeStack.pop();
+    }
+
+    public void microsoftDirective(String name,
+            StringInterpolationSequence value) {
+        MicrosoftRuleNode node = new MicrosoftRuleNode(name, value);
+        nodeStack.peek().appendChild(node);
+    }
+
+    // rule that is passed to the output as-is (except variable value
+    // substitution) - no children
+    public void unrecognizedRule(String text) {
+        SimpleNode node = new SimpleNode(text);
+        nodeStack.peek().appendChild(node);
+    }
+
+    public void startKeyFrames(String keyframeName,
+            StringInterpolationSequence animationName) {
+        KeyframesNode node = new KeyframesNode(keyframeName, animationName);
+        nodeStack.peek().appendChild(node);
+        nodeStack.push(node);
+
+    }
+
+    public void endKeyFrames() {
+        nodeStack.pop();
+
+    }
+
+    public void startKeyframeSelector(String selector) {
+        KeyframeSelectorNode node = new KeyframeSelectorNode(selector);
+        nodeStack.peek().appendChild(node);
+        nodeStack.push(node);
+
+    }
+
+    public void endKeyframeSelector() {
+        nodeStack.pop();
+    }
+
+    public void contentDirective() {
+        ContentNode node = new ContentNode();
+        nodeStack.peek().appendChild(node);
+    }
+
+    public void returnDirective(SassListItem expr) {
+        ReturnNode node = new ReturnNode(expr);
+        nodeStack.peek().appendChild(node);
+    }
+
+    public void startInclude(String name, List<Variable> args,
+            boolean hasVariableArgs) {
+        MixinNode node = new MixinNode(name, args, hasVariableArgs);
+        nodeStack.peek().appendChild(node);
+        nodeStack.push(node);
+
+    }
+
+    public void endInclude() {
+        nodeStack.pop();
+    }
+
+    private void log(Object object) {
+        if (object != null) {
+            log(object.toString());
+        } else {
+            log(null);
+        }
+    }
+
+    private void log(String msg) {
+        SCSSErrorHandler.get().debug( msg );
+    }
+
+    public void property(String name, SCSSLexicalUnit value, boolean important)
+            throws CSSException {
+        // This method needs to be here due to an implemented interface.
+        throw new CSSException("Unsupported call: property(" + name + ", "
+                + value + ", important: " + important + ")");
+    }
 
 }

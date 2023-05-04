@@ -34,8 +34,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.w3c.css.sac.LexicalUnit;
-
 import com.vaadin.sass.internal.ScssContext;
 import com.vaadin.sass.internal.expression.exception.IncompatibleUnitsException;
 import com.vaadin.sass.internal.parser.function.AbsFunctionGenerator;
@@ -82,7 +80,7 @@ import com.vaadin.sass.internal.util.StringUtil;
  * 
  * @modified Sebastian Nyholm @ Vaadin Ltd
  */
-public class LexicalUnitImpl implements LexicalUnit, SCSSLexicalUnit,
+public class LexicalUnitImpl implements SCSSLexicalUnit,
         SassListItem, Serializable {
     private static final long serialVersionUID = -6649833716809789399L;
 
@@ -153,25 +151,12 @@ public class LexicalUnitImpl implements LexicalUnit, SCSSLexicalUnit,
         return column;
     }
 
-    @Override
     public short getLexicalUnitType() {
         return type;
     }
 
     private void setLexicalUnitType(short type) {
         this.type = type;
-    }
-
-    @Override
-    @Deprecated
-    public LexicalUnitImpl getNextLexicalUnit() {
-        return null;
-    }
-
-    @Override
-    @Deprecated
-    public LexicalUnitImpl getPreviousLexicalUnit() {
-        return null;
     }
 
     public boolean isUnitlessNumber() {
@@ -187,34 +172,33 @@ public class LexicalUnitImpl implements LexicalUnit, SCSSLexicalUnit,
     public boolean isNumber() {
         short type = getLexicalUnitType();
         switch (type) {
-        case LexicalUnit.SAC_INTEGER:
-        case LexicalUnit.SAC_REAL:
-        case LexicalUnit.SAC_EM:
-        case SCSSLexicalUnit.SAC_LEM:
-        case SCSSLexicalUnit.SAC_REM:
-        case LexicalUnit.SAC_EX:
-        case LexicalUnit.SAC_PIXEL:
-        case LexicalUnit.SAC_INCH:
-        case LexicalUnit.SAC_CENTIMETER:
-        case LexicalUnit.SAC_MILLIMETER:
-        case LexicalUnit.SAC_POINT:
-        case LexicalUnit.SAC_PICA:
-        case LexicalUnit.SAC_PERCENTAGE:
-        case LexicalUnit.SAC_DEGREE:
-        case LexicalUnit.SAC_GRADIAN:
-        case LexicalUnit.SAC_RADIAN:
-        case LexicalUnit.SAC_MILLISECOND:
-        case LexicalUnit.SAC_SECOND:
-        case LexicalUnit.SAC_HERTZ:
-        case LexicalUnit.SAC_KILOHERTZ:
-        case LexicalUnit.SAC_DIMENSION:
+        case SAC_INTEGER:
+        case SAC_REAL:
+        case SAC_EM:
+        case SAC_LEM:
+        case SAC_REM:
+        case SAC_EX:
+        case SAC_PIXEL:
+        case SAC_INCH:
+        case SAC_CENTIMETER:
+        case SAC_MILLIMETER:
+        case SAC_POINT:
+        case SAC_PICA:
+        case SAC_PERCENTAGE:
+        case SAC_DEGREE:
+        case SAC_GRADIAN:
+        case SAC_RADIAN:
+        case SAC_MILLISECOND:
+        case SAC_SECOND:
+        case SAC_HERTZ:
+        case SAC_KILOHERTZ:
+        case SAC_DIMENSION:
             return true;
         default:
             return false;
         }
     }
 
-    @Override
     public int getIntegerValue() {
         return i;
     }
@@ -224,7 +208,6 @@ public class LexicalUnitImpl implements LexicalUnit, SCSSLexicalUnit,
         f = i;
     }
 
-    @Override
     public float getFloatValue() {
         return f;
     }
@@ -250,7 +233,6 @@ public class LexicalUnitImpl implements LexicalUnit, SCSSLexicalUnit,
         i = (int) f;
     }
 
-    @Override
     public String getDimensionUnitText() {
         switch (type) {
         case SAC_INTEGER:
@@ -260,9 +242,9 @@ public class LexicalUnitImpl implements LexicalUnit, SCSSLexicalUnit,
             return "%";
         case SAC_EM:
             return "em";
-        case SCSSLexicalUnit.SAC_LEM:
+        case SAC_LEM:
             return "lem";
-        case SCSSLexicalUnit.SAC_REM:
+        case SAC_REM:
             return "rem";
         case SAC_EX:
             return "ex";
@@ -307,26 +289,12 @@ public class LexicalUnitImpl implements LexicalUnit, SCSSLexicalUnit,
         s = new StringInterpolationSequence(str);
     }
 
-    @Override
     public String getFunctionName() {
         return fname;
     }
 
-    @Override
-    public LexicalUnitImpl getParameters() {
-        // use getParameterList() instead
-        return null;
-    }
-
     public ActualArgumentList getParameterList() {
         return params;
-    }
-
-    @Override
-    public LexicalUnitImpl getSubValues() {
-        // should not be used, this method is only here because of an
-        // implemented interface
-        return null;
     }
 
     /**
@@ -915,82 +883,82 @@ public class LexicalUnitImpl implements LexicalUnit, SCSSLexicalUnit,
         case SCSS_NULL:
             text = "";
             break;
-        case LexicalUnit.SAC_OPERATOR_COMMA:
+        case SAC_OPERATOR_COMMA:
             text = ",";
             break;
-        case LexicalUnit.SAC_OPERATOR_PLUS:
+        case SAC_OPERATOR_PLUS:
             text = "+";
             break;
-        case LexicalUnit.SAC_OPERATOR_MINUS:
+        case SAC_OPERATOR_MINUS:
             text = "-";
             break;
-        case LexicalUnit.SAC_OPERATOR_MULTIPLY:
+        case SAC_OPERATOR_MULTIPLY:
             text = "*";
             break;
-        case LexicalUnit.SAC_OPERATOR_SLASH:
+        case SAC_OPERATOR_SLASH:
             text = "/";
             break;
-        case LexicalUnit.SAC_OPERATOR_MOD:
+        case SAC_OPERATOR_MOD:
             text = "%";
             break;
-        case LexicalUnit.SAC_OPERATOR_EXP:
+        case SAC_OPERATOR_EXP:
             text = "^";
             break;
-        case LexicalUnitImpl.SCSS_OPERATOR_LEFT_PAREN:
+        case SCSS_OPERATOR_LEFT_PAREN:
             text = "(";
             break;
-        case LexicalUnitImpl.SCSS_OPERATOR_RIGHT_PAREN:
+        case SCSS_OPERATOR_RIGHT_PAREN:
             text = ")";
             break;
-        case LexicalUnitImpl.SCSS_OPERATOR_EQUALS:
+        case SCSS_OPERATOR_EQUALS:
             text = "==";
             break;
-        case LexicalUnitImpl.SCSS_OPERATOR_NOT_EQUAL:
+        case SCSS_OPERATOR_NOT_EQUAL:
             text = "!=";
             break;
-        case LexicalUnit.SAC_OPERATOR_LT:
+        case SAC_OPERATOR_LT:
             text = "<";
             break;
-        case LexicalUnit.SAC_OPERATOR_GT:
+        case SAC_OPERATOR_GT:
             text = ">";
             break;
-        case LexicalUnit.SAC_OPERATOR_LE:
+        case SAC_OPERATOR_LE:
             text = "<=";
             break;
-        case LexicalUnit.SAC_OPERATOR_GE:
+        case SAC_OPERATOR_GE:
             text = "=>";
             break;
-        case LexicalUnit.SAC_OPERATOR_TILDE:
+        case SAC_OPERATOR_TILDE:
             text = "~";
             break;
-        case LexicalUnit.SAC_INHERIT:
+        case SAC_INHERIT:
             text = "inherit";
             break;
-        case LexicalUnit.SAC_INTEGER:
+        case SAC_INTEGER:
             text = Integer.toString(getIntegerValue());
             break;
-        case LexicalUnit.SAC_REAL:
+        case SAC_REAL:
             text = getFloatOrInteger();
             break;
-        case LexicalUnit.SAC_EM:
-        case SCSSLexicalUnit.SAC_LEM:
-        case SCSSLexicalUnit.SAC_REM:
-        case LexicalUnit.SAC_EX:
-        case LexicalUnit.SAC_PIXEL:
-        case LexicalUnit.SAC_INCH:
-        case LexicalUnit.SAC_CENTIMETER:
-        case LexicalUnit.SAC_MILLIMETER:
-        case LexicalUnit.SAC_POINT:
-        case LexicalUnit.SAC_PICA:
-        case LexicalUnit.SAC_PERCENTAGE:
-        case LexicalUnit.SAC_DEGREE:
-        case LexicalUnit.SAC_GRADIAN:
-        case LexicalUnit.SAC_RADIAN:
-        case LexicalUnit.SAC_MILLISECOND:
-        case LexicalUnit.SAC_SECOND:
-        case LexicalUnit.SAC_HERTZ:
-        case LexicalUnit.SAC_KILOHERTZ:
-        case LexicalUnit.SAC_DIMENSION:
+        case SAC_EM:
+        case SAC_LEM:
+        case SAC_REM:
+        case SAC_EX:
+        case SAC_PIXEL:
+        case SAC_INCH:
+        case SAC_CENTIMETER:
+        case SAC_MILLIMETER:
+        case SAC_POINT:
+        case SAC_PICA:
+        case SAC_PERCENTAGE:
+        case SAC_DEGREE:
+        case SAC_GRADIAN:
+        case SAC_RADIAN:
+        case SAC_MILLISECOND:
+        case SAC_SECOND:
+        case SAC_HERTZ:
+        case SAC_KILOHERTZ:
+        case SAC_DIMENSION:
             text = getFloatOrInteger() + getDimensionUnitText();
             break;
         }
@@ -1003,20 +971,20 @@ public class LexicalUnitImpl implements LexicalUnit, SCSSLexicalUnit,
         String text = simpleAsString();
         if (text == null) {
             switch (type) {
-            case LexicalUnit.SAC_URI:
+            case SAC_URI:
                 text = "url(" + getStringValue() + ")";
                 break;
-            case LexicalUnit.SAC_RGBCOLOR:
+            case SAC_RGBCOLOR:
                 int[] rgb = getRgb();
                 if (rgb != null) {
                     text = ColorUtil.rgbToColorString(rgb);
                     break;
                 }
                 //$FALL-THROUGH$ else fall through to the function branch
-            case LexicalUnit.SAC_COUNTER_FUNCTION:
-            case LexicalUnit.SAC_COUNTERS_FUNCTION:
-            case LexicalUnit.SAC_RECT_FUNCTION:
-            case LexicalUnit.SAC_FUNCTION:
+            case SAC_COUNTER_FUNCTION:
+            case SAC_COUNTERS_FUNCTION:
+            case SAC_RECT_FUNCTION:
+            case SAC_FUNCTION:
                 if (ColorUtil.isColor(this)) {
                     text = ColorUtil.rgbToColorString(ColorUtil
                             .colorToRgb(this));
@@ -1044,20 +1012,20 @@ public class LexicalUnitImpl implements LexicalUnit, SCSSLexicalUnit,
                 }
                 text = fname + "(" + params.buildString(strategy) + ")";
                 break;
-            case LexicalUnit.SAC_IDENT:
+            case SAC_IDENT:
                 text = getStringValue();
                 break;
-            case LexicalUnit.SAC_STRING_VALUE:
+            case SAC_STRING_VALUE:
                 // @@SEEME. not exact
                 text = "\"" + getStringValue() + "\"";
                 break;
-            case LexicalUnit.SAC_ATTR:
+            case SAC_ATTR:
                 text = "attr(" + getStringValue() + ")";
                 break;
-            case LexicalUnit.SAC_UNICODERANGE:
+            case SAC_UNICODERANGE:
                 text = "@@TODO";
                 break;
-            case LexicalUnit.SAC_SUB_EXPRESSION:
+            case SAC_SUB_EXPRESSION:
                 text = strategy.build(getParameterList());
                 break;
             default:
@@ -1075,9 +1043,9 @@ public class LexicalUnitImpl implements LexicalUnit, SCSSLexicalUnit,
                 || !checkLexicalUnitType(params.get(2), SAC_INTEGER)) {
             return null;
         }
-        int red = ((LexicalUnit) params.get(0)).getIntegerValue();
-        int green = ((LexicalUnit) params.get(1)).getIntegerValue();
-        int blue = ((LexicalUnit) params.get(2)).getIntegerValue();
+        int red = ((LexicalUnitImpl) params.get(0)).getIntegerValue();
+        int green = ((LexicalUnitImpl) params.get(1)).getIntegerValue();
+        int blue = ((LexicalUnitImpl) params.get(2)).getIntegerValue();
         return new int[] { red, green, blue };
     }
 

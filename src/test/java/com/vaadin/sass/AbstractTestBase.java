@@ -26,10 +26,10 @@ import org.apache.commons.io.IOUtils;
 import org.w3c.css.sac.CSSException;
 
 import com.vaadin.sass.internal.ScssStylesheet;
-import com.vaadin.sass.internal.handler.SCSSDocumentHandlerImpl;
+import com.vaadin.sass.internal.handler.SCSSDocumentHandler;
 import com.vaadin.sass.testcases.scss.AssertErrorHandler;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 public abstract class AbstractTestBase {
 
@@ -43,7 +43,7 @@ public abstract class AbstractTestBase {
     public ScssStylesheet getStyleSheet(String filename)
             throws URISyntaxException, CSSException, IOException {
         File file = getFile(filename);
-        stylesheet = ScssStylesheet.get(file.getAbsolutePath(), null, new SCSSDocumentHandlerImpl(), new AssertErrorHandler() );
+        stylesheet = ScssStylesheet.get(file.getAbsolutePath(), null, new SCSSDocumentHandler(), new AssertErrorHandler() );
         return stylesheet;
     }
 

@@ -32,7 +32,6 @@ import org.junit.Assert;
 
 import com.vaadin.sass.internal.ScssStylesheet;
 import com.vaadin.sass.internal.handler.SCSSDocumentHandler;
-import com.vaadin.sass.internal.handler.SCSSDocumentHandlerImpl;
 import com.vaadin.sass.internal.handler.SCSSErrorHandler;
 import com.vaadin.sass.testcases.scss.SassTestRunner.FactoryTest;
 
@@ -84,7 +83,7 @@ public abstract class AbstractDirectoryScanningSassTests {
     public void compareScssWithCss(String scssResourceName) throws Exception {
         File scssFile = getSassLangResourceFile(scssResourceName);
 
-        SCSSDocumentHandler documentHandler = new SCSSDocumentHandlerImpl();
+        SCSSDocumentHandler documentHandler = new SCSSDocumentHandler();
         SCSSErrorHandler errorHandler = new AssertErrorHandler();
 
         ScssStylesheet scssStylesheet = ScssStylesheet.get(

@@ -19,17 +19,16 @@ package com.vaadin.sass.testcases.scss;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-import junit.framework.Assert;
-
 import org.junit.Test;
 import org.w3c.css.sac.CSSException;
 
 import com.vaadin.sass.AbstractTestBase;
 import com.vaadin.sass.internal.ScssStylesheet;
 import com.vaadin.sass.internal.handler.SCSSDocumentHandler;
-import com.vaadin.sass.internal.handler.SCSSDocumentHandlerImpl;
 import com.vaadin.sass.internal.parser.Parser;
 import com.vaadin.sass.internal.tree.CommentNode;
+
+import junit.framework.Assert;
 
 public class Comments extends AbstractTestBase {
     String scss = "/scss/comments.scss";
@@ -39,7 +38,7 @@ public class Comments extends AbstractTestBase {
     public void testParser() throws CSSException, URISyntaxException,
             IOException {
         Parser parser = new Parser();
-        SCSSDocumentHandler handler = new SCSSDocumentHandlerImpl();
+        SCSSDocumentHandler handler = new SCSSDocumentHandler();
         parser.setDocumentHandler(handler);
         parser.parseStyleSheet(getClass().getResource(scss).getPath());
         ScssStylesheet root = handler.getStyleSheet();
