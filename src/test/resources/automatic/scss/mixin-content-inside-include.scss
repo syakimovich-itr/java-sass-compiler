@@ -1,0 +1,15 @@
+@mixin sub-rule {
+    @content;
+}
+
+@mixin parent-rule {
+    @include sub-rule {
+      @content;
+    }
+}
+
+.foobar {
+    @include parent-rule {
+        color: red;
+    }
+}
