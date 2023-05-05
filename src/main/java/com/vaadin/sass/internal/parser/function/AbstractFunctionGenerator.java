@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -58,7 +59,7 @@ public abstract class AbstractFunctionGenerator implements
 
     @Override
     public SassListItem compute(ScssContext context, LexicalUnitImpl function) {
-        ActualArgumentList args = function.getParameterList();
+        ActualArgumentList args = function.getParameterList().expandVariableArguments();
         FormalArgumentList functionArguments;
         try {
             functionArguments = arguments.replaceFormalArguments(args,
