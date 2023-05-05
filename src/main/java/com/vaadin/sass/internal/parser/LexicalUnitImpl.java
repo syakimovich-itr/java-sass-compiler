@@ -1020,6 +1020,9 @@ public class LexicalUnitImpl implements SCSSLexicalUnit,
                 }
                 text = fname + "(" + params.buildString(strategy) + ")";
                 break;
+            case SCSS_GET_FUNCTION:
+                text = "get-function(" + fname + ")";
+                break;
             case SAC_IDENT:
                 text = getStringValue();
                 break;
