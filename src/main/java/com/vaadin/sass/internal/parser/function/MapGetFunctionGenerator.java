@@ -13,33 +13,43 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-
 package com.vaadin.sass.internal.parser.function;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import com.vaadin.sass.internal.ScssContext;
 import com.vaadin.sass.internal.parser.FormalArgumentList;
 import com.vaadin.sass.internal.parser.LexicalUnitImpl;
+import com.vaadin.sass.internal.parser.ParseException;
 import com.vaadin.sass.internal.parser.SassList;
-import com.vaadin.sass.internal.parser.SassList.Separator;
 import com.vaadin.sass.internal.parser.SassListItem;
+import com.vaadin.sass.internal.parser.SassList.Separator;
 
-public class MapMergeFunctionGenerator extends MapFunctionGenerator {
+/**
+ * The SASS function "map-get(map,x)".
+ */
+public class MapGetFunctionGenerator extends MapFunctionGenerator {
 
-    public MapMergeFunctionGenerator() {
-        super( createArgumentList( new String[] { "map1", "map2" }, false ), "map-merge" );
+    public MapGetFunctionGenerator() {
+        super( createArgumentList( new String[] { "map", "key" }, false ), "map-get" );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected SassListItem computeForArgumentList( ScssContext context, LexicalUnitImpl function, FormalArgumentList actualArguments ) {
-        SassList x = getMapParam( "map1", function, actualArguments );
-        SassList y = getMapParam( "map2", function, actualArguments );
+        SassList map = getMapParam( "map", function, actualArguments );
+        String key = getParam( actualArguments, "key" ).unquotedString();
 
-        ArrayList<SassListItem> items = new ArrayList<>();
-        x.addAllTo( items );
-        y.addAllTo( items );
-        //a map is a COMMA separated list, which contains n lists with 2 items and COLON as separator
-        return new SassList( Separator.COMMA, items );
+        for( SassListItem item : map ) {
+            SassListItem itemKey = ((SassList)item).get( 0 );
+            String keyStr = itemKey.unquotedString();
+            if( Objects.equals( key, keyStr )) {
+                return ((SassList)item).get( 1 );
+            }
+        }
+        return LexicalUnitImpl.createNull( function.getUri(), function.getLineNumber(), function.getColumnNumber() );
     }
 }

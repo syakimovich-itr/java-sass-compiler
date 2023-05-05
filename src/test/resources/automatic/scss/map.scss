@@ -1,0 +1,10 @@
+$colors-base: (
+  "primary":    orange,
+  "secondary":  yellow,
+  "success":    green,
+);
+
+.tag {
+  color: map-get( $colors-base, "primary" );
+  other: map-get( $colors-base, "doesNotExists" );
+}
