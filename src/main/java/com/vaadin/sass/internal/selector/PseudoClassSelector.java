@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -26,7 +27,7 @@ import com.vaadin.sass.internal.parser.Variable;
  */
 public class PseudoClassSelector extends SimpleSelector {
     private StringInterpolationSequence pseudoClass;
-    private String argument = null;
+    private String argument;
 
     public PseudoClassSelector(StringInterpolationSequence pseudoClass) {
         this(pseudoClass, null);

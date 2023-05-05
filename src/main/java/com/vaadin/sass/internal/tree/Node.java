@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -36,7 +37,7 @@ public abstract class Node implements Serializable {
 
     private static final long serialVersionUID = 5914711715839294816L;
 
-    private ArrayList<Node> children = null;
+    private ArrayList<Node> children;
 
     private Node parentNode;
 

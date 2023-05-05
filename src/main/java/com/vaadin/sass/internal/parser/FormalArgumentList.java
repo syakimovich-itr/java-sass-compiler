@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -41,7 +42,7 @@ import com.vaadin.sass.internal.ScssContext;
 public class FormalArgumentList implements Serializable, Iterable<Variable> {
 
     private ArrayList<Variable> arglist;
-    private String variableArgumentName = null;
+    private String variableArgumentName;
 
     public FormalArgumentList(Collection<Variable> args,
             boolean hasVariableArguments) {

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -27,7 +28,7 @@ public class RuleNode extends Node implements IVariableNode, NodeWithUrlContent 
     private static final long serialVersionUID = 6653493127869037022L;
 
     StringInterpolationSequence variable;
-    SassListItem value = null;
+    SassListItem value;
     String comment;
     private boolean important;
 

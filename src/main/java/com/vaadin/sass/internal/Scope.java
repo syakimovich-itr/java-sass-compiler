@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -32,12 +33,12 @@ public class Scope {
     private static class DefinitionScope<T extends Definition> {
         private DefinitionScope<T> parent;
         // optimization: create map only when needed
-        private HashMap<String, T> definitions = null;
+        private HashMap<String, T> definitions;
         // cached iterable, null when invalid
         // Note that the set of variables in parent scope is not modified
         // directly while a child scope is active even though the values of the
         // variables may change.
-        private Iterable<T> cache = null;
+        private Iterable<T> cache;
 
         public DefinitionScope(DefinitionScope<T> parent) {
             this.parent = parent;

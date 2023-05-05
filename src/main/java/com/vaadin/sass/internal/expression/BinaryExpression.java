@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -19,9 +20,9 @@ package com.vaadin.sass.internal.expression;
 import com.vaadin.sass.internal.parser.SassListItem;
 
 public class BinaryExpression {
-    public Object leftOperand = null;
-    public BinaryOperator operator = null;
-    public Object rightOperand = null;
+    public Object leftOperand;
+    public BinaryOperator operator;
+    public Object rightOperand;
 
     /**
      * Create a binary expression.
