@@ -172,14 +172,20 @@ public class SassList implements SassListItem, Iterable<SassListItem>,
             SassList sassList = (SassList)item;
             int size = sassList.size();
             if( size == 1 ) {
-                return flatten( sassList.get( 0 ) );
-            } else {
-                List<SassListItem> items = sassList.items;
-                for( int i = 0; i < size; i++ ) {
-                    items.set( i, flatten( items.get( i ) ) );
+                SassListItem first = sassList.get( 0 );
+                if( !(first instanceof SassList) ) {
+                    return first;
                 }
-                return sassList;
+                // does not destroy a map with a single entry
+                if( ((SassList)first).getSeparator() != Separator.COLON ) {
+                    return flatten( first );
+                }
             }
+            List<SassListItem> items = sassList.items;
+            for( int i = 0; i < size; i++ ) {
+                items.set( i, flatten( items.get( i ) ) );
+            }
+            return sassList;
         } else {
             return item;
         }

@@ -1,12 +1,12 @@
 $colors-base: (
   "primary":    orange,
   "secondary":  yellow,
+  "success":    green,
 );
 
 $colors: map-merge(
     $colors-base,
     (
-       "success":    green,
        "info":       blue
     )
 );
