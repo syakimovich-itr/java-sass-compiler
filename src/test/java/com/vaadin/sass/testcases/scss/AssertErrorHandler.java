@@ -32,4 +32,19 @@ public class AssertErrorHandler extends SCSSErrorHandler {
     public void error( String msg ) throws CSSException {
         Assert.fail( msg );
     }
+
+    @Override
+    public void warning( Throwable th ) {
+        th.printStackTrace( System.out );
+    }
+
+    @Override
+    public void warning( String msg ) {
+        System.out.println( msg );
+    }
+
+    @Override
+    public void debug( String msg ) {
+        System.out.println( msg );
+    }
 }
