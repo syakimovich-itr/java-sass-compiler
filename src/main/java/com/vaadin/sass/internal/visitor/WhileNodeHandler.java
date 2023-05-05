@@ -16,15 +16,15 @@
  */
 package com.vaadin.sass.internal.visitor;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import com.vaadin.sass.internal.ScssContext;
 import com.vaadin.sass.internal.expression.BinaryOperator;
 import com.vaadin.sass.internal.handler.SCSSErrorHandler;
 import com.vaadin.sass.internal.parser.ParseException;
 import com.vaadin.sass.internal.parser.SassListItem;
-import com.vaadin.sass.internal.tree.IVariableNode;
 import com.vaadin.sass.internal.tree.Node;
 import com.vaadin.sass.internal.tree.controldirective.TemporaryNode;
 import com.vaadin.sass.internal.tree.controldirective.WhileNode;
@@ -39,50 +39,23 @@ public class WhileNodeHandler {
      * @param whileNode
      *            node to replace
      */
-    public static Collection<Node> traverse(ScssContext context,
-            WhileNode whileNode) {
-        Node parent = whileNode.getParentNode();
-        ArrayList<Node> result = new ArrayList<Node>();
-        while (evaluateCondition(context, whileNode)) {
-            ArrayList<Node> nodes = iteration(context, whileNode);
-            if (nodes.size() == 0) {
+    public static Collection<Node> traverse( ScssContext context, WhileNode whileNode ) {
+        TemporaryNode tempParent = new TemporaryNode( whileNode.getParentNode() );
+        List<Node> children = whileNode.getChildren();
+        while( evaluateCondition( context, whileNode ) ) {
+            if( children.size() == 0 ) {
                 SCSSErrorHandler.get().error( new ParseException( "@while loop iteration did nothing, infinite loop", whileNode ) );
-                return result;
+                return children;
             }
-            TemporaryNode temp = new TemporaryNode(parent, nodes);
-            result.addAll(temp.traverse(context));
+            LoopNodeHandler.iteration( context, children, tempParent, Collections.emptyList() );
         }
-        return result;
+        return tempParent.getChildren();
     }
 
-    private static boolean evaluateCondition(ScssContext context,
-            WhileNode whileNode) {
+    private static boolean evaluateCondition( ScssContext context, WhileNode whileNode ) {
         SassListItem condition = whileNode.getCondition();
-        condition = condition.replaceVariables(context);
-        condition = condition.evaluateFunctionsAndExpressions(context, true);
-        return BinaryOperator.isTrue(condition);
+        condition = condition.replaceVariables( context );
+        condition = condition.evaluateFunctionsAndExpressions( context, true );
+        return BinaryOperator.isTrue( condition );
     }
-
-    private static ArrayList<Node> iteration(ScssContext context,
-            WhileNode whileNode) {
-        ArrayList<Node> nodes = new ArrayList<Node>();
-        for (final Node child : whileNode.getChildren()) {
-            Node copy = child.copy();
-            replaceVariables(context, copy);
-            nodes.add(copy);
-        }
-        return nodes;
-    }
-
-    private static void replaceVariables(ScssContext context, Node copy) {
-        if (copy instanceof IVariableNode) {
-            IVariableNode n = (IVariableNode) copy;
-            n.replaceVariables(context);
-        }
-
-        for (Node c : copy.getChildren()) {
-            replaceVariables(context, c);
-        }
-    }
-
 }

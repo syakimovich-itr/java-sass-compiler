@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -51,7 +52,7 @@ public abstract class LoopNodeHandler {
         return tempParent.getChildren();
     }
 
-    private static void iteration( ScssContext context, List<Node> loopChildren, TemporaryNode newParent, List<Variable> loopVariables ) {
+    static void iteration( ScssContext context, List<Node> loopChildren, TemporaryNode newParent, List<Variable> loopVariables ) {
         context.openVariableScope();
         try {
             for( Variable loopVar : loopVariables ) {

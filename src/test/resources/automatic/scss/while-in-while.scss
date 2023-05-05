@@ -1,0 +1,16 @@
+@function while-loops($count) {
+  $result: 0;
+  @while ($count > 0) {
+    $sub: 0;
+    @while ($count > $sub) {
+      $count: $count - 1;
+      $sub: $sub + 1;
+    }
+    $result: $result + $sub;
+  }
+  @return $result;
+}
+
+.tag {
+    d: while-loops(100);
+}
