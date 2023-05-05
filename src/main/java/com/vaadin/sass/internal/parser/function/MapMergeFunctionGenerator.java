@@ -40,7 +40,8 @@ public class MapMergeFunctionGenerator extends AbstractFunctionGenerator {
         ArrayList<SassListItem> items = new ArrayList<>();
         x.addAllTo( items );
         y.addAllTo( items );
-        return new SassList( Separator.COLON, items );
+        //a map is a COMMA separated list, which contains n lists with 2 items and COLON as separator
+        return new SassList( Separator.COMMA, items );
     }
 
     private SassList getMapParam( String paramName, LexicalUnitImpl function, FormalArgumentList actualArguments ) {
