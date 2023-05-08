@@ -622,6 +622,10 @@ public class LexicalUnitImpl implements SCSSLexicalUnit,
         return new LexicalUnitImpl( uri, SCSS_GET_FUNCTION, line, column, fname, null );
     }
 
+    public static LexicalUnitImpl createImportant(  String uri, int line, int column ) {
+        return new LexicalUnitImpl( uri, line, column, SCSS_IMPORTANT );
+    }
+
     public static boolean checkLexicalUnitType(SassListItem item,
             short... lexicalUnitTypes) {
         if (!(item instanceof LexicalUnitImpl)) {
@@ -1040,6 +1044,9 @@ public class LexicalUnitImpl implements SCSSLexicalUnit,
                 break;
             case SAC_SUB_EXPRESSION:
                 text = strategy.build(getParameterList());
+                break;
+            case SCSS_IMPORTANT:
+                text = "!important";
                 break;
             default:
                 text = "@unknown";

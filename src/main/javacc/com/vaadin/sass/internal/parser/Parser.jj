@@ -2287,10 +2287,19 @@ List<SassListItem> term() :
 }
 {
   ( LOOKAHEAD(2) op = unaryOperator() )?
-  ( res = nonVariableTerm(op) | res = variableTerm(op) )
+  ( res = nonVariableTerm(op) | res = variableTerm(op) | res = important(op) )
   {
     return res;
   }
+}
+
+List<SassListItem> important(char op) :
+{}
+{
+    <IMPORTANT_SYM> ( <S> )* {
+        SassListItem item = LexicalUnitImpl.createImportant( source.getURI(), token.beginLine, token.beginColumn );
+        return createList( item, false);
+    }
 }
 
 /**

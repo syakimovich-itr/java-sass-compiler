@@ -262,6 +262,11 @@ public interface SCSSLexicalUnit {
      */
     static final short        SCSS_GET_FUNCTION         = 111;
 
+    /**
+     * "!important" rule
+     */
+    static final short        SCSS_IMPORTANT            = 112;
+
     static final short        SAC_LEM                   = 200;
     static final short        SAC_REM                   = 201;
 

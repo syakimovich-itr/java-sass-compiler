@@ -1,0 +1,12 @@
+.tag {
+    $important: !important;
+    $enabled: true;
+    $disabled: false;
+    $value: red;
+
+    importantFirst: !important 100%;
+    importantLast: 42 !important;
+    importantOnly: $important;
+    importantEnabled: $value if($enabled, !important, null);
+    importantDisabled: $value if($disabled, !important, null);
+}
