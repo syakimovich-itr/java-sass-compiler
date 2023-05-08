@@ -40,6 +40,7 @@ public class RGBFunctionGenerator extends AbstractFunctionGenerator {
     protected SassListItem computeForArgumentList(ScssContext context,
             LexicalUnitImpl function, FormalArgumentList actualArguments) {
         List<SassListItem> components = new ArrayList<SassListItem>();
+        String uri = function.getUri();
         int line = function.getLineNumber();
         int column = function.getColumnNumber();
         for (int i = 0; i < 3; ++i) {
@@ -47,14 +48,12 @@ public class RGBFunctionGenerator extends AbstractFunctionGenerator {
             if (!LexicalUnitImpl
                     .checkLexicalUnitType(item, LexicalUnitImpl.SAC_INTEGER,
                             LexicalUnitImpl.SAC_PERCENTAGE)) {
-                throw new ParseException(
-                        "Invalid parameter to the function rgb(): "
-                                + item.toString(), line, column);
+                throw new ParseException( "Invalid parameter to the function rgb(): " + item.toString(), uri, line, column );
             }
             components.add(item);
         }
         ActualArgumentList params = new ActualArgumentList(
                 SassList.Separator.COMMA, components);
-        return LexicalUnitImpl.createRGBColor( function.getUri(), line, column, params );
+        return LexicalUnitImpl.createRGBColor( uri, line, column, params );
     }
 }

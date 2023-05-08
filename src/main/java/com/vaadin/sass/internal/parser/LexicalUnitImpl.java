@@ -541,28 +541,28 @@ public class LexicalUnitImpl implements SCSSLexicalUnit,
 
     static LexicalUnitImpl createMS( String uri, int line, int column, float v ) {
         if( v < 0 ) {
-            throw new ParseException( "Time values may not be negative", line, column );
+            throw new ParseException( "Time values may not be negative", uri, line, column );
         }
         return new LexicalUnitImpl( uri, line, column, SAC_MILLISECOND, v );
     }
 
     static LexicalUnitImpl createS( String uri, int line, int column, float v ) {
         if( v < 0 ) {
-            throw new ParseException( "Time values may not be negative", line, column );
+            throw new ParseException( "Time values may not be negative", uri, line, column );
         }
         return new LexicalUnitImpl( uri, line, column, SAC_SECOND, v );
     }
 
     static LexicalUnitImpl createHZ( String uri, int line, int column, float v ) {
         if( v < 0 ) {
-            throw new ParseException( "Frequency values may not be negative", line, column );
+            throw new ParseException( "Frequency values may not be negative", uri, line, column );
         }
         return new LexicalUnitImpl( uri, line, column, SAC_HERTZ, v );
     }
 
     static LexicalUnitImpl createKHZ( String uri, int line, int column, float v ) {
         if( v < 0 ) {
-            throw new ParseException( "Frequency values may not be negative", line, column );
+            throw new ParseException( "Frequency values may not be negative", uri, line, column );
         }
         return new LexicalUnitImpl( uri, line, column, SAC_KILOHERTZ, v );
     }
@@ -749,7 +749,7 @@ public class LexicalUnitImpl implements SCSSLexicalUnit,
             if (var != null) {
                 return var.getExpr().replaceVariables(context);
             }
-            throw new ParseException( "Variable was not resolved: " + simpleAsString(), line, column );
+            throw new ParseException( "Variable was not resolved: " + simpleAsString(), uri, line, column );
         }
         return this;
     }

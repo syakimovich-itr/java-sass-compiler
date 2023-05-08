@@ -29,9 +29,7 @@ import org.w3c.css.sac.InputSource;
 
 import com.vaadin.sass.internal.handler.SCSSDocumentHandler;
 import com.vaadin.sass.internal.handler.SCSSErrorHandler;
-import com.vaadin.sass.internal.parser.ParseException;
 import com.vaadin.sass.internal.parser.Parser;
-import com.vaadin.sass.internal.parser.SCSSParseException;
 import com.vaadin.sass.internal.resolver.FilesystemResolver;
 import com.vaadin.sass.internal.resolver.ScssStylesheetResolver;
 import com.vaadin.sass.internal.tree.Node;
@@ -150,14 +148,7 @@ public class ScssStylesheet extends Node {
         Parser parser = new Parser();
         parser.setErrorHandler(errorHandler);
         parser.setDocumentHandler(documentHandler);
-
-        try {
-            parser.parseStyleSheet(source);
-        } catch (ParseException e) {
-            // catch ParseException, re-throw a SCSSParseException which has
-            // file name info.
-            throw new SCSSParseException(e, identifier);
-        }
+        parser.parseStyleSheet(source);
 
         stylesheet.setCharset(parser.getInputSource().getEncoding());
         stylesheet.sourceUris.add(source.getURI());

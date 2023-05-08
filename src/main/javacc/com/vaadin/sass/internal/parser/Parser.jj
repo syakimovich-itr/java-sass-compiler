@@ -44,15 +44,10 @@ import java.util.List;
 import java.util.Locale;
 
 import org.w3c.css.sac.ConditionFactory;
-import org.w3c.css.sac.Condition;
 import org.w3c.css.sac.SelectorFactory;
 import org.w3c.css.sac.SelectorList;
-import org.w3c.css.sac.DocumentHandler;
 import org.w3c.css.sac.InputSource;
-import org.w3c.css.sac.ErrorHandler;
 import org.w3c.css.sac.CSSException;
-import org.w3c.css.sac.CSSParseException;
-import org.w3c.css.sac.Locator;
 
 import org.w3c.flute.parser.selectors.SelectorFactoryImpl;
 import org.w3c.flute.parser.selectors.ConditionFactoryImpl;
@@ -404,64 +399,18 @@ public class Parser {
 	return new Generic_CharStream(source.getCharacterStream(), 1, 1);
     }
 
-    private LocatorImpl currentLocator;
-    private Locator getLocator() {
-	if (currentLocator == null) {
-	    currentLocator = new LocatorImpl(this);
-	    return currentLocator;
-	}
-	return currentLocator.reInit(this);
-    }
-    private LocatorImpl getLocator(Token save) {
-	if (currentLocator == null) {
-	    currentLocator = new LocatorImpl(this, save);
-	    return currentLocator;
-	}
-	return currentLocator.reInit(this, save);
-    }
-
-    private void reportError(Locator l, Exception e) {
-        if( errorHandler != null ) {
-            CSSParseException ex;
-            if( e instanceof ParseException ) {
-                // construct a clean error message.
-                ParseException pe = (ParseException)e;
-                if( pe.specialConstructor ) {
-                    StringBuffer errorM = new StringBuffer();
-                    if( pe.currentToken != null ) {
-                        errorM.append( "encountered " ).append( '"' ).append( pe.currentToken.next );
-                    }
-                    errorM.append( '"' );
-                    if( pe.expectedTokenSequences.length != 0 ) {
-                        errorM.append( ". Was expecting one of: " );
-                        for( int i = 0; i < pe.expectedTokenSequences.length; i++ ) {
-                            for( int j = 0; j < pe.expectedTokenSequences[i].length; j++ ) {
-                                int kind = pe.expectedTokenSequences[i][j];
-                                if( kind != S ) {
-                                    errorM.append( pe.tokenImage[kind] );
-                                    errorM.append( ' ' );
-                                }
-                            }
-                        }
-                    }
-                    ex = new CSSParseException( errorM.toString(), l, e );
-                } else {
-                    ex = new CSSParseException( e.getMessage(), l, e );
-                }
-            } else if( e == null ) {
-                ex = new CSSParseException( "error", l, null );
-            } else {
-                ex = new CSSParseException( e.getMessage(), l, e );
-            }
-            ex.initCause( e );
-            errorHandler.error( ex );
+    private void reportError( Exception ex ) {
+        if( ex instanceof ParseException ) {
+            ParseException pe = (ParseException)ex;
+            pe.setUri( source.getURI() );
         }
+        errorHandler.error( ex );
     }
 
-    private void reportWarningSkipText(Locator l, String text) {
-	if (errorHandler != null && text  != null) {
-	    errorHandler.warning(new CSSParseException("Skipping: " + text, l));
-	}
+    private void reportWarningSkipText( String text ) {
+        if ( text  != null) {
+            errorHandler.warning( "Skipping: " + text + " in file " + source.getURI() );
+        }
     }
 }
 
@@ -779,25 +728,23 @@ void charset() :
     try {
         <CHARSET_SYM> ( <S> )* n=<STRING> ( <S> )* (";" | acceptMissingSemicolon(EOF))
     } catch (ParseException e) {
-        reportError(getLocator(e.currentToken.next), e);
-    skipStatement();
-    // reportWarningSkipText(getLocator(), skipStatement());
+        reportError( e );
+        skipStatement();
     } catch (Exception e) {
-        reportError(getLocator(), e);
-    skipStatement();
-    // reportWarningSkipText(getLocator(), skipStatement());
+        reportError( e );
+        skipStatement();
     }
 }
 
 void topLevelDeclaration() :
-{String ret; 
- Locator l;
+{
+    String ret; 
 }
 {
   ( 
      ( importDeclaration() | debuggingDirective() | mixinDirective() | functionDirective() | controlDirective() | includeDirective() | styleRule() | media() 
              | page() | fontFace() | keyframes() | variable()
-      | { l = getLocator(); } ret=skipStatement() 
+      | ret=skipStatement() 
       {
 	  if ((ret == null) || (ret.length() == 0)) {
 	      return; 
@@ -805,7 +752,7 @@ void topLevelDeclaration() :
 	  if (ret.charAt(0) == '@') {
 	      documentHandler.unrecognizedRule(ret);
 	  } else {
-	      reportWarningSkipText(l, ret);
+	      reportWarningSkipText( ret );
 	  }
       }
       )
@@ -854,9 +801,8 @@ void importDeclaration() :
 	       documentHandler.importStyle(uri, ml, isURL);
 	   }
  } catch (ParseException e) {
-     reportError(getLocator(), e);
+     reportError( e );
      skipStatement();
-     // reportWarningSkipText(getLocator(), skipStatement());
  }
 }
 
@@ -882,7 +828,7 @@ void keyframes() :
    }
    <LBRACE> ( <S> )* ( keyframeSelector() | contentDirective() )* <RBRACE> ( <S> )*
  } catch (ParseException e) {
-     reportError(getLocator(), e);
+     reportError( e );
      skipStatement();
  } finally {
      if (start) {
@@ -910,18 +856,12 @@ void keyframeSelector():
         <RBRACE> (<S>)*
     }
     catch (ThrowedParseException e) {
-        if (errorHandler != null) {
-            LocatorImpl li = new LocatorImpl(this,
-                                             e.e.currentToken.next.beginLine,
-                                             e.e.currentToken.next.beginColumn-1);
-            reportError(li, e.e);
-        }
+        reportError( e.e );
     } catch (ParseException e) {
-        reportError(getLocator(), e);
+        reportError( e );
         skipStatement();
-        // reportWarningSkipText(getLocator(), skipStatement());
     } catch (TokenMgrError e) {
-        reportWarningSkipText(getLocator(), skipStatement());
+        reportWarningSkipText( skipStatement() );
     } finally {
         if (start) {
             documentHandler.endKeyframeSelector();
@@ -946,9 +886,8 @@ void media() :
    { start = true; documentHandler.startMedia(ml); }
    <LBRACE> ( <S> )* ( mediaDirective() )*	<RBRACE> ( <S> )*
  } catch (ParseException e) {
-     reportError(getLocator(), e);
+     reportError( e );
      skipStatement();
-     // reportWarningSkipText(getLocator(), skipStatement());
  } finally {
      if (start) {
      documentHandler.endMedia(ml);
@@ -1028,16 +967,8 @@ void page() :
      ( declaration() )? ( ";" ( <S> )* ( declaration() )? )* 
      <RBRACE> (<S>)*
  } catch (ParseException e) {
-     if (errorHandler != null) {
-	 LocatorImpl li = new LocatorImpl(this,
-					  e.currentToken.next.beginLine,
-					  e.currentToken.next.beginColumn-1);
-	 reportError(li, e);
+	 reportError( e );
 	 skipStatement();
-	 // reportWarningSkipText(li, skipStatement());
-     } else {
-	 skipStatement();
-     }
  } finally {
      if (start) {
 	 documentHandler.endPage(page, pseudo);
@@ -1063,9 +994,8 @@ void fontFace() :
      ( declaration() | controlDirective() )? ( ";" ( <S> )* ( declaration() | controlDirective() )? )*
      <RBRACE> (<S>)*
  } catch (ParseException e) {
-     reportError(getLocator(), e);
+     reportError( e );
      skipStatement();
-     // reportWarningSkipText(getLocator(), skipStatement());
  } finally {
      if (start) {
 	 documentHandler.endFontFace();
@@ -1087,7 +1017,7 @@ void atRuleDeclaration() :
 	if ((ret != null) && (ret.charAt(0) == '@')) {
 	    documentHandler.unrecognizedRule(ret);
 	} else {
-	    reportWarningSkipText(getLocator(), ret);
+	    reportWarningSkipText( ret );
 	}
     }
 }
@@ -1120,12 +1050,11 @@ void skipUnknownRule() :
 | n=<UNKNOWN>
    ) {
      String ret;
-     Locator loc = getLocator();
      ret=skipStatement();
      if ((ret != null) && (n.image.charAt(0) == '@')) {
 	 documentHandler.unrecognizedRule(ret);
      } else {
-     reportWarningSkipText(loc, ret);
+     reportWarningSkipText( ret );
      }
  }
 }
@@ -1237,7 +1166,6 @@ void styleRule() :
     boolean start = false;
     List<Selector> l = null;
     Token save;
-    Locator loc;
 }
 {
  try {
@@ -1250,18 +1178,12 @@ void styleRule() :
      ( ifContentStatement() | importDeclaration() )*
      <RBRACE> (<S>)*
  } catch (ThrowedParseException e) {
-     if (errorHandler != null) {
-	 LocatorImpl li = new LocatorImpl(this,
-					  e.e.currentToken.next.beginLine,
-					  e.e.currentToken.next.beginColumn-1);
-	 reportError(li, e.e);
-     }
+	 reportError( e.e );
  } catch (ParseException e) {
-     reportError(getLocator(), e);
+     reportError( e );
      skipStatement();
-     // reportWarningSkipText(getLocator(), skipStatement());
  } catch (TokenMgrError e) {
-     reportWarningSkipText(getLocator(), skipStatement());
+     reportWarningSkipText( skipStatement() );
  } finally {
      if (start) {
 	 documentHandler.endSelector();
@@ -1472,25 +1394,11 @@ void variable() :
     } catch (JumpException e) {
         skipAfterExpression();
     } catch (NumberFormatException e) {
-        if (errorHandler != null) {
-            errorHandler.error(new CSSParseException("Invalid number "
-                               + e.getMessage(), getLocator(), e));
-        }
-        reportWarningSkipText(getLocator(), skipAfterExpression());
-    } catch (ParseException e) {
-        if (errorHandler != null) {
-            if (e.currentToken != null) {
-                LocatorImpl li = new LocatorImpl(this,
-                              e.currentToken.next.beginLine,
-                              e.currentToken.next.beginColumn-1);
-                reportError(li, e);
-            } else {
-                reportError(getLocator(), e);
-            }
-            skipAfterExpression();
-        } else {
+        reportError( e );
         skipAfterExpression();
-        }
+    } catch (ParseException e) {
+        reportError( e );
+        skipAfterExpression();
     }
 }
 
@@ -2039,26 +1947,9 @@ void styleRuleOrDeclarationOrNestedProperties() :
       ( debuggingDirective() | LOOKAHEAD(selectorList()<LBRACE>) styleRule() | LOOKAHEAD(3)declarationOrNestedProperties() | styleRule())
   } catch (JumpException e) {
      skipAfterExpression();
-     // reportWarningSkipText(getLocator(), skipAfterExpression());
   } catch (ParseException e) {
-     if (errorHandler != null) {
-         if (e.currentToken != null) {
-             LocatorImpl li = new LocatorImpl(this,
-                                              e.currentToken.next.beginLine,
-                                              e.currentToken.next.beginColumn-1);
-             reportError(li, e);
-         } else {
-             reportError(getLocator(), e);
-         }
-         skipAfterExpression();
-         /*
-         LocatorImpl loc = (LocatorImpl) getLocator();
-         loc.column--;
-         reportWarningSkipText(loc, skipAfterExpression());
-         */
-     } else {
-         skipAfterExpression();
-     }
+     reportError( e );
+     skipAfterExpression();
   }
 }
 /**
@@ -2110,34 +2001,12 @@ void declarationOrNestedProperties() :
      
  } catch (JumpException e) {
      skipAfterExpression();
-     // reportWarningSkipText(getLocator(), skipAfterExpression());
  } catch (NumberFormatException e) {
-     if (errorHandler != null) {
-         errorHandler.error(new CSSParseException("Invalid number " 
-                                                  + e.getMessage(),
-                                                  getLocator(), 
-                                                  e));
-     }
-     reportWarningSkipText(getLocator(), skipAfterExpression());
+     reportError( e );
+     skipAfterExpression();
  } catch (ParseException e) {
-     if (errorHandler != null) {
-         if (e.currentToken != null) {
-             LocatorImpl li = new LocatorImpl(this,
-                                              e.currentToken.next.beginLine,
-                                              e.currentToken.next.beginColumn-1);
-             reportError(li, e);
-         } else {
-             reportError(getLocator(), e);
-         }
-         skipAfterExpression();
-         /*
-         LocatorImpl loc = (LocatorImpl) getLocator();
-         loc.column--;
-         reportWarningSkipText(loc, skipAfterExpression());
-         */
-     } else {
-         skipAfterExpression();
-     }
+     reportError( e );
+     skipAfterExpression();
  }
 }
 
@@ -2159,34 +2028,12 @@ void declaration() :
      }
  } catch (JumpException e) {
      skipAfterExpression();
-     // reportWarningSkipText(getLocator(), skipAfterExpression());
  } catch (NumberFormatException e) {
-     if (errorHandler != null) {
-	 errorHandler.error(new CSSParseException("Invalid number " 
-						  + e.getMessage(),
-						  getLocator(), 
-						  e));
-     }
-     reportWarningSkipText(getLocator(), skipAfterExpression());
+     reportError( e );
+     skipAfterExpression();
  } catch (ParseException e) {
-     if (errorHandler != null) {
-	 if (e.currentToken != null) {
-	     LocatorImpl li = new LocatorImpl(this,
-					      e.currentToken.next.beginLine,
-					      e.currentToken.next.beginColumn-1);
-	     reportError(li, e);
-	 } else {
-	     reportError(getLocator(), e);
-	 }
-	 skipAfterExpression();
-	 /*
-	 LocatorImpl loc = (LocatorImpl) getLocator();
-	 loc.column--;
-	 reportWarningSkipText(loc, skipAfterExpression());
-	 */
-     } else {
-	 skipAfterExpression();
-     }
+     reportError( e );
+     skipAfterExpression();
  }
 }
 
@@ -2308,7 +2155,7 @@ SassList parenthesizedExpressionList():
             subList = expressionSubList() { primaryList.add(subList);commaCount = 0; }
          )? {
             // accept only one comma at end of a list
-            if( commaCount>1 ) throw new ParseException("Expected expression after comma", n.beginLine, n.beginColumn );
+            if( commaCount>1 ) throw new ParseException("Expected expression after comma", source.getURI(), n.beginLine, n.beginColumn );
             commaCount++;
          }
     | < COLON > (<S>)* subList = expressionSubList(){
@@ -2698,9 +2545,8 @@ LexicalUnitImpl function(char operator) :
     ")"
     {
         if (operator != ' ') {
-        throw new CSSParseException("invalid operator before a function.", 
-                    getLocator());
-        }            
+            throw new ParseException("invalid operator before a function.", source.getURI(), token.beginLine, token.beginColumn );
+        }
         String f = convertIdent(n.image);
         // f contains the opening parenthesis of the function call
         return LexicalUnitImpl.createFunction(  source.getURI(), n.beginLine, n.beginColumn, f.substring(0, f.length() -1), params );
@@ -2756,8 +2602,7 @@ LexicalUnitImpl hexcolor() :
      
      if(s.length()!=3 && s.length()!=6) {
 	 first = null;
-	 throw new CSSParseException("invalid hexadecimal notation for RGB: " + s, 
-				     getLocator());
+        throw new ParseException( "invalid hexadecimal notation for RGB: " + s, source.getURI(), token.beginLine, token.beginColumn );
      }
      return LexicalUnitImpl.createIdent( source.getURI(), n.beginLine, n.beginColumn, n.image);
  }
@@ -2953,7 +2798,7 @@ String convertStringIndex(String s, int start, int len) {
 		    buf.append(c);
 		}
 	    } else {
-		throw new CSSParseException("invalid string " + s, getLocator());
+            throw new ParseException( "invalid string " + s, source.getURI(), token.beginLine, token.beginColumn );
 	    }
 	} else {
 	    buf.append(c);
@@ -3036,8 +2881,7 @@ void _parseRule() :
 		    if (ret.charAt(0) == '@') {
 			documentHandler.unrecognizedRule(ret);
 		    } else {
-			throw new CSSParseException("unrecognize rule: " + ret,
-						    getLocator());
+                throw new ParseException( "unrecognize rule: " + ret, source.getURI(), token.beginLine, token.beginColumn );
 		    }
 		}
 	  )

@@ -89,8 +89,8 @@ public class ParseException extends CSSException {
 
     }
 
-    public ParseException(String message, int line, int column) {
-        super(message + " in line " + line + ", column " + column);
+    public ParseException(String message, String uri, int line, int column) {
+        super(message + " in line " + line + ", column " + column + getLocation( uri ) );
     }
 
     /**
@@ -132,6 +132,8 @@ public class ParseException extends CSSException {
      */
     public String[] tokenImage;
 
+    private String uri;
+
     /**
      * This method has the standard behavior when this object has been created
      * using the standard constructors. Otherwise, it uses "currentToken" and
@@ -164,7 +166,7 @@ public class ParseException extends CSSException {
             if (expectedTokenSequences[i][expectedTokenSequences[i].length - 1] != 0) {
                 expected += "...";
             }
-            expected += eol + "    ";
+            expected += "\n    ";
         }
         String retval = "Encountered \"";
         Token tok = currentToken.next;
@@ -180,26 +182,25 @@ public class ParseException extends CSSException {
             tok = tok.next;
         }
         retval += "\" at line " + currentToken.next.beginLine + ", column "
-                + currentToken.next.beginColumn + "." + eol;
+                + currentToken.next.beginColumn + getLocation( uri ) + ".\n";
         if (expectedTokenSequences.length == 1) {
-            retval += "Was expecting:" + eol + "    ";
+            retval += "Was expecting:\n    ";
         } else {
-            retval += "Was expecting one of:" + eol + "    ";
+            retval += "Was expecting one of:\n    ";
         }
         retval += expected;
         return retval;
     }
 
-    /**
-     * The end of line string for this machine.
-     */
-    protected String eol = System.getProperty("line.separator", "\n");
+    void setUri( String uri ) {
+        this.uri = uri;
+    }
 
     /**
      * Used to convert raw characters to their escaped version when these raw
      * version cannot be used as part of an ASCII string literal.
      */
-    protected String add_escapes(String str) {
+    private String add_escapes(String str) {
         StringBuffer retval = new StringBuffer();
         char ch;
         for (int i = 0; i < str.length(); i++) {
@@ -257,7 +258,7 @@ public class ParseException extends CSSException {
         return getLocation( fileName );
     }
 
-    private String getLocation( String fileName ) {
+    private static String getLocation( String fileName ) {
         if( fileName != null ) {
             fileName = fileName.substring( fileName.lastIndexOf( '/' ) + 1 );
             return ", in file " + fileName;
