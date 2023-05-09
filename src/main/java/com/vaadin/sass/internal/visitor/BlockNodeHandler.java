@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -95,10 +96,11 @@ public class BlockNodeHandler {
     }
 
     private static void updateSelectors(BlockNode node) {
-        if (node.getNormalParentNode() instanceof BlockNode) {
-            replaceParentSelectors(node);
+        Node parentBlock = node.getNormalParentNode();
+        if( parentBlock instanceof BlockNode ) {
+            replaceParentSelectors( (BlockNode)parentBlock, node );
 
-        } else if (node.getSelectors().contains("&")) {
+        } else if( node.getSelectors().contains( "&" ) ) {
             ScssStylesheet.warning("Base-level rule contains"
                     + " the parent-selector-referencing character '&';"
                     + " the character will be removed:\n" + node);
@@ -122,9 +124,7 @@ public class BlockNodeHandler {
         node.setSelectorList(newSelectors);
     }
 
-    private static void replaceParentSelectors(BlockNode node) {
-        BlockNode parentBlock = (BlockNode) node.getNormalParentNode();
-
+    private static void replaceParentSelectors( BlockNode parentBlock, BlockNode node ) {
         ArrayList<Selector> newSelectors = new ArrayList<Selector>();
 
         for (Selector parentSel : parentBlock.getSelectorList()) {
