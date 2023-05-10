@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -58,12 +59,14 @@ public class StringInterpolationSequence implements Serializable {
         for (SassListItem item : sequence) {
             if (item instanceof Interpolation) {
                 containsInterpolation = true;
+                break;
             } else {
                 String itemString = item.printState();
                 if (itemString.contains("#{")) {
                     // This is inexact but sufficient for avoiding most cases of
                     // unnecessary evaluation.
                     containsInterpolation = true;
+                    break;
                 }
             }
         }
@@ -84,7 +87,7 @@ public class StringInterpolationSequence implements Serializable {
      * @return A new StringInterpolationSequence.
      */
     public StringInterpolationSequence replaceVariables(ScssContext context) {
-        if (!containsInterpolation()) {
+        if( !containsInterpolation ) {
             return this;
         }
         SassList resultList = items.replaceVariables(context);
@@ -166,7 +169,7 @@ public class StringInterpolationSequence implements Serializable {
     }
 
     public StringInterpolationSequence updateUrl(String prefix) {
-        if (containsInterpolation()) {
+        if( containsInterpolation ) {
             return new StringInterpolationSequence(items.updateUrl(prefix));
         }
         return this;
