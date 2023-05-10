@@ -267,6 +267,11 @@ public interface SCSSLexicalUnit {
      */
     static final short        SCSS_IMPORTANT            = 112;
 
+    /**
+     * "&" placeholder for the parent selector reference
+     */
+    static final short        SCSS_PARENT               = 113;
+
     static final short        SAC_LEM                   = 200;
     static final short        SAC_REM                   = 201;
 

@@ -1,0 +1,22 @@
+$sel: if( &, "&", ".top");
+.abc {
+    #{&}: "nix";
+    a: &;
+    b: $sel;
+    c: &more;
+}
+
+@mixin my-mixin($class) {
+    #{if(&, "&", "")}.#{$class} {
+        @content;
+    }
+}
+
+@include my-mixin("top") {
+    color:red;
+}
+.class {
+    @include my-mixin("sub") {
+        color:green;
+    }
+}

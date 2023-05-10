@@ -2376,6 +2376,7 @@ List<SassListItem> nonVariableTerm(char op) :
     ( result = numberTerm(op)
     | ( current = function(op) { result = createList(current, false); } ( <S> )* )
     | result = stringTerm(op)
+    | <PARENT> { result = createList( LexicalUnitImpl.createParent( source.getURI(), token.beginLine, token.beginColumn ), false ); }
     )
     { return result; }
 }
@@ -2452,7 +2453,7 @@ ArrayList<SassListItem> identInterpolationString() :
 }
 {
     (   (n = <OR> | n = <AND> | n = <NOT> | n = <FROM> | n= <THROUGH> | n= <TO> | n = <EACH_IN>
-         | n = <MICROSOFT_RULE>) { items.add(new StringItem(convertIdent(n.image))); }
+        | n = <MICROSOFT_RULE> ) { items.add(new StringItem(convertIdent(n.image))); }
       | (LOOKAHEAD(1) ( n = <IDENT> {items.add(new StringItem(convertIdent(n.image))); }
           | interp = interpolation() {items.add(interp); } | n = "-" {items.add(new StringItem(convertIdent(n.image))); }) )+
     )

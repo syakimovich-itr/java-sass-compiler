@@ -70,6 +70,7 @@ import com.vaadin.sass.internal.parser.function.TransparencyModificationFunction
 import com.vaadin.sass.internal.parser.function.TypeOfFunctionGenerator;
 import com.vaadin.sass.internal.parser.function.UnitFunctionGenerator;
 import com.vaadin.sass.internal.parser.function.UnitlessFunctionGenerator;
+import com.vaadin.sass.internal.tree.BlockNode;
 import com.vaadin.sass.internal.tree.FunctionCall;
 import com.vaadin.sass.internal.tree.FunctionDefNode;
 import com.vaadin.sass.internal.tree.Node;
@@ -626,6 +627,10 @@ public class LexicalUnitImpl implements SCSSLexicalUnit,
         return new LexicalUnitImpl( uri, line, column, SCSS_IMPORTANT );
     }
 
+    public static LexicalUnitImpl createParent(  String uri, int line, int column ) {
+        return new LexicalUnitImpl( uri, line, column, SCSS_PARENT );
+    }
+
     public static boolean checkLexicalUnitType(SassListItem item,
             short... lexicalUnitTypes) {
         if (!(item instanceof LexicalUnitImpl)) {
@@ -720,16 +725,20 @@ public class LexicalUnitImpl implements SCSSLexicalUnit,
 
     @Override
     public SassListItem replaceVariables(ScssContext context) {
-        LexicalUnitImpl lui = this;
-
         // replace function parameters (if any)
-        lui = lui.replaceParams(context);
+        LexicalUnitImpl lui = replaceParams(context);
 
         // replace parameters in string value
-        if (lui.getLexicalUnitType() == LexicalUnitImpl.SCSS_VARIABLE) {
-            return lui.replaceSimpleVariable(context);
-        } else if (containsInterpolation()) {
-            return lui.replaceInterpolation(context);
+        switch( type ) {
+            case SCSS_VARIABLE:
+                return lui.replaceSimpleVariable(context);
+            case SCSS_PARENT:
+                BlockNode parentBlock = context.getParentBlock();
+                return parentBlock != null ? new StringItem( parentBlock.getSelectors() ): createNull( uri, line, column );
+            default:
+                if( containsInterpolation() ) {
+                    return lui.replaceInterpolation(context);
+                }
         }
         return lui;
     }
@@ -1047,6 +1056,9 @@ public class LexicalUnitImpl implements SCSSLexicalUnit,
                 break;
             case SCSS_IMPORTANT:
                 text = "!important";
+                break;
+            case SCSS_PARENT:
+                text = "&";
                 break;
             default:
                 text = "@unknown";

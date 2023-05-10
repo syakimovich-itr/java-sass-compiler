@@ -59,6 +59,8 @@ public class BlockNodeHandler {
 
         if (!node.getChildren().isEmpty()) {
             context.openVariableScope();
+            BlockNode oldParent = context.getParentBlock();
+            context.setParentBlock( node );
             try {
                 ArrayList<Node> newChildren = new ArrayList<Node>();
                 for (Node child : new ArrayList<Node>(node.getChildren())) {
@@ -89,6 +91,7 @@ public class BlockNodeHandler {
                 }
             } finally {
                 context.closeVariableScope();
+                context.setParentBlock( oldParent );
             }
         }
 

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -20,6 +21,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import com.vaadin.sass.internal.parser.Variable;
+import com.vaadin.sass.internal.tree.BlockNode;
 import com.vaadin.sass.internal.tree.FunctionDefNode;
 import com.vaadin.sass.internal.tree.MixinDefNode;
 import com.vaadin.sass.internal.visitor.Extension;
@@ -46,6 +48,8 @@ public class ScssContext {
     private Scope scope = new Scope();
 
     private ScssStylesheet stylesheet;
+
+    private BlockNode parentBlock;
 
     /**
      * Collection of mappings from an @extend-selector (its simple selector
@@ -197,5 +201,21 @@ public class ScssContext {
      */
     public void setStylesheet( ScssStylesheet stylesheet ) {
         this.stylesheet = stylesheet;
+    }
+
+    /**
+     * Get the current block node
+     * @return the block or null on top level
+     */
+    public BlockNode getParentBlock() {
+        return parentBlock;
+    }
+
+    /**
+     * Change the current block node
+     * @param node the new value
+     */
+    public void setParentBlock( BlockNode node ) {
+        parentBlock = node;
     }
 }

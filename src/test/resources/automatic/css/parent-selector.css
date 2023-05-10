@@ -1,0 +1,14 @@
+.abc {
+  .abc: "nix";
+  a: .abc;
+  b: ".top";
+  c: .abc more;
+}
+
+.top {
+  color: red;
+}
+
+.class.sub {
+  color: green;
+}
