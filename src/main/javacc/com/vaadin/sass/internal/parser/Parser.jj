@@ -1392,7 +1392,7 @@ SassList expressionSubList():
     int column = token.beginColumn;
 }
 {
-    LOOKAHEAD(3)"(" (<S>)* ")" (<S>)*
+    LOOKAHEAD(4)"(" (<S>)* ")" (<S>)* // 4 lookaheads because line comments inside lists produce separate S token
     {
         return new SassList(SassList.Separator.SPACE);
     }
@@ -2127,6 +2127,7 @@ SassList parenthesizedExpressionList():
         isMap = true; 
     }
     )*
+
     {
         if( isMap ) {
             for( SassListItem item : primaryList ) {

@@ -1,7 +1,9 @@
 $colors-base: (
+  // comment1
   "primary":    orange,
   "secondary":  yellow,
   "success":    green,
+  // comment2
 );
 
 $colors: map-merge(
