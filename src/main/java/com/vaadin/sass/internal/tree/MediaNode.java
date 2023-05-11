@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -16,12 +17,14 @@
 
 package com.vaadin.sass.internal.tree;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.Iterator;
 
 import org.w3c.css.sac.SACMediaList;
 
 import com.vaadin.sass.internal.ScssContext;
+import com.vaadin.sass.internal.parser.MediaListImpl;
 
 public class MediaNode extends Node {
     private static final long serialVersionUID = 2502097081457509523L;
@@ -58,8 +61,26 @@ public class MediaNode extends Node {
 
     @Override
     public Collection<Node> traverse(ScssContext context) {
-        traverseChildren(context);
-        return Collections.singleton((Node) this);
+        Collection<Node> children = traverseChildren(context);
+        ArrayList<Node> result = new ArrayList<>();
+        result.add( this );
+
+        for( Iterator<Node> it = children.iterator(); it.hasNext(); ) {
+            Node child = it.next();
+            if( child.getClass() == MediaNode.class ) {
+                MediaNode media = (MediaNode)child;
+                MediaListImpl medium = new MediaListImpl();
+                medium.addItem( getMedia() + " and " + media.getMedia() );
+                media.setMedia( medium );
+                result.add( child );
+                it.remove();
+            }
+        }
+
+        if( result.size() > 1 ) {
+            setChildren( children );
+        }
+        return result;
     }
 
     private String buildString(BuildStringStrategy strategy, boolean indent) {

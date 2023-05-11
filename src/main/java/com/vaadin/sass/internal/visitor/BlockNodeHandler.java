@@ -20,11 +20,13 @@ package com.vaadin.sass.internal.visitor;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import com.vaadin.sass.internal.ScssContext;
 import com.vaadin.sass.internal.ScssStylesheet;
 import com.vaadin.sass.internal.selector.Selector;
 import com.vaadin.sass.internal.tree.BlockNode;
+import com.vaadin.sass.internal.tree.MediaNode;
 import com.vaadin.sass.internal.tree.Node;
 
 /**
@@ -48,46 +50,55 @@ import com.vaadin.sass.internal.tree.Node;
  */
 public class BlockNodeHandler {
 
-    public static Collection<Node> traverse(ScssContext context, BlockNode node) {
+    public static Collection<Node> traverse( ScssContext context, BlockNode node ) {
 
-        if (node.getChildren().size() == 0) {
+        if( node.getChildren().size() == 0 ) {
             return Collections.emptyList();
         }
 
         ArrayList<Node> result = new ArrayList<Node>();
-        updateSelectors(node);
+        updateSelectors( node );
 
-        if (!node.getChildren().isEmpty()) {
+        List<Node> children = node.getChildren();
+        if( !children.isEmpty() ) {
             context.openVariableScope();
             BlockNode oldParent = context.getParentBlock();
             context.setParentBlock( node );
             try {
-                ArrayList<Node> newChildren = new ArrayList<Node>();
-                for (Node child : new ArrayList<Node>(node.getChildren())) {
-                    if (child instanceof BlockNode) {
-                        ((BlockNode) child).setParentSelectors(node
-                                .getSelectorList());
-                        result.addAll(child.traverse(context));
+                ArrayList<Node> medias = null;
+                ArrayList<Node> newChildren = null;
+                for( Node child : children ) {
+                    if( child.getClass() == BlockNode.class ) {
+                        ((BlockNode)child).setParentSelectors( node.getSelectorList() );
+                        result.addAll( child.traverse( context ) );
+                    } else if( child.getClass() == MediaNode.class ) {
+                        medias = bubbleMedia( medias, node, (MediaNode)child );
                     } else {
-                        Collection<Node> childTraversed = child
-                                .traverse(context);
-                        for (Node n : childTraversed) {
-                            if (n instanceof BlockNode) {
+                        Collection<Node> childTraversed = child.traverse( context );
+                        for( Node n : childTraversed ) {
+                            if( n.getClass() == BlockNode.class ) {
                                 // already traversed
-                                result.add(n);
+                                result.add( n );
+                            } else if( n.getClass() == MediaNode.class ) {
+                                medias = bubbleMedia( medias, node, (MediaNode)n );
                             } else {
-                                newChildren.add(n);
+                                if( newChildren == null ) {
+                                    newChildren = new ArrayList<Node>();
+                                }
+                                newChildren.add( n );
                             }
                         }
                     }
                 }
+                if( medias != null ) {
+                    result = medias;
+                }
                 // add the node with the remaining non-block children at the
                 // beginning
-                if (!newChildren.isEmpty()) {
-                    BlockNode newNode = new BlockNode(new ArrayList<Selector>(
-                            node.getSelectorList()), newChildren);
-                    newNode.setParentSelectors(node.getParentSelectors());
-                    result.add(0, newNode);
+                if( newChildren != null ) {
+                    BlockNode newNode = new BlockNode( new ArrayList<Selector>( node.getSelectorList() ), newChildren );
+                    newNode.setParentSelectors( node.getParentSelectors() );
+                    result.add( 0, newNode );
                 }
             } finally {
                 context.closeVariableScope();
@@ -96,6 +107,29 @@ public class BlockNodeHandler {
         }
 
         return result;
+    }
+
+    /**
+     * Reorder the @media rule on top
+     * @param medias container for the medias, will be null on first call
+     * @param node the parent node
+     * @param child the media node which is child
+     * @return the container, never null
+     */
+    static ArrayList<Node> bubbleMedia( ArrayList<Node> medias, BlockNode node, MediaNode child ) {
+        for( Selector selector : node.getSelectorList() ) {
+            if( selector.isPlaceholder() ) {
+                //TODO placeholder selectors must handle other
+                return medias;
+            }
+        }
+        if( medias == null ) {
+            medias = new ArrayList<>();
+        }
+        MediaNode media = new MediaNode( child.getMedia() );
+        media.appendChild( new BlockNode( node.getSelectorList(), child.getChildren() ) );
+        medias.add( media );
+        return medias;
     }
 
     private static void updateSelectors(BlockNode node) {

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -53,7 +54,7 @@ public class MediaListImpl implements SACMediaList, Serializable {
         return array[index];
     }
 
-    void addItem(String medium) {
+    public void addItem(String medium) {
         if (medium.equals("all")) {
             array[0] = "all";
             current = 1;

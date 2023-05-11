@@ -1,0 +1,24 @@
+@mixin my-mixin() {
+      @media screen {
+        transition: none;
+      }
+      @media print {
+        transition: width 2s;
+      }
+}
+
+.class {
+    @include my-mixin;
+    color: red;
+}
+
+@media (hover: hover) {
+  .button:hover {
+    border: 2px solid black;
+
+    @media (color) {
+      border-color: #036;
+    }
+  }
+}
+

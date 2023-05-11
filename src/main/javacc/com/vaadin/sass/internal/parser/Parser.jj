@@ -898,7 +898,7 @@ void media() :
 void mediaDirective() :
 {}
 {
-  debuggingDirective() | LOOKAHEAD(2) styleRule() | skipUnknownRule() | contentDirective()
+  ifContentStatement() | mixinDirective() | functionDirective()
 }
 
 void mediaStatement(MediaListImpl ml) :
@@ -1020,43 +1020,6 @@ void atRuleDeclaration() :
 	    reportWarningSkipText( ret );
 	}
     }
-}
-
-void skipUnknownRule() :
-{ Token n;}
-{
- ( n=<ATKEYWORD>
-| n=<CDO>
-| n=<CHARSET_SYM>
-| n=<COMMA>
-| n=<DASHMATCH>
-| n=<FONT_FACE_SYM>
-| n=<FUNCTION>
-| n=<NOT_FUNCTION>
-| n=<IMPORTANT_SYM>
-| n=<IMPORT_SYM>
-| n=<INCLUDES>
-| n=<LBRACE>
-| n=<MEDIA_SYM>
-| n=<NONASCII>
-| n=<NUMBER>
-| n=<PAGE_SYM>
-| n=<PERCENTAGE>
-| n=<STRING>
-| n=<UNICODERANGE>
-| n=<URL>
-| n=";"
-| n="-"
-| n=<UNKNOWN>
-   ) {
-     String ret;
-     ret=skipStatement();
-     if ((ret != null) && (n.image.charAt(0) == '@')) {
-	 documentHandler.unrecognizedRule(ret);
-     } else {
-     reportWarningSkipText( ret );
-     }
- }
 }
 
 /**
