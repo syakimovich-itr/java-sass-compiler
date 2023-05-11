@@ -112,15 +112,14 @@ public class BlockNode extends Node implements IVariableNode {
     }
 
     @Override
-    public Collection<Node> traverse(ScssContext context) {
-        ArrayList<Node> result = new ArrayList<Node>();
+    public Collection<Node> traverse( ScssContext context ) {
         try {
-            replaceVariables(context);
-            result.addAll(BlockNodeHandler.traverse(context, this));
-        } catch (Exception e) {
+            replaceVariables( context );
+            return BlockNodeHandler.traverse( context, this );
+        } catch( Exception e ) {
             SCSSErrorHandler.get().error( e );
         }
-        return result;
+        return Collections.emptyList();
     }
 
     private String buildString(boolean indent, BuildStringStrategy strategy) {

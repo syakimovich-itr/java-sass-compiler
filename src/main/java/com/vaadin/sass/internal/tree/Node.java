@@ -224,7 +224,7 @@ public abstract class Node implements Serializable {
             }
             try {
                 ArrayList<Node> result = new ArrayList<Node>();
-                for (Node child : new ArrayList<Node>(children)) {
+                for (Node child : children) {
                     result.addAll(child.traverse(context));
                 }
                 // TODO this ugly but hard to eliminate as long as some classes
