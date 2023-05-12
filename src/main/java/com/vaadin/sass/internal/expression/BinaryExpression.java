@@ -51,7 +51,6 @@ public class BinaryExpression {
 
     @Override
     public String toString() {
-        return "(" + leftOperand + " " + operator.type + " " + rightOperand
-                + ")";
+        return "(" + leftOperand + " " + operator + " " + rightOperand + ")";
     }
 }
