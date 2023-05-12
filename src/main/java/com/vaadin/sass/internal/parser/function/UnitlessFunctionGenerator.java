@@ -19,12 +19,12 @@ package com.vaadin.sass.internal.parser.function;
 import com.vaadin.sass.internal.parser.LexicalUnitImpl;
 import com.vaadin.sass.internal.parser.ParseException;
 
-public class UnitlessFunctionGenerator extends
+class UnitlessFunctionGenerator extends
         AbstractSingleParameterFunctionGenerator {
 
     private static String[] argumentNames = { "number" };
 
-    public UnitlessFunctionGenerator() {
+    UnitlessFunctionGenerator() {
         super(createArgumentList(argumentNames, false), "unitless");
     }
 

@@ -25,11 +25,11 @@ import com.vaadin.sass.internal.parser.ParseException;
 import com.vaadin.sass.internal.parser.SassListItem;
 import com.vaadin.sass.internal.util.ColorUtil;
 
-public class AlphaFunctionGenerator extends AbstractFunctionGenerator {
+class AlphaFunctionGenerator extends AbstractFunctionGenerator {
 
     private static String[] argumentNames = { "color" };
 
-    public AlphaFunctionGenerator() {
+    AlphaFunctionGenerator() {
         super(createArgumentList(argumentNames, false), "alpha", "opacity");
     }
 

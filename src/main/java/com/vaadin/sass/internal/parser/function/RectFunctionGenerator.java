@@ -38,13 +38,13 @@ import com.vaadin.sass.internal.parser.SCSSLexicalUnit;
 import com.vaadin.sass.internal.parser.SassList;
 import com.vaadin.sass.internal.parser.SassListItem;
 
-public class RectFunctionGenerator extends AbstractFunctionGenerator {
+class RectFunctionGenerator extends AbstractFunctionGenerator {
 
     private static String[] argumentNames = { "value" }; // uses varargs, so
                                                          // this name is not
                                                          // actually used
 
-    public RectFunctionGenerator() {
+    RectFunctionGenerator() {
         super(createArgumentList(argumentNames, true), "rect");
     }
 

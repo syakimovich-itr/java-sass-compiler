@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -22,7 +23,7 @@ import com.vaadin.sass.internal.parser.ParseException;
 import com.vaadin.sass.internal.parser.SassListItem;
 import com.vaadin.sass.internal.util.ColorUtil;
 
-public class AdjustColorFunctionGenerator extends AbstractFunctionGenerator {
+class AdjustColorFunctionGenerator extends AbstractFunctionGenerator {
 
     private static String[] argumentNames = { "color", "red", "green", "blue",
             "hue", "saturation", "lightness", "alpha" };
@@ -32,7 +33,7 @@ public class AdjustColorFunctionGenerator extends AbstractFunctionGenerator {
         return false;
     }
 
-    public AdjustColorFunctionGenerator() {
+    AdjustColorFunctionGenerator() {
         super(createArgumentList(argumentNames, false), "adjust-color",
                 "scale-color");
     }

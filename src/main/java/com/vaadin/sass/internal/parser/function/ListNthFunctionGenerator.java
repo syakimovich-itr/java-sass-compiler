@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -22,11 +23,11 @@ import com.vaadin.sass.internal.parser.ParseException;
 import com.vaadin.sass.internal.parser.SassList;
 import com.vaadin.sass.internal.parser.SassListItem;
 
-public class ListNthFunctionGenerator extends AbstractFunctionGenerator {
+class ListNthFunctionGenerator extends AbstractFunctionGenerator {
 
     private static String[] argumentNames = { "list", "n" };
 
-    public ListNthFunctionGenerator() {
+    ListNthFunctionGenerator() {
         super(createArgumentList(argumentNames, false), "nth");
     }
 

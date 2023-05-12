@@ -15,23 +15,20 @@
  */
 package com.vaadin.sass.internal.parser.function;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 import com.vaadin.sass.internal.ScssContext;
 import com.vaadin.sass.internal.parser.FormalArgumentList;
 import com.vaadin.sass.internal.parser.LexicalUnitImpl;
-import com.vaadin.sass.internal.parser.ParseException;
 import com.vaadin.sass.internal.parser.SassList;
 import com.vaadin.sass.internal.parser.SassListItem;
-import com.vaadin.sass.internal.parser.SassList.Separator;
 
 /**
  * The SASS function "map-get(map,x)".
  */
-public class MapGetFunctionGenerator extends MapFunctionGenerator {
+class MapGetFunctionGenerator extends MapFunctionGenerator {
 
-    public MapGetFunctionGenerator() {
+    MapGetFunctionGenerator() {
         super( createArgumentList( new String[] { "map", "key" }, false ), "map-get" );
     }
 

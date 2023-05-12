@@ -28,6 +28,7 @@ import com.vaadin.sass.internal.parser.FormalArgumentList;
 import com.vaadin.sass.internal.parser.LexicalUnitImpl;
 import com.vaadin.sass.internal.parser.SassListItem;
 import com.vaadin.sass.internal.parser.function.AbstractFunctionGenerator;
+import com.vaadin.sass.internal.parser.function.SCSSFunctionGenerator;
 import com.vaadin.sass.testcases.scss.SassTestRunner.TestFactory;
 
 @RunWith(SassTestRunner.class)
@@ -50,7 +51,7 @@ public class SassLangTests extends AbstractDirectoryScanningSassTests {
     @TestFactory
     public static Collection<String> getScssResourceNames()
             throws URISyntaxException, IOException {
-        LexicalUnitImpl.registerCustomFunction( new FilenameFunction() );
+        SCSSFunctionGenerator.registerCustomFunction( new FilenameFunction() );
         return getScssResourceNames(getResourceURLInternal(""));
     }
 

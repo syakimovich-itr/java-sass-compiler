@@ -23,11 +23,11 @@ import com.vaadin.sass.internal.parser.SassList;
 import com.vaadin.sass.internal.parser.SassListItem;
 import com.vaadin.sass.internal.util.ColorUtil;
 
-public class TypeOfFunctionGenerator extends AbstractFunctionGenerator {
+class TypeOfFunctionGenerator extends AbstractFunctionGenerator {
 
     private static String[] argumentNames = { "value" };
 
-    public TypeOfFunctionGenerator() {
+    TypeOfFunctionGenerator() {
         super(createArgumentList(argumentNames, false), "type-of");
     }
 

@@ -17,16 +17,13 @@
 package com.vaadin.sass.internal.parser.function;
 
 import com.vaadin.sass.internal.ScssContext;
-import com.vaadin.sass.internal.parser.ArgumentList;
 import com.vaadin.sass.internal.parser.FormalArgumentList;
 import com.vaadin.sass.internal.parser.LexicalUnitImpl;
-import com.vaadin.sass.internal.parser.ParseException;
 import com.vaadin.sass.internal.parser.SassListItem;
-import com.vaadin.sass.internal.util.ColorUtil;
 
-public class ComparableFunctionGenerator extends AbstractFunctionGenerator {
+class ComparableFunctionGenerator extends AbstractFunctionGenerator {
 
-    public ComparableFunctionGenerator() {
+    ComparableFunctionGenerator() {
         super( createArgumentList( new String[] { "x", "y" }, false ), "comparable" );
     }
 

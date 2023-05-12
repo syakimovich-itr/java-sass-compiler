@@ -23,12 +23,12 @@ import com.vaadin.sass.internal.parser.ParseException;
 import com.vaadin.sass.internal.parser.SassListItem;
 import com.vaadin.sass.internal.util.ColorUtil;
 
-public class MixFunctionGenerator extends AbstractFunctionGenerator {
+class MixFunctionGenerator extends AbstractFunctionGenerator {
 
     private static String[] argumentNames = { "color-1", "color-2", "weight" };
     private static SassListItem[] defaultValues = { null, null, LexicalUnitImpl.createPercentage( null, 0, 0, 50 ) };
 
-    public MixFunctionGenerator() {
+    MixFunctionGenerator() {
         super(createArgumentList(argumentNames, defaultValues, false), "mix");
     }
 

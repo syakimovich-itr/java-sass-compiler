@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -23,13 +24,13 @@ import com.vaadin.sass.internal.parser.LexicalUnitImpl;
 import com.vaadin.sass.internal.parser.SassList;
 import com.vaadin.sass.internal.parser.SassListItem;
 
-public class ListJoinFunctionGenerator extends ListFunctionGenerator {
+class ListJoinFunctionGenerator extends ListFunctionGenerator {
 
     private static String[] argumentNames = { "list1", "list2", "separator" };
     private static SassListItem[] defaultValues = { null, null,
             LexicalUnitImpl.createIdent("auto") };
 
-    public ListJoinFunctionGenerator() {
+    ListJoinFunctionGenerator() {
         super(createArgumentList(argumentNames, defaultValues, false), "join");
     }
 

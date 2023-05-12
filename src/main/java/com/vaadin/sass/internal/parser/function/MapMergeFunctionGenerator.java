@@ -25,9 +25,9 @@ import com.vaadin.sass.internal.parser.SassList;
 import com.vaadin.sass.internal.parser.SassList.Separator;
 import com.vaadin.sass.internal.parser.SassListItem;
 
-public class MapMergeFunctionGenerator extends MapFunctionGenerator {
+class MapMergeFunctionGenerator extends MapFunctionGenerator {
 
-    public MapMergeFunctionGenerator() {
+    MapMergeFunctionGenerator() {
         super( createArgumentList( new String[] { "map1", "map2" }, false ), "map-merge" );
     }
 

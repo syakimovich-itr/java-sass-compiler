@@ -19,11 +19,11 @@ package com.vaadin.sass.internal.parser.function;
 import com.vaadin.sass.internal.parser.LexicalUnitImpl;
 import com.vaadin.sass.internal.parser.ParseException;
 
-public class QuoteUnquoteFunctionGenerator extends
+class QuoteUnquoteFunctionGenerator extends
         AbstractSingleParameterFunctionGenerator {
     private static String[] argumentNames = { "string" };
 
-    public QuoteUnquoteFunctionGenerator() {
+    QuoteUnquoteFunctionGenerator() {
         super(createArgumentList(argumentNames, false), "quote", "unquote");
     }
 

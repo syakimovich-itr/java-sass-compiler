@@ -27,49 +27,13 @@ package com.vaadin.sass.internal.parser;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.vaadin.sass.internal.ScssContext;
 import com.vaadin.sass.internal.expression.exception.IncompatibleUnitsException;
-import com.vaadin.sass.internal.parser.function.AbsFunctionGenerator;
-import com.vaadin.sass.internal.parser.function.AdjustColorFunctionGenerator;
-import com.vaadin.sass.internal.parser.function.AlphaFunctionGenerator;
-import com.vaadin.sass.internal.parser.function.CallFunctionGenerator;
-import com.vaadin.sass.internal.parser.function.CeilFunctionGenerator;
-import com.vaadin.sass.internal.parser.function.ColorComponentFunctionGenerator;
-import com.vaadin.sass.internal.parser.function.ComparableFunctionGenerator;
-import com.vaadin.sass.internal.parser.function.DarkenFunctionGenerator;
 import com.vaadin.sass.internal.parser.function.DefaultFunctionGenerator;
-import com.vaadin.sass.internal.parser.function.FloorFunctionGenerator;
-import com.vaadin.sass.internal.parser.function.GetFunctionFunctionGenerator;
-import com.vaadin.sass.internal.parser.function.GrayscaleFunctionGenerator;
-import com.vaadin.sass.internal.parser.function.IfFunctionGenerator;
-import com.vaadin.sass.internal.parser.function.LightenFunctionGenerator;
-import com.vaadin.sass.internal.parser.function.ListAppendFunctionGenerator;
-import com.vaadin.sass.internal.parser.function.ListIndexFunctionGenerator;
-import com.vaadin.sass.internal.parser.function.ListJoinFunctionGenerator;
-import com.vaadin.sass.internal.parser.function.ListLengthFunctionGenerator;
-import com.vaadin.sass.internal.parser.function.ListNthFunctionGenerator;
-import com.vaadin.sass.internal.parser.function.MapGetFunctionGenerator;
-import com.vaadin.sass.internal.parser.function.MapMergeFunctionGenerator;
-import com.vaadin.sass.internal.parser.function.MinMaxFunctionGenerator;
-import com.vaadin.sass.internal.parser.function.MixFunctionGenerator;
-import com.vaadin.sass.internal.parser.function.PercentageFunctionGenerator;
-import com.vaadin.sass.internal.parser.function.QuoteUnquoteFunctionGenerator;
-import com.vaadin.sass.internal.parser.function.RGBFunctionGenerator;
-import com.vaadin.sass.internal.parser.function.RectFunctionGenerator;
-import com.vaadin.sass.internal.parser.function.RoundFunctionGenerator;
 import com.vaadin.sass.internal.parser.function.SCSSFunctionGenerator;
-import com.vaadin.sass.internal.parser.function.SaturationModificationFunctionGenerator;
-import com.vaadin.sass.internal.parser.function.TransparencyModificationFunctionGenerator;
-import com.vaadin.sass.internal.parser.function.TypeOfFunctionGenerator;
-import com.vaadin.sass.internal.parser.function.UnitFunctionGenerator;
-import com.vaadin.sass.internal.parser.function.UnitlessFunctionGenerator;
 import com.vaadin.sass.internal.tree.BlockNode;
 import com.vaadin.sass.internal.tree.FunctionCall;
 import com.vaadin.sass.internal.tree.FunctionDefNode;
@@ -812,7 +776,7 @@ public class LexicalUnitImpl implements SCSSLexicalUnit,
     public SassListItem evaluateFunctionsAndExpressions( ScssContext context, boolean evaluateArithmetics ) {
         String functionName = getFunctionName();
         if( params != null && !"calc".equals( functionName ) ) {
-            SCSSFunctionGenerator generator = getGenerator( functionName );
+            SCSSFunctionGenerator generator = SCSSFunctionGenerator.getGenerator( functionName );
             LexicalUnitImpl copy = this;
             if( !"if".equals( functionName ) ) {
                 copy = createFunction( uri, line, column, fname, params.evaluateFunctionsAndExpressions( context, true ) );
@@ -840,59 +804,6 @@ public class LexicalUnitImpl implements SCSSLexicalUnit,
         }
         return null;
     }
-
-    /**
-     * Register a custom sass function.
-     * @param generator the implementation of the custom function
-     */
-    public static void registerCustomFunction( SCSSFunctionGenerator generator ) {
-        for (String functionName : generator.getFunctionNames()) {
-            SERIALIZERS.put(functionName, generator );
-        }
-    }
-
-    private static SCSSFunctionGenerator getGenerator(String funcName) {
-        return SERIALIZERS.get(funcName);
-    }
-
-    private static List<SCSSFunctionGenerator> initSerializers() {
-        List<SCSSFunctionGenerator> list = new LinkedList<SCSSFunctionGenerator>();
-        list.add(new AbsFunctionGenerator());
-        list.add(new AdjustColorFunctionGenerator());
-        list.add(new CallFunctionGenerator());
-        list.add(new CeilFunctionGenerator());
-        list.add(new ComparableFunctionGenerator());
-        list.add(new DarkenFunctionGenerator());
-        list.add(new FloorFunctionGenerator());
-        list.add(new GetFunctionFunctionGenerator());
-        list.add(new GrayscaleFunctionGenerator());
-        list.add(new IfFunctionGenerator());
-        list.add(new LightenFunctionGenerator());
-        list.add(new ListAppendFunctionGenerator());
-        list.add(new ListIndexFunctionGenerator());
-        list.add(new ListJoinFunctionGenerator());
-        list.add(new ListLengthFunctionGenerator());
-        list.add(new ListNthFunctionGenerator());
-        list.add(new MapGetFunctionGenerator());
-        list.add(new MapMergeFunctionGenerator());
-        list.add(new MinMaxFunctionGenerator());
-        list.add(new MixFunctionGenerator());
-        list.add(new PercentageFunctionGenerator());
-        list.add(new RectFunctionGenerator());
-        list.add(new RGBFunctionGenerator());
-        list.add(new RoundFunctionGenerator());
-        list.add(new SaturationModificationFunctionGenerator());
-        list.add(new TypeOfFunctionGenerator());
-        list.add(new AlphaFunctionGenerator());
-        list.add(new TransparencyModificationFunctionGenerator());
-        list.add(new ColorComponentFunctionGenerator());
-        list.add(new UnitFunctionGenerator());
-        list.add(new UnitlessFunctionGenerator());
-        list.add(new QuoteUnquoteFunctionGenerator());
-        return list;
-    }
-
-    private static final Map<String, SCSSFunctionGenerator> SERIALIZERS = new HashMap<String, SCSSFunctionGenerator>();
 
     private static final SCSSFunctionGenerator DEFAULT_SERIALIZER = new DefaultFunctionGenerator();
 
@@ -1094,9 +1005,6 @@ public class LexicalUnitImpl implements SCSSLexicalUnit,
         DecimalFormatSymbols symbols = new DecimalFormatSymbols();
         symbols.setDecimalSeparator('.');
         CSS_FLOAT_FORMAT.setDecimalFormatSymbols(symbols);
-        for (SCSSFunctionGenerator serializer : initSerializers()) {
-            registerCustomFunction( serializer );
-        }
     }
 
     @Override

@@ -19,12 +19,12 @@ package com.vaadin.sass.internal.parser.function;
 import com.vaadin.sass.internal.parser.LexicalUnitImpl;
 import com.vaadin.sass.internal.parser.ParseException;
 
-public class UnitFunctionGenerator extends
+class UnitFunctionGenerator extends
         AbstractSingleParameterFunctionGenerator {
 
     private static String[] argumentNames = { "number" };
 
-    public UnitFunctionGenerator() {
+    UnitFunctionGenerator() {
         super(createArgumentList(argumentNames, false), "unit");
     }
 

@@ -28,11 +28,11 @@ import com.vaadin.sass.internal.parser.ParseException;
 import com.vaadin.sass.internal.parser.SassList;
 import com.vaadin.sass.internal.parser.SassListItem;
 
-public class RGBFunctionGenerator extends AbstractFunctionGenerator {
+class RGBFunctionGenerator extends AbstractFunctionGenerator {
 
     private static String[] argumentNames = { "red", "green", "blue" };
 
-    public RGBFunctionGenerator() {
+    RGBFunctionGenerator() {
         super(createArgumentList(argumentNames, false), "rgb");
     }
 

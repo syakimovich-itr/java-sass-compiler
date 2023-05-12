@@ -18,12 +18,12 @@ package com.vaadin.sass.internal.parser.function;
 
 import com.vaadin.sass.internal.parser.LexicalUnitImpl;
 
-public class FloorFunctionGenerator extends
+class FloorFunctionGenerator extends
         AbstractSingleParameterFunctionGenerator {
 
     private static String[] argumentNames = { "value" };
 
-    public FloorFunctionGenerator() {
+    FloorFunctionGenerator() {
         super(createArgumentList(argumentNames, false), "floor");
     }
 

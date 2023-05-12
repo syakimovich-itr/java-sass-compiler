@@ -20,12 +20,12 @@ import com.vaadin.sass.internal.parser.LexicalUnitImpl;
 import com.vaadin.sass.internal.parser.ParseException;
 import com.vaadin.sass.internal.util.ColorUtil;
 
-public class GrayscaleFunctionGenerator extends
+class GrayscaleFunctionGenerator extends
         AbstractSingleParameterFunctionGenerator {
 
     private static String[] argumentNames = { "color" };
 
-    public GrayscaleFunctionGenerator() {
+    GrayscaleFunctionGenerator() {
         super(createArgumentList(argumentNames, false), "grayscale");
     }
 

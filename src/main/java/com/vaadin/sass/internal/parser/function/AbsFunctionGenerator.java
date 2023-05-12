@@ -18,12 +18,12 @@ package com.vaadin.sass.internal.parser.function;
 
 import com.vaadin.sass.internal.parser.LexicalUnitImpl;
 
-public class AbsFunctionGenerator extends
+class AbsFunctionGenerator extends
         AbstractSingleParameterFunctionGenerator {
 
     private static String[] argumentNames = { "value" };
 
-    public AbsFunctionGenerator() {
+    AbsFunctionGenerator() {
         super(createArgumentList(argumentNames, false), "abs");
     }
 

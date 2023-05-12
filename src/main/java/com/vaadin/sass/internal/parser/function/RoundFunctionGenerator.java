@@ -18,12 +18,12 @@ package com.vaadin.sass.internal.parser.function;
 
 import com.vaadin.sass.internal.parser.LexicalUnitImpl;
 
-public class RoundFunctionGenerator extends
+class RoundFunctionGenerator extends
         AbstractSingleParameterFunctionGenerator {
 
     private static String[] argumentNames = { "value" };
 
-    public RoundFunctionGenerator() {
+    RoundFunctionGenerator() {
         super(createArgumentList(argumentNames, false), "round");
     }
 

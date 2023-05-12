@@ -24,12 +24,12 @@ import com.vaadin.sass.internal.parser.ParseException;
 import com.vaadin.sass.internal.parser.SassListItem;
 import com.vaadin.sass.internal.util.ColorUtil;
 
-public class TransparencyModificationFunctionGenerator extends
+class TransparencyModificationFunctionGenerator extends
         AbstractFunctionGenerator {
 
     private static String[] argumentNames = { "color", "amount" };
 
-    public TransparencyModificationFunctionGenerator() {
+    TransparencyModificationFunctionGenerator() {
         super(createArgumentList(argumentNames, false), "transparentize",
                 "fade-out", "opacify", "fade-in");
     }

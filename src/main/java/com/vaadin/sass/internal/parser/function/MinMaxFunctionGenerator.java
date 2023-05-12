@@ -23,11 +23,11 @@ import com.vaadin.sass.internal.parser.LexicalUnitImpl;
 import com.vaadin.sass.internal.parser.ParseException;
 import com.vaadin.sass.internal.parser.SassListItem;
 
-public class MinMaxFunctionGenerator extends AbstractFunctionGenerator {
+class MinMaxFunctionGenerator extends AbstractFunctionGenerator {
 
     private static String[] argumentNames = { "numbers" };
 
-    public MinMaxFunctionGenerator() {
+    MinMaxFunctionGenerator() {
         super(createArgumentList(argumentNames, true), "min", "max");
     }
 

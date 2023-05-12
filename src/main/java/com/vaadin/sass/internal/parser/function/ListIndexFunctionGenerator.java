@@ -22,11 +22,11 @@ import com.vaadin.sass.internal.parser.LexicalUnitImpl;
 import com.vaadin.sass.internal.parser.SassList;
 import com.vaadin.sass.internal.parser.SassListItem;
 
-public class ListIndexFunctionGenerator extends AbstractFunctionGenerator {
+class ListIndexFunctionGenerator extends AbstractFunctionGenerator {
 
     private static String[] argumentNames = { "list", "value" };
 
-    public ListIndexFunctionGenerator() {
+    ListIndexFunctionGenerator() {
         super(createArgumentList(argumentNames, false), "index");
     }
 

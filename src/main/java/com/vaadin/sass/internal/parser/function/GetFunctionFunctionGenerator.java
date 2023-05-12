@@ -21,9 +21,9 @@ import com.vaadin.sass.internal.parser.ParseException;
 /**
  * The SASS function "get-function(x)".
  */
-public class GetFunctionFunctionGenerator extends AbstractSingleParameterFunctionGenerator {
+class GetFunctionFunctionGenerator extends AbstractSingleParameterFunctionGenerator {
 
-    public GetFunctionFunctionGenerator() {
+    GetFunctionFunctionGenerator() {
         super( createArgumentList( new String[]{ "name" }, false ), "get-function" );
     }
 

@@ -18,12 +18,12 @@ package com.vaadin.sass.internal.parser.function;
 
 import com.vaadin.sass.internal.parser.LexicalUnitImpl;
 
-public class CeilFunctionGenerator extends
+class CeilFunctionGenerator extends
         AbstractSingleParameterFunctionGenerator {
 
     private static String[] argumentNames = { "value" };
 
-    public CeilFunctionGenerator() {
+    CeilFunctionGenerator() {
         super(createArgumentList(argumentNames, false), "ceil");
     }
 

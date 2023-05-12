@@ -23,11 +23,11 @@ import com.vaadin.sass.internal.parser.ParseException;
 import com.vaadin.sass.internal.parser.SassListItem;
 import com.vaadin.sass.internal.util.ColorUtil;
 
-public class ColorComponentFunctionGenerator extends AbstractFunctionGenerator {
+class ColorComponentFunctionGenerator extends AbstractFunctionGenerator {
 
     private static String[] argumentNames = { "color" };
 
-    public ColorComponentFunctionGenerator() {
+    ColorComponentFunctionGenerator() {
         super(createArgumentList(argumentNames, false), "red", "green", "blue",
                 "hue", "saturation", "lightness");
     }

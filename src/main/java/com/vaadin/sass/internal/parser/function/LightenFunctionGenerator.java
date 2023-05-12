@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -25,11 +26,11 @@ import com.vaadin.sass.internal.util.ColorUtil;
  * 
  * @author Vaadin Ltd
  */
-public class LightenFunctionGenerator extends AbstractFunctionGenerator {
+class LightenFunctionGenerator extends AbstractFunctionGenerator {
 
     private static String[] argumentNames = { "color", "amount" };
 
-    public LightenFunctionGenerator() {
+    LightenFunctionGenerator() {
         super(createArgumentList(argumentNames, false), "lighten");
     }
 

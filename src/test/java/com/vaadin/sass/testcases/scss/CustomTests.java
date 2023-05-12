@@ -39,6 +39,7 @@ import com.vaadin.sass.internal.parser.LexicalUnitImpl;
 import com.vaadin.sass.internal.parser.ParseException;
 import com.vaadin.sass.internal.parser.SassListItem;
 import com.vaadin.sass.internal.parser.function.AbstractFunctionGenerator;
+import com.vaadin.sass.internal.parser.function.SCSSFunctionGenerator;
 import com.vaadin.sass.internal.util.ColorUtil;
 import com.vaadin.sass.testcases.scss.SassTestRunner.TestFactory;
 
@@ -56,7 +57,7 @@ public class CustomTests extends AbstractDirectoryScanningSassTests {
 
     @TestFactory
     public static Collection<String> getScssResourceNames() throws URISyntaxException, IOException {
-        LexicalUnitImpl.registerCustomFunction( new CustomFunctionColorizeImage() );
+        SCSSFunctionGenerator.registerCustomFunction( new CustomFunctionColorizeImage() );
         return getScssResourceNames( getResourceURLInternal( "" ) );
     }
 

@@ -24,13 +24,13 @@ import com.vaadin.sass.internal.parser.LexicalUnitImpl;
  * 
  * @author Vaadin
  */
-public class PercentageFunctionGenerator extends
+class PercentageFunctionGenerator extends
         AbstractSingleParameterFunctionGenerator {
 
     private static String[] argumentNames = { "value" };
     private static long PERC_PRECISION_FACTOR = 100 * LexicalUnitImpl.PRECISION;
 
-    public PercentageFunctionGenerator() {
+    PercentageFunctionGenerator() {
         super(createArgumentList(argumentNames, false), "percentage");
     }
 

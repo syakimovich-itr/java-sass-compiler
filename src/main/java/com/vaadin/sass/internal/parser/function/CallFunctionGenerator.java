@@ -27,9 +27,9 @@ import com.vaadin.sass.internal.parser.SassListItem;
 /**
  * The SASS function "call(x,args)".
  */
-public class CallFunctionGenerator extends AbstractFunctionGenerator {
+class CallFunctionGenerator extends AbstractFunctionGenerator {
 
-    public CallFunctionGenerator() {
+    CallFunctionGenerator() {
         super( createArgumentList( new String[] { "function", "args" }, true ), "call" );
     }
 

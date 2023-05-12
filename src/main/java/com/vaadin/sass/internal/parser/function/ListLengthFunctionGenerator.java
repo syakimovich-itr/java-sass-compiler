@@ -22,11 +22,11 @@ import com.vaadin.sass.internal.parser.LexicalUnitImpl;
 import com.vaadin.sass.internal.parser.SassList;
 import com.vaadin.sass.internal.parser.SassListItem;
 
-public class ListLengthFunctionGenerator extends AbstractFunctionGenerator {
+class ListLengthFunctionGenerator extends AbstractFunctionGenerator {
 
     private static String[] argumentNames = { "list" };
 
-    public ListLengthFunctionGenerator() {
+    ListLengthFunctionGenerator() {
         super(createArgumentList(argumentNames, false), "length");
     }
 
