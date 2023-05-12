@@ -939,6 +939,15 @@ public class LexicalUnitImpl implements SCSSLexicalUnit,
         case SCSS_OPERATOR_NOT_EQUAL:
             text = "!=";
             break;
+        case SCSS_OPERATOR_NOT:
+            text = "not";
+            break;
+        case SCSS_OPERATOR_AND:
+            text = "and";
+            break;
+        case SCSS_OPERATOR_OR:
+            text = "or";
+            break;
         case SAC_OPERATOR_LT:
             text = "<";
             break;

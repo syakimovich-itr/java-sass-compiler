@@ -2073,12 +2073,18 @@ SassListItem expr():
 
 void addExpressionTerm(List<SassListItem> items):
 {
+    Token n;
     char op = ' ';
     SassListItem term;
     List<SassListItem> terms;
 }
 {
-    ( LOOKAHEAD(2) terms = term(){ items.addAll(terms); }
+    ( n = <NOT> (<S>)* terms = term()  {
+                                items.add( LexicalUnitImpl.createIdent( source.getURI(), n.beginLine, n.beginColumn, "false" ) );
+                                items.add( LexicalUnitImpl.createEquals( source.getURI(), n.beginLine, n.beginColumn) );
+                                items.addAll(terms);
+                            }
+    | LOOKAHEAD(2) terms = term(){ items.addAll(terms); }
         | ( op = unaryOperator() )?
           term = parenthesizedExpression(op) {items.add(term); }
     )
@@ -2416,7 +2422,7 @@ ArrayList<SassListItem> identInterpolationString() :
     Interpolation interp;
 }
 {
-    (   (n = <OR> | n = <AND> | n = <NOT> | n = <FROM> | n= <THROUGH> | n= <TO> | n = <EACH_IN>
+    (   (n = <OR> | n = <AND> | n = <FROM> | n= <THROUGH> | n= <TO> | n = <EACH_IN>
         | n = <MICROSOFT_RULE> ) { items.add(new StringItem(convertIdent(n.image))); }
       | (LOOKAHEAD(1) ( n = <IDENT> {items.add(new StringItem(convertIdent(n.image))); }
           | interp = interpolation() {items.add(interp); } | n = "-" {items.add(new StringItem(convertIdent(n.image))); }) )+
