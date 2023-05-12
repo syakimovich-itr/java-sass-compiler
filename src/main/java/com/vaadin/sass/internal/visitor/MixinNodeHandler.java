@@ -46,35 +46,31 @@ public class MixinNodeHandler {
         return replaceMixinNode(context, node, mixinDef);
     }
 
-    private static Collection<Node> replaceMixinNode(ScssContext context,
-            MixinNode mixinNode, MixinDefNode mixinDef) {
+    private static Collection<Node> replaceMixinNode( ScssContext context, MixinNode mixinNode, MixinDefNode mixinDef ) {
         MixinDefNode defClone = mixinDef.copy();
 
-        defClone.replaceContentDirective(mixinNode);
+        defClone.replaceContentDirective( context, mixinNode );
 
-        if (!mixinDef.getArglist().isEmpty()) {
-            defClone.replacePossibleArguments(mixinNode.getArglist());
-            defClone.replaceVariables(context);
+        if( !mixinDef.getArglist().isEmpty() ) {
+            defClone.replacePossibleArguments( mixinNode.getArglist() );
+            defClone.replaceVariables( context );
         }
 
         // parameters have been evaluated in parent scope, rest should be
         // in the scope where the mixin was defined
-        Scope previousScope = context.openVariableScope(defClone
-                .getDefinitionScope());
+        Scope previousScope = context.openVariableScope( defClone.getDefinitionScope() );
         try {
             // add variables from argList
-            for (Variable var : defClone.getArglist().getArguments()) {
-                Variable evaluated = new Variable(var.getName(), var.getExpr()
-                        .evaluateFunctionsAndExpressions(context, true));
-                context.addVariable(evaluated);
+            for( Variable var : defClone.getArglist().getArguments() ) {
+                Variable evaluated = new Variable( var.getName(), var.getExpr().evaluateFunctionsAndExpressions( context, true ) );
+                context.addVariable( evaluated );
             }
             // traverse child nodes in this scope
             // use correct parent with intermediate TemporaryNode
-            Node tempParent = new TemporaryNode(mixinNode.getParentNode(),
-                    defClone.getChildren());
-            return tempParent.traverse(context);
+            Node tempParent = new TemporaryNode( mixinNode.getParentNode(), defClone.getChildren() );
+            return tempParent.traverse( context );
         } finally {
-            context.closeVariableScope(previousScope);
+            context.closeVariableScope( previousScope );
         }
     }
 }

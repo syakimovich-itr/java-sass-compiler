@@ -1,0 +1,10 @@
+@mixin my-mixin {
+    @content;
+}
+
+.class {
+    @include my-mixin {
+      $color: red;
+      color: $color;
+    }
+}

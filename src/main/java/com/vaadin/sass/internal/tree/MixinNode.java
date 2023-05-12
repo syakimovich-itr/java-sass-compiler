@@ -96,26 +96,15 @@ public class MixinNode extends Node implements IVariableNode,
         return "Mixin node [" + printState() + "]";
     }
 
-    protected void replaceVariablesForChildren(ScssContext context) {
-        for (Node child : getChildren()) {
-            if (child instanceof IVariableNode) {
-                ((IVariableNode) child).replaceVariables(context);
-            }
-        }
-    }
-
     @Override
-    public Collection<Node> traverse(ScssContext context) {
+    public Collection<Node> traverse( ScssContext context ) {
         try {
-            replaceVariables(context);
+            replaceVariables( context );
             expandVariableArguments();
-            // for the content block, use the scope where it is defined
-            // (consistent with sass-lang)
-            replaceVariablesForChildren(context);
             // inner scope is managed by MixinNodeHandler
-            return MixinNodeHandler.traverse(context, this);
+            return MixinNodeHandler.traverse( context, this );
         } catch( Exception ex ) {
-            SCSSErrorHandler.get().warning( ex );
+            SCSSErrorHandler.get().error( ex );
             // TODO is ignoring this exception appropriate?
             return Collections.emptyList();
         }

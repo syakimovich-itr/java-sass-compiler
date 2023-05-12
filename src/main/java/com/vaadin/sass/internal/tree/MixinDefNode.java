@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -45,34 +46,31 @@ public class MixinDefNode extends DefNode {
      * This should only happen on a cloned MixinDefNode, since it changes the
      * Node itself.
      * 
+     * @param context context with variables of the caller scope where it is defined
      * @param mixinNode
      * @return
      */
-    public MixinDefNode replaceContentDirective(MixinNode mixinNode) {
-        return findAndReplaceContentNodeInChildren(this, mixinNode);
+    public void replaceContentDirective( ScssContext context, MixinNode mixinNode) {
+        findAndReplaceContentNodeInChildren( context, this, mixinNode);
     }
 
-    private MixinDefNode findAndReplaceContentNodeInChildren(Node node,
-            MixinNode mixinNode) {
-        ContentNode contentNode = null;
-        for (Node child : new ArrayList<Node>(node.getChildren())) {
-            if (child instanceof ContentNode) {
-                contentNode = (ContentNode) child;
-                replaceContentNode(contentNode, mixinNode);
+    private static void findAndReplaceContentNodeInChildren( ScssContext context, Node node, MixinNode mixinNode ) {
+        for( Node child : new ArrayList<Node>( node.getChildren() ) ) {
+            if( child instanceof ContentNode ) {
+                replaceContentNode( context, (ContentNode)child, mixinNode );
             } else {
-                findAndReplaceContentNodeInChildren(child, mixinNode);
+                findAndReplaceContentNodeInChildren( context, child, mixinNode );
             }
         }
-        return this;
     }
 
-    public MixinDefNode replaceContentNode(ContentNode contentNode,
-            MixinNode mixinNode) {
-        if (contentNode != null) {
-            contentNode.getParentNode().replaceNode(contentNode,
-                    mixinNode.copyChildren());
+    private static void replaceContentNode( ScssContext context, ContentNode contentNode, MixinNode mixinNode ) {
+        // traverse @content rule before the mixin with scope of the caller and not the used place 
+        ArrayList<Node> children = new ArrayList<>();
+        for( Node child : mixinNode.copyChildren() ) {
+            children.addAll( child.traverse( context ) );
         }
-        return this;
+        contentNode.getParentNode().replaceNode( contentNode, children );
     }
 
     @Override
@@ -86,5 +84,4 @@ public class MixinDefNode extends DefNode {
         setDefinitionScope(context.getCurrentScope());
         return Collections.emptyList();
     }
-
 }

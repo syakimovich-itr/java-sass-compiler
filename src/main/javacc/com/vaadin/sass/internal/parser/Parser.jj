@@ -1740,7 +1740,7 @@ void includeDirectiveBlockContents():
 {}
 {
  <LBRACE> (<S>)*
- (styleRuleOrDeclarationOrNestedProperties() | keyframeSelector() | controlDirective() | contentDirective())*
+ (styleRuleOrDeclarationOrNestedProperties() | keyframeSelector() | controlDirective() | contentDirective() | variable() )*
  <RBRACE> (<S>)* 
 }
 
