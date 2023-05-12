@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -36,8 +37,8 @@ import com.vaadin.sass.internal.parser.SassListItem;
  */
 public interface SCSSFunctionGenerator {
 
-    public static SCSSFunctionGenerator getGenerator(String funcName) {
-        return Registry.FUNCTIONS.get(funcName);
+    public static SCSSFunctionGenerator getGenerator( String funcName ) {
+        return Registry.FUNCTIONS.get( funcName );
     }
 
     /**
@@ -45,8 +46,8 @@ public interface SCSSFunctionGenerator {
      * @param generator the implementation of the custom function
      */
     public static void registerCustomFunction( SCSSFunctionGenerator generator ) {
-        for (String functionName : generator.getFunctionNames()) {
-            Registry.FUNCTIONS.put(functionName, generator );
+        for( String functionName : generator.getFunctionNames() ) {
+            Registry.FUNCTIONS.put( functionName, generator );
         }
     }
 
@@ -72,7 +73,7 @@ public interface SCSSFunctionGenerator {
      *            Function lexical unit to print its state
      * @return SassListItem the value of the function
      */
-    SassListItem compute(ScssContext context, LexicalUnitImpl function);
+    SassListItem compute( ScssContext context, LexicalUnitImpl function );
 
     abstract class Registry {
         static final Map<String, SCSSFunctionGenerator> FUNCTIONS = new HashMap<>();
@@ -85,38 +86,39 @@ public interface SCSSFunctionGenerator {
 
         private static List<SCSSFunctionGenerator> defaultFunctions() {
             List<SCSSFunctionGenerator> list = new ArrayList<SCSSFunctionGenerator>();
-            list.add(new AbsFunctionGenerator());
-            list.add(new AdjustColorFunctionGenerator());
-            list.add(new CallFunctionGenerator());
-            list.add(new CeilFunctionGenerator());
-            list.add(new ComparableFunctionGenerator());
-            list.add(new DarkenFunctionGenerator());
-            list.add(new FloorFunctionGenerator());
-            list.add(new GetFunctionFunctionGenerator());
-            list.add(new GrayscaleFunctionGenerator());
-            list.add(new IfFunctionGenerator());
-            list.add(new LightenFunctionGenerator());
-            list.add(new ListAppendFunctionGenerator());
-            list.add(new ListIndexFunctionGenerator());
-            list.add(new ListJoinFunctionGenerator());
-            list.add(new ListLengthFunctionGenerator());
-            list.add(new ListNthFunctionGenerator());
-            list.add(new MapGetFunctionGenerator());
-            list.add(new MapMergeFunctionGenerator());
-            list.add(new MinMaxFunctionGenerator());
-            list.add(new MixFunctionGenerator());
-            list.add(new PercentageFunctionGenerator());
-            list.add(new RectFunctionGenerator());
-            list.add(new RGBFunctionGenerator());
-            list.add(new RoundFunctionGenerator());
-            list.add(new SaturationModificationFunctionGenerator());
-            list.add(new TypeOfFunctionGenerator());
-            list.add(new AlphaFunctionGenerator());
-            list.add(new TransparencyModificationFunctionGenerator());
-            list.add(new ColorComponentFunctionGenerator());
-            list.add(new UnitFunctionGenerator());
-            list.add(new UnitlessFunctionGenerator());
-            list.add(new QuoteUnquoteFunctionGenerator());
+            list.add( new AbsFunctionGenerator() );
+            list.add( new AdjustColorFunctionGenerator() );
+            list.add( new CallFunctionGenerator() );
+            list.add( new CeilFunctionGenerator() );
+            list.add( new ComparableFunctionGenerator() );
+            list.add( new DarkenFunctionGenerator() );
+            list.add( new FloorFunctionGenerator() );
+            list.add( new GetFunctionFunctionGenerator() );
+            list.add( new GrayscaleFunctionGenerator() );
+            list.add( new IfFunctionGenerator() );
+            list.add( new LightenFunctionGenerator() );
+            list.add( new ListAppendFunctionGenerator() );
+            list.add( new ListIndexFunctionGenerator() );
+            list.add( new ListJoinFunctionGenerator() );
+            list.add( new ListLengthFunctionGenerator() );
+            list.add( new ListNthFunctionGenerator() );
+            list.add( new MapGetFunctionGenerator() );
+            list.add( new MapMergeFunctionGenerator() );
+            list.add( new MinMaxFunctionGenerator() );
+            list.add( new MixFunctionGenerator() );
+            list.add( new PercentageFunctionGenerator() );
+            list.add( new RectFunctionGenerator() );
+            list.add( new RGBFunctionGenerator() );
+            list.add( new RoundFunctionGenerator() );
+            list.add( new SaturationModificationFunctionGenerator() );
+            list.add( new StrSliceFunctionGenerator() );
+            list.add( new TypeOfFunctionGenerator() );
+            list.add( new AlphaFunctionGenerator() );
+            list.add( new TransparencyModificationFunctionGenerator() );
+            list.add( new ColorComponentFunctionGenerator() );
+            list.add( new UnitFunctionGenerator() );
+            list.add( new UnitlessFunctionGenerator() );
+            list.add( new QuoteUnquoteFunctionGenerator() );
             return list;
         }
     }

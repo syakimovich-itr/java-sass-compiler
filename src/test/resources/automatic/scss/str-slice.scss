@@ -1,0 +1,7 @@
+.class {
+    a: str-slice("Helvetica Neue", 11);
+    b: str-slice("Helvetica Neue", 1, 3);
+    c: str-slice("Helvetica Neue", 1, -6);
+    d: str-slice("Helvetica Neue", 1, 40);
+    e: str-slice("Helvetica Neue", -11, 9);
+}

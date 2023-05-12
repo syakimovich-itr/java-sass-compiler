@@ -65,10 +65,9 @@ public abstract class AbstractFunctionGenerator implements
             functionArguments = arguments.replaceFormalArguments(args,
                     checkForUnsetParameters());
         } catch (ParseException e) {
-            throw new ParseException("Error in parameters of function "
-                    + function.getFunctionName() + "(), line "
-                    + function.getLineNumber() + ", column "
-                    + function.getColumnNumber() + ": [" + e.getMessage() + "]");
+            ParseException ex = new ParseException( "Error in parameters of function " + function.getFunctionName(), function );
+            ex.initCause( e );
+            throw ex;
         }
         return computeForArgumentList(context, function, functionArguments);
     }
