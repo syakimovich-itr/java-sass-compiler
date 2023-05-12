@@ -27,96 +27,113 @@ import com.vaadin.sass.internal.parser.SassExpression;
 import com.vaadin.sass.internal.parser.SassListItem;
 
 public class ArithmeticExpressionEvaluator {
-    private static ArithmeticExpressionEvaluator instance;
 
-    public static ArithmeticExpressionEvaluator get() {
-        if (instance == null) {
-            instance = new ArithmeticExpressionEvaluator();
-        }
-        return instance;
-    }
-
-    private void createNewOperand(BinaryOperator operator,
-            Stack<Object> operands) {
+    private static void createNewOperand( BinaryOperator operator, Stack<Object> operands ) {
         Object rightOperand = operands.pop();
-        operands.push(new BinaryExpression(operands.pop(), operator,
-                rightOperand));
+        operands.push( new BinaryExpression( operands.pop(), operator, rightOperand ) );
     }
 
-    private Object createExpression(ScssContext context,
-            List<SassListItem> terms) {
+    /**
+     * If the operation can be evaluated without evaluation the right operand
+     * @param operator the operation
+     * @param operands all operands
+     * @return true, if the right operand should not be evaluated
+     */
+    private static boolean isShortCircuitEvaluation( BinaryOperator operator, Stack<Object> operands ) {
+        boolean value;
+        switch( operator ) {
+            case OR:
+                value = true;
+                break;
+            case AND:
+                value = false;
+                break;
+            default:
+                return false;
+        }
+        Object expr = operands.peek();
+        SassListItem left = expr instanceof BinaryExpression ? ((BinaryExpression)expr).eval() : (SassListItem)expr;
+        return value == BinaryOperator.isTrue( left );
+    }
+
+    private static Object createExpression( ScssContext context, List<SassListItem> terms ) {
         SassListItem current = null;
         boolean afterOperand = false;
         Stack<Object> operands = new Stack<Object>();
         Stack<Object> operators = new Stack<Object>();
-        inputTermLoop: for (int i = 0; i < terms.size(); ++i) {
-            current = terms.get(i).evaluateFunctionsAndExpressions(context,
-                    true);
-            if (SassExpression.isWhitespace(current)) {
+        int termCount = terms.size();
+        inputTermLoop: for( int i = 0; i < termCount; ++i ) {
+            current = terms.get( i ).evaluateFunctionsAndExpressions( context, true );
+            if( SassExpression.isWhitespace( current ) ) {
                 continue;
             }
-            if (afterOperand) {
-                if (LexicalUnitImpl.checkLexicalUnitType(current,
-                        SCSSLexicalUnit.SCSS_OPERATOR_RIGHT_PAREN)) {
+            if( afterOperand ) {
+                if( LexicalUnitImpl.checkLexicalUnitType( current, SCSSLexicalUnit.SCSS_OPERATOR_RIGHT_PAREN ) ) {
                     Object operator = null;
-                    while (!operators.isEmpty()
-                            && ((operator = operators.pop()) != Parentheses.LEFT)) {
-                        createNewOperand((BinaryOperator) operator, operands);
+                    while( !operators.isEmpty() && ((operator = operators.pop()) != Parentheses.LEFT) ) {
+                        createNewOperand( (BinaryOperator)operator, operands );
                     }
                     continue;
                 }
                 afterOperand = false;
-                for (BinaryOperator operator : BinaryOperator.values()) {
-                    if (LexicalUnitImpl.checkLexicalUnitType(current,
-                            operator.type)) {
-                        while (!operators.isEmpty()
-                                && (operators.peek() != Parentheses.LEFT)
-                                && (((BinaryOperator) operators.peek()).precedence >= operator.precedence)) {
-                            createNewOperand((BinaryOperator) operators.pop(),
-                                    operands);
+                for( BinaryOperator operator : BinaryOperator.values() ) {
+                    if( LexicalUnitImpl.checkLexicalUnitType( current, operator.type ) ) {
+                        while( !operators.isEmpty() ) {
+                            Object previous = operators.peek();
+                            if( previous == Parentheses.LEFT || ((BinaryOperator)previous).precedence < operator.precedence ) {
+                                break;
+                            }
+                            createNewOperand( (BinaryOperator)operators.pop(), operands );
                         }
-                        operators.push(operator);
+
+                        if( isShortCircuitEvaluation( operator, operands ) ) {
+                            while( i < termCount ) {
+                                current = terms.get( i );
+                                if( LexicalUnitImpl.checkLexicalUnitType( current, SCSSLexicalUnit.SCSS_OPERATOR_RIGHT_PAREN ) ) {
+                                    break;
+                                }
+                                i++;
+                            }
+                            continue inputTermLoop;
+                        }
+                        operators.push( operator );
 
                         continue inputTermLoop;
                     }
                 }
-                throw new ArithmeticException("Illegal arithmetic expression",
-                        current);
+                throw new ArithmeticException( "Illegal arithmetic expression", current );
             }
-            if (LexicalUnitImpl.checkLexicalUnitType(current,
-                    SCSSLexicalUnit.SCSS_OPERATOR_LEFT_PAREN)) {
-                operators.push(Parentheses.LEFT);
+            if( LexicalUnitImpl.checkLexicalUnitType( current, SCSSLexicalUnit.SCSS_OPERATOR_LEFT_PAREN ) ) {
+                operators.push( Parentheses.LEFT );
                 continue;
             }
             afterOperand = true;
 
-            operands.push(current);
+            operands.push( current );
         }
 
-        while (!operators.isEmpty()) {
+        while( !operators.isEmpty() ) {
             Object operator = operators.pop();
-            if (operator == Parentheses.LEFT) {
-                throw new ArithmeticException("Unexpected \"(\" found", current);
+            if( operator == Parentheses.LEFT ) {
+                throw new ArithmeticException( "Unexpected \"(\" found", current );
             }
-            createNewOperand((BinaryOperator) operator, operands);
+            createNewOperand( (BinaryOperator)operator, operands );
         }
         Object expression = operands.pop();
-        if (!operands.isEmpty()) {
-            LexicalUnitImpl operand = (LexicalUnitImpl) operands.peek();
-            throw new ArithmeticException("Unexpected operand "
-                    + operand.toString() + " found", current);
+        if( !operands.isEmpty() ) {
+            LexicalUnitImpl operand = (LexicalUnitImpl)operands.peek();
+            throw new ArithmeticException( "Unexpected operand " + operand.toString() + " found", current );
         }
         return expression;
     }
 
-    public SassListItem evaluate(ScssContext context, List<SassListItem> terms) {
-        Object result = ArithmeticExpressionEvaluator.get().createExpression(
-                context, terms);
-        if (result instanceof BinaryExpression) {
-            return ((BinaryExpression) result).eval();
+    public static SassListItem evaluate( ScssContext context, List<SassListItem> terms ) {
+        Object result = createExpression( context, terms );
+        if( result instanceof BinaryExpression ) {
+            return ((BinaryExpression)result).eval();
         }
         // createExpression returns either a BinaryExpression or a
         // SassListItem
-        return (SassListItem) result;
+        return (SassListItem)result;
     }
 }

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -205,18 +206,15 @@ public class SassExpression implements SassListItem, Serializable {
     }
 
     @Override
-    public SassListItem evaluateFunctionsAndExpressions(ScssContext context,
-            boolean evaluateArithmetics) {
+    public SassListItem evaluateFunctionsAndExpressions( ScssContext context, boolean evaluateArithmetics ) {
+        if( evaluateArithmetics && !items.isEmpty() ) {
+            return ArithmeticExpressionEvaluator.evaluate( context, items );
+        }
         List<SassListItem> list = new ArrayList<SassListItem>();
-        for (SassListItem item : items) {
-            list.add(item.evaluateFunctionsAndExpressions(context,
-                    evaluateArithmetics));
+        for( SassListItem item : items ) {
+            list.add( item.evaluateFunctionsAndExpressions( context, evaluateArithmetics ) );
         }
-        if (list.size() == 0 || !evaluateArithmetics) {
-            return new SassExpression(list);
-        } else {
-            return ArithmeticExpressionEvaluator.get().evaluate(context, list);
-        }
+        return new SassExpression( list );
     }
 
     @Override

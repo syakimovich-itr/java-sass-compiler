@@ -1,0 +1,14 @@
+.class {
+  $value: null;
+  // unit($value) throw an exception if evaluate
+  @if $value == null or unit($value) {
+    color: red;
+  } @else {
+    color: green;
+  }
+  @if not "bar" {
+    n: "not bar";
+  } @else {
+    n: "bar";
+  }
+}
