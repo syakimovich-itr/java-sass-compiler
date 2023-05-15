@@ -713,7 +713,6 @@ public class LexicalUnitImpl implements SCSSLexicalUnit,
     }
 
     private LexicalUnitImpl replaceParams(ScssContext context) {
-        ActualArgumentList params = getParameterList();
         if (params != null) {
             LexicalUnitImpl copy = copy();
             copy.setParameterList(params.replaceVariables(context));
@@ -724,7 +723,7 @@ public class LexicalUnitImpl implements SCSSLexicalUnit,
     }
 
     private SassListItem replaceSimpleVariable(ScssContext context) {
-        if (getLexicalUnitType() == LexicalUnitImpl.SCSS_VARIABLE) {
+        if (type == LexicalUnitImpl.SCSS_VARIABLE) {
             // replace simple variable
             String stringValue = getStringValue();
             Variable var = context.getVariable(stringValue);
@@ -813,7 +812,6 @@ public class LexicalUnitImpl implements SCSSLexicalUnit,
     private static final SCSSFunctionGenerator DEFAULT_SERIALIZER = new DefaultFunctionGenerator();
 
     private String simpleAsString() {
-        short type = getLexicalUnitType();
         String text = null;
         switch (type) {
         case SCSS_VARIABLE:
@@ -915,7 +913,6 @@ public class LexicalUnitImpl implements SCSSLexicalUnit,
 
     @Override
     public String buildString(BuildStringStrategy strategy) {
-        short type = getLexicalUnitType();
         String text = simpleAsString();
         if (text == null) {
         switch (type) {
