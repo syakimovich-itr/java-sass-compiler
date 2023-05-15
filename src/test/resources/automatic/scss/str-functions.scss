@@ -1,0 +1,6 @@
+.class {
+    a: str-length( "Helvetica" );
+    b: str-length( "" );
+    index-match: str-index( "Helvetica", "vet" );
+    index-nomatch: str-index( "Helvetica", "foo" );
+}

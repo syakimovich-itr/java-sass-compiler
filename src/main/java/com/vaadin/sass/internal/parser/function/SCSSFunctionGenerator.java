@@ -27,7 +27,7 @@ import com.vaadin.sass.internal.parser.SassListItem;
 
 /**
  * Generator class is used to handle SCSS functions. Generator is applied to the
- * function lexical unit if its method {@link #getFunctionName()} returns name
+ * function lexical unit if its method {@link #getFunctionNames()} returns name
  * of the function.
  * 
  * If there are no dedicated generator for the function then default generator
@@ -111,6 +111,8 @@ public interface SCSSFunctionGenerator {
             list.add( new RGBFunctionGenerator() );
             list.add( new RoundFunctionGenerator() );
             list.add( new SaturationModificationFunctionGenerator() );
+            list.add( new StrIndexFunctionGenerator() );
+            list.add( new StrLengthFunctionGenerator() );
             list.add( new StrSliceFunctionGenerator() );
             list.add( new TypeOfFunctionGenerator() );
             list.add( new AlphaFunctionGenerator() );
