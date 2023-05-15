@@ -362,7 +362,7 @@ public class LexicalUnitImpl implements SCSSLexicalUnit,
         switch( otherType ) {
             case SAC_INTEGER:
             case SAC_REAL:
-                return thisType;
+                return thisType == SAC_INTEGER ? otherType : thisType ;
 
             case SAC_CENTIMETER:
             case SAC_MILLIMETER:

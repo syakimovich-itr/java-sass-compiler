@@ -45,9 +45,10 @@ class RGBFunctionGenerator extends AbstractFunctionGenerator {
         int column = function.getColumnNumber();
         for (int i = 0; i < 3; ++i) {
             SassListItem item = getParam(actualArguments, i);
-            if (!LexicalUnitImpl
-                    .checkLexicalUnitType(item, LexicalUnitImpl.SAC_INTEGER,
-                            LexicalUnitImpl.SAC_PERCENTAGE)) {
+            if( !LexicalUnitImpl.checkLexicalUnitType( item, //
+                                                       LexicalUnitImpl.SAC_INTEGER, //
+                                                       LexicalUnitImpl.SAC_REAL, //
+                                                       LexicalUnitImpl.SAC_PERCENTAGE ) ) {
                 throw new ParseException( "Invalid parameter to the function rgb(): " + item.toString(), uri, line, column );
             }
             components.add(item);
