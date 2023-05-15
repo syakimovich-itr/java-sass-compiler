@@ -32,7 +32,6 @@ import java.util.regex.Pattern;
 
 import com.vaadin.sass.internal.ScssContext;
 import com.vaadin.sass.internal.expression.exception.IncompatibleUnitsException;
-import com.vaadin.sass.internal.parser.function.DefaultFunctionGenerator;
 import com.vaadin.sass.internal.parser.function.SCSSFunctionGenerator;
 import com.vaadin.sass.internal.tree.BlockNode;
 import com.vaadin.sass.internal.tree.FunctionCall;
@@ -792,7 +791,7 @@ public class LexicalUnitImpl implements SCSSLexicalUnit,
                 }
             }
             if( generator == null ) {
-                generator = DEFAULT_SERIALIZER;
+                return copy;
             }
             return generator.compute( context, copy );
         } else {
@@ -808,8 +807,6 @@ public class LexicalUnitImpl implements SCSSLexicalUnit,
         }
         return null;
     }
-
-    private static final SCSSFunctionGenerator DEFAULT_SERIALIZER = new DefaultFunctionGenerator();
 
     private String simpleAsString() {
         String text = null;
