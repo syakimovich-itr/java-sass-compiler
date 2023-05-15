@@ -1311,16 +1311,16 @@ SimpleSelector pseudo_selector():
 
 String pseudo_params():
 {
-  String params = "";
+  StringBuilder params = new StringBuilder();
   Token t;
 }
 {
     (
-        ( t = <NUMBER> | t = <DIMEN> | t = <PLUS> | t = <MINUS> | t = <IDENT> ) { params = params + t.image; }
-        ( t = <S> { params = params + t.image; } )*
+        ( t = <NUMBER> | t = <DIMEN> | t = <PLUS> | t = <MINUS> | t = <IDENT> | t = <START_INTERPOLATION> | t = <VARIABLE> | t = <RBRACE> ) { params.append( t.image ); }
+        ( t = <S> { params.append( t.image ); } )*
     )*
     {
-        return params;
+        return params.toString();
     }
 }
 

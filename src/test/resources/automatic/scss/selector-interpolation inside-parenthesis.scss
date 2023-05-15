@@ -1,0 +1,6 @@
+$table-striped-order: odd;
+.table-striped {
+  > tbody > tr:nth-of-type(#{$table-striped-order}) > * {
+    a: red;
+  }
+}

@@ -1,0 +1,3 @@
+.table-striped > tbody > tr:nth-of-type(odd) > * {
+  a: red;
+}
