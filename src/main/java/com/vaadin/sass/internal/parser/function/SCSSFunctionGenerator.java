@@ -119,6 +119,7 @@ public interface SCSSFunctionGenerator {
             list.add( new UnitFunctionGenerator() );
             list.add( new UnitlessFunctionGenerator() );
             list.add( new QuoteUnquoteFunctionGenerator() );
+            list.add( new VariableExistsFunctionGenerator() );
             return list;
         }
     }

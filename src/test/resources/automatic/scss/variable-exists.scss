@@ -1,0 +1,16 @@
+$existing-var: "exist";
+$null-var: null;
+.class {
+    a: variable-exists(doesnotexists);
+    b: variable-exists(existing-var);
+    c: variable-exists("existing-var");
+    d: variable-exists(null-var);
+    e: if( variable-exists(doesnotexists) and $doesnotexists, "foo", "bar" );
+    f: $existing-var;
+    @if( variable-exists(doesnotexists) and $doesnotexists ) {
+        g: "foo";
+    }
+    @else {
+        g: "bar";
+    }
+}

@@ -1,0 +1,9 @@
+.class {
+  a: false;
+  b: true;
+  c: true;
+  d: true;
+  e: "bar";
+  f: "exist";
+  g: "bar";
+}
