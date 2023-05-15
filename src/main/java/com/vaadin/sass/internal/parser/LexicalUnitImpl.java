@@ -70,6 +70,7 @@ public class LexicalUnitImpl implements SCSSLexicalUnit,
     private String uri;
 
     private String printState;
+    private boolean varNotResolved;
 
     LexicalUnitImpl( String uri, int line, int column, short type ) {
         this.uri = uri;
@@ -284,6 +285,10 @@ public class LexicalUnitImpl implements SCSSLexicalUnit,
      */
     public String printState() {
         if (printState == null) {
+            if( varNotResolved ) {
+                // throw this exception only if there was already a failing try to resolve this variable
+                throw new ParseException( "Variable was not resolved: " + simpleAsString(), uri, line, column );
+            }
             printState = buildString(Node.PRINT_STRATEGY);
         }
         return printState;
@@ -726,7 +731,7 @@ public class LexicalUnitImpl implements SCSSLexicalUnit,
             if (var != null) {
                 return var.getExpr().replaceVariables(context);
             }
-            throw new ParseException( "Variable was not resolved: " + simpleAsString(), uri, line, column );
+            varNotResolved = true;
         }
         return this;
     }
@@ -913,7 +918,7 @@ public class LexicalUnitImpl implements SCSSLexicalUnit,
         short type = getLexicalUnitType();
         String text = simpleAsString();
         if (text == null) {
-            switch (type) {
+        switch (type) {
             case SAC_URI:
                 text = "url(" + getStringValue() + ")";
                 break;
