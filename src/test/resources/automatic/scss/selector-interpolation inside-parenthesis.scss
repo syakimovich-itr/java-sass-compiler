@@ -1,6 +1,10 @@
 $table-striped-order: odd;
+$not-valid:":not(.valid-tooltip)";
 .table-striped {
   > tbody > tr:nth-of-type(#{$table-striped-order}) > * {
     a: red;
+  }
+  > :not(:first-child):not(.dropdown-menu)#{$not-valid} {
+    margin-left: 25px;
   }
 }

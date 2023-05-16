@@ -1144,12 +1144,11 @@ Selector selector() :
 
 SimpleSelectorSequence simple_selector_sequence() :
 {
-  SimpleSelector simple = null;
+  SimpleSelector simple;
   ArrayList<SimpleSelector> list = new ArrayList<SimpleSelector>();
 }
 {
-  ((simple=simple_nontype_selector() { list.add(simple); })+
-   | simple=type_selector() { list.add(simple); } (simple=simple_nontype_selector() { list.add(simple); })*)
+  (simple=simple_nontype_selector() { list.add(simple); })+
   {
     return new SimpleSelectorSequence(list);
   }
@@ -1165,7 +1164,9 @@ SimpleSelector simple_nontype_selector() :
   | s=placeholder_selector()
   | s=id_selector()
   | s=pseudo_selector()
-  | s=attribute_selector() )
+  | s=attribute_selector()
+  | s=type_selector()
+  )
   { return s; }
 }
 
@@ -1177,7 +1178,9 @@ StringInterpolationSequence ident_interpolation_seq() :
   Interpolation interp;
 }
 {
-  (t=propertyIdent() {items.add(new StringItem(t.image));} | interp=interpolation() {items.add(interp);})+
+  ( t=propertyIdent()      {items.add(new StringItem(t.image));} 
+  | interp=interpolation() {items.add(interp);}
+  )+
   {
     return new StringInterpolationSequence(items);
   }

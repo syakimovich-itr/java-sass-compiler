@@ -1,3 +1,6 @@
 .table-striped > tbody > tr:nth-of-type(odd) > * {
   a: red;
 }
+ .table-striped > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip) {
+ margin-left: 25px;
+}
