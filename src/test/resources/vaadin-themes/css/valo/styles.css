@@ -625,7 +625,7 @@
 	bottom: 6px;
 	left: -10px;
 	background: black;
-	filter: alpha(opacity=5) progid:DXImageTransform.Microsoft.blur(pixelradius=10, makeShadow=false);
+	filter: opacity(5%);
 }
 
 .v-ie8 .v-shadow .top-left, .v-ie8 .v-shadow-window .top-left {
@@ -635,7 +635,7 @@
 	bottom: -1px;
 	left: -1px;
 	background: black;
-	filter: alpha(opacity=9) progid:DXImageTransform.Microsoft.blur(pixelradius=0, makeShadow=false);
+	filter: opacity(9%);
 }
 
 /**
@@ -1205,7 +1205,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .v-colorpicker-gradient-clicklayer {
 	opacity: 0;
-	filter: alpha(opacity=0) ;
+	filter: opacity(0%);
 }
 
 .rgb-gradient .v-colorpicker-gradient-background {
@@ -1492,7 +1492,7 @@ div.v-layout.v-horizontal.v-widget {
 	top: 9px;
 	right: 9px;
 	left: auto;
-	filter: alpha(opacity=50);
+	filter: opacity(50%);
 }
 
 .v-ie8 .valo .v-loading-indicator[style*="none"], .v-ie8 .valo .v-loading-indicator-delay[style*="none"], .v-ie8 .valo .v-loading-indicator-wait[style*="none"], .v-ie9 .valo .v-loading-indicator[style*="none"], .v-ie9 .valo .v-loading-indicator-delay[style*="none"], .v-ie9 .valo .v-loading-indicator-wait[style*="none"] {
@@ -1500,7 +1500,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .v-ie8 .valo .v-loading-indicator-wait, .v-ie9 .valo .v-loading-indicator-wait {
-	filter: alpha(opacity=100);
+	filter: opacity(100%);
 }
 
 .valo .v-scrollable:focus {
@@ -1599,7 +1599,7 @@ div.v-layout.v-horizontal.v-widget {
 	border-radius: 4px;
 	overflow: hidden;
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 .valo .v-tooltip {
@@ -1699,7 +1699,7 @@ div.v-layout.v-horizontal.v-widget {
 	left: 0;
 	background: #0957a6;
 	opacity: 0.15;
-	filter: alpha(opacity=15.0) ;
+	filter: opacity(15%);
 	pointer-events: none;
 	border-radius: inherit;
 }
@@ -1896,7 +1896,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo .v-button.v-disabled {
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 .valo .v-button.v-disabled:after {
@@ -2069,7 +2069,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo .v-button-borderless:active {
 	opacity: 0.7;
-	filter: alpha(opacity=70) ;
+	filter: opacity(70%);
 }
 
 .valo .v-button-borderless:active:after {
@@ -2094,7 +2094,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo .v-button-borderless-colored:active {
 	opacity: 0.7;
-	filter: alpha(opacity=70) ;
+	filter: opacity(70%);
 }
 
 .valo .v-button-borderless-colored:active:after {
@@ -2138,7 +2138,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo .v-button-link:active {
 	opacity: 0.7;
-	filter: alpha(opacity=70) ;
+	filter: opacity(70%);
 }
 
 .valo .v-button-link:active:after {
@@ -2398,7 +2398,7 @@ div.v-layout.v-horizontal.v-widget {
 
 :root .valo .v-checkbox > input[disabled]  ~ label:before, :root .valo .v-checkbox > input[disabled]  ~ label:after {
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 :root .valo .v-checkbox > input[disabled]:active ~ label:after {
@@ -2532,7 +2532,7 @@ div.v-layout.v-horizontal.v-widget {
 
 :root .valo .v-checkbox-small > input[disabled]  ~ label:before, :root .valo .v-checkbox-small > input[disabled]  ~ label:after {
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 :root .valo .v-checkbox-small > input[disabled]:active ~ label:after {
@@ -2666,7 +2666,7 @@ div.v-layout.v-horizontal.v-widget {
 
 :root .valo .v-checkbox-large > input[disabled]  ~ label:before, :root .valo .v-checkbox-large > input[disabled]  ~ label:after {
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 :root .valo .v-checkbox-large > input[disabled]:active ~ label:after {
@@ -2730,7 +2730,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo .v-filterselect [class*="input"].v-disabled {
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 .valo .v-filterselect [class*="input"]:focus {
@@ -2819,7 +2819,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo .v-filterselect.v-disabled {
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 .valo .v-filterselect.v-disabled [class$="button"] {
@@ -2926,7 +2926,7 @@ div.v-layout.v-horizontal.v-widget {
 	left: 0;
 	background: #0957a6;
 	opacity: 0.15;
-	filter: alpha(opacity=15.0) ;
+	filter: opacity(15%);
 	pointer-events: none;
 	border-radius: inherit;
 }
@@ -2973,7 +2973,7 @@ div.v-layout.v-horizontal.v-widget {
 	z-index: 3;
 	right: 0;
 	opacity: 0.2;
-	filter: alpha(opacity=20) ;
+	filter: opacity(20%);
 	cursor: pointer;
 	-webkit-transition: all 200ms;
 	-moz-transition: all 200ms;
@@ -3000,7 +3000,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo .v-filterselect-suggestpopup div[class*="page"]:hover {
 	opacity: 1;
-	filter: none ;
+	filter: none;
 	background: rgba(250, 250, 250, 0.5);
 }
 
@@ -3116,20 +3116,20 @@ div.v-layout.v-horizontal.v-widget {
 .valo .v-filterselect-borderless .v-filterselect-input[class*="prompt"] {
 	color: inherit;
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 .valo .v-filterselect-borderless .v-filterselect-button {
 	border: none;
 	color: inherit;
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 .valo .v-filterselect-borderless.v-filterselect-prompt .v-filterselect-input {
 	color: inherit;
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 .valo .v-filterselect-align-right input {
@@ -3239,7 +3239,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo .v-filterselect-tiny.v-disabled {
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 .valo .v-filterselect-tiny.v-disabled [class$="button"] {
@@ -3370,7 +3370,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo .v-filterselect-compact.v-disabled, .valo .v-filterselect-small.v-disabled {
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 .valo .v-filterselect-compact.v-disabled [class$="button"], .valo .v-filterselect-small.v-disabled [class$="button"] {
@@ -3506,7 +3506,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo .v-filterselect-large.v-disabled {
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 .valo .v-filterselect-large.v-disabled [class$="button"] {
@@ -3638,7 +3638,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo .v-filterselect-huge.v-disabled {
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 .valo .v-filterselect-huge.v-disabled [class$="button"] {
@@ -3907,7 +3907,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo .v-formlayout.light  > table > tbody > [class*="row"] > [class*="contentcell"]  > .v-textfield.v-disabled, .valo .v-formlayout.light  > table > tbody > [class*="row"] > [class*="contentcell"]  > .v-textarea.v-disabled, .valo .v-formlayout.light  > table > tbody > [class*="row"] > [class*="contentcell"]  > .v-filterselect input.v-disabled, .valo .v-formlayout.light  > table > tbody > [class*="row"] > [class*="contentcell"]  > .v-datefield input.v-disabled, .valo .v-formlayout.light  > table > tbody > [class*="row"] > [class*="contentcell"]  > .v-richtextarea.v-disabled {
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 .valo .v-formlayout.light  > table > tbody > [class*="row"] > [class*="contentcell"]  > .v-textfield:focus, .valo .v-formlayout.light  > table > tbody > [class*="row"] > [class*="contentcell"]  > .v-textarea:focus, .valo .v-formlayout.light  > table > tbody > [class*="row"] > [class*="contentcell"]  > .v-filterselect input:focus, .valo .v-formlayout.light  > table > tbody > [class*="row"] > [class*="contentcell"]  > .v-datefield input:focus, .valo .v-formlayout.light  > table > tbody > [class*="row"] > [class*="contentcell"]  > .v-richtextarea:focus {
@@ -4097,7 +4097,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo .v-textfield.v-disabled {
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 .valo .v-textfield:focus {
@@ -4151,7 +4151,7 @@ div.v-layout.v-horizontal.v-widget {
 .valo .v-textfield-borderless[class*="prompt"] {
 	color: inherit;
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 .valo .v-textfield-tiny {
@@ -4567,7 +4567,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo .v-textarea.v-disabled {
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 .valo .v-textarea:focus {
@@ -4627,7 +4627,7 @@ div.v-layout.v-horizontal.v-widget {
 .valo .v-textarea-borderless[class*="prompt"] {
 	color: inherit;
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 .valo .v-textarea-tiny {
@@ -4856,7 +4856,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo .v-datefield [class*="textfield"].v-disabled {
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 .valo .v-datefield [class*="textfield"]:focus {
@@ -4929,7 +4929,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo .v-datefield.v-disabled {
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 .valo .v-datefield.v-disabled [class$="button"] {
@@ -5137,7 +5137,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo .v-datefield-popup td[class$="year"] button:hover, .valo .v-datefield-popup td[class$="month"] button:hover {
 	opacity: 1;
-	filter: none ;
+	filter: none;
 }
 
 .valo .v-datefield-popup td[class$="year"] button:hover:before, .valo .v-datefield-popup td[class$="month"] button:hover:before {
@@ -5320,7 +5320,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo td[class$="year"] button:hover, .valo td[class$="month"] button:hover {
 	opacity: 1;
-	filter: none ;
+	filter: none;
 }
 
 .valo td[class$="year"] button:hover:before, .valo td[class$="month"] button:hover:before {
@@ -5410,14 +5410,14 @@ div.v-layout.v-horizontal.v-widget {
 .valo .v-datefield-borderless .v-datefield-textfield[class*="prompt"] {
 	color: inherit;
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 .valo .v-datefield-borderless .v-datefield-button {
 	border: none;
 	color: inherit;
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 .valo .v-datefield-align-right input {
@@ -5515,7 +5515,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo .v-datefield-tiny.v-disabled {
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 .valo .v-datefield-tiny.v-disabled [class$="button"] {
@@ -5634,7 +5634,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo .v-datefield-compact.v-disabled, .valo .v-datefield-small.v-disabled {
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 .valo .v-datefield-compact.v-disabled [class$="button"], .valo .v-datefield-small.v-disabled [class$="button"] {
@@ -5758,7 +5758,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo .v-datefield-large.v-disabled {
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 .valo .v-datefield-large.v-disabled [class$="button"] {
@@ -5878,7 +5878,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo .v-datefield-huge.v-disabled {
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 .valo .v-datefield-huge.v-disabled [class$="button"] {
@@ -6021,7 +6021,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo td[class$="year"] button:hover, .valo td[class$="month"] button:hover {
 	opacity: 1;
-	filter: none ;
+	filter: none;
 }
 
 .valo td[class$="year"] button:hover:before, .valo td[class$="month"] button:hover:before {
@@ -6171,7 +6171,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo .v-menubar.v-disabled {
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 .valo .v-menubar.v-disabled:after {
@@ -6307,7 +6307,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo .v-menubar-menuitem-disabled {
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 .valo .v-menubar > .v-menubar-menuitem-selected {
@@ -6406,7 +6406,7 @@ div.v-layout.v-horizontal.v-widget {
 	left: 0;
 	background: #0957a6;
 	opacity: 0.15;
-	filter: alpha(opacity=15.0) ;
+	filter: opacity(15%);
 	pointer-events: none;
 	border-radius: inherit;
 }
@@ -6683,7 +6683,7 @@ div.v-layout.v-horizontal.v-widget {
 
 :root .valo .v-radiobutton > input[disabled]  ~ label:before, :root .valo .v-radiobutton > input[disabled]  ~ label:after {
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 :root .valo .v-radiobutton > input[disabled]:active ~ label:after {
@@ -6850,7 +6850,7 @@ div.v-layout.v-horizontal.v-widget {
 
 :root .valo .v-select-optiongroup-small .v-checkbox > input[disabled]  ~ label:before, :root .valo .v-select-optiongroup-small .v-checkbox > input[disabled]  ~ label:after {
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 :root .valo .v-select-optiongroup-small .v-checkbox > input[disabled]:active ~ label:after {
@@ -6983,7 +6983,7 @@ div.v-layout.v-horizontal.v-widget {
 
 :root .valo .v-select-optiongroup-small .v-radiobutton > input[disabled]  ~ label:before, :root .valo .v-select-optiongroup-small .v-radiobutton > input[disabled]  ~ label:after {
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 :root .valo .v-select-optiongroup-small .v-radiobutton > input[disabled]:active ~ label:after {
@@ -7150,7 +7150,7 @@ div.v-layout.v-horizontal.v-widget {
 
 :root .valo .v-select-optiongroup-large .v-checkbox > input[disabled]  ~ label:before, :root .valo .v-select-optiongroup-large .v-checkbox > input[disabled]  ~ label:after {
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 :root .valo .v-select-optiongroup-large .v-checkbox > input[disabled]:active ~ label:after {
@@ -7283,7 +7283,7 @@ div.v-layout.v-horizontal.v-widget {
 
 :root .valo .v-select-optiongroup-large .v-radiobutton > input[disabled]  ~ label:before, :root .valo .v-select-optiongroup-large .v-radiobutton > input[disabled]  ~ label:after {
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 :root .valo .v-select-optiongroup-large .v-radiobutton > input[disabled]:active ~ label:after {
@@ -7428,7 +7428,7 @@ div.v-layout.v-horizontal.v-widget {
 	background-image: -webkit-radial-gradient(50% 50%, circle, #222, #0e0e0e);
 	background-image: radial-gradient(  circle at 50% 50%, #222, #0e0e0e);
 	opacity: 0.72;
-	filter: alpha(opacity=72) ;
+	filter: opacity(72.00001%);
 	-webkit-animation: valo-animate-in-fade 400ms 100ms;
 	-moz-animation: valo-animate-in-fade 400ms 100ms;
 	animation: valo-animate-in-fade 400ms 100ms;
@@ -7512,7 +7512,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo .v-window-closebox:hover, .valo .v-window-maximizebox:hover, .valo .v-window-restorebox:hover {
 	opacity: 1;
-	filter: none ;
+	filter: none;
 	color: #197de1;
 }
 
@@ -7644,7 +7644,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .v-ie8 .valo .v-window-resizebox {
 	background: #000;
-	filter: alpha(opacity=0.1);
+	filter: opacity(0.1);
 }
 
 .v-ie8 .valo .v-window-resizebox, .v-ie9 .valo .v-window-resizebox {
@@ -8133,7 +8133,7 @@ div.v-layout.v-horizontal.v-widget {
 .valo .v-table-header-drag {
 	position: absolute;
 	opacity: 0.9;
-	filter: alpha(opacity=90) ;
+	filter: opacity(90%);
 	margin-top: -19px;
 	z-index: 30000;
 	line-height: 1;
@@ -8183,7 +8183,7 @@ div.v-layout.v-horizontal.v-widget {
 	cursor: pointer;
 	text-align: center;
 	opacity: 0;
-	filter: alpha(opacity=0) ;
+	filter: opacity(0%);
 	-webkit-transition: opacity 200ms 1s;
 	-moz-transition: opacity 200ms 1s;
 	transition: opacity 200ms 1s;
@@ -8245,7 +8245,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo .v-table-header-wrap:hover .v-table-column-selector {
 	opacity: 1;
-	filter: none ;
+	filter: none;
 	-webkit-transition-delay: 100ms;
 	-moz-transition-delay: 100ms;
 	transition-delay: 100ms;
@@ -8273,7 +8273,7 @@ div.v-layout.v-horizontal.v-widget {
 	box-shadow: none;
 	background: transparent;
 	opacity: 1;
-	filter: none ;
+	filter: none;
 }
 
 .valo tbody.v-drag-element tr {
@@ -8285,7 +8285,7 @@ div.v-layout.v-horizontal.v-widget {
 	border-radius: 4px;
 	overflow: hidden;
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 	background: white;
 }
 
@@ -8328,7 +8328,7 @@ div.v-layout.v-horizontal.v-widget {
 	right: 0;
 	background: #197de1;
 	opacity: 0.2;
-	filter: alpha(opacity=20) ;
+	filter: opacity(20%);
 }
 
 .valo .v-table-row-drag-top td:first-child:before, .valo .v-table-row-drag-bottom td:first-child:after {
@@ -8893,7 +8893,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo .v-slider.v-disabled {
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 .valo .v-slider-base {
@@ -9175,7 +9175,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo .v-tabsheet-tabitemcell .v-caption.v-disabled {
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 	cursor: default;
 	color: inherit !important;
 	border-bottom: none;
@@ -9270,18 +9270,18 @@ div.v-layout.v-horizontal.v-widget {
 	cursor: pointer;
 	pointer-events: auto;
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 .valo .v-tabsheet-scroller button:hover {
 	opacity: 1;
-	filter: none ;
+	filter: none;
 	color: #197de1;
 }
 
 .valo .v-tabsheet-scroller button:active {
 	opacity: 0.7;
-	filter: alpha(opacity=70) ;
+	filter: opacity(70%);
 	color: #197de1;
 }
 
@@ -9312,7 +9312,7 @@ div.v-layout.v-horizontal.v-widget {
 	cursor: default;
 	color: inherit !important;
 	opacity: 0.1 !important;
-	filter: alpha(opacity=10) !important;
+	filter: opacity(10%) !important;
 }
 
 .valo .v-tabsheet-tabsheetpanel > .v-scrollable > .v-widget {
@@ -10015,7 +10015,7 @@ div.v-layout.v-horizontal.v-widget {
 	outline: none;
 	color: inherit;
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 .valo .v-calendar-header-week .v-calendar-back:focus, .valo .v-calendar-header-week .v-calendar-next:focus {
@@ -10024,12 +10024,12 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo .v-calendar-header-week .v-calendar-back:hover, .valo .v-calendar-header-week .v-calendar-next:hover {
 	opacity: 1;
-	filter: none ;
+	filter: none;
 }
 
 .valo .v-calendar-header-week .v-calendar-back:active, .valo .v-calendar-header-week .v-calendar-next:active {
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 .valo .v-calendar-header-week .v-calendar-back:before {
@@ -10057,12 +10057,12 @@ div.v-layout.v-horizontal.v-widget {
 	text-align: center;
 	font-size: 0.8em;
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 .valo .v-calendar-week-number:hover {
 	opacity: 1;
-	filter: none ;
+	filter: none;
 }
 
 .valo .v-calendar-month-day {
@@ -10190,7 +10190,7 @@ div.v-layout.v-horizontal.v-widget {
 	line-height: 1px;
 	pointer-events: none;
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 .valo .v-calendar-current-time:before {
@@ -10213,7 +10213,7 @@ div.v-layout.v-horizontal.v-widget {
 	left: 0;
 	background: #197de1;
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 	border-radius: 4px 4px 0 0;
 }
 
@@ -10254,7 +10254,7 @@ div.v-layout.v-horizontal.v-widget {
 	font-size: 0.9em;
 	line-height: 19px;
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 }
 
 .valo .v-calendar-event-month:before {
@@ -10628,7 +10628,7 @@ div.v-layout.v-horizontal.v-widget {
 	border-width: 2px;
 	border-radius: 4px;
 	opacity: 0.3;
-	filter: alpha(opacity=30.0) ;
+	filter: opacity(30%);
 	background: #8abef2;
 }
 
@@ -10640,7 +10640,7 @@ div.v-layout.v-horizontal.v-widget {
 	border-width: 2px;
 	border-radius: 4px;
 	opacity: 0.3;
-	filter: alpha(opacity=30.0) ;
+	filter: opacity(30%);
 	background: #8abef2;
 }
 
@@ -10652,7 +10652,7 @@ div.v-layout.v-horizontal.v-widget {
 	border-width: 2px;
 	border-radius: 4px;
 	opacity: 0.3;
-	filter: alpha(opacity=30.0) ;
+	filter: opacity(30%);
 	background: #8abef2;
 }
 
@@ -10664,7 +10664,7 @@ div.v-layout.v-horizontal.v-widget {
 	border-width: 2px;
 	border-radius: 4px;
 	opacity: 0.3;
-	filter: alpha(opacity=30.0) ;
+	filter: opacity(30%);
 	background: #8abef2;
 }
 
@@ -10672,7 +10672,7 @@ div.v-layout.v-horizontal.v-widget {
 	border-width: 2px;
 	border-radius: 4px;
 	opacity: 0.3;
-	filter: alpha(opacity=30.0) ;
+	filter: opacity(30%);
 	background: #8abef2;
 }
 
@@ -10977,7 +10977,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo .v-upload-immediate input[type="file"] {
 	opacity: 0;
-	filter: alpha(opacity=0) ;
+	filter: opacity(0%);
 	z-index: 2;
 	position: absolute;
 	right: 0;
@@ -11284,7 +11284,7 @@ div.v-layout.v-horizontal.v-widget {
 	cursor: pointer;
 	color: #000;
 	opacity: 0.5;
-	filter: alpha(opacity=50) ;
+	filter: opacity(50%);
 	text-align: center;
 	border: 1px solid #000;
 	border-color: rgba(0, 0, 0, 0.3);
@@ -11296,14 +11296,14 @@ div.v-layout.v-horizontal.v-widget {
 
 .valo .v-Notification.closable:hover:after {
 	opacity: 1;
-	filter: none ;
+	filter: none;
 }
 
 .valo .v-Notification.closable:active:after {
 	background-color: #000;
 	color: #fff;
 	opacity: 0.3;
-	filter: alpha(opacity=30.0) ;
+	filter: opacity(30%);
 	-webkit-transition: none 200ms;
 	-moz-transition: none 200ms;
 	transition: none 200ms;

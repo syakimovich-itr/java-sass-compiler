@@ -576,12 +576,6 @@ TOKEN:
     
 }
 
-< DEFAULT >
-TOKEN:
-{
-  < MICROSOFT_RULE : "filter"|"-ms-filter" > 
-}
-
 <DEFAULT>
 TOKEN:
 {
@@ -1043,41 +1037,6 @@ Combinator combinatorChar() :
     | (t = <SIBLING> (<S>)* { return Combinator.GENERAL_SIBLING; } ) 
 }
 
-void microsoftExtension() :
-{
-  ArrayList<SassListItem> items = new ArrayList<SassListItem>();
-  boolean lastIsSpace = true;
-  Interpolation i;
-  Token n;
-  String name = "";
-  String s;
-}
-
-{
-  // This is not really taking the syntax of filter rules into account
-  n = < MICROSOFT_RULE > (< S >)* { name = n.image; }
-    < COLON >
-    ((n = ident() { items.add(new StringItem(n.image)); lastIsSpace = false; })
-    | (n = < NUMBER > { items.add(new StringItem(n.image)); lastIsSpace = false; })
-    | (n = < STRING > { items.add(new StringItem(n.image)); lastIsSpace = false; })
-    | (n = < COMMA > { items.add(new StringItem(n.image)); lastIsSpace = false; })
-    | (i = interpolation() { items.add(i); lastIsSpace = false; })
-    | (n = < COLON > { items.add(new StringItem(n.image)); lastIsSpace = false; })
-    | (n = < NOT_FUNCTION > { items.add(new StringItem(n.image)); lastIsSpace = false; })
-    | (n = < FUNCTION > { items.add(new StringItem(n.image)); lastIsSpace = false; })
-    | (n = < RPARAN > { items.add(new StringItem(n.image)); lastIsSpace = false; })
-    | (n = < EQ > { items.add(new StringItem(n.image)); lastIsSpace = false; })
-    | (n = < DOT > { items.add(new StringItem(n.image)); lastIsSpace = false; })
-    | (n = < S > { if(!lastIsSpace) { items.add(new StringItem(n.image)); } lastIsSpace = true;}) 
-    )+
-    < SEMICOLON >
-    (< S >)*
-    {
-        StringInterpolationSequence value = new StringInterpolationSequence(items);
-        documentHandler.microsoftDirective(name, value);
-    }
-}
-
 StringInterpolationSequence property() :
 {
     StringInterpolationSequence sis;
@@ -1414,7 +1373,7 @@ void ifContentStatement() :
 {}
 {
     contentDirective() | includeDirective() | media() | extendDirective() | styleRuleOrDeclarationOrNestedProperties()
-    | keyframes() | variable() | controlDirective() | atRuleDeclaration() | microsoftExtension()
+    | keyframes() | variable() | controlDirective() | atRuleDeclaration()/* | microsoftExtension()*/
 }
 
 void ifDirective() :
@@ -2422,8 +2381,7 @@ ArrayList<SassListItem> identInterpolationString() :
     Interpolation interp;
 }
 {
-    (   (n = <OR> | n = <AND> | n = <FROM> | n= <THROUGH> | n= <TO> | n = <EACH_IN>
-        | n = <MICROSOFT_RULE> ) { items.add(new StringItem(convertIdent(n.image))); }
+    (   (n = <OR> | n = <AND> | n = <FROM> | n= <THROUGH> | n= <TO> | n = <EACH_IN> ) { items.add(new StringItem(convertIdent(n.image))); }
       | (LOOKAHEAD(1) ( n = <IDENT> {items.add(new StringItem(convertIdent(n.image))); }
           | interp = interpolation() {items.add(interp); } | n = "-" {items.add(new StringItem(convertIdent(n.image))); }) )+
     )

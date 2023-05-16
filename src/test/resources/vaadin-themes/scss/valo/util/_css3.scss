@@ -15,8 +15,8 @@
   opacity: $value $importantValue;
 
   @if $value < 1 {
-    $valueperc: $value*100;
-    filter: alpha(opacity=#{$valueperc}) #{$importantValue};
+    $valueperc: percentage($value);
+    filter: opacity($valueperc) #{$importantValue};
   } @else {
     filter: none #{$importantValue};
   }

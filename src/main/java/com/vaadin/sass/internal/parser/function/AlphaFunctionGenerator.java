@@ -30,33 +30,27 @@ class AlphaFunctionGenerator extends AbstractFunctionGenerator {
     private static String[] argumentNames = { "color" };
 
     AlphaFunctionGenerator() {
-        super(createArgumentList(argumentNames, false), "alpha", "opacity");
+        super( createArgumentList( argumentNames, false ), "alpha", "opacity" );
     }
 
     @Override
-    protected SassListItem computeForArgumentList(ScssContext context,
-            LexicalUnitImpl function, FormalArgumentList actualArguments) {
-        checkParameters(function, actualArguments);
-        LexicalUnitImpl color = (LexicalUnitImpl) getParam(actualArguments,
-                "color");
-        float opacity = 1.0f;
-        if (ColorUtil.isRgba(color) || ColorUtil.isHsla(color)) {
+    protected SassListItem computeForArgumentList( ScssContext context, LexicalUnitImpl function, FormalArgumentList actualArguments ) {
+        LexicalUnitImpl color = (LexicalUnitImpl)getParam( actualArguments, "color" );
+
+        if( color.isNumber() ) {
+            return function; // css filter function
+        }
+
+        float opacity;
+        if( ColorUtil.isRgba( color ) || ColorUtil.isHsla( color ) ) {
             ActualArgumentList parameterList = color.getParameterList();
-            SassListItem last = parameterList.get(parameterList.size() - 1);
-            opacity = ((LexicalUnitImpl) last).getFloatValue();
+            SassListItem last = parameterList.get( parameterList.size() - 1 );
+            opacity = ((LexicalUnitImpl)last).getFloatValue();
+        } else if( ColorUtil.isColor( color ) ) {
+            opacity = 1.0f;
+        } else {
+            throw new ParseException( "The function " + function.getFunctionName() + " requires a color as its first parameter", function );
         }
         return LexicalUnitImpl.createNumber( function.getUri(), function.getLineNumber(), function.getColumnNumber(), opacity );
-    }
-
-    private void checkParameters(LexicalUnitImpl function,
-            FormalArgumentList args) {
-        LexicalUnitImpl color = (LexicalUnitImpl) getParam(args, "color");
-        if (!(color instanceof LexicalUnitImpl)
-                || (!ColorUtil.isColor(color) && !ColorUtil.isRgba(color) && !ColorUtil
-                        .isHsla(color))) {
-            throw new ParseException("The function "
-                    + function.getFunctionName()
-                    + " requires a color as its first parameter", function);
-        }
     }
 }

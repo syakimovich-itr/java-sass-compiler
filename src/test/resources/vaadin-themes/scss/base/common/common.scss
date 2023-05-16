@@ -79,7 +79,7 @@ body &.v-app .v-app-loading {
 }
 .v-disabled {
 	opacity: .3;
-	filter: alpha(opacity=30);
+	filter: opacity(30%);
 	cursor: default;
 }
 .v-disabled * {
@@ -234,7 +234,7 @@ input::-ms-clear {
 	/* override any other position: properties */
 	position: absolute !important;
 	opacity: 0.5;
-	filter: alpha(opacity=50);
+	filter: opacity(50%);
 	cursor: default;
 }
 

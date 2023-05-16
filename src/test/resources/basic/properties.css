@@ -8,7 +8,7 @@
 	white-space: nowrap;
 	background: #123456;
 	border-bottom: 1px solid #ffffff;
-	filter: alpha(opacity = 30);
+	filter: grayscale(50%);
 	cursor: pointer;
 	overflow: auto;
 	width: 100%;

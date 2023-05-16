@@ -82,7 +82,7 @@
 
 .#{$name}-gradient .#{$name}-gradient-clicklayer {
 	background-color: white;
-	filter: alpha(opacity = 0);
+	filter: opacity(0%);
 	opacity: 0;
 }
 

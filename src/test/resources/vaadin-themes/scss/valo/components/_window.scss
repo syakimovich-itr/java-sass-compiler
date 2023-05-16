@@ -250,7 +250,7 @@ $v-window-modality-curtain-background-color: #222 !default;
 
     .v-ie8 & {
       background: #000;
-      filter: alpha(opacity=0.1);
+      filter: opacity(0.1);
     }
 
     .v-ie8 &,

@@ -27,7 +27,7 @@
 	opacity: 0;
 	/* Some color needed to make it draggable */
 	background-color:cyan;
-	filter: alpha(opacity=0);
+	filter: opacity(0);
 }
 .#{$primaryStyleName}-over {
 	border: 2px solid #1d9dff;

@@ -295,7 +295,7 @@ div.v-app-loading {
 
 .v-disabled {
 	opacity: 0.3;
-	filter: alpha(opacity = 30);
+	filter: opacity(50%);
 	cursor: default;
 }
 
@@ -433,7 +433,7 @@ div.v-app-loading {
 	z-index: 60000;
 	position: absolute;
 	opacity: 0.5;
-	filter: alpha(opacity = 50);
+	filter: opacity(50%);
 	cursor: default;
 }
 
@@ -568,7 +568,7 @@ div.v-app-loading {
 }
 
 .v-ie6 .v-disabled .v-datefield-button, .v-ie6 .v-disabled .v-datefield-textfield, .v-ie7 .v-disabled .v-datefield-button, .v-ie7 .v-disabled .v-datefield-textfield {
-	filter: alpha(opacity = 30);
+	filter: opacity(30%);
 }
 
 .v-ddwrapper {
@@ -597,7 +597,7 @@ div.v-app-loading {
 	height: 100%;
 	opacity: 0;
 	background-color: cyan;
-	filter: alpha(opacity = 0);
+	filter: opacity(0);
 }
 
 .v-ddwrapper-over {
@@ -966,7 +966,7 @@ div.v-app-loading {
 .v-Notification-system {
 	background-color: red;
 	opacity: 0.7;
-	filter: alpha(opacity = 70);
+	filter: opacity(70%);
 }
 
 .v-Notification-system h1 {
@@ -1238,7 +1238,7 @@ div.v-progressindicator-indeterminate-disabled {
 .v-filterselect-nextpage-off, .v-filterselect-prevpage-off {
 	color: #666666;
 	opacity: 0.5;
-	filter: alpha(opacity = 50);
+	filter: opacity(50%);
 	cursor: default;
 }
 
@@ -1687,7 +1687,7 @@ div.v-progressindicator-indeterminate-disabled {
 	background: #efefef;
 	border: 1px solid #eeeeee;
 	opacity: 0.9;
-	filter: alpha(opacity = 90);
+	filter: opacity(90%);
 	margin-top: 20px;
 	z-index: 30000;
 }
@@ -2074,7 +2074,7 @@ div.v-tree-node-leaf {
 	width: 0.8em;
 	height: 0.8em;
 	padding: 0.1em;
-	filter: alpha(opacity = 0);
+	filter: opacity(0);
 }
 
 .v-ie6 .v-tree-node, .v-ie6 .v-tree-node-children {
@@ -2289,7 +2289,7 @@ div table.v-treetable-animation-clone tr.v-table-row, div table.v-treetable-anim
 
 .v-upload-immediate input {
 	opacity: 0;
-	filter: alpha(opacity = 0);
+	filter: opacity(0);
 	z-index: 2;
 	position: absolute;
 	right: 0;
@@ -2401,7 +2401,7 @@ div.v-window-header {
 	position: fixed;
 	width: 100%;
 	height: 100%;
-	filter: alpha(opacity = 50);
+	filter: opacity(50%);
 }
 
 .v-ie6 .v-window-modalitycurtain {

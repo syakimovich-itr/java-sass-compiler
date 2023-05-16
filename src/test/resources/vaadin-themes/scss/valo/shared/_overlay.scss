@@ -165,7 +165,7 @@ $v-selection-item-selection-color: $v-selection-color !default;
       $shadow-spread: nth($shadow, 4);
     }
     $shadow-color: last($shadow);
-    $shadow-color-opacity: round(opacity($shadow-color) * 100);
+    $shadow-color-opacity: percentage(round(opacity($shadow-color)*100)/100);
     $shadow-color: opacify($shadow-color, 1);
 
     position: absolute;
@@ -174,7 +174,7 @@ $v-selection-item-selection-color: $v-selection-color !default;
     bottom: -$shadow-offset-y + $shadow-blur - $shadow-spread;
     left: $shadow-offset-x - $shadow-blur - $shadow-spread;
     background: $shadow-color;
-    filter: alpha(opacity=#{$shadow-color-opacity}) progid:DXImageTransform.Microsoft.blur(pixelradius=#{strip-units($shadow-blur)}, makeShadow=false);
+    filter: opacity($shadow-color-opacity);
   }
 }
 

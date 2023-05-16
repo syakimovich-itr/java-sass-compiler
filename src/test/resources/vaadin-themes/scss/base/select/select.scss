@@ -133,7 +133,7 @@ $select-button-negative-width : -1em;
 .v-filterselect-prevpage-off {
 	color: #666;
 	opacity: .5;
-	filter: alpha(opacity=50);
+	filter: opacity(50%);
 	cursor: default;
 }
 .v-filterselect-nextpage-off span,
