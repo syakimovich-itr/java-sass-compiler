@@ -74,15 +74,12 @@ class ColorComponentFunctionGenerator extends AbstractFunctionGenerator {
             FormalArgumentList args) {
         SassListItem arg = getParam(args, "color");
         if (!(arg instanceof LexicalUnitImpl)) {
-            throw new ParseException("Function " + function.getFunctionName()
-                    + " must have exactly one single value parameter", function);
+            throw new ParseException( "Function " + function.getFunctionName() + " must have exactly one single value parameter: " + arg, function );
         }
         LexicalUnitImpl firstParam = (LexicalUnitImpl) arg;
         if (!ColorUtil.isColor(firstParam) && !ColorUtil.isRgba(firstParam)
                 && !ColorUtil.isHsla(firstParam)) {
-            throw new ParseException("The parameter of the function "
-                    + function.getFunctionName() + " must be a valid color",
-                    function);
+            throw new ParseException( "The parameter of the function " + function.getFunctionName() + " must be a valid color: " + firstParam, function );
         }
     }
 }
