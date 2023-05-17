@@ -1,5 +1,6 @@
 plugins {
-  id "ca.coglinc2.javacc" version "3.0.0"
+  id 'ca.coglinc2.javacc' version '3.0.0'
+  id 'maven-publish'
 }
 
 apply plugin: 'java'
@@ -27,4 +28,38 @@ sourceSets {
     }
 }
 
-eclipseClasspath.dependsOn( 'compileJavacc' )
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'de.inetsoftware'
+            artifactId = 'sass-compiler'
+            version = '1.0'
+            from components.java
+            pom {
+                name = 'Java Sass Compiler'
+                description = 'A Sass compiler written completely in Java (pure Java).'
+                url = 'https://github.com/i-net-software/sass-compiler'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'Horcrux7'
+                        name = 'Volker Berlin'
+                        email = 'vberlin@inetsoftware.de'
+                        organization = 'i-net software'
+                        organizationUrl = 'https://www.inetsoftware.de'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git@github.com:i-net-software/sass-compiler.git'
+                    developerConnection = 'scm:git:git@github.com:i-net-software/sass-compiler.git'
+                    url = 'https://github.com/i-net-software/sass-compiler'
+                }
+            } 
+        }
+    }
+}
