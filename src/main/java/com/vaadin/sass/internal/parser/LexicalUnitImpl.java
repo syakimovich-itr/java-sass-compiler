@@ -32,7 +32,7 @@ import java.util.regex.Pattern;
 
 import com.vaadin.sass.internal.ScssContext;
 import com.vaadin.sass.internal.expression.exception.IncompatibleUnitsException;
-import com.vaadin.sass.internal.parser.function.SCSSFunctionGenerator;
+import com.vaadin.sass.internal.function.SCSSFunctionGenerator;
 import com.vaadin.sass.internal.tree.BlockNode;
 import com.vaadin.sass.internal.tree.FunctionCall;
 import com.vaadin.sass.internal.tree.FunctionDefNode;

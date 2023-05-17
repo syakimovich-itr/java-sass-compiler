@@ -24,11 +24,11 @@ import java.util.Collection;
 import org.junit.runner.RunWith;
 
 import com.vaadin.sass.internal.ScssContext;
+import com.vaadin.sass.internal.function.AbstractFunctionGenerator;
+import com.vaadin.sass.internal.function.SCSSFunctionGenerator;
 import com.vaadin.sass.internal.parser.FormalArgumentList;
 import com.vaadin.sass.internal.parser.LexicalUnitImpl;
 import com.vaadin.sass.internal.parser.SassListItem;
-import com.vaadin.sass.internal.parser.function.AbstractFunctionGenerator;
-import com.vaadin.sass.internal.parser.function.SCSSFunctionGenerator;
 import com.vaadin.sass.testcases.scss.SassTestRunner.TestFactory;
 
 @RunWith(SassTestRunner.class)
