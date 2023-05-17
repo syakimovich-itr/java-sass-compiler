@@ -23,7 +23,6 @@ import java.util.Collections;
 import com.vaadin.sass.internal.Scope;
 import com.vaadin.sass.internal.ScssContext;
 import com.vaadin.sass.internal.handler.SCSSErrorHandler;
-import com.vaadin.sass.internal.parser.ParseException;
 import com.vaadin.sass.internal.parser.Variable;
 import com.vaadin.sass.internal.tree.MixinDefNode;
 import com.vaadin.sass.internal.tree.MixinNode;
@@ -62,7 +61,7 @@ public class MixinNodeHandler {
         try {
             // add variables from argList
             for( Variable var : defClone.getArglist().getArguments() ) {
-                Variable evaluated = new Variable( var.getName(), var.getExpr().evaluateFunctionsAndExpressions( context, true ) );
+                Variable evaluated = new Variable( var.getName(), var.getExpr().replaceVariables( context ).evaluateFunctionsAndExpressions( context, true ) );
                 context.addVariable( evaluated );
             }
             // traverse child nodes in this scope

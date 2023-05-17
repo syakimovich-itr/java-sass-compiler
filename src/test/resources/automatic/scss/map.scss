@@ -4,6 +4,12 @@ $colors-base: (
   "success":    green,
 );
 
+@mixin map-args( $primary, $secondary, $success, $value: red( $primary ) ) {
+    p: $primary;
+    s: $success;
+    v: $value;
+}
+
 .tag {
   color: map-get( $colors-base, "primary" );
   other: map-get( $colors-base, "doesNotExists" );
@@ -11,4 +17,7 @@ $colors-base: (
   @each $key in map-keys($colors-base) {
     #{$key}: map-get( $colors-base, $key );
   }
+
+  @include map-args( $colors-base... );
 }
+

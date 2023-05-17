@@ -127,28 +127,31 @@ public class ActualArgumentList implements Serializable {
          * it seems to be the desired behavior, although only a limited amount
          * of testing has been done to verify this.
          */
-        if (hasVariableArguments()) {
-            List<SassListItem> unnamedArgs = new ArrayList<SassListItem>(
-                    arglist.getItems());
-            List<Variable> namedArgs = new ArrayList<Variable>(
-                    arglist.getNamedVariables());
-            if (variableArgument instanceof SassList) {
+        SassListItem variableArgument = this.variableArgument;
+        if ( variableArgument != null ) {
+            List<SassListItem> unnamedArgs = new ArrayList<SassListItem>( arglist.getItems() );
+            List<Variable> namedArgs = new ArrayList<Variable>( arglist.getNamedVariables() );
+            if( variableArgument instanceof SassList ) {
                 SassList lastList = (SassList) variableArgument;
                 for (SassListItem item : lastList) {
+                    // if it is a map then the map items are like named arguments
+                    if( item.getClass() == SassList.class ) {
+                        SassList map = (SassList)item;
+                        if( map.getSeparator() == Separator.COLON ) {
+                            namedArgs.add( new Variable( map.get( 0 ).unquotedString(), map.get( 1 ) ) );
+                            continue;
+                        }
+                    }
                     unnamedArgs.add(item);
                 }
             }
-            // Append any remaining variable name-value pairs to the argument
-            // list
-            if (variableArgument instanceof ArgumentList) {
-                for (Variable namedVar : ((ArgumentList) variableArgument)
-                        .getNamedVariables()) {
-                    namedArgs.add(namedVar.copy());
+            // Append any remaining variable name-value pairs to the argument list
+            if (variableArgument.getClass() == ArgumentList.class ) {
+                for( Variable namedVar : ((ArgumentList)variableArgument).getNamedVariables() ) {
+                    namedArgs.add( namedVar.copy() );
                 }
             }
-            return new ActualArgumentList(
-                    arglist.getSeparator(variableArgument), unnamedArgs,
-                    namedArgs, null);
+            return new ActualArgumentList( arglist.getSeparator( variableArgument ), unnamedArgs, namedArgs, null );
         }
         return this;
     }
