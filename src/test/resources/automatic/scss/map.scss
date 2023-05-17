@@ -7,4 +7,8 @@ $colors-base: (
 .tag {
   color: map-get( $colors-base, "primary" );
   other: map-get( $colors-base, "doesNotExists" );
+
+  @each $key in map-keys($colors-base) {
+    #{$key}: map-get( $colors-base, $key );
+  }
 }

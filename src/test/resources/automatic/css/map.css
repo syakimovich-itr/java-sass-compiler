@@ -1,3 +1,6 @@
 .tag {
   color: orange;
+  primary: orange;
+  secondary: yellow;
+  success: green;
 }

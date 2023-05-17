@@ -36,7 +36,11 @@ public class EachNodeHandler extends LoopNodeHandler {
         int size = names.size();
         Collection<List<Variable>> loopVariables = new ArrayList<>();
 
-        for( final SassListItem var : eachNode.getVariables() ) {
+        SassListItem variables = eachNode.getVariables();
+        variables = variables.evaluateFunctionsAndExpressions( context, true );
+        SassList list = variables instanceof SassList ? (SassList) variables : new SassList(variables);
+
+        for( final SassListItem var : list ) {
             if( size == 1 ) {
                 loopVariables.add( Collections.singletonList( new Variable( names.get( 0 ), var ) ) );
             } else {

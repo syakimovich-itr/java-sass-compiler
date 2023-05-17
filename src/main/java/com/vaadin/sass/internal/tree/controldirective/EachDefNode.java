@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -46,12 +47,8 @@ public class EachDefNode extends Node implements IVariableNode,
         list = nodeToCopy.list;
     }
 
-    public SassList getVariables() {
-        if (list instanceof SassList) {
-            return (SassList) list;
-        } else {
-            return new SassList(list);
-        }
+    public SassListItem getVariables() {
+        return list;
     }
 
     public List<String> getVariableNames() {

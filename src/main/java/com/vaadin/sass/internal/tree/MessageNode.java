@@ -56,7 +56,7 @@ public class MessageNode extends Node implements IVariableNode {
     public Collection<Node> traverse( ScssContext context ) {
         SCSSErrorHandler handler = SCSSErrorHandler.get();
         replaceVariables( context );
-        String msg = message.unquotedString();
+        String msg = message.evaluateFunctionsAndExpressions( context, true ).unquotedString();
         switch( level ) {
             case debug:
                 handler.debug( msg );
