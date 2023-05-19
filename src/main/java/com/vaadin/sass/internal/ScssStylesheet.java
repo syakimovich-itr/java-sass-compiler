@@ -251,7 +251,8 @@ public class ScssStylesheet extends Node {
      * 
      * @return The full file name for this style sheet
      */
-    public String getFileName() {
+    @Override
+    public String getUri() {
         return uri;
     }
 

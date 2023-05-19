@@ -19,8 +19,6 @@
  * (Massachusetts Institute of Technology, Institut National de Recherche
  *  en Informatique et en Automatique, Keio University).
  * All Rights Reserved. http://www.w3.org/Consortium/Legal/
- *
- * $Id: LexicalUnitImpl.java,v 1.3 2000/02/15 02:08:19 plehegar Exp $
  */
 package com.vaadin.sass.internal.parser;
 
@@ -37,6 +35,7 @@ import com.vaadin.sass.internal.tree.FunctionCall;
 import com.vaadin.sass.internal.tree.FunctionDefNode;
 import com.vaadin.sass.internal.tree.Node;
 import com.vaadin.sass.internal.tree.Node.BuildStringStrategy;
+import com.vaadin.sass.internal.tree.SourceLocation;
 import com.vaadin.sass.internal.util.ColorUtil;
 import com.vaadin.sass.internal.util.StringUtil;
 
@@ -107,10 +106,16 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
         this.uri = uri;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public int getLineNumber() {
         return line;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public int getColumnNumber() {
         return column;
     }

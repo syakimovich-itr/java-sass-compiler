@@ -183,10 +183,10 @@ public class SCSSDocumentHandler {
         nodeStack.pop();
     }
 
-    public void startSelector(List<Selector> selectors) throws CSSException {
-        BlockNode node = new BlockNode(selectors);
-        nodeStack.peek().appendChild(node);
-        nodeStack.push(node);
+    public void startSelector( String uri, int line, int column, List<Selector> selectors ) throws CSSException {
+        BlockNode node = new BlockNode( uri, line, column, selectors );
+        nodeStack.peek().appendChild( node );
+        nodeStack.push( node );
     }
 
     public void endSelector() throws CSSException {

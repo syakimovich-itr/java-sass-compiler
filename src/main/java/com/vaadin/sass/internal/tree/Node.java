@@ -28,7 +28,7 @@ import com.vaadin.sass.internal.parser.ParseException;
 import com.vaadin.sass.internal.parser.SassListItem;
 import com.vaadin.sass.internal.tree.controldirective.TemporaryNode;
 
-public abstract class Node {
+public abstract class Node implements SourceLocation {
 
     public static BuildStringStrategy PRINT_STRATEGY = new PrintStrategy();
 
@@ -38,12 +38,27 @@ public abstract class Node {
 
     private Node parentNode;
 
-    public Node() {
+    private int line;
+    private int column;
+    private String uri;
+
+    protected Node() {
     }
 
-    protected Node(Node nodeToCopy) {
-        if (nodeToCopy != null && nodeToCopy.children != null) {
-            setChildren(nodeToCopy.copyChildren());
+    protected Node( String uri, int line, int column ) {
+        this.uri = uri;
+        this.line = line;
+        this.column = column;
+    }
+
+    protected Node( Node nodeToCopy ) {
+        if( nodeToCopy != null ) {
+            if( nodeToCopy.children != null ) {
+                setChildren( nodeToCopy.copyChildren() );
+            }
+            this.uri = nodeToCopy.uri;
+            this.line = nodeToCopy.line;
+            this.column = nodeToCopy.column;
         }
     }
 
@@ -236,6 +251,30 @@ public abstract class Node {
         } else {
             return Collections.emptyList();
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getLineNumber() {
+        return line;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getColumnNumber() {
+        return column;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getUri() {
+        return uri;
     }
 
     public static interface BuildStringStrategy {

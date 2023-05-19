@@ -22,6 +22,7 @@ import java.util.List;
 
 import com.vaadin.sass.internal.ScssContext;
 import com.vaadin.sass.internal.parser.ParseException;
+import com.vaadin.sass.internal.tree.SourceLocation;
 import com.vaadin.sass.internal.visitor.Extension;
 
 // note: a Selector is effectively immutable - only methods creating a new selector can modify its parts directly
@@ -177,7 +178,7 @@ public class Selector {
      * @return modified copy of this with parent selector prepended or
      *         substituted for the parent reference selector
      */
-    public Selector replaceParentReference(Selector replacement) {
+    public Selector replaceParentReference( Selector replacement, SourceLocation location ) {
         boolean foundParentReference = false;
         Selector sel = new Selector();
         for (int i = 0; i < parts.size(); i++) {
@@ -188,8 +189,7 @@ public class Selector {
                     foundParentReference = true;
                     if (replacement != null) {
                         if (replacement.hasLeadingCombinator()) {
-                            throw new ParseException(
-                                    "Parent selector should not have a leading combinator when using & parent selector reference");
+                            throw new ParseException( "Parent selector should not have a leading combinator when using & parent selector reference: '" + replacement + '\'', location );
                         }
                         // splice in each sequence from replacement
                         sel.parts.addAll(replacement.parts);

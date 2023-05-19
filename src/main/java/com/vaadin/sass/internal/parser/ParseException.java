@@ -19,8 +19,8 @@ package com.vaadin.sass.internal.parser;
 
 import org.w3c.css.sac.CSSException;
 
-import com.vaadin.sass.internal.ScssStylesheet;
 import com.vaadin.sass.internal.tree.Node;
+import com.vaadin.sass.internal.tree.SourceLocation;
 
 /**
  * This exception is thrown when parse errors are encountered. You can
@@ -70,7 +70,7 @@ public class ParseException extends CSSException {
         specialConstructor = false;
     }
 
-    public ParseException(String message, SassListItem unit) {
+    public ParseException(String message, SourceLocation unit) {
         this(message);
         currentUnit = unit;
     }
@@ -80,12 +80,6 @@ public class ParseException extends CSSException {
         if (args.size() > 0) {
             currentUnit = args.get(0);
         }
-    }
-
-    public ParseException(String message, Node node) {
-        super(message);
-        currentNode = node;
-
     }
 
     public ParseException(String message, String uri, int line, int column) {
@@ -102,13 +96,7 @@ public class ParseException extends CSSException {
      * When not using a special constructor, if the current unit is not null, it
      * is used to determine the location of the exception in the parsed file.
      */
-    private SassListItem currentUnit;
-
-    /**
-     * When not using a special constructor, if the current node is not null, it
-     * is used to determine the location of the exception in the parsed file.
-     */
-    private Node currentNode;
+    private SourceLocation currentUnit;
 
     /**
      * This is the last token that has been consumed successfully. If this
@@ -147,9 +135,7 @@ public class ParseException extends CSSException {
         if (!specialConstructor) {
             String message = super.getMessage();
             if (currentUnit != null) {
-                message = message + " at line " + currentUnit.getLineNumber() + ", column " + currentUnit.getColumnNumber() + getLocation( currentUnit.getUri() );
-            } else if (currentNode != null) {
-                message = message + getNodeLocation();
+                message = message + " at line " + currentUnit.getLineNumber() + ", column " + currentUnit.getColumnNumber() + getLocation();
             }
             return message;
         }
@@ -244,15 +230,17 @@ public class ParseException extends CSSException {
         return retval.toString();
     }
 
-    private String getNodeLocation() {
-
-        String fileName = null;
-        Node root = currentNode.getParentNode();
-        while (root != null && !(root instanceof ScssStylesheet)) {
-            root = root.getParentNode();
+    private String getLocation() {
+        if( currentUnit == null ) {
+            return "";
         }
-        if (root != null) {
-            fileName = ((ScssStylesheet) root).getFileName();
+        String fileName = currentUnit.getUri();
+        if( fileName == null && currentUnit instanceof Node ) {
+            Node node = (Node)currentUnit;
+            while( fileName == null && node != null ) {
+                node = node.getParentNode();
+                fileName = node.getUri();
+            }
         }
         return getLocation( fileName );
     }

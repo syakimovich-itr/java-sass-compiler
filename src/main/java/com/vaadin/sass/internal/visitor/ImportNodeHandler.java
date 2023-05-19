@@ -61,7 +61,7 @@ public class ImportNodeHandler {
                 imported = ScssStylesheet.get(importNode.getUri(), styleSheet,
                         new SCSSDocumentHandler(), SCSSErrorHandler.get());
                 if (imported == null) {
-                    SCSSErrorHandler.get().error( "Import '" + importNode.getUri() + "' in '" + styleSheet.getFileName() + "' could not be found" );
+                    SCSSErrorHandler.get().error( "Import '" + importNode.getUri() + "' in '" + styleSheet.getUri() + "' could not be found" );
                     return Collections.emptyList();
                 }
 

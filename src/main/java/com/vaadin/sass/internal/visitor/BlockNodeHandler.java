@@ -96,7 +96,7 @@ public class BlockNodeHandler {
                 // add the node with the remaining non-block children at the
                 // beginning
                 if( newChildren != null ) {
-                    BlockNode newNode = new BlockNode( new ArrayList<Selector>( node.getSelectorList() ), newChildren );
+                    BlockNode newNode = new BlockNode( node, newChildren );
                     newNode.setParentSelectors( node.getParentSelectors() );
                     result.add( 0, newNode );
                 }
@@ -127,7 +127,7 @@ public class BlockNodeHandler {
             medias = new ArrayList<>();
         }
         MediaNode media = new MediaNode( child.getMedia() );
-        media.appendChild( new BlockNode( node.getSelectorList(), child.getChildren() ) );
+        media.appendChild( new BlockNode( node, child.getChildren() ) );
         medias.add( media );
         return medias;
     }
@@ -154,8 +154,8 @@ public class BlockNodeHandler {
     private static void removeParentReference(BlockNode node) {
         ArrayList<Selector> newSelectors = new ArrayList<Selector>();
 
-        for (Selector sel : node.getSelectorList()) {
-            newSelectors.add(sel.replaceParentReference(null));
+        for( Selector sel : node.getSelectorList() ) {
+            newSelectors.add( sel.replaceParentReference( null, node ) );
         }
 
         node.setSelectorList(newSelectors);
@@ -165,8 +165,8 @@ public class BlockNodeHandler {
         ArrayList<Selector> newSelectors = new ArrayList<Selector>();
 
         for (Selector parentSel : parentBlock.getSelectorList()) {
-            for (Selector sel : node.getSelectorList()) {
-                newSelectors.add(sel.replaceParentReference(parentSel));
+            for( Selector sel : node.getSelectorList() ) {
+                newSelectors.add( sel.replaceParentReference( parentSel, node ) );
             }
         }
 

@@ -18,6 +18,7 @@ package com.vaadin.sass.internal.parser;
 
 import com.vaadin.sass.internal.ScssContext;
 import com.vaadin.sass.internal.tree.Node.BuildStringStrategy;
+import com.vaadin.sass.internal.tree.SourceLocation;
 
 /**
  * SassListItem specifies the interface implemented by both list items
@@ -35,7 +36,7 @@ import com.vaadin.sass.internal.tree.Node.BuildStringStrategy;
  * single value.
  * 
  */
-public interface SassListItem {
+public interface SassListItem extends SourceLocation {
 
     public int getLineNumber();
 

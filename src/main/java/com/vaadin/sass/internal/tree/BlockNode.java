@@ -34,12 +34,16 @@ public class BlockNode extends Node implements IVariableNode {
     // combined selectors of the parent node, used to handle @extends
     private List<Selector> parentSelectors;
 
-    public BlockNode(List<Selector> selectorList) {
+    public BlockNode( String uri, int line, int column, List<Selector> selectorList ) {
+        super( uri, line, column );
         this.selectorList = selectorList;
     }
 
-    public BlockNode(List<Selector> selectorList, Collection<Node> children) {
-        this(selectorList);
+    /**
+     * Create a copy with different children
+     */
+    public BlockNode( BlockNode original, Collection<Node> children) {
+        this( original.getUri(), original.getLineNumber(), original.getColumnNumber(), original.getSelectorList() );
         setChildren(children);
     }
 

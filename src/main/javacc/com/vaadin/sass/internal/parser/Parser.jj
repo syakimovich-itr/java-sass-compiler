@@ -1094,7 +1094,7 @@ void styleRule() :
      l=selectorList() { save = token; } <LBRACE> (<S>)*
      {
 	 start = true;
-	 documentHandler.startSelector(l);
+	 documentHandler.startSelector( source.getURI(), save.beginLine, save.beginColumn, l );
      }
      // a CSS import here will not work
      ( ifContentStatement() | importDeclaration() )*
