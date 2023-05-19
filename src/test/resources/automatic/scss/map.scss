@@ -18,6 +18,10 @@ $colors-base: (
     #{$key}: map-get( $colors-base, $key );
   }
 
+  $primary:   "ignore this value";
+  $secondary: "ignore this value";
+  $success:   "ignore this value";
+  $value:     "ignore this value";
   @include map-args( $colors-base... );
 }
 

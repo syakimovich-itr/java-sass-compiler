@@ -52,11 +52,11 @@ public class MixinNodeHandler {
 
         if( !mixinDef.getArglist().isEmpty() ) {
             defClone.replacePossibleArguments( mixinNode.getArglist() );
-            defClone.replaceVariables( context );
         }
 
         // parameters have been evaluated in parent scope, rest should be
         // in the scope where the mixin was defined
+        // every evaluated parameter can also be input for evaluating the next parameters
         Scope previousScope = context.openVariableScope( defClone.getDefinitionScope() );
         try {
             // add variables from argList
