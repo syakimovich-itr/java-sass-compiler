@@ -30,7 +30,6 @@ import com.vaadin.sass.internal.visitor.EachNodeHandler;
 
 public class EachDefNode extends Node implements IVariableNode,
         NodeWithUrlContent {
-    private static final long serialVersionUID = 7943948981204906221L;
 
     private List<String> variableNames;
     private SassListItem list;

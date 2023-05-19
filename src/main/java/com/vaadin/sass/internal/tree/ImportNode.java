@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -26,7 +27,6 @@ import com.vaadin.sass.internal.util.StringUtil;
 import com.vaadin.sass.internal.visitor.ImportNodeHandler;
 
 public class ImportNode extends Node implements NodeWithUrlContent {
-    private static final long serialVersionUID = 5671255892282668438L;
 
     private String uri;
     private SACMediaList ml;

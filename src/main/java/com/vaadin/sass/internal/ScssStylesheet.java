@@ -37,8 +37,6 @@ import com.vaadin.sass.internal.visitor.ExtendNodeHandler;
 
 public class ScssStylesheet extends Node {
 
-    private static final long serialVersionUID = 3849790204404961608L;
-
     private String uri;
 
     private String charset;

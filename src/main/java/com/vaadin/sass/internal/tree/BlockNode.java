@@ -29,8 +29,6 @@ import com.vaadin.sass.internal.visitor.BlockNodeHandler;
 
 public class BlockNode extends Node implements IVariableNode {
 
-    private static final long serialVersionUID = 5742962631468325048L;
-
     private List<Selector> selectorList;
 
     // combined selectors of the parent node, used to handle @extends

@@ -25,7 +25,6 @@ import com.vaadin.sass.internal.ScssContext;
 import com.vaadin.sass.internal.parser.Variable;
 
 public class MixinDefNode extends DefNode {
-    private static final long serialVersionUID = 5469294053247343948L;
 
     public MixinDefNode(String name, Collection<Variable> args,
             boolean hasVariableArgs) {

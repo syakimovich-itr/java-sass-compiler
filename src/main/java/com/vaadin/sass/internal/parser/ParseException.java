@@ -31,7 +31,6 @@ import com.vaadin.sass.internal.tree.Node;
  * long as you retain the public fields.
  */
 public class ParseException extends CSSException {
-    private static final long serialVersionUID = -8556588037264585977L;
 
     /**
      * This constructor is used by the method "generateParseException" in the

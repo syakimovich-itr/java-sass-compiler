@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -27,7 +28,6 @@ import com.vaadin.sass.internal.visitor.VariableNodeHandler;
 
 public class VariableNode extends Node implements Definition, IVariableNode,
         NodeWithUrlContent {
-    private static final long serialVersionUID = 7003372557547748734L;
 
     private final Variable variable;
 

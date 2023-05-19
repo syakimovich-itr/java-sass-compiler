@@ -27,7 +27,6 @@ import com.vaadin.sass.internal.ScssContext;
 import com.vaadin.sass.internal.parser.MediaListImpl;
 
 public class MediaNode extends Node {
-    private static final long serialVersionUID = 2502097081457509523L;
 
     SACMediaList media;
 

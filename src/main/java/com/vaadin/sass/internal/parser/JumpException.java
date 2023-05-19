@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -28,7 +29,6 @@ package com.vaadin.sass.internal.parser;
  * @author Philippe Le Hegaret
  */
 public class JumpException extends RuntimeException {
-    private static final long serialVersionUID = -2010286909393046205L;
 
     /**
      * Creates a new JumpException

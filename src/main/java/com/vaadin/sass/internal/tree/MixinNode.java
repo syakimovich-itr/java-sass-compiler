@@ -40,7 +40,6 @@ import com.vaadin.sass.internal.visitor.MixinNodeHandler;
  */
 public class MixinNode extends Node implements IVariableNode,
         NodeWithUrlContent {
-    private static final long serialVersionUID = 4725008226813110658L;
 
     // these are the actual parameter values, not whether the definition node
     // uses varargs
