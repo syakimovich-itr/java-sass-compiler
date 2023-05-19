@@ -16,7 +16,6 @@
  */
 package com.vaadin.sass.internal.parser;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -31,8 +30,7 @@ import com.vaadin.sass.internal.tree.Node.BuildStringStrategy;
  * SassList is a list that has a specified separator character (comma or space)
  * and data items. The data items can be lists.
  */
-public class SassList implements SassListItem, Iterable<SassListItem>,
-        Serializable {
+public class SassList implements SassListItem, Iterable<SassListItem> {
 
     public enum Separator {
         COMMA(", "), SPACE(" "), 

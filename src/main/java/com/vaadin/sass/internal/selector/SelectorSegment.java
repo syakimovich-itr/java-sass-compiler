@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -15,12 +16,10 @@
  */
 package com.vaadin.sass.internal.selector;
 
-import java.io.Serializable;
-
 /**
  * Part of a selector, either a {@link SimpleSelectorSequence} or a
  * {@link Combinator}.
  */
-public interface SelectorSegment extends Serializable {
+public interface SelectorSegment {
 
 }

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -15,8 +16,6 @@
  */
 package com.vaadin.sass.internal.selector;
 
-import java.io.Serializable;
-
 import com.vaadin.sass.internal.ScssContext;
 
 /**
@@ -30,7 +29,7 @@ import com.vaadin.sass.internal.ScssContext;
  * {@link SimpleSelectorSequence} and multiple sequences of selectors joined
  * with combinators are then joined into {@link Selector}.
  */
-public abstract class SimpleSelector implements Serializable {
+public abstract class SimpleSelector  {
 
     public SimpleSelector replaceVariables(ScssContext context) {
         return this;

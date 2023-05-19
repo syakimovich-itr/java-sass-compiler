@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -15,7 +16,6 @@
  */
 package com.vaadin.sass.internal.visitor;
 
-import java.io.Serializable;
 import java.util.Collection;
 
 import com.vaadin.sass.internal.selector.Selector;
@@ -25,7 +25,7 @@ import com.vaadin.sass.internal.selector.SimpleSelectorSequence;
  * An immutable data object for an @extend, describing the mapping from the
  * parameter of @extend to the selector of the block containing the @extend.
  */
-public class Extension implements Serializable {
+public class Extension {
     /**
      * The parameter of @extend, e.g. "b" in "a { @extend b; ... }".
      * 

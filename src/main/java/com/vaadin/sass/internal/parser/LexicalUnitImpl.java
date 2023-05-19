@@ -24,7 +24,6 @@
  */
 package com.vaadin.sass.internal.parser;
 
-import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.regex.Matcher;
@@ -42,14 +41,11 @@ import com.vaadin.sass.internal.util.ColorUtil;
 import com.vaadin.sass.internal.util.StringUtil;
 
 /**
- * @version $Revision: 1.3 $
  * @author Philippe Le Hegaret
  * 
  * @modified Sebastian Nyholm @ Vaadin Ltd
  */
-public class LexicalUnitImpl implements SCSSLexicalUnit,
-        SassListItem, Serializable {
-    private static final long serialVersionUID = -6649833716809789399L;
+public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
 
     public static final long PRECISION = 100000L;
 

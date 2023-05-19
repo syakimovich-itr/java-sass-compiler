@@ -16,7 +16,6 @@
  */
 package com.vaadin.sass.internal.parser;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -35,7 +34,7 @@ import com.vaadin.sass.internal.ScssContext;
  * @author Vaadin
  * 
  */
-public class StringInterpolationSequence implements Serializable {
+public class StringInterpolationSequence {
     private boolean containsInterpolation = false;
     private SassList items;
     private String toString;

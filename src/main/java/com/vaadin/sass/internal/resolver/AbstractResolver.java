@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -17,7 +18,6 @@
 package com.vaadin.sass.internal.resolver;
 
 import java.io.File;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -33,15 +33,8 @@ import com.vaadin.sass.internal.ScssStylesheet;
  * 
  * @author Vaadin Ltd
  */
-public abstract class AbstractResolver implements ScssStylesheetResolver,
-        Serializable {
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.vaadin.sass.internal.resolver.ScssStylesheetResolver#resolve(java
-     * .lang.String)
-     */
+public abstract class AbstractResolver implements ScssStylesheetResolver {
+
     @Override
     public InputSource resolve(ScssStylesheet parentStylesheet,
             String identifier) {

@@ -16,7 +16,6 @@
  */
 package com.vaadin.sass.internal.parser;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -36,7 +35,7 @@ import com.vaadin.sass.internal.tree.Node.BuildStringStrategy;
  * @author Vaadin
  * 
  */
-public class SassExpression implements SassListItem, Serializable {
+public class SassExpression implements SassListItem {
 
     private static final Pattern WHITESPACE_PATTERN = Pattern.compile("\\s+");
     private static final Pattern INTERPOLATION_PATTERN = Pattern

@@ -16,7 +16,6 @@
  */
 package com.vaadin.sass.internal.parser;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -39,7 +38,7 @@ import com.vaadin.sass.internal.ScssContext;
  * @author Vaadin
  * 
  */
-public class FormalArgumentList implements Serializable, Iterable<Variable> {
+public class FormalArgumentList implements Iterable<Variable> {
 
     private ArrayList<Variable> arglist;
     private String variableArgumentName;

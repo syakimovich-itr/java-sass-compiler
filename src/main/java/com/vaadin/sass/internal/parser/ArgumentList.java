@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -15,7 +16,6 @@
  */
 package com.vaadin.sass.internal.parser;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -30,7 +30,7 @@ import com.vaadin.sass.internal.tree.Node;
  * used in ActualArgumentList to represent the unnamed (positional) and named
  * parameters of an @include or a function call.
  */
-public class ArgumentList extends SassList implements Serializable {
+public class ArgumentList extends SassList {
     private List<Variable> namedVariables = new ArrayList<Variable>();
 
     public ArgumentList(SassList list) {

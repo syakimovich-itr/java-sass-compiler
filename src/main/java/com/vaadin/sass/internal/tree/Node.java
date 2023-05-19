@@ -17,7 +17,6 @@
 
 package com.vaadin.sass.internal.tree;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -29,13 +28,11 @@ import com.vaadin.sass.internal.parser.ParseException;
 import com.vaadin.sass.internal.parser.SassListItem;
 import com.vaadin.sass.internal.tree.controldirective.TemporaryNode;
 
-public abstract class Node implements Serializable {
+public abstract class Node {
 
     public static BuildStringStrategy PRINT_STRATEGY = new PrintStrategy();
 
     public static BuildStringStrategy TO_STRING_STRATEGY = new ToStringStrategy();
-
-    private static final long serialVersionUID = 5914711715839294816L;
 
     private ArrayList<Node> children;
 

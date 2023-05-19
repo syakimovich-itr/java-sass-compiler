@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -15,7 +16,6 @@
  */
 package com.vaadin.sass.internal.selector;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -25,7 +25,7 @@ import com.vaadin.sass.internal.parser.ParseException;
 import com.vaadin.sass.internal.visitor.Extension;
 
 // note: a Selector is effectively immutable - only methods creating a new selector can modify its parts directly
-public class Selector implements Serializable {
+public class Selector {
 
     /*
      * Current TODOs:

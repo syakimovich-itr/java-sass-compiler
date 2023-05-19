@@ -16,7 +16,6 @@
  */
 package com.vaadin.sass.internal.parser;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -35,7 +34,7 @@ import com.vaadin.sass.internal.tree.Node.BuildStringStrategy;
  * @author Vaadin
  * 
  */
-public class ActualArgumentList implements Serializable {
+public class ActualArgumentList {
     private ArgumentList arglist;
     // variableArgument is not duplicated in arglist and can be null. A variable
     // argument is always unnamed in an actual argument list.

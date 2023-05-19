@@ -16,8 +16,6 @@
  */
 package com.vaadin.sass.internal.parser;
 
-import java.io.Serializable;
-
 import com.vaadin.sass.internal.ScssContext;
 import com.vaadin.sass.internal.tree.Node.BuildStringStrategy;
 
@@ -37,7 +35,7 @@ import com.vaadin.sass.internal.tree.Node.BuildStringStrategy;
  * @author Vaadin
  * 
  */
-public class Interpolation implements SassListItem, Serializable {
+public class Interpolation implements SassListItem {
     private int lineNumber;
     private int columnNumber;
     private SassListItem expression;

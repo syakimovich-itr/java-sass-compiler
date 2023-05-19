@@ -16,8 +16,6 @@
  */
 package com.vaadin.sass.internal.parser;
 
-import java.io.Serializable;
-
 import com.vaadin.sass.internal.Definition;
 
 /**
@@ -27,7 +25,7 @@ import com.vaadin.sass.internal.Definition;
  * Guarded variables are not overwritten by further assignments to the same
  * variable (except possibly for assignment of the value null).
  */
-public class Variable implements Definition, Serializable {
+public class Variable implements Definition {
 
     private final String name;
     private SassListItem expr;
