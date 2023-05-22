@@ -24,8 +24,8 @@ import org.junit.Test;
 import com.vaadin.sass.internal.ScssContext;
 import com.vaadin.sass.internal.ScssContext.UrlMode;
 import com.vaadin.sass.internal.expression.exception.ArithmeticException;
-import com.vaadin.sass.internal.expression.exception.IncompatibleUnitsException;
 import com.vaadin.sass.internal.parser.LexicalUnitImpl;
+import com.vaadin.sass.internal.parser.ParseException;
 import com.vaadin.sass.internal.parser.SCSSLexicalUnit;
 import com.vaadin.sass.internal.parser.SassListItem;
 
@@ -67,7 +67,7 @@ public class ArithmeticExpressionEvaluatorTest {
         Assert.assertEquals(-10, result.getIntegerValue());
     }
 
-    @Test(expected = IncompatibleUnitsException.class)
+    @Test(expected = ParseException.class)
     public void testIncompatibleUnit() {
         // 2cm - 3px
         evaluate(operand2cm, operatorMinus, operand3px);

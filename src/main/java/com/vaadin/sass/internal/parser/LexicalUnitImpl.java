@@ -28,14 +28,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.vaadin.sass.internal.ScssContext;
-import com.vaadin.sass.internal.expression.exception.IncompatibleUnitsException;
 import com.vaadin.sass.internal.function.SCSSFunctionGenerator;
 import com.vaadin.sass.internal.tree.BlockNode;
 import com.vaadin.sass.internal.tree.FunctionCall;
 import com.vaadin.sass.internal.tree.FunctionDefNode;
 import com.vaadin.sass.internal.tree.Node;
 import com.vaadin.sass.internal.tree.Node.BuildStringStrategy;
-import com.vaadin.sass.internal.tree.SourceLocation;
 import com.vaadin.sass.internal.util.ColorUtil;
 import com.vaadin.sass.internal.util.StringUtil;
 
@@ -319,16 +317,13 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
         return result;
     }
 
-    public LexicalUnitImpl divide(LexicalUnitImpl denominator) {
-        if (denominator.getLexicalUnitType() != SAC_INTEGER
-                && denominator.getLexicalUnitType() != SAC_REAL
-                && getLexicalUnitType() != denominator.getLexicalUnitType()) {
-            throw new IncompatibleUnitsException(printState());
+    public LexicalUnitImpl divide( LexicalUnitImpl denominator ) {
+        if( denominator.type != SAC_INTEGER && denominator.type != SAC_REAL && type != denominator.type ) {
+            throw createIncompatibleUnitsException( denominator );
         }
-        LexicalUnitImpl copy = copyWithValue(getFloatValue()
-                / denominator.getFloatValue());
-        if (getLexicalUnitType() == denominator.getLexicalUnitType()) {
-            copy.setLexicalUnitType(SAC_REAL);
+        LexicalUnitImpl copy = copyWithValue( getFloatValue() / denominator.getFloatValue() );
+        if( type == denominator.type ) {
+            copy.setLexicalUnitType( SAC_REAL );
         }
         return copy;
     }
@@ -352,6 +347,10 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
                 * another.getFloatValue());
         copy.setLexicalUnitType(checkAndGetUnit(another));
         return copy;
+    }
+
+    private ParseException createIncompatibleUnitsException( LexicalUnitImpl another ) {
+        return new ParseException( "Incompatible units found in: '" + printState() + "' <> '" + another.printState() + "'", this );
     }
 
     public short checkAndGetUnit( LexicalUnitImpl another ) {
@@ -380,13 +379,12 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
             case SAC_REAL:
                 return otherType;
         }
-        throw new IncompatibleUnitsException( printState() + " <> " + another.printState() );
+        throw createIncompatibleUnitsException( another );
     }
 
     public LexicalUnitImpl modulo(LexicalUnitImpl another) {
-        if (!checkLexicalUnitType(another, getLexicalUnitType(), SAC_INTEGER,
-                SAC_REAL)) {
-            throw new IncompatibleUnitsException(printState());
+        if( !checkLexicalUnitType( another, type, SAC_INTEGER, SAC_REAL ) ) {
+            throw createIncompatibleUnitsException( another );
         }
         LexicalUnitImpl copy = copy();
         copy.setIntegerValue(getIntegerValue() % another.getIntegerValue());
