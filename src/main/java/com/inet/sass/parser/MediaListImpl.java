@@ -27,7 +27,6 @@ package com.inet.sass.parser;
 import org.w3c.css.sac.SACMediaList;
 
 /**
- * @version $Revision: 1.4 $
  * @author Philippe Le Hegaret
  */
 public class MediaListImpl implements SACMediaList {

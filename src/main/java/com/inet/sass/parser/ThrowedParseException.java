@@ -25,7 +25,6 @@
 package com.inet.sass.parser;
 
 /**
- * @version $Revision: 1.1 $
  * @author Philippe Le Hegaret
  */
 class ThrowedParseException extends RuntimeException {

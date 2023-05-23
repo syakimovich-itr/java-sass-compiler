@@ -33,7 +33,6 @@ import org.w3c.css.sac.Selector;
 import org.w3c.css.sac.SelectorList;
 
 /**
- * @version $Revision: 1.1 $
  * @author Philippe Le Hegaret
  */
 public class SelectorListImpl implements SelectorList {
