@@ -21,6 +21,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.awt.image.WritableRaster;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -59,6 +60,16 @@ public class CustomTests extends AbstractDirectoryScanningSassTests {
     public static Collection<String> getScssResourceNames() throws URISyntaxException, IOException {
         SCSSFunctionGenerator.registerCustomFunction( new CustomFunctionColorizeImage() );
         return getScssResourceNames( getResourceURLInternal( "" ) );
+    }
+
+     @Override
+    protected File getCssFile( File scssFile ) throws IOException {
+        File cssFile = super.getCssFile( scssFile );
+        String javaVersion = System.getProperty( "java.vm.specification.version" );
+        if( "1.8".equals( javaVersion ) ) {
+            cssFile = new File( cssFile.getPath().replace( ".css", "_1-8.css" ) );
+        }
+        return cssFile;
     }
 
     /**
