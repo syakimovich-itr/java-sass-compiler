@@ -43,7 +43,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-import org.w3c.css.sac.SelectorList;
 import org.w3c.css.sac.InputSource;
 import org.w3c.css.sac.CSSException;
 
@@ -194,15 +193,6 @@ public class Parser {
 	_parseMediaRule();
     }
 
-    public SelectorList parseSelectors(InputSource source) 
-        throws CSSException, IOException {
-        // We don't use the org.w3c.css.sac.Selector interface (not easily extended to
-        // SCSS syntax), so don't even try wrapping com.inet.sass.selector.Selectors 
-        // into org.w3c.css.sac.Selector. Why do we implement org.w3c.css.sac.Parser at
-        // all?
-        return null;
-    }
-    
     public List<Selector> parseSCSSSelectors( InputSource source ) 
         throws CSSException, IOException {
         this.source = source;
