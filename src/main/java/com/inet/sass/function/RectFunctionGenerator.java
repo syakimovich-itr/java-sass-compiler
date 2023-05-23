@@ -16,14 +16,14 @@
  */
 package com.inet.sass.function;
 
-import static org.w3c.css.sac.LexicalUnit.SAC_CENTIMETER;
-import static org.w3c.css.sac.LexicalUnit.SAC_EM;
-import static org.w3c.css.sac.LexicalUnit.SAC_EX;
-import static org.w3c.css.sac.LexicalUnit.SAC_INCH;
-import static org.w3c.css.sac.LexicalUnit.SAC_MILLIMETER;
-import static org.w3c.css.sac.LexicalUnit.SAC_PICA;
-import static org.w3c.css.sac.LexicalUnit.SAC_PIXEL;
-import static org.w3c.css.sac.LexicalUnit.SAC_POINT;
+import static com.inet.sass.parser.SCSSLexicalUnit.SAC_CENTIMETER;
+import static com.inet.sass.parser.SCSSLexicalUnit.SAC_EM;
+import static com.inet.sass.parser.SCSSLexicalUnit.SAC_EX;
+import static com.inet.sass.parser.SCSSLexicalUnit.SAC_INCH;
+import static com.inet.sass.parser.SCSSLexicalUnit.SAC_MILLIMETER;
+import static com.inet.sass.parser.SCSSLexicalUnit.SAC_PICA;
+import static com.inet.sass.parser.SCSSLexicalUnit.SAC_PIXEL;
+import static com.inet.sass.parser.SCSSLexicalUnit.SAC_POINT;
 
 import java.util.ArrayList;
 import java.util.List;
