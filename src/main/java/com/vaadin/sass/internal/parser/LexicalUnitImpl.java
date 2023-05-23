@@ -927,32 +927,27 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
             case SAC_COUNTERS_FUNCTION:
             case SAC_RECT_FUNCTION:
             case SAC_FUNCTION:
-                if (ColorUtil.isColor(this)) {
-                    text = ColorUtil.rgbToColorString(ColorUtil
-                            .colorToRgb(this));
+                if( ColorUtil.isColor( this ) ) {
+                    text = ColorUtil.rgbToColorString( ColorUtil.colorToRgb( this ) );
                     break;
-                } else if (ColorUtil.isRgba(this) || ColorUtil.isHsla(this)) {
-                    float alpha = params.get(params.size() - 1)
-                            .getContainedValue().getFloatValue();
-                    rgb = ColorUtil.colorToRgb(this);
-                    if (alpha == 0.0f && rgb[0] == 0 && rgb[1] == 0
-                            && rgb[2] == 0) {
-                        text = "transparent";
-                        break;
-                    } else if (alpha == 1.0f) {
-                        text = ColorUtil.rgbToColorString(ColorUtil
-                                .colorToRgb(this));
-                        break;
-                    } else if (params.size() == 2 || ColorUtil.isHsla(this)) {
-
-                        String alphaText = alpha == 0.0f ? "0"
-                                : CSS_FLOAT_FORMAT.format(alpha);
-                        text = "rgba(" + rgb[0] + ", " + rgb[1] + ", " + rgb[2]
-                                + ", " + alphaText + ")";
-                        break;
+                } else if( ColorUtil.isRgba( this ) || ColorUtil.isHsla( this ) ) {
+                    float alpha = params.get( params.size() - 1 ).getContainedValue().getFloatValue();
+                    rgb = ColorUtil.colorToRgb( this );
+                    if( rgb != null ) {
+                        if( alpha == 0.0f && rgb[0] == 0 && rgb[1] == 0 && rgb[2] == 0 ) {
+                            text = "transparent";
+                            break;
+                        } else if( alpha == 1.0f ) {
+                            text = ColorUtil.rgbToColorString( rgb );
+                            break;
+                        } else if( params.size() == 2 || ColorUtil.isHsla( this ) ) {
+                            String alphaText = alpha == 0.0f ? "0" : CSS_FLOAT_FORMAT.format( alpha );
+                            text = "rgba(" + rgb[0] + ", " + rgb[1] + ", " + rgb[2] + ", " + alphaText + ")";
+                            break;
+                        }
                     }
                 }
-                text = fname + "(" + params.buildString(strategy) + ")";
+                text = fname + "(" + params.buildString( strategy ) + ")";
                 break;
             case SCSS_GET_FUNCTION:
                 text = "get-function(" + fname + ")";
