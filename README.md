@@ -1,3 +1,5 @@
+[![Build with Java 8](https://github.com/i-net-software/sass-compiler/actions/workflows/build8.yml/badge.svg)](https://github.com/i-net-software/sass-compiler/actions/workflows/build8.yml)
+[![Build with Java 11](https://github.com/i-net-software/sass-compiler/actions/workflows/build11.yml/badge.svg)](https://github.com/i-net-software/sass-compiler/actions/workflows/build11.yml)
 [![License](https://img.shields.io/github/license/i-net-software/sass-compiler.svg)](https://github.com/i-net-software/sass-compiler/blob/master/LICENSE.txt)
 [![JitPack](https://jitpack.io/v/i-net-software/sass-compiler.svg)](https://jitpack.io/#i-net-software/sass-compiler/master-SNAPSHOT)
 
