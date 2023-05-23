@@ -319,7 +319,8 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
 
     public LexicalUnitImpl divide( LexicalUnitImpl denominator ) {
         if( denominator.type != SAC_INTEGER && denominator.type != SAC_REAL && type != denominator.type ) {
-            throw createIncompatibleUnitsException( denominator );
+            // then this is not a numeric division
+            return new LexicalUnitImpl( uri, line, column, SAC_IDENT, printState()+'/'+denominator.printState() );
         }
         LexicalUnitImpl copy = copyWithValue( getFloatValue() / denominator.getFloatValue() );
         if( type == denominator.type ) {
