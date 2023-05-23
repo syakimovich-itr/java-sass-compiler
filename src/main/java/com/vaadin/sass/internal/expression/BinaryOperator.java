@@ -17,7 +17,6 @@
 
 package com.vaadin.sass.internal.expression;
 
-import com.vaadin.sass.internal.expression.exception.ArithmeticException;
 import com.vaadin.sass.internal.parser.LexicalUnitImpl;
 import com.vaadin.sass.internal.parser.ParseException;
 import com.vaadin.sass.internal.parser.SassListItem;
@@ -213,18 +212,13 @@ public enum BinaryOperator {
      * or evalInternal() can be overridden depending on the allowed operand
      * types for the operator.
      */
-    public SassListItem eval(SassListItem leftOperand, SassListItem rightOperand) {
-        if (!(leftOperand instanceof LexicalUnitImpl)) {
-            throw new ArithmeticException(
-                    "Left operand of the operator is not a simple value",
-                    leftOperand);
+    public SassListItem eval( SassListItem leftOperand, SassListItem rightOperand ) {
+        if( !(leftOperand instanceof LexicalUnitImpl) ) {
+            throw new ParseException( "Left operand of the operator is not a simple value", leftOperand );
         }
-        if (!(rightOperand instanceof LexicalUnitImpl)) {
-            throw new ArithmeticException(
-                    "Right operand of the operator is not a simple value",
-                    rightOperand);
+        if( !(rightOperand instanceof LexicalUnitImpl) ) {
+            throw new ParseException( "Right operand of the operator is not a simple value", rightOperand );
         }
-        return evalInternal((LexicalUnitImpl) leftOperand,
-                (LexicalUnitImpl) rightOperand);
+        return evalInternal( (LexicalUnitImpl)leftOperand, (LexicalUnitImpl)rightOperand );
     }
 }

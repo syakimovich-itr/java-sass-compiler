@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 i-net software
  * Copyright 2000-2014 Vaadin Ltd.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -20,8 +21,8 @@ import java.util.List;
 import java.util.Stack;
 
 import com.vaadin.sass.internal.ScssContext;
-import com.vaadin.sass.internal.expression.exception.ArithmeticException;
 import com.vaadin.sass.internal.parser.LexicalUnitImpl;
+import com.vaadin.sass.internal.parser.ParseException;
 import com.vaadin.sass.internal.parser.SCSSLexicalUnit;
 import com.vaadin.sass.internal.parser.SassExpression;
 import com.vaadin.sass.internal.parser.SassListItem;
@@ -101,7 +102,7 @@ public class ArithmeticExpressionEvaluator {
                         continue inputTermLoop;
                     }
                 }
-                throw new ArithmeticException( "Illegal arithmetic expression", current );
+                throw new ParseException( "Illegal arithmetic expression", current );
             }
             if( LexicalUnitImpl.checkLexicalUnitType( current, SCSSLexicalUnit.SCSS_OPERATOR_LEFT_PAREN ) ) {
                 operators.push( Parentheses.LEFT );
@@ -115,14 +116,14 @@ public class ArithmeticExpressionEvaluator {
         while( !operators.isEmpty() ) {
             Object operator = operators.pop();
             if( operator == Parentheses.LEFT ) {
-                throw new ArithmeticException( "Unexpected \"(\" found", current );
+                throw new ParseException( "Unexpected \"(\" found", current );
             }
             createNewOperand( (BinaryOperator)operator, operands );
         }
         Object expression = operands.pop();
         if( !operands.isEmpty() ) {
             LexicalUnitImpl operand = (LexicalUnitImpl)operands.peek();
-            throw new ArithmeticException( "Unexpected operand " + operand.toString() + " found", current );
+            throw new ParseException( "Unexpected operand " + operand.toString() + " found", current );
         }
         return expression;
     }

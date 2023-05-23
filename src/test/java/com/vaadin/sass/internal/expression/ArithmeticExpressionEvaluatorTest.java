@@ -23,7 +23,6 @@ import org.junit.Test;
 
 import com.vaadin.sass.internal.ScssContext;
 import com.vaadin.sass.internal.ScssContext.UrlMode;
-import com.vaadin.sass.internal.expression.exception.ArithmeticException;
 import com.vaadin.sass.internal.parser.LexicalUnitImpl;
 import com.vaadin.sass.internal.parser.ParseException;
 import com.vaadin.sass.internal.parser.SCSSLexicalUnit;
@@ -111,7 +110,7 @@ public class ArithmeticExpressionEvaluatorTest {
                 result.getLexicalUnitType());
     }
 
-    @Test(expected = ArithmeticException.class)
+    @Test(expected = ParseException.class)
     public void testNonExistingSignal() {
         LexicalUnitImpl result = evaluate(operand2, operatorComma, operand3);
     }
