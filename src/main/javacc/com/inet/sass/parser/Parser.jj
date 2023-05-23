@@ -43,14 +43,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-import org.w3c.css.sac.ConditionFactory;
-import org.w3c.css.sac.SelectorFactory;
 import org.w3c.css.sac.SelectorList;
 import org.w3c.css.sac.InputSource;
 import org.w3c.css.sac.CSSException;
-
-import org.w3c.flute.parser.selectors.SelectorFactoryImpl;
-import org.w3c.flute.parser.selectors.ConditionFactoryImpl;
 
 import org.w3c.flute.util.Encoding;
 
@@ -64,7 +59,6 @@ import com.inet.sass.selector.*;
  * A CSS2 parser
  *
  * @author Philippe Le H�garet
- * @version $Revision: 1.15 $
  */
 public class Parser {
 
@@ -77,9 +71,6 @@ public class Parser {
     protected SCSSErrorHandler errorHandler;
     // the input source for the parser
     protected InputSource source;
-
-    protected ConditionFactory conditionFactory;
-    protected SelectorFactory selectorFactory;
 
     // temporary place holder for pseudo-element ...
     private PseudoElementSelector pseudoElt;
@@ -110,14 +101,6 @@ public class Parser {
         this.documentHandler = handler;
     }
 
-    public void setSelectorFactory(SelectorFactory selectorFactory) {
-	this.selectorFactory = selectorFactory;
-    }
-
-    public void setConditionFactory(ConditionFactory conditionFactory) {
-	this.conditionFactory = conditionFactory;
-    }
-
     /**
      * Set the error handler for this parser
      */    
@@ -136,12 +119,6 @@ public class Parser {
 	    throws CSSException, IOException {
 	this.source = source;
 	ReInit(getCharStreamWithLurk(source));
-	if (selectorFactory == null) {
-	    selectorFactory = new SelectorFactoryImpl();
-	}
-	if (conditionFactory == null) {
-	    conditionFactory = new ConditionFactoryImpl();
-	}
 
 	parserUnit();
     }
@@ -171,12 +148,6 @@ public class Parser {
 	this.source = source;
 	ReInit(getCharStreamWithLurk(source));
 
-	if (selectorFactory == null) {
-	    selectorFactory = new SelectorFactoryImpl();
-	}
-	if (conditionFactory == null) {
-	    conditionFactory = new ConditionFactoryImpl();
-	}
 	_parseRule();
     }
 
@@ -193,12 +164,6 @@ public class Parser {
 	this.source = source;
 	ReInit(getCharStreamWithLurk(source));
 
-	if (selectorFactory == null) {
-	    selectorFactory = new SelectorFactoryImpl();
-	}
-	if (conditionFactory == null) {
-	    conditionFactory = new ConditionFactoryImpl();
-	}
 	_parseDeclarationBlock();
     }
 
@@ -218,12 +183,6 @@ public class Parser {
 	this.source = source;
 	ReInit(getCharStreamWithLurk(source));
 
-	if (selectorFactory == null) {
-	    selectorFactory = new SelectorFactoryImpl();
-	}
-	if (conditionFactory == null) {
-	    conditionFactory = new ConditionFactoryImpl();
-	}
 	_parseImportRule();
     }
 
@@ -232,12 +191,6 @@ public class Parser {
 	this.source = source;
 	ReInit(getCharStreamWithLurk(source));
 
-	if (selectorFactory == null) {
-	    selectorFactory = new SelectorFactoryImpl();
-	}
-	if (conditionFactory == null) {
-	    conditionFactory = new ConditionFactoryImpl();
-	}
 	_parseMediaRule();
     }
 
