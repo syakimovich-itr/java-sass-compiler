@@ -19,30 +19,10 @@ package com.inet.sass.tree;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.w3c.css.sac.SACMediaList;
 
-import com.inet.sass.tree.ImportNode;
+import com.inet.sass.parser.MediaList;
 
 public class ImportNodeTest {
-    private static class SingleNodeMediaList implements SACMediaList {
-
-        private String item;
-
-        public SingleNodeMediaList(String item) {
-            this.item = item;
-        }
-
-        @Override
-        public int getLength() {
-            return 1;
-        }
-
-        @Override
-        public String item(int index) {
-            return (index == 0) ? item : null;
-        }
-
-    }
 
     @Test
     public void testIsPureCssImportShouldReturnTrueWhenIsURL() {
@@ -64,7 +44,8 @@ public class ImportNodeTest {
 
     @Test
     public void testIsPureCssImportShouldReturnTrueWhenHasMediaQueries() {
-        SACMediaList ml = new SingleNodeMediaList("screen");
+        MediaList ml = new MediaList();
+        ml.addItem( "screen" );
         ImportNode node = new ImportNode("", ml, false);
         Assert.assertTrue(node.isPureCssImport());
     }
@@ -89,7 +70,8 @@ public class ImportNodeTest {
 
     @Test
     public void testSerializeWithMediaQueries() {
-        SACMediaList ml = new SingleNodeMediaList("screen");
+        MediaList ml = new MediaList();
+        ml.addItem( "screen" );
         ImportNode node = new ImportNode("test", ml, true);
         Assert.assertEquals("@import url(test) screen;", node.printState());
     }

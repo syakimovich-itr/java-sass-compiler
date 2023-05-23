@@ -710,7 +710,7 @@ void ignoreStatement() :
 void importDeclaration() :
 {Token n;
  String uri;
- MediaListImpl ml = new MediaListImpl();
+ MediaList ml = new MediaList();
  boolean isURL = false;
 }
 {
@@ -814,7 +814,7 @@ void media() :
 { 
     boolean start = false;
     String ret;
-    MediaListImpl ml = new MediaListImpl(); 
+    MediaList ml = new MediaList(); 
 }
 {
  try {
@@ -838,7 +838,7 @@ void mediaDirective() :
   ifContentStatement() | mixinDirective() | functionDirective()
 }
 
-void mediaStatement(MediaListImpl ml) :
+void mediaStatement( MediaList ml ) :
 {
   Token t;
 }

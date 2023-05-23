@@ -24,23 +24,19 @@
  */
 package com.inet.sass.parser;
 
-import org.w3c.css.sac.SACMediaList;
-
 /**
  * @author Philippe Le Hegaret
  */
-public class MediaListImpl implements SACMediaList {
+public class MediaList {
 
     String[] array = new String[10];
     int current;
 
-    @Override
     public int getLength() {
         return current;
     }
 
-    @Override
-    public String item(int index) {
+    public String item( int index ) {
         if ((index < 0) || (index >= current)) {
             return null;
         }

@@ -19,17 +19,16 @@ package com.inet.sass.tree;
 
 import java.util.Collection;
 
-import org.w3c.css.sac.SACMediaList;
-
 import com.inet.sass.ScssContext;
 import com.inet.sass.ScssStylesheet;
+import com.inet.sass.parser.MediaList;
 import com.inet.sass.util.StringUtil;
 import com.inet.sass.visitor.ImportNodeHandler;
 
 public class ImportNode extends Node implements NodeWithUrlContent {
 
     private String uri;
-    private SACMediaList ml;
+    private MediaList ml;
     private boolean isURL;
 
     // the stylesheet which contained this import node - usually empty as its
@@ -37,7 +36,7 @@ public class ImportNode extends Node implements NodeWithUrlContent {
     // charset etc.
     private ScssStylesheet styleSheet;
 
-    public ImportNode(String uri, SACMediaList ml, boolean isURL) {
+    public ImportNode( String uri, MediaList ml, boolean isURL ) {
         super();
         this.uri = uri;
         this.ml = ml;
@@ -90,7 +89,7 @@ public class ImportNode extends Node implements NodeWithUrlContent {
         this.uri = uri;
     }
 
-    public SACMediaList getMl() {
+    public MediaList getMl() {
         return ml;
     }
 

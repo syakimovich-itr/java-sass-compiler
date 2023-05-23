@@ -23,9 +23,9 @@ import java.util.Stack;
 
 import org.w3c.css.sac.CSSException;
 import org.w3c.css.sac.InputSource;
-import org.w3c.css.sac.SACMediaList;
 
 import com.inet.sass.ScssStylesheet;
+import com.inet.sass.parser.MediaList;
 import com.inet.sass.parser.SCSSLexicalUnit;
 import com.inet.sass.parser.SassListItem;
 import com.inet.sass.parser.StringInterpolationSequence;
@@ -149,17 +149,16 @@ public class SCSSDocumentHandler {
                 + uri);
     }
 
-    public void importStyle(String uri, SACMediaList media,
-            String defaultNamespaceURI) throws CSSException {
+    public void importStyle( String uri, MediaList media, String defaultNamespaceURI ) throws CSSException {
     }
 
-    public void startMedia(SACMediaList media) throws CSSException {
-        MediaNode node = new MediaNode(media);
-        nodeStack.peek().appendChild(node);
-        nodeStack.push(node);
+    public void startMedia( MediaList media ) throws CSSException {
+        MediaNode node = new MediaNode( media );
+        nodeStack.peek().appendChild( node );
+        nodeStack.push( node );
     }
 
-    public void endMedia(SACMediaList media) throws CSSException {
+    public void endMedia( MediaList media ) throws CSSException {
         nodeStack.pop();
     }
 
@@ -242,9 +241,9 @@ public class SCSSDocumentHandler {
         nodeStack.pop();
     }
 
-    public void importStyle(String uri, SACMediaList media, boolean isURL) {
-        ImportNode node = new ImportNode(uri, media, isURL);
-        nodeStack.peek().appendChild(node);
+    public void importStyle( String uri, MediaList media, boolean isURL ) {
+        ImportNode node = new ImportNode( uri, media, isURL );
+        nodeStack.peek().appendChild( node );
     }
 
     public void startIfElseDirective() {

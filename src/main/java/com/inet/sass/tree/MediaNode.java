@@ -21,16 +21,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.w3c.css.sac.SACMediaList;
-
 import com.inet.sass.ScssContext;
-import com.inet.sass.parser.MediaListImpl;
+import com.inet.sass.parser.MediaList;
 
 public class MediaNode extends Node {
 
-    SACMediaList media;
+    MediaList media;
 
-    public MediaNode(SACMediaList media) {
+    public MediaNode( MediaList media ) {
         super();
         this.media = media;
     }
@@ -40,11 +38,11 @@ public class MediaNode extends Node {
         media = nodeToCopy.media;
     }
 
-    public SACMediaList getMedia() {
+    public MediaList getMedia() {
         return media;
     }
 
-    public void setMedia(SACMediaList media) {
+    public void setMedia( MediaList media ) {
         this.media = media;
     }
 
@@ -68,7 +66,7 @@ public class MediaNode extends Node {
             Node child = it.next();
             if( child.getClass() == MediaNode.class ) {
                 MediaNode media = (MediaNode)child;
-                MediaListImpl medium = new MediaListImpl();
+                MediaList medium = new MediaList();
                 medium.addItem( getMedia() + " and " + media.getMedia() );
                 media.setMedia( medium );
                 result.add( child );
