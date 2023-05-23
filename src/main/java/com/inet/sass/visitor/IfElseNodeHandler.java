@@ -19,10 +19,9 @@ package com.inet.sass.visitor;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.w3c.flute.parser.ParseException;
-
 import com.inet.sass.ScssContext;
 import com.inet.sass.expression.BinaryOperator;
+import com.inet.sass.parser.ParseException;
 import com.inet.sass.parser.SassListItem;
 import com.inet.sass.tree.Node;
 import com.inet.sass.tree.controldirective.ElseNode;
@@ -48,8 +47,7 @@ public class IfElseNodeHandler {
                 if (!(child instanceof ElseNode)
                         && node.getChildren().indexOf(child) == node
                                 .getChildren().size() - 1) {
-                    throw new ParseException(
-                            "Invalid @if/@else in scss file for " + node);
+                    throw new ParseException( "Invalid @if/@else in scss file for " + node, node );
                 } else {
                     return traverseChild(context, node.getParentNode(), child);
                 }
