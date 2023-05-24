@@ -1,0 +1,6 @@
+.class {
+    a: inspect(null);
+    b: inspect(10px 20px 30px);
+    c: inspect('sans-serif');
+    d: inspect(('width': 200px));
+}
