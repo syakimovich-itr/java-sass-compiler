@@ -59,7 +59,7 @@
 }
 
 .named {
-    c1: mix($color-1: rgba(50, 50, 50, 1), $color-2: rgba(255, 255, 255, 0.5), $weight: 75%);
-    c2: mix(hsl(120, 100%, 50%), $weight: 40%, $color-2: #00f);
-    c3: mix($weight: 20%, $color-2: rgb(255, 0, 0), $color-1: hsla(240, 50%, 50%, 0.3));
+    c1: mix($color1: rgba(50, 50, 50, 1), $color2: rgba(255, 255, 255, 0.5), $weight: 75%);
+    c2: mix(hsl(120, 100%, 50%), $weight: 40%, $color2: #00f);
+    c3: mix($weight: 20%, $color2: rgb(255, 0, 0), $color1: hsla(240, 50%, 50%, 0.3));
 }

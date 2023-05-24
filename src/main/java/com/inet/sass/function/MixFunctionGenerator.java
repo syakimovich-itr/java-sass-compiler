@@ -25,7 +25,7 @@ import com.inet.sass.util.ColorUtil;
 
 class MixFunctionGenerator extends AbstractFunctionGenerator {
 
-    private static String[] argumentNames = { "color-1", "color-2", "weight" };
+    private static String[] argumentNames = { "color1", "color2", "weight" };
     private static SassListItem[] defaultValues = { null, null, LexicalUnitImpl.createPercentage( null, 0, 0, 50 ) };
 
     MixFunctionGenerator() {
@@ -35,9 +35,9 @@ class MixFunctionGenerator extends AbstractFunctionGenerator {
     @Override
     protected SassListItem computeForArgumentList(ScssContext context,
             LexicalUnitImpl function, FormalArgumentList actualArguments) {
-        LexicalUnitImpl color1 = checkAndGetColor(actualArguments, "color-1",
+        LexicalUnitImpl color1 = checkAndGetColor(actualArguments, "color1",
                 function);
-        LexicalUnitImpl color2 = checkAndGetColor(actualArguments, "color-2",
+        LexicalUnitImpl color2 = checkAndGetColor(actualArguments, "color2",
                 function);
         float weight = getParam(actualArguments, "weight").getContainedValue()
                 .getFloatValue();
@@ -58,7 +58,7 @@ class MixFunctionGenerator extends AbstractFunctionGenerator {
         int[] rgb2 = ColorUtil.colorToRgb(color2);
         int[] result = new int[3];
         for (int i = 0; i < 3; i++) {
-            result[i] = (int) (w1 * rgb1[i] + w2 * rgb2[i]);
+            result[i] = Math.round(w1 * rgb1[i] + w2 * rgb2[i]);
         }
         float alpha = alpha1 * p + alpha2 * (1 - p);
         return ColorUtil.createRgbaOrHexColor(result, alpha,
