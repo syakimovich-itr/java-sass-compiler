@@ -231,7 +231,7 @@ public class SassList implements SassListItem, Iterable<SassListItem> {
         for( int i = 0; i < size; i++ ) {
             SassListItem itemValue = items.get( i );
             String item = itemValue.buildString( strategy );
-            if( item.isBlank() ) {
+            if( item.isEmpty() ) {
                 // skip empty items
                 continue;
             }
