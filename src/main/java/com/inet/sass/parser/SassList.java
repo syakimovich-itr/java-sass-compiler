@@ -222,20 +222,33 @@ public class SassList implements SassListItem, Iterable<SassListItem> {
     }
 
     @Override
-    public String buildString(BuildStringStrategy strategy) {
-        String result = "";
-        for (int i = 0; i < size(); i++) {
-            String item = get(i).buildString(strategy);
-            if ("".equals(item.trim())) {
+    public String buildString( BuildStringStrategy strategy ) {
+        StringBuilder result = new StringBuilder();
+        List<SassListItem> items = this.items;
+        int size = items.size();
+        boolean first = true;
+        boolean isMap = false;
+        for( int i = 0; i < size; i++ ) {
+            SassListItem itemValue = items.get( i );
+            String item = itemValue.buildString( strategy );
+            if( item.isBlank() ) {
                 // skip empty items
                 continue;
             }
-            if (!"".equals(result)) {
-                result += separator;
+            if( first ) {
+                if( isMap = (itemValue.getClass() == SassList.class && ((SassList)itemValue).separator == Separator.COLON )) {
+                    result.append( '(' );
+                }
+            } else {
+                result.append( separator );
             }
-            result += item;
+            result.append( item );
+            first = false;
         }
-        return result;
+        if( isMap ) {
+            result.append( ')' );
+        }
+        return result.toString();
     }
 
     public String printState() {
