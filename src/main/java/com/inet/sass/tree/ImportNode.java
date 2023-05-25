@@ -20,7 +20,6 @@ package com.inet.sass.tree;
 import java.util.Collection;
 
 import com.inet.sass.ScssContext;
-import com.inet.sass.ScssStylesheet;
 import com.inet.sass.parser.MediaList;
 import com.inet.sass.util.StringUtil;
 import com.inet.sass.visitor.ImportNodeHandler;
@@ -30,11 +29,6 @@ public class ImportNode extends Node implements NodeWithUrlContent {
     private String uri;
     private MediaList ml;
     private boolean isURL;
-
-    // the stylesheet which contained this import node - usually empty as its
-    // contents have been moved to its parent, but used to access resolvers,
-    // charset etc.
-    private ScssStylesheet styleSheet;
 
     public ImportNode( String uri, MediaList ml, boolean isURL ) {
         super();
@@ -48,7 +42,6 @@ public class ImportNode extends Node implements NodeWithUrlContent {
         uri = nodeToCopy.uri;
         ml = nodeToCopy.ml;
         isURL = nodeToCopy.isURL;
-        styleSheet = nodeToCopy.styleSheet;
     }
 
     public boolean isPureCssImport() {
@@ -96,14 +89,6 @@ public class ImportNode extends Node implements NodeWithUrlContent {
     @Override
     public Collection<Node> traverse(ScssContext context) {
         return ImportNodeHandler.traverse(context, this);
-    }
-
-    public void setStylesheet(ScssStylesheet styleSheet) {
-        this.styleSheet = styleSheet;
-    }
-
-    public ScssStylesheet getStylesheet() {
-        return styleSheet;
     }
 
     @Override

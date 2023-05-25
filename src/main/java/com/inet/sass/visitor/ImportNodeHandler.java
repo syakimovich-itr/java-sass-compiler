@@ -34,24 +34,8 @@ import com.inet.sass.tree.controldirective.TemporaryNode;
 
 public class ImportNodeHandler {
 
-    public static Collection<Node> traverse(ScssContext context,
-            ImportNode importNode) {
-        ScssStylesheet styleSheet = importNode.getStylesheet();
-        // top-level case
-        if (styleSheet == null) {
-            // iterate to parents of node, find ScssStylesheet
-            Node parent = importNode.getParentNode();
-            while (parent != null && !(parent instanceof ScssStylesheet)) {
-                parent = parent.getParentNode();
-            }
-            if (parent instanceof ScssStylesheet) {
-                styleSheet = (ScssStylesheet) parent;
-            }
-        }
-        if (styleSheet == null) {
-            SCSSErrorHandler.get().error( "Nested import in an invalid context" );
-            return Collections.emptyList();
-        }
+    public static Collection<Node> traverse( ScssContext context, ImportNode importNode ) {
+        ScssStylesheet styleSheet = context.getStylesheet();
         if (!importNode.isPureCssImport()) {
             List<Node> importedChildren = Collections.emptyList();
             ScssStylesheet imported = null;
@@ -125,8 +109,6 @@ public class ImportNodeHandler {
                 newChild = (Node) ((NodeWithUrlContent) child)
                         .updateUrl(prefix);
                 node.replaceNodeAt(i, newChild);
-            } else if (child instanceof ImportNode) {
-                ((ImportNode) child).setStylesheet(styleSheet);
             }
             updateUrlInImportedSheet(newChild, prefix, styleSheet, context);
         }
