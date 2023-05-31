@@ -132,11 +132,15 @@ public class RuleNode extends Node implements IVariableNode, NodeWithUrlContent 
     }
 
     @Override
-    public RuleNode updateUrl(String prefix) {
-        if (getValue() != null) {
-            RuleNode newInstance = copy();
-            newInstance.value = getValue().updateUrl(prefix);
-            return newInstance;
+    public RuleNode updateUrl( String prefix ) {
+        SassListItem value = this.value;
+        if( value != null ) {
+            SassListItem newValue = value.updateUrl( prefix );
+            if( newValue != value ) {
+                RuleNode newInstance = copy();
+                newInstance.value = newValue;
+                return newInstance;
+            }
         }
         return this;
     }

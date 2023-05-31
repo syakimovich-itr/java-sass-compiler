@@ -21,7 +21,6 @@ import java.util.Collection;
 import java.util.List;
 
 import com.inet.sass.ScssContext;
-import com.inet.sass.parser.SassList;
 import com.inet.sass.parser.SassListItem;
 import com.inet.sass.tree.IVariableNode;
 import com.inet.sass.tree.Node;
@@ -77,9 +76,14 @@ public class EachDefNode extends Node implements IVariableNode,
     }
 
     @Override
-    public NodeWithUrlContent updateUrl(String prefix) {
-        EachDefNode copy = copy();
-        copy.list = list.updateUrl(prefix);
-        return copy;
+    public NodeWithUrlContent updateUrl( String prefix ) {
+        SassListItem list = this.list;
+        SassListItem newList = list.updateUrl( prefix );
+        if( list != newList ) {
+            EachDefNode copy = copy();
+            copy.list = newList;
+            return copy;
+        }
+        return this;
     }
 }

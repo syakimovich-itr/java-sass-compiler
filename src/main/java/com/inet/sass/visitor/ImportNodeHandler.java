@@ -96,21 +96,22 @@ public class ImportNodeHandler {
         return url.substring(0, pos + 1);
     }
 
-    private static void updateUrlInImportedSheet(Node node, String prefix,
-            ScssStylesheet styleSheet, ScssContext context) {
+    private static void updateUrlInImportedSheet( Node node, String prefix, ScssStylesheet styleSheet, ScssContext context ) {
         ScssContext.UrlMode urlMode = context.getUrlMode();
+        if( urlMode == ScssContext.UrlMode.ABSOLUTE ) {
+            return;
+        }
         List<Node> children = node.getChildren();
-        for (int i = 0; i < children.size(); i++) {
-            Node child = children.get(i);
+        for( int i = 0; i < children.size(); i++ ) {
+            Node child = children.get( i );
             Node newChild = child;
-            if (child instanceof NodeWithUrlContent
-                    && (urlMode.equals(ScssContext.UrlMode.RELATIVE) || (urlMode
-                            .equals(ScssContext.UrlMode.MIXED) && child instanceof RuleNode))) {
-                newChild = (Node) ((NodeWithUrlContent) child)
-                        .updateUrl(prefix);
-                node.replaceNodeAt(i, newChild);
+            if( child instanceof NodeWithUrlContent && (urlMode == ScssContext.UrlMode.RELATIVE || (urlMode == ScssContext.UrlMode.MIXED && child instanceof RuleNode)) ) {
+                newChild = (Node)((NodeWithUrlContent)child).updateUrl( prefix );
+                if( child != newChild ) {
+                    node.replaceNodeAt( i, newChild );
+                }
             }
-            updateUrlInImportedSheet(newChild, prefix, styleSheet, context);
+            updateUrlInImportedSheet( newChild, prefix, styleSheet, context );
         }
     }
 }
