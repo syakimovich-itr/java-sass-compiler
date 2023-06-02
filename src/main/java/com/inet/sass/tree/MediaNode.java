@@ -67,20 +67,30 @@ public class MediaNode extends Node {
         ArrayList<Node> result = new ArrayList<>();
         result.add( this );
 
+        if( media != null ) {
+            media.replaceVariables( context );
+        }
+
         for( Iterator<Node> it = children.iterator(); it.hasNext(); ) {
             Node child = it.next();
             if( child.getClass() == MediaNode.class ) {
-                MediaNode media = (MediaNode)child;
+                MediaNode mediaChild = (MediaNode)child;
                 MediaList medium = new MediaList();
-                medium.addItem( getMedia() + " and " + media.getMedia() );
-                media.setMedia( medium );
+                mediaChild.media.replaceVariables( context );
+                medium.addItem( media + " and " + mediaChild.media );
+                mediaChild.setMedia( medium );
                 result.add( child );
                 it.remove();
             }
         }
 
         if( result.size() > 1 ) {
-            setChildren( children );
+            if( children.size() == 0 ) {
+                // seems there was only inner MediaNodes
+                result.remove( 0 );
+            } else {
+                setChildren( children );
+            }
         }
         return result;
     }

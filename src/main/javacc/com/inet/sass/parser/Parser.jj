@@ -721,32 +721,49 @@ void mediaDirective() :
 
 void mediaStatement( MediaList ml ) :
 {
-  Token t;
+    List<SassListItem> items = null;
+    StringBuffer s = new StringBuffer();
 }
 {
-    {
-      t = getToken(1);
-      // loop over comma separated parts, add each to ml
-      while ((t.kind != LBRACE) && (t.kind != EOF) && (t.kind != SEMICOLON)) {
-        StringBuffer s = new StringBuffer();
-        s.append(getToken(0).image);
-        while ((t.kind != COMMA) && (t.kind != LBRACE) && (t.kind != EOF) && (t.kind != SEMICOLON)) {
-	      s.append(t.image);
-	      getNextToken();
-          t = getToken(1);
-        }
-        if (t.kind == COMMA) {
-          // skip the comma and the token before it that is still the active token
-          getNextToken();
-          getNextToken();
-          t = getToken(1);
-        }
-        String str = s.toString().trim();
-        if (str.length() > 0) {
-          ml.addItem(str);
-        }
-      }
-    }
+  {
+      LOOP: do {
+          switch( jj_ntk() ) {
+              case LBRACE:
+              case EOF:
+              case SEMICOLON:
+                  if( items == null ) {
+                      if( s.length() > 0 ) {
+                          String str = s.toString().trim();
+                          ml.addItem( str );
+                      }
+                  } else {
+                      if( s.length() > 0 ) {
+                          items.add( new StringItem( s.toString().trim() ) );
+                      }
+                      ml.addItem( new StringInterpolationSequence( items ) );
+                  }
+                  if( jj_ntk == COMMA ) {
+                      getNextToken();
+                      s.setLength( 0 );
+                      items = null;
+                      continue LOOP;
+                  }
+                  break LOOP;
+              case START_INTERPOLATION:
+                  if( items == null ) {
+                      items = new ArrayList<SassListItem>();
+                  }
+                  if( s.length() > 0 ) {
+                      items.add( new StringItem( s.toString() ) );
+                      s.setLength( 0 );
+                  }
+                  items.add( interpolation() );
+                  break;
+              default:
+                  s.append( getNextToken().image );
+          }
+      } while( true );
+  }
 }
 
 /**

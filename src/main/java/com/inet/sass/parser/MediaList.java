@@ -31,7 +31,7 @@ import com.inet.sass.ScssContext;
  */
 public class MediaList {
 
-    String[] array = new String[10];
+    Object[] array = new Object[10];
     int current;
 
     public int getLength() {
@@ -42,10 +42,18 @@ public class MediaList {
         if ((index < 0) || (index >= current)) {
             return null;
         }
-        return array[index];
+        return array[index].toString();
     }
 
-    public void addItem(String medium) {
+    public void addItem( String medium ) {
+        addItemImpl( medium );
+    }
+
+    public void addItem( StringInterpolationSequence medium ) {
+        addItemImpl( medium );
+    }
+
+    private void addItemImpl( Object medium ) {
         if (medium.equals("all")) {
             array[0] = "all";
             current = 1;
@@ -57,8 +65,8 @@ public class MediaList {
             }
         }
         if (current == array.length) {
-            String[] old = array;
-            array = new String[current + current];
+            Object[] old = array;
+            array = new Object[current + current];
             System.arraycopy(old, 0, array, 0, current);
         }
         array[current++] = medium;
@@ -73,7 +81,7 @@ public class MediaList {
         case 0:
             return "";
         case 1:
-            return array[0];
+            return array[0].toString();
         default:
             boolean not_done = true;
             int i = 0;
@@ -92,20 +100,10 @@ public class MediaList {
 
     public void replaceVariables( ScssContext context ) {
         for( int i = 0; i < current; i++ ) {
-            String str = array[i];
-            do {
-                int idx1 = str.indexOf( "#{" );
-                if( idx1 < 0 ) {
-                    break;
-                }
-                int idx2 = str.indexOf( "}", idx1 + 2 );
-                if( idx2 < 0 ) {
-                    break;
-                }
-                String replace = new StringInterpolationSequence( str.substring( idx1 + 2, idx2 ) ).replaceVariables( context ).toString();
-                str = str.substring( 0, idx1 ) + replace + str.substring( idx2 );
-            } while(true);
+            Object medium = array[i];
+            if( medium.getClass() == StringInterpolationSequence.class ) {
+                array[i] = ((StringInterpolationSequence)medium).replaceVariables( context );
+            }
         }
-        
     }
 }

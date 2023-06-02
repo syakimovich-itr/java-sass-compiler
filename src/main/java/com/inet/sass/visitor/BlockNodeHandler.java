@@ -135,11 +135,8 @@ public class BlockNodeHandler {
             medias = new ArrayList<>();
         }
         MediaNode media = new MediaNode( child.getMedia() );
-        node = new BlockNode( node, child.getChildren() );
-        for( Node n : node.traverse( context ) ) {
-            media.appendChild( n );
-        }
-        medias.add( media );
+        media.appendChild( new BlockNode( node, child.getChildren() ) );
+        medias.addAll( media.traverse( context ) );
         return medias;
     }
 
