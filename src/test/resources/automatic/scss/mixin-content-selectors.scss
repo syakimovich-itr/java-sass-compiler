@@ -1,0 +1,17 @@
+@mixin content-mixin {
+    @content;
+}
+
+@mixin top-mixin {
+  .top {
+    @include content-mixin {
+      .second {
+        .third {
+          font-size: 12px;
+        }
+      }
+    }
+  }
+}
+
+@include top-mixin;

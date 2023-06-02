@@ -57,7 +57,11 @@ public class BlockNodeHandler {
         }
 
         ArrayList<Node> result = new ArrayList<Node>();
-        updateSelectors( node );
+        boolean inContentNode = context.isInContentNode();
+        if( !inContentNode ) {
+            // the selector will be evaluate after the @content was replaced in the tree
+            updateSelectors( node );
+        }
 
         List<Node> children = node.getChildren();
         if( !children.isEmpty() ) {
@@ -72,7 +76,7 @@ public class BlockNodeHandler {
                         ((BlockNode)child).setParentSelectors( node.getSelectorList() );
                         result.addAll( child.traverse( context ) );
                     } else if( child.getClass() == MediaNode.class ) {
-                        medias = bubbleMedia( medias, node, (MediaNode)child );
+                        medias = bubbleMedia( medias, context, node, (MediaNode)child );
                     } else {
                         Collection<Node> childTraversed = child.traverse( context );
                         for( Node n : childTraversed ) {
@@ -80,7 +84,7 @@ public class BlockNodeHandler {
                                 // already traversed
                                 result.add( n );
                             } else if( n.getClass() == MediaNode.class ) {
-                                medias = bubbleMedia( medias, node, (MediaNode)n );
+                                medias = bubbleMedia( medias, context, node, (MediaNode)n );
                             } else {
                                 if( newChildren == null ) {
                                     newChildren = new ArrayList<Node>();
@@ -106,17 +110,21 @@ public class BlockNodeHandler {
             }
         }
 
+        if( inContentNode ) {
+            return Collections.singletonList( node );
+        }
         return result;
     }
 
     /**
      * Reorder the @media rule on top
      * @param medias container for the medias, will be null on first call
-     * @param node the parent node
+     * @param context current context
+     * @param node the parent node of the MediaNode
      * @param child the media node which is child
      * @return the container, never null
      */
-    static ArrayList<Node> bubbleMedia( ArrayList<Node> medias, BlockNode node, MediaNode child ) {
+    static ArrayList<Node> bubbleMedia( ArrayList<Node> medias, ScssContext context, BlockNode node, MediaNode child ) {
         for( Selector selector : node.getSelectorList() ) {
             if( selector.isPlaceholder() ) {
                 //TODO placeholder selectors must handle other
@@ -127,12 +135,15 @@ public class BlockNodeHandler {
             medias = new ArrayList<>();
         }
         MediaNode media = new MediaNode( child.getMedia() );
-        media.appendChild( new BlockNode( node, child.getChildren() ) );
+        node = new BlockNode( node, child.getChildren() );
+        for( Node n : node.traverse( context ) ) {
+            media.appendChild( n );
+        }
         medias.add( media );
         return medias;
     }
 
-    private static void updateSelectors(BlockNode node) {
+    private static void updateSelectors( BlockNode node) {
         Node parentBlock = node.getNormalParentNode();
         if( parentBlock instanceof BlockNode ) {
             replaceParentSelectors( (BlockNode)parentBlock, node );

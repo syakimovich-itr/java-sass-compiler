@@ -19,6 +19,7 @@ package com.inet.sass.tree;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 
 import com.inet.sass.ScssContext;
@@ -58,6 +59,10 @@ public class MediaNode extends Node {
 
     @Override
     public Collection<Node> traverse(ScssContext context) {
+        if( getNormalParentNode() instanceof BlockNode ) {
+            // we are inside a call of BlockNodeHandler.traverse(). The caller must reorder first bubbleMedia() before we can continue with traverse.
+            return Collections.singletonList( this );
+        }
         Collection<Node> children = traverseChildren(context);
         ArrayList<Node> result = new ArrayList<>();
         result.add( this );

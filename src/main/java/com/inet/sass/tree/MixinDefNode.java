@@ -65,10 +65,12 @@ public class MixinDefNode extends DefNode {
 
     private static void replaceContentNode( ScssContext context, ContentNode contentNode, MixinNode mixinNode ) {
         // traverse @content rule before the mixin with scope of the caller and not the used place 
+        context.setInContentNode( true );
         ArrayList<Node> children = new ArrayList<>();
         for( Node child : mixinNode.copyChildren() ) {
             children.addAll( child.traverse( context ) );
         }
+        context.setInContentNode( false );
         contentNode.getParentNode().replaceNode( contentNode, children );
     }
 

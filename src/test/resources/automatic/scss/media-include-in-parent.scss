@@ -1,0 +1,13 @@
+@mixin media-mixin {
+  @media media-settings {
+    @content;
+  }
+}
+
+.parent {
+    @include media-mixin {
+      .first &, &.second {
+        color: red;
+      }
+    }
+}

@@ -51,6 +51,8 @@ public class ScssContext {
 
     private BlockNode parentBlock;
 
+    private boolean inContentNode;
+
     /**
      * Collection of mappings from an @extend-selector (its simple selector
      * sequence) to a containing block's selectors. E.g. the following
@@ -217,5 +219,21 @@ public class ScssContext {
      */
     public void setParentBlock( BlockNode node ) {
         parentBlock = node;
+    }
+
+    /**
+     * If we currently traverse a ContentNode (@content rule). The variables must be evaluate with the calling scope but the selectors must be evaluate in the inlined scope.
+     * @return true, if traverse
+     */
+    public boolean isInContentNode() {
+        return inContentNode;
+    }
+
+    /**
+     * Enable/Disable the traverse of the ContentNode
+     * @param value
+     */
+    public void setInContentNode( boolean value ) {
+        inContentNode = value;
     }
 }

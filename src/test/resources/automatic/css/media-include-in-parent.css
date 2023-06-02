@@ -1,0 +1,5 @@
+@media media-settings {
+  .first .parent, .parent.second {
+    color: red;
+  }
+}
