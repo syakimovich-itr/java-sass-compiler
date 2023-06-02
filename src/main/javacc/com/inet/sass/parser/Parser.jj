@@ -41,7 +41,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 import org.w3c.css.sac.InputSource;
 import org.w3c.css.sac.CSSException;
@@ -49,8 +48,6 @@ import org.w3c.css.sac.CSSException;
 import org.w3c.flute.util.Encoding;
 
 import com.inet.sass.handler.*;
-
-import com.inet.sass.tree.*;
 
 import com.inet.sass.selector.*;
 
@@ -81,14 +78,6 @@ public class Parser {
 	this((CharStream) null);
     }
 
-    /**
-     * @@TODO
-     * @exception CSSException Not yet implemented
-     */    
-    public void setLocale(Locale locale) throws CSSException {
-	throw new CSSException(CSSException.SAC_NOT_SUPPORTED_ERR);
-    }
-    
     public InputSource getInputSource(){
         return source;
     }
@@ -132,111 +121,6 @@ public class Parser {
     public void parseStyleSheet(String systemId) 
 	    throws CSSException, IOException {
 	parseStyleSheet(new InputSource(systemId));
-    }
-
-    /**
-     * This method parses only one rule (style rule or at-rule, except @charset).
-     *
-     * @param source the source of the rule.
-     * @exception IOException the source can't be parsed.
-     * @exception CSSException the source is not CSS valid.
-     */    
-    // TODO required by original parser but not used by Vaadin?
-    public void parseRule(InputSource source) 
-	    throws CSSException, IOException {
-	this.source = source;
-	ReInit(getCharStreamWithLurk(source));
-
-	_parseRule();
-    }
-
-    /**
-     * This method parses a style declaration (including the surrounding curly
-     * braces).
-     *
-     * @param source the source of the style declaration.
-     * @exception IOException the source can't be parsed.
-     * @exception CSSException the source is not CSS valid.
-     */
-    public void parseStyleDeclaration(InputSource source) 
-	    throws CSSException, IOException {
-	this.source = source;
-	ReInit(getCharStreamWithLurk(source));
-
-	_parseDeclarationBlock();
-    }
-
-    /**
-     * This methods returns "http://www.w3.org/TR/REC-CSS2".
-     * @return the string "http://www.w3.org/TR/REC-CSS2".
-     */    
-    public String getParserVersion() {
-	return "http://www.w3.org/TR/REC-CSS2";
-    }
-
-    /**
-     * Parse methods used by DOM Level 2 implementation.
-     */    
-    public void parseImportRule(InputSource source) 
-	    throws CSSException, IOException {
-	this.source = source;
-	ReInit(getCharStreamWithLurk(source));
-
-	_parseImportRule();
-    }
-
-    public void parseMediaRule(InputSource source) 
-	    throws CSSException, IOException {
-	this.source = source;
-	ReInit(getCharStreamWithLurk(source));
-
-	_parseMediaRule();
-    }
-
-    public List<Selector> parseSCSSSelectors( InputSource source ) 
-        throws CSSException, IOException {
-        this.source = source;
-        ReInit(getCharStreamWithLurk(source));
-        return _parseSelectors();
-    }
-
-    public SCSSLexicalUnit parsePropertyValue(InputSource source) 
-	    throws CSSException, IOException {
-        // We don't use the org.w3c.css.sac.Selector interface (not easily extended to
-        // SCSS syntax), so don't even try wrapping com.inet.sass.selector.Selectors 
-        // into org.w3c.css.sac.Selector. Why do we implement org.w3c.css.sac.Parser at
-        // all?
-        return null;
-    }
-
-    public boolean parsePriority(InputSource source) 
-	    throws CSSException, IOException {
-	this.source = source;
-	ReInit(getCharStreamWithLurk(source));
-
-	return prio();
-    }
-
-    /**
-     * Convert the source into a Reader. Used only by DOM Level 2 parser methods.
-     */    
-    private Reader getReader(InputSource source) throws IOException {
-	if (source.getCharacterStream() != null) {
-	    return source.getCharacterStream();
-	} else if (source.getByteStream() != null) {
-	    // My DOM level 2 implementation doesn't use this case.
-	    if (source.getEncoding() == null) {
-		// unknown encoding, use ASCII as default.
-		return new InputStreamReader(source.getByteStream(), "ASCII");
-	    } else {
-		return new InputStreamReader(source.getByteStream(), 
-					     source.getEncoding());
-	    }
-	} else {
-	    // systemId
-	    // @@TODO
-	    throw new CSSException("not yet implemented");
-	}
     }
 
     /**
@@ -871,15 +755,6 @@ void mediaStatement( MediaList ml ) :
 /**
  * @exception ParseException exception during the parse
  */
-String medium() : /* tv, projection, screen, ... */
-{Token n;}
-{
-    n=ident() { return convertIdent(n.image); }
-}
-
-/**
- * @exception ParseException exception during the parse
- */
 void page() :
 {
  boolean start = false;
@@ -1259,8 +1134,6 @@ void variable() :
         {
             documentHandler.variable(name, l.flatten(), guarded);
         }
-    } catch (JumpException e) {
-        skipAfterExpression();
     } catch (NumberFormatException e) {
         reportError( e );
         skipAfterExpression();
@@ -1319,7 +1192,7 @@ void ifContentStatement() :
 {}
 {
     contentDirective() | includeDirective() | media() | extendDirective() | styleRuleOrDeclarationOrNestedProperties()
-    | keyframes() | variable() | controlDirective() | atRuleDeclaration()/* | microsoftExtension()*/
+    | keyframes() | variable() | controlDirective() | atRuleDeclaration()
 }
 
 void ifDirective() :
@@ -1762,44 +1635,6 @@ void contentDirective() :
     {documentHandler.contentDirective();}
 }
 
-JAVACODE
-Node importDirective(){
-    return null;
-}
-
-JAVACODE
-Node charsetDirective(){
-    return null;
-}
-
-JAVACODE
-Node mozDocumentDirective(){
-    return null;
-}
-
-JAVACODE
-Node supportsDirective(){
-    return null;
-}
-
-
-void nestedProperties():
-{StringInterpolationSequence name;
-SCSSLexicalUnit exp;}
-{
-    name=property()
-    ":" ( <S> )* 
-    <LBRACE> (<S>)*
-    {
-      documentHandler.startNestedProperties(name);
-    }
-    ( declaration() )? ( ";" ( <S> )* ( declaration() )? )*
-    <RBRACE>
-    {
-      documentHandler.endNestedProperties(name);
-    }
-    (<S>)*
-}
 /**
  * @exception ParseException exception during the parse
  */
@@ -1813,8 +1648,6 @@ void styleRuleOrDeclarationOrNestedProperties() :
     // is styleRule with pseudo selector with contains functions. have to do it in this way, because both the styleRule and declarationOrNestedProperties()
     // have 'skipStatementUntilXXX', which cannot be LOOKAHEAD properly.
       ( debuggingDirective() | LOOKAHEAD(selectorList()<LBRACE>) styleRule() | LOOKAHEAD(3)declarationOrNestedProperties() | styleRule())
-  } catch (JumpException e) {
-     skipAfterExpression();
   } catch (ParseException e) {
      reportError( e );
      skipAfterExpression();
@@ -1866,9 +1699,6 @@ void declarationOrNestedProperties() :
          documentHandler.endNestedProperties(name);
      }
      )
-     
- } catch (JumpException e) {
-     skipAfterExpression();
  } catch (NumberFormatException e) {
      reportError( e );
      skipAfterExpression();
@@ -1894,8 +1724,6 @@ void declaration() :
         exp = ((SassList) exp).flatten();
         documentHandler.property(name, exp, important);
      }
- } catch (JumpException e) {
-     skipAfterExpression();
  } catch (NumberFormatException e) {
      reportError( e );
      skipAfterExpression();
@@ -1918,36 +1746,6 @@ boolean guarded() :
 {}
 {
     <GUARDED_SYM> (<S>)* {return true;}
-}
-
-/**
- * @exception ParseException exception during the parse
- */
-List<SassListItem> operator() :
-{
-    LexicalUnitImpl unit;
-    List<SassListItem> list;
-    boolean spaceAfter = false;
-    Token n;
-}
-{
-    /* (comments copied from basic_arithmetics.scss)
-    *supports:
-    * 1. standard arithmetic operations (+, -, *, /, %)
-    * 2. / is treated as css operator, unless one of its operands is variable or there is another binary arithmetic operator
-    *limits:
-    * 1. cannot mix arithmetic and css operations, e.g. "margin: 1px + 3px 2px" will fail
-    * 2. space between add and minus operator and their following operand is mandatory. e.g. "1 + 2" is valid, "1+2" is not
-    * 3. parenthesis is not supported now.
-    */
-
-    list = nonCommaOperator(){ return list; }
-    | n="," 
-          {unit = LexicalUnitImpl.createComma( source.getURI(), n.beginLine, n.beginColumn); } 
-      ( <S> {spaceAfter = true;} )* 
-      {
-          return createList(unit, spaceAfter);
-      }
 }
 
 JAVACODE
@@ -2511,44 +2309,6 @@ String skipStatementUntilSemiColon(){
 }
 
 JAVACODE
-String skipStatementUntilLeftBrace(){
-    int[] lBrace = {LBRACE};
-    return skipStatementUntil(lBrace);
-}
-
-JAVACODE
-String skipStatementUntilMatchingRightParan(){
-    int[] leftTokens = {LPARAN, FUNCTION, NOT_FUNCTION}; // a FUNCTION also contains "("
-    int[] rightTokens = {RPARAN};
-    StringBuffer s = new StringBuffer();
-    int difference = 1;
-    Token tok;
-    while(difference != 0){
-        tok = getToken(1);
-        if(tok.kind == EOF) {
-            return null;
-        }
-        for(int sym : leftTokens){
-            if(tok.kind == sym){
-                difference++;
-            }
-        }
-        for(int sym : rightTokens){
-            if(tok.kind == sym){
-                difference--;
-            }
-        }
-        if(difference != 0){
-            if (tok.image != null) {
-                s.append(tok.image);
-            }
-            getNextToken();
-        }
-    }
-    return s.toString().trim();
-}
-
-JAVACODE
 String skipStatementUntil(int[] symbols){
     StringBuffer s = new StringBuffer();
     boolean found = false;
@@ -2699,11 +2459,6 @@ String convertIdent(String s) {
 }
 
 JAVACODE
-String convertString(String s) {
-    return convertStringIndex(s, 0, s.length());
-}
-
-JAVACODE
 void comments(){
 	/*keeps only the multiple line comments, single line comments are skipped*/
     if (token.specialToken != null && token.specialToken.image!=null && token.specialToken.image.startsWith("/*")){
@@ -2745,64 +2500,6 @@ String skipAfterExpression() {
     }
     
     return s.toString();
-}
-
-/**
- * The following functions are useful for a DOM CSS implementation only and are
- * not part of the general CSS2 parser.
- */
-// TODO required by original parser but not used by Vaadin?
-void _parseRule() :
-{String ret = null;
-}
-{
-	( <S> )*
-	   ( importDeclaration() | debuggingDirective() | styleRule() | media() | page() | fontFace() | ret=skipStatement() 
-		{
-		    if ((ret == null) || (ret.length() == 0)) {
-			return; 
-		    }
-		    if (ret.charAt(0) == '@') {
-			documentHandler.unrecognizedRule(ret);
-		    } else {
-                throw new ParseException( "unrecognize rule: " + ret, source.getURI(), token.beginLine, token.beginColumn );
-		    }
-		}
-	  )
-}
-
-void _parseImportRule() :
-{
-}
-{
-    ( <S> )* importDeclaration()
-}
-
-void _parseMediaRule() :
-{
-}
-{
-    ( <S> )* media()
-}
-
-void _parseDeclarationBlock() :
-{
-}
-{
-    ( <S> )*
-	( declaration() )? ( ";" ( <S> )* ( declaration() )? )* 
- }
-
-List<Selector> _parseSelectors() :
-{ List<Selector> p = null;
-}
-{
-    try {
-	( <S> )* p = selectorList()
-	{ return p; }
-    } catch (ThrowedParseException e) {
-	throw (ParseException) e.e.fillInStackTrace();
-    }
 }
 
 /*

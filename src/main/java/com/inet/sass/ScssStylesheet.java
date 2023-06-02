@@ -48,8 +48,6 @@ public class ScssStylesheet extends Node {
 
     private List<String> sourceUris = new ArrayList<String>();
 
-    private ScssStylesheet parent;
-
     /**
      * Read in a file SCSS and parse it into a ScssStylesheet
      * 
@@ -133,7 +131,6 @@ public class ScssStylesheet extends Node {
             // Use parent resolvers
             stylesheet.resolver = resolver;
         }
-        stylesheet.parent = parentStylesheet;
         InputSource source = stylesheet.resolveSource( identifier, parentStylesheet );
         if( source == null ) {
             return null;

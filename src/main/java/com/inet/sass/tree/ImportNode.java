@@ -82,10 +82,6 @@ public class ImportNode extends Node implements NodeWithUrlContent {
         this.uri = uri;
     }
 
-    public MediaList getMl() {
-        return ml;
-    }
-
     @Override
     public Collection<Node> traverse(ScssContext context) {
         return ImportNodeHandler.traverse(context, this);

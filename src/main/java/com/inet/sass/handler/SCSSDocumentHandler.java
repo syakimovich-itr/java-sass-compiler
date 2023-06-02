@@ -331,14 +331,6 @@ public class SCSSDocumentHandler {
         nodeStack.pop();
     }
 
-    private void log(Object object) {
-        if (object != null) {
-            log(object.toString());
-        } else {
-            log(null);
-        }
-    }
-
     private void log(String msg) {
         SCSSErrorHandler.get().debug( msg );
     }

@@ -24,6 +24,8 @@
  */
 package com.inet.sass.parser;
 
+import com.inet.sass.ScssContext;
+
 /**
  * @author Philippe Le Hegaret
  */
@@ -86,5 +88,24 @@ public class MediaList {
             } while (not_done);
             return buf.toString();
         }
+    }
+
+    public void replaceVariables( ScssContext context ) {
+        for( int i = 0; i < current; i++ ) {
+            String str = array[i];
+            do {
+                int idx1 = str.indexOf( "#{" );
+                if( idx1 < 0 ) {
+                    break;
+                }
+                int idx2 = str.indexOf( "}", idx1 + 2 );
+                if( idx2 < 0 ) {
+                    break;
+                }
+                String replace = new StringInterpolationSequence( str.substring( idx1 + 2, idx2 ) ).replaceVariables( context ).toString();
+                str = str.substring( 0, idx1 ) + replace + str.substring( idx2 );
+            } while(true);
+        }
+        
     }
 }

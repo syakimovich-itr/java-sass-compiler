@@ -19,7 +19,6 @@ package com.inet.sass.parser;
 
 import org.w3c.css.sac.CSSException;
 
-import com.inet.sass.parser.Token;
 import com.inet.sass.tree.Node;
 import com.inet.sass.tree.SourceLocation;
 

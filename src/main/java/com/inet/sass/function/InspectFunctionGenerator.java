@@ -18,7 +18,6 @@ package com.inet.sass.function;
 import com.inet.sass.ScssContext;
 import com.inet.sass.parser.FormalArgumentList;
 import com.inet.sass.parser.LexicalUnitImpl;
-import com.inet.sass.parser.SassList;
 import com.inet.sass.parser.SassListItem;
 
 class InspectFunctionGenerator extends AbstractFunctionGenerator {

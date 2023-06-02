@@ -64,17 +64,15 @@ public class ImportNodeHandler {
                 return Collections.emptyList();
             }
 
-            if (imported != null) {
-                context.setStylesheet( imported );
-                // traverse the imported nodes normally in the correct context
-                Node tempParent = new TemporaryNode(importNode.getParentNode(),
-                        importedChildren);
-                Collection<Node> result = tempParent.traverseChildren(context);
+            context.setStylesheet( imported );
+            // traverse the imported nodes normally in the correct context
+            Node tempParent = new TemporaryNode(importNode.getParentNode(),
+                    importedChildren);
+            Collection<Node> result = tempParent.traverseChildren(context);
 
-                styleSheet.addSourceUris(imported.getSourceUris());
-                context.setStylesheet( styleSheet );
-                return result;
-            }
+            styleSheet.addSourceUris(imported.getSourceUris());
+            context.setStylesheet( styleSheet );
+            return result;
         } else {
             if (styleSheet != importNode.getParentNode()) {
                 SCSSErrorHandler.get().error( "CSS imports can only be used at the top level, not as nested imports. Within style rules, use SCSS imports." );
