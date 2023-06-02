@@ -675,9 +675,6 @@ void keyframeSelector():
          }
         ( ifContentStatement() )*
         <RBRACE> (<S>)*
-    }
-    catch (ThrowedParseException e) {
-        reportError( e.e );
     } catch (ParseException e) {
         reportError( e );
         skipStatement();
@@ -917,8 +914,6 @@ void styleRule() :
      // a CSS import here will not work
      ( ifContentStatement() | importDeclaration() )*
      <RBRACE> (<S>)*
- } catch (ThrowedParseException e) {
-	 reportError( e.e );
  } catch (ParseException e) {
      reportError( e );
      skipStatement();
