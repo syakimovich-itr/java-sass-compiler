@@ -1521,8 +1521,7 @@ void acceptMissingSemicolon(Integer... acceptedTerminators) throws ParseExceptio
         for(int term : acceptedTerminators){
             message += ", " + tokenImage[term];
         }
-        ParseException e = new ParseException(message);
-        throw e;
+        throw new ParseException( message, source.getURI(), token.beginLine, token.endLine );
     }
 }
 
