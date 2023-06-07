@@ -103,12 +103,15 @@ public class Parser {
      * @exception IOException the source can't be parsed.
      * @exception CSSException the source is not CSS valid.
      */
-    public void parseStyleSheet(InputSource source) 
-	    throws CSSException, IOException {
-	this.source = source;
-	ReInit(getCharStreamWithLurk(source));
-
-	parserUnit();
+    public void parseStyleSheet(InputSource source) throws CSSException, IOException {
+        this.source = source;
+        Generic_CharStream stream = getCharStreamWithLurk(source);
+        try {
+            ReInit( stream );
+            parserUnit();
+        } finally {
+            stream.close();
+        }
     }
 
     /**
@@ -130,7 +133,7 @@ public class Parser {
      * the charset declaration, you'll find the charset declaration into the
      * stream.  
      */
-    private CharStream getCharStreamWithLurk(InputSource source)
+    private Generic_CharStream getCharStreamWithLurk(InputSource source)
 	    throws CSSException, IOException {
 	if (source.getCharacterStream() != null) {
 	    // all encoding are supposed to be resolved by the user
