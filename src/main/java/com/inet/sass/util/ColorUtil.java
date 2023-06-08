@@ -618,22 +618,17 @@ public class ColorUtil {
         return m1;
     }
 
-    public static LexicalUnitImpl createHexColor(int red, int green, int blue,
-            int line, int column) {
-        return LexicalUnitImpl.createIdent( null, line, column, rgbToColorString( new int[] { red, green, blue } ) );
+    public static LexicalUnitImpl createHexColor( String uri, int line, int column, int[] rgb ) {
+        return LexicalUnitImpl.createIdent( uri, line, column, rgbToColorString( rgb ) );
     }
 
-    public static LexicalUnitImpl createHexColor(int[] rgb, int line, int column) {
-        return createHexColor(rgb[0], rgb[1], rgb[2], line, column);
-    }
-
-    public static LexicalUnitImpl createRgbaColor( int red, int green, int blue, float alpha, int line, int column ) {
+    public static LexicalUnitImpl createRgbaColor( String uri, int line, int column, int red, int green, int blue, float alpha ) {
         LexicalUnitImpl redUnit = LexicalUnitImpl.createNumber( null, line, column, red );
         LexicalUnitImpl greenUnit = LexicalUnitImpl.createNumber( null, line, column, green );
         LexicalUnitImpl blueUnit = LexicalUnitImpl.createNumber( null, line, column, blue );
         LexicalUnitImpl alphaUnit = LexicalUnitImpl.createNumber( null, line, column, alpha );
         ActualArgumentList args = new ActualArgumentList( SassList.Separator.COMMA, redUnit, greenUnit, blueUnit, alphaUnit );
-        return LexicalUnitImpl.createFunction( null, line, column, "rgba", args );
+        return LexicalUnitImpl.createFunction( uri, line, column, "rgba", args );
     }
 
     public static LexicalUnitImpl createHslaColor( float hue, float saturation, float lightness, float alpha, int line, int column ) {
@@ -645,8 +640,7 @@ public class ColorUtil {
         return LexicalUnitImpl.createFunction( null, line, column, "hsla", args );
     }
 
-    public static LexicalUnitImpl createHslaOrHslColor(float[] hsl,
-            float alpha, int line, int column) {
+    public static LexicalUnitImpl createHslaOrHslColor( float[] hsl, float alpha, int line, int column ) {
         if (alpha < 1.0f) {
             return createHslaColor(hsl[0], hsl[1], hsl[2], alpha, line, column);
         } else {
@@ -660,12 +654,11 @@ public class ColorUtil {
      * 
      * @return An object representing a color.
      */
-    public static LexicalUnitImpl createRgbaOrHexColor(int[] rgb, float alpha,
-            int line, int column) {
-        if (alpha < 1.0f) {
-            return createRgbaColor(rgb[0], rgb[1], rgb[2], alpha, line, column);
+    public static LexicalUnitImpl createRgbaOrHexColor( int[] rgb, float alpha, int line, int column ) {
+        if( alpha < 1.0f ) {
+            return createRgbaColor( null, line, column, rgb[0], rgb[1], rgb[2], alpha );
         } else {
-            return createHexColor(rgb, line, column);
+            return createHexColor( null, line, column, rgb );
         }
     }
 

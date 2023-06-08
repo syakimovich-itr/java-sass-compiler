@@ -97,6 +97,7 @@ public interface SCSSFunctionGenerator {
             list.add( new GrayscaleFunctionGenerator() );
             list.add( new IfFunctionGenerator() );
             list.add( new InspectFunctionGenerator() );
+            list.add( new InvertFunctionGenerator() );
             list.add( new LightenFunctionGenerator() );
             list.add( new ListAppendFunctionGenerator() );
             list.add( new ListIndexFunctionGenerator() );

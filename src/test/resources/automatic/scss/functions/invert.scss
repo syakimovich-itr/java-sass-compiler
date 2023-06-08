@@ -1,0 +1,7 @@
+.class {
+    $font-color: #111111;
+    a: invert($font-color);
+    b: invert($font-color, 50% );
+    c: invert($font-color, 0% );
+    d: invert(1);
+}
