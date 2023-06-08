@@ -49,7 +49,7 @@ class AlphaFunctionGenerator extends AbstractFunctionGenerator {
         } else if( ColorUtil.isColor( color ) ) {
             opacity = 1.0f;
         } else {
-            throw new ParseException( "The function " + function.getFunctionName() + " requires a color as its first parameter", function );
+            throw new ParseException( "The function " + function.getFunctionName() + " requires a color as its first parameter: " + color, function );
         }
         return LexicalUnitImpl.createNumber( function.getUri(), function.getLineNumber(), function.getColumnNumber(), opacity );
     }
