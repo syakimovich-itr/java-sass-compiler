@@ -810,7 +810,7 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
                         // ignore well known CSS functions
                         break;
                     default:
-                        SCSSErrorHandler.get().warning( "Unknown function function: " + functionName );
+                        SCSSErrorHandler.get().warning( "Unknown function: " + functionName );
                 }
                 return copy;
             }
