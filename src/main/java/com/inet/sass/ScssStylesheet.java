@@ -145,7 +145,7 @@ public class ScssStylesheet extends Node {
         parser.setDocumentHandler(documentHandler);
         parser.parseStyleSheet(source);
 
-        stylesheet.setCharset(parser.getInputSource().getEncoding());
+        stylesheet.setCharset( source.getEncoding() );
         stylesheet.sourceUris.add(source.getURI());
 
         return stylesheet;
