@@ -29,6 +29,7 @@ import java.util.regex.Pattern;
 
 import com.inet.sass.ScssContext;
 import com.inet.sass.function.SCSSFunctionGenerator;
+import com.inet.sass.handler.SCSSErrorHandler;
 import com.inet.sass.tree.BlockNode;
 import com.inet.sass.tree.FunctionCall;
 import com.inet.sass.tree.FunctionDefNode;
@@ -791,6 +792,24 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
                 }
             }
             if( generator == null ) {
+                // log unknown functions
+                switch( functionName.toLowerCase() ) {
+                    case "brightness":
+                    case "counters":
+                    case "linear-gradient":
+                    case "not ":
+                    case "rgba":
+                    case "rotate":
+                    case "scale":
+                    case "translate":
+                    case "translatey":
+                    case "translatex":
+                    case "var":
+                        // ignore well known CSS functions
+                        break;
+                    default:
+                        SCSSErrorHandler.get().warning( "Unknown function function: " + functionName );
+                }
                 return copy;
             }
             return generator.compute( context, copy );
