@@ -106,6 +106,7 @@ public interface SCSSFunctionGenerator {
             list.add( new ListNthFunctionGenerator() );
             list.add( new MapGetFunctionGenerator() );
             list.add( new MapKeysFunctionGenerator() );
+            list.add( new MapHasKeyFunctionGenerator() );
             list.add( new MapMergeFunctionGenerator() );
             list.add( new MinMaxFunctionGenerator() );
             list.add( new MixFunctionGenerator() );

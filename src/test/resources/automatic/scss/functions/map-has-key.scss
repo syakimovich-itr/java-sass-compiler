@@ -1,0 +1,6 @@
+$font-weights: ("regular": 400, "medium": 500, "bold": 700);
+
+.class {
+    a: map-has-key($font-weights, "regular");
+    b: map-has-key($font-weights, "bolder");
+}
