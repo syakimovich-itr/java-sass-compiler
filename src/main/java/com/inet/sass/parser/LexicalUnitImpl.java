@@ -352,7 +352,9 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
     }
 
     private ParseException createIncompatibleUnitsException( LexicalUnitImpl another ) {
-        return new ParseException( "Incompatible units found in: '" + printState() + "' <> '" + another.printState() + "'", this );
+        String msg = "Incompatible units found in: '" + printState() + "' <> '" + another.printState() + "'\n" //
+            + new ParseException( "", this ).getMessage() + '\n';
+        return new ParseException( msg, another );
     }
 
     public short checkAndGetUnit( LexicalUnitImpl another ) {
