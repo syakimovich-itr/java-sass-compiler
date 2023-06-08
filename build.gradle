@@ -28,6 +28,16 @@ sourceSets {
     }
 }
 
+task sourcesJar(type: Jar, dependsOn: classes) {
+    archiveClassifier = 'sources'
+
+    from sourceSets.main.java
+}
+
+jar {
+    dependsOn sourcesJar
+}
+
 publishing {
     publications {
         maven(MavenPublication) {
