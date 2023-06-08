@@ -213,12 +213,24 @@ public enum BinaryOperator {
      * types for the operator.
      */
     public SassListItem eval( SassListItem leftOperand, SassListItem rightOperand ) {
-        if( !(leftOperand instanceof LexicalUnitImpl) ) {
-            throw new ParseException( "Left operand of the operator is not a simple value", leftOperand );
+        return evalInternal( operand( leftOperand, true), operand( rightOperand, false ) );
+    }
+
+    /**
+     * Check the operand
+     * @param item the operand item
+     * @param isLeftOperand true, if left operand
+     * @return a LexicalUnitImpl
+     */
+    private static LexicalUnitImpl operand( SassListItem item, boolean isLeftOperand ) {
+        if( !(item instanceof LexicalUnitImpl) ) {
+            throw new ParseException( (isLeftOperand ? "Left" : "Right") + " operand of the operator is not a simple value", item );
         }
-        if( !(rightOperand instanceof LexicalUnitImpl) ) {
-            throw new ParseException( "Right operand of the operator is not a simple value", rightOperand );
+        LexicalUnitImpl operand = (LexicalUnitImpl)item;
+        if( operand.getLexicalUnitType() == LexicalUnitImpl.SCSS_VARIABLE ) {
+            // should already resolved
+            throw new ParseException( "Variable was not resolved: " + operand, operand );
         }
-        return evalInternal( (LexicalUnitImpl)leftOperand, (LexicalUnitImpl)rightOperand );
+        return operand;
     }
 }
