@@ -2161,56 +2161,33 @@ Token ident() :
 List<SassListItem> stringTerm(char op) :
 {
     boolean spaceAfter = false;
-    int beginLine = getToken(1).beginLine, beginColumn = getToken(1).beginColumn;
-    Token n = null;
+    Token n = getToken(1);
     LexicalUnitImpl result = null;
     ArrayList<SassListItem> iis;
     String s = "";
 }
 {
-    ( n=<STRING>
-	{
-	  s = convertStringIndex(n.image, 1, n.image.length() -1);
-	  if (op != ' ') { s = "" + op + s; }
-	  result = LexicalUnitImpl.createString( source.getURI(), n.beginLine, n.beginColumn, s);}
-  | (< DOT >{ s="."; })?(iis = identInterpolationString()){
+    ( 
+      n=<STRING> {
+	    s = convertStringIndex(n.image, 1, n.image.length() -1);
+	    if (op != ' ') { s = "" + op + s; }
+	    result = LexicalUnitImpl.createString( source.getURI(), n.beginLine, n.beginColumn, s);
+	  }
+      | (n=<DOT>{ s="."; })?(iis = identInterpolationString()){
         if(op != ' ') { s = "" + op + s; }
         if(!"".equals(s)) { iis.add(0, new StringItem(s)); }
         StringInterpolationSequence sis = new StringInterpolationSequence(iis);
 	    if ("inherit".equals(sis.toString())) {
-	        result = LexicalUnitImpl.createInherit( source.getURI(), beginLine, beginColumn);
+	        result = LexicalUnitImpl.createInherit( source.getURI(), n.beginLine, n.beginColumn);
 	    } else {
-	        result = LexicalUnitImpl.createIdent( source.getURI(), beginLine, beginColumn, sis);
+	        result = LexicalUnitImpl.createIdent( source.getURI(), n.beginLine, n.beginColumn, sis);
 	    }
 
-    // TODO fix this - no prev
-	  /* /
-         Auto correction code used in the CSS Validator but must not
-          be used by a conformant CSS2 parser.
-	 * Common error :
-	 * H1 {
-	 *   color : black
-	 *   background : white
-	 * }
-	 *
-	Token t = getToken(1);
-	Token semicolon = new Token();
-	semicolon.kind = SEMICOLON;
-	semicolon.image = ";";
-	if (t.kind == COLON) {
-	    // @@SEEME. (generate a warning?)
-	    // @@SEEME if expression is a single ident, 
-	       generate an error ?
-	    rejectToken(semicolon);
-	    
-	    result = prev;
-	}
-	/ */
-    }
-	| result=hexcolor()	
-        | result=url()
-	| result=unicode()
-         ) ( <S> {spaceAfter = true; })*
+      }
+	  | result=hexcolor()	
+      | result=url()
+	  | result=unicode()
+    ) ( <S> {spaceAfter = true; })*
     {
         return createList(result, spaceAfter);
     }
