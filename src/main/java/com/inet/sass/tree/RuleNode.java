@@ -31,10 +31,9 @@ public class RuleNode extends Node implements IVariableNode, NodeWithUrlContent 
     String comment;
     private boolean important;
 
-    public RuleNode(StringInterpolationSequence variable, SassListItem value,
-            boolean important, String comment) {
+    public RuleNode( StringInterpolationSequence variable, SassListItem value, boolean important, String comment ) {
         this.variable = variable;
-        setValue(value);
+        this.value = value;
         this.important = important;
         this.comment = comment;
     }
@@ -57,10 +56,6 @@ public class RuleNode extends Node implements IVariableNode, NodeWithUrlContent 
 
     public SassListItem getValue() {
         return value;
-    }
-
-    private void setValue(SassListItem value) {
-        this.value = value;
     }
 
     @Override
