@@ -78,10 +78,6 @@ public class Parser {
 	this((CharStream) null);
     }
 
-    public InputSource getInputSource(){
-        return source;
-    }
-
     /**
      * Set the document handler for this parser
      */    
