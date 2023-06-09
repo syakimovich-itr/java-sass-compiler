@@ -127,7 +127,7 @@ public enum BinaryOperator {
                         .checkLexicalUnitType(right,
                                 LexicalUnitImpl.SAC_STRING_VALUE)));
                 if (quotedResult) {
-                    return LexicalUnitImpl.createString(stringValue);
+                    return LexicalUnitImpl.createString( null, 0, 0, stringValue );
                 } else {
                     return LexicalUnitImpl.createIdent(stringValue);
                 }

@@ -71,6 +71,6 @@ class StrSliceFunctionGenerator extends AbstractFunctionGenerator {
         }
         end = Math.min( Math.max( start, end ), length );
 
-        return LexicalUnitImpl.createString( str.substring( start, end ) );
+        return LexicalUnitImpl.createString( function.getUri(), function.getLineNumber(), function.getColumnNumber(), str.substring( start, end ) );
     }
 }

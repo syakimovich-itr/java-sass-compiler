@@ -562,11 +562,11 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
         return new LexicalUnitImpl( uri, line, column, SAC_IDENT, s );
     }
 
-    public static LexicalUnitImpl createString( String s ) {
-        return new LexicalUnitImpl( null, 0, 0, SAC_STRING_VALUE, s );
+    public static LexicalUnitImpl createString( String uri, int line, int column, String s ) {
+        return createString( uri, line, column, new StringInterpolationSequence( s ) );
     }
 
-    public static LexicalUnitImpl createString( String uri, int line, int column, String s ) {
+    public static LexicalUnitImpl createString( String uri, int line, int column, StringInterpolationSequence s ) {
         return new LexicalUnitImpl( uri, line, column, SAC_STRING_VALUE, s );
     }
 
