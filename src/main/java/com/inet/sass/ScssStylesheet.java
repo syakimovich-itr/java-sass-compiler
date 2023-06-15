@@ -277,9 +277,8 @@ public class ScssStylesheet extends Node {
         StringBuilder string = new StringBuilder("");
         String delimeter = "\n\n";
         // add charset declaration, if it is not default "ASCII".
-        if (!"ASCII".equals(getCharset())) {
-            string.append("@charset \"").append(getCharset()).append("\";")
-                    .append(delimeter);
+        if( charset != null && !"ASCII".equals( charset ) ) {
+            string.append( "@charset \"" ).append( charset ).append( "\";" ).append( delimeter );
         }
         List<Node> children = getChildren();
         if (children.size() > 0) {
