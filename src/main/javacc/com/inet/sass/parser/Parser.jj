@@ -1500,7 +1500,7 @@ void includeDirective() :
     (name = identString() | name = variableName(){ name = "$"+name;} 
      | (name = functionNameWithWhitespace() args = argValuelist()) ((<ELLIPSIS>){hasVariableArgs = true;}
          (<S>)*)? <RPARAN>(<S>)*)
-    {documentHandler.startInclude(name, args, hasVariableArgs);}
+    {documentHandler.startInclude( name, new ActualArgumentList( SassList.Separator.COMMA, args, hasVariableArgs ) );}
     (includeDirectiveBlockContents() | semicolonTerminator())
     {documentHandler.endInclude();}
 }

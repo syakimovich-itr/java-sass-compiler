@@ -25,6 +25,7 @@ import org.w3c.css.sac.CSSException;
 import org.w3c.css.sac.InputSource;
 
 import com.inet.sass.ScssStylesheet;
+import com.inet.sass.parser.ActualArgumentList;
 import com.inet.sass.parser.MediaList;
 import com.inet.sass.parser.SCSSLexicalUnit;
 import com.inet.sass.parser.SassListItem;
@@ -319,9 +320,8 @@ public class SCSSDocumentHandler {
         nodeStack.peek().appendChild(node);
     }
 
-    public void startInclude(String name, List<Variable> args,
-            boolean hasVariableArgs) {
-        MixinNode node = new MixinNode(name, args, hasVariableArgs);
+    public void startInclude(String name, ActualArgumentList args ) {
+        MixinNode node = new MixinNode(name, args );
         nodeStack.peek().appendChild(node);
         nodeStack.push(node);
 

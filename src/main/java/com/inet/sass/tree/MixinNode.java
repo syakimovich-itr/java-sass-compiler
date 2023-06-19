@@ -46,15 +46,9 @@ public class MixinNode extends Node implements IVariableNode,
     private ActualArgumentList arglist;
     private String name;
 
-    public MixinNode(String name) {
-        this(name, new ArrayList<Variable>(), false);
-    }
-
-    public MixinNode(String name, Collection<Variable> args,
-            boolean hasVariableArgs) {
+    public MixinNode( String name, ActualArgumentList args ) {
         this.name = name;
-        arglist = new ActualArgumentList(SassList.Separator.COMMA, args,
-                hasVariableArgs);
+        this.arglist = args;
     }
 
     private MixinNode(MixinNode nodeToCopy) {
