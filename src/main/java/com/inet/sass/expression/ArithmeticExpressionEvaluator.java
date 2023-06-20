@@ -25,6 +25,8 @@ import com.inet.sass.parser.LexicalUnitImpl;
 import com.inet.sass.parser.ParseException;
 import com.inet.sass.parser.SCSSLexicalUnit;
 import com.inet.sass.parser.SassExpression;
+import com.inet.sass.parser.SassList;
+import com.inet.sass.parser.SassList.Separator;
 import com.inet.sass.parser.SassListItem;
 
 public class ArithmeticExpressionEvaluator {
@@ -102,7 +104,7 @@ public class ArithmeticExpressionEvaluator {
                         continue inputTermLoop;
                     }
                 }
-                throw new ParseException( "Illegal arithmetic expression", current );
+                throw new ParseException( "Illegal arithmetic expression: " + new SassList( Separator.SPACE, terms ).printState(), current );
             }
             if( LexicalUnitImpl.checkLexicalUnitType( current, SCSSLexicalUnit.SCSS_OPERATOR_LEFT_PAREN ) ) {
                 operators.push( Parentheses.LEFT );
