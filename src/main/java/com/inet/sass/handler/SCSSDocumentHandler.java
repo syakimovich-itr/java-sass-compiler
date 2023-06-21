@@ -26,6 +26,7 @@ import org.w3c.css.sac.InputSource;
 
 import com.inet.sass.ScssStylesheet;
 import com.inet.sass.parser.ActualArgumentList;
+import com.inet.sass.parser.FormalArgumentList;
 import com.inet.sass.parser.MediaList;
 import com.inet.sass.parser.SCSSLexicalUnit;
 import com.inet.sass.parser.SassListItem;
@@ -43,6 +44,7 @@ import com.inet.sass.tree.KeyframeSelectorNode;
 import com.inet.sass.tree.KeyframesNode;
 import com.inet.sass.tree.MediaNode;
 import com.inet.sass.tree.MessageNode;
+import com.inet.sass.tree.MessageNode.MessageLevel;
 import com.inet.sass.tree.MixinDefNode;
 import com.inet.sass.tree.MixinNode;
 import com.inet.sass.tree.NestPropertiesNode;
@@ -51,7 +53,6 @@ import com.inet.sass.tree.ReturnNode;
 import com.inet.sass.tree.RuleNode;
 import com.inet.sass.tree.SimpleNode;
 import com.inet.sass.tree.VariableNode;
-import com.inet.sass.tree.MessageNode.MessageLevel;
 import com.inet.sass.tree.controldirective.EachDefNode;
 import com.inet.sass.tree.controldirective.ElseNode;
 import com.inet.sass.tree.controldirective.ForNode;
@@ -219,23 +220,20 @@ public class SCSSDocumentHandler {
         nodeStack.pop();
     }
 
-    public void startMixinDirective(String name, Collection<Variable> args,
-            boolean hasVariableArgs) {
-        MixinDefNode node = new MixinDefNode(name.trim(), args, hasVariableArgs);
-        nodeStack.peek().appendChild(node);
-        nodeStack.push(node);
+    public void startMixinDirective( String name, FormalArgumentList args ) {
+        MixinDefNode node = new MixinDefNode( name.trim(), args );
+        nodeStack.peek().appendChild( node );
+        nodeStack.push( node );
     }
 
     public void endMixinDirective() {
         nodeStack.pop();
     }
 
-    public void startFunctionDirective(String name, Collection<Variable> args,
-            boolean hasVariableArgs) {
-        FunctionDefNode node = new FunctionDefNode(name.trim(), args,
-                hasVariableArgs);
-        nodeStack.peek().appendChild(node);
-        nodeStack.push(node);
+    public void startFunctionDirective( String name, FormalArgumentList args ) {
+        FunctionDefNode node = new FunctionDefNode( name.trim(), args );
+        nodeStack.peek().appendChild( node );
+        nodeStack.push( node );
     }
 
     public void endFunctionDirective() {

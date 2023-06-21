@@ -16,14 +16,11 @@
  */
 package com.inet.sass.tree;
 
-import java.util.Collection;
-
 import com.inet.sass.Definition;
 import com.inet.sass.Scope;
 import com.inet.sass.ScssContext;
 import com.inet.sass.parser.ActualArgumentList;
 import com.inet.sass.parser.FormalArgumentList;
-import com.inet.sass.parser.Variable;
 
 /**
  * DefNode defines the shared functionality of mixin and function definition
@@ -38,11 +35,10 @@ public abstract class DefNode extends Node implements Definition,
     private FormalArgumentList arglist;
     private Scope definitionScope;
 
-    public DefNode(String name, Collection<Variable> args,
-            boolean hasVariableArgs) {
+    public DefNode(String name, FormalArgumentList args ) {
         super();
         this.name = name;
-        arglist = new FormalArgumentList(args, hasVariableArgs);
+        this.arglist = args;
     }
 
     protected DefNode(DefNode nodeToCopy) {

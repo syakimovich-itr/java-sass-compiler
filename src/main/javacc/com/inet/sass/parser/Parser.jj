@@ -1273,7 +1273,7 @@ void mixinDirective() :
           (<ELLIPSIS> {hasVariableArgs = true;} (<S>)*)? <RPARAN> (<S>)*)
     )
     <LBRACE> (<S>)*
-    {documentHandler.startMixinDirective(name, args, hasVariableArgs);}
+    {documentHandler.startMixinDirective(name, new FormalArgumentList( args, hasVariableArgs) );}
     ( ifContentStatement() | fontFace() | page())*
     <RBRACE>(<S>)*
     {documentHandler.endMixinDirective();}
@@ -1290,7 +1290,7 @@ void functionDirective() :
     (<S>)*
     ( name = functionNameWithWhitespace() args = arglist() (<ELLIPSIS> {hasVariableArgs = true;} (<S>)*)? <RPARAN> (<S>)*)
     <LBRACE> (<S>)*
-    {documentHandler.startFunctionDirective(name, args, hasVariableArgs);} 
+    {documentHandler.startFunctionDirective(name, new FormalArgumentList( args, hasVariableArgs ) );} 
     ( functionBlockStatement() )* 
     <RBRACE>(<S>)*
     {documentHandler.endFunctionDirective();}

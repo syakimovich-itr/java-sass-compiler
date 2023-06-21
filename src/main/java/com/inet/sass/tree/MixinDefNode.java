@@ -22,13 +22,12 @@ import java.util.Collection;
 import java.util.Collections;
 
 import com.inet.sass.ScssContext;
-import com.inet.sass.parser.Variable;
+import com.inet.sass.parser.FormalArgumentList;
 
 public class MixinDefNode extends DefNode {
 
-    public MixinDefNode(String name, Collection<Variable> args,
-            boolean hasVariableArgs) {
-        super(name, args, hasVariableArgs);
+    public MixinDefNode( String name, FormalArgumentList args ) {
+        super( name, args );
     }
 
     private MixinDefNode(MixinDefNode nodeToCopy) {

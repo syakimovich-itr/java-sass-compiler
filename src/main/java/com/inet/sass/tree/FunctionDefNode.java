@@ -20,12 +20,11 @@ import java.util.Collection;
 import java.util.Collections;
 
 import com.inet.sass.ScssContext;
-import com.inet.sass.parser.Variable;
+import com.inet.sass.parser.FormalArgumentList;
 
 public class FunctionDefNode extends DefNode {
-    public FunctionDefNode(String name, Collection<Variable> args,
-            boolean hasVariableArgs) {
-        super(name, args, hasVariableArgs);
+    public FunctionDefNode( String name, FormalArgumentList args ) {
+        super( name, args );
     }
 
     private FunctionDefNode(FunctionDefNode nodeToCopy) {
