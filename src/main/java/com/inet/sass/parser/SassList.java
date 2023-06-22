@@ -344,11 +344,11 @@ public class SassList implements SassListItem, Iterable<SassListItem> {
 
     @Override
     public Iterator<SassListItem> iterator() {
-        return (Collections.unmodifiableList(items)).iterator();
+        return items.iterator();
     }
 
     protected List<SassListItem> getItems() {
-        return Collections.unmodifiableList(items);
+        return items;
     }
 
     @Override
