@@ -1706,7 +1706,7 @@ void declarationOrNestedProperties() :
      ( declaration() )? ( ";" ( <S> )* ( declaration() )? )*
      <RBRACE>(<S>)*
      {
-         documentHandler.endNestedProperties(name);
+         documentHandler.endNestedProperties();
      }
      )
  } catch (NumberFormatException e) {

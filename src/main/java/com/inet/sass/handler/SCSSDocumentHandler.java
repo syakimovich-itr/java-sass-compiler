@@ -216,7 +216,7 @@ public class SCSSDocumentHandler {
         nodeStack.push(node);
     }
 
-    public void endNestedProperties(StringInterpolationSequence name) {
+    public void endNestedProperties() {
         nodeStack.pop();
     }
 
