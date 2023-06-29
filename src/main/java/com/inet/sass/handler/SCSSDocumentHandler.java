@@ -160,7 +160,7 @@ public class SCSSDocumentHandler {
         nodeStack.push( node );
     }
 
-    public void endMedia( MediaList media ) throws CSSException {
+    public void endMedia() throws CSSException {
         nodeStack.pop();
     }
 

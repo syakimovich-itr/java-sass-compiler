@@ -707,7 +707,7 @@ void media() :
      skipStatement();
  } finally {
      if (start) {
-     documentHandler.endMedia(ml);
+     documentHandler.endMedia();
      }
  }
 }
