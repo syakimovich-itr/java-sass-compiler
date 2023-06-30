@@ -546,7 +546,9 @@ void charset() :
 { Token n; }
 {  
     try {
-        <CHARSET_SYM> ( <S> )* n=<STRING> ( <S> )* (";" | acceptMissingSemicolon(EOF))
+        <CHARSET_SYM> ( <S> )* n=<STRING> ( <S> )* (";" | acceptMissingSemicolon(EOF)) {
+            source.setEncoding( n.image.substring( 1, n.image.length()-1) );
+        }
     } catch (ParseException e) {
         reportError( e );
         skipStatement();
