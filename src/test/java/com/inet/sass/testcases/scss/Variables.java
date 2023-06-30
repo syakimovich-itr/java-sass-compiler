@@ -18,6 +18,7 @@
 package com.inet.sass.testcases.scss;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 import org.junit.Test;
 import org.w3c.css.sac.CSSException;
@@ -40,12 +41,8 @@ public class Variables extends AbstractTestBase {
     String css = "/css/variables.css";
 
     @Test
-    public void testParser() throws CSSException, IOException {
-        Parser parser = new Parser();
-        SCSSDocumentHandler handler = new SCSSDocumentHandler();
-        parser.setDocumentHandler(handler);
-        parser.parseStyleSheet(getClass().getResource(scss).getPath());
-        ScssStylesheet root = handler.getStyleSheet();
+    public void testParser() throws CSSException, IOException, URISyntaxException {
+        ScssStylesheet root = getStyleSheet(scss);
         Assert.assertEquals(8, root.getChildren().size());
 
         VariableNode varNode1 = (VariableNode) root.getChildren().get(0);

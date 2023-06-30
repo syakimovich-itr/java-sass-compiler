@@ -19,6 +19,8 @@ package com.inet.sass.testcases.scss;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -26,8 +28,6 @@ import org.w3c.css.sac.CSSException;
 
 import com.inet.sass.AbstractTestBase;
 import com.inet.sass.ScssStylesheet;
-import com.inet.sass.handler.SCSSDocumentHandler;
-import com.inet.sass.parser.Parser;
 import com.inet.sass.resolver.FilesystemResolver;
 import com.inet.sass.tree.ImportNode;
 
@@ -40,13 +40,8 @@ public class CompassImports extends AbstractTestBase {
     String compassPath = "/scss/compass-test2";
 
     @Test
-    public void testParser() throws CSSException, IOException {
-        Parser parser = new Parser();
-        SCSSDocumentHandler handler = new SCSSDocumentHandler();
-        parser.setDocumentHandler(handler);
-        parser.parseStyleSheet(getClass().getResource(scssOtherDirectory)
-                .getPath());
-        ScssStylesheet root = handler.getStyleSheet();
+    public void testParser() throws CSSException, IOException, URISyntaxException {
+        ScssStylesheet root = getStyleSheet(scssOtherDirectory);
         ImportNode importVariableNode = (ImportNode) root.getChildren().get(0);
         Assert.assertEquals("compass", importVariableNode.getUri());
         Assert.assertFalse(importVariableNode.isPureCssImport());
@@ -69,8 +64,8 @@ public class CompassImports extends AbstractTestBase {
         comparisonCss = getFileContent(css);
         comparisonCss = comparisonCss.replaceAll(CR, "");
         File file = getFile(scss);
-        FilesystemResolver resolver = new FilesystemResolver(additionalPath);
-        ScssStylesheet sheet = ScssStylesheet.get( file.getAbsolutePath(), null, new SCSSDocumentHandler(), new AssertErrorHandler(), resolver );
+        FilesystemResolver resolver = new FilesystemResolver( StandardCharsets.UTF_8, additionalPath );
+        ScssStylesheet sheet = ScssStylesheet.get( file.getAbsolutePath(), new AssertErrorHandler(), resolver );
         Assert.assertNotNull(sheet);
 
         sheet.compile();

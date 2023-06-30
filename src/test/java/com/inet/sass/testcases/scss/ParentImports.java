@@ -18,18 +18,16 @@
 package com.inet.sass.testcases.scss;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.w3c.css.sac.CSSException;
 
 import com.inet.sass.AbstractTestBase;
 import com.inet.sass.ScssStylesheet;
-import com.inet.sass.handler.SCSSDocumentHandler;
-import com.inet.sass.parser.Parser;
 import com.inet.sass.tree.ImportNode;
-
-import org.junit.Assert;
 
 public class ParentImports extends AbstractTestBase {
 
@@ -37,12 +35,8 @@ public class ParentImports extends AbstractTestBase {
     String css = "/css/parent-import.css";
 
     @Test
-    public void testParser() throws CSSException, IOException {
-        Parser parser = new Parser();
-        SCSSDocumentHandler handler = new SCSSDocumentHandler();
-        parser.setDocumentHandler(handler);
-        parser.parseStyleSheet(getClass().getResource(scss).getPath());
-        ScssStylesheet root = handler.getStyleSheet();
+    public void testParser() throws CSSException, IOException, URISyntaxException {
+        ScssStylesheet root = getStyleSheet(scss);
         ImportNode importVariableNode = (ImportNode) root.getChildren().get(0);
         Assert.assertEquals("../folder-test2/variables.scss",
                 importVariableNode.getUri());

@@ -23,6 +23,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -33,6 +34,7 @@ import org.junit.Assert;
 import com.inet.sass.ScssStylesheet;
 import com.inet.sass.handler.SCSSDocumentHandler;
 import com.inet.sass.handler.SCSSErrorHandler;
+import com.inet.sass.resolver.FilesystemResolver;
 import com.inet.sass.testcases.scss.SassTestRunner.FactoryTest;
 
 public abstract class AbstractDirectoryScanningSassTests {
@@ -83,12 +85,10 @@ public abstract class AbstractDirectoryScanningSassTests {
     public void compareScssWithCss(String scssResourceName) throws Exception {
         File scssFile = getSassLangResourceFile(scssResourceName);
 
-        SCSSDocumentHandler documentHandler = new SCSSDocumentHandler();
         SCSSErrorHandler errorHandler = new AssertErrorHandler();
 
-        ScssStylesheet scssStylesheet = ScssStylesheet.get(
-                scssFile.getCanonicalPath(), null, documentHandler,
-                errorHandler);
+        FilesystemResolver resolver = new FilesystemResolver( StandardCharsets.UTF_8 );
+        ScssStylesheet scssStylesheet = ScssStylesheet.get( scssFile.getCanonicalPath(), errorHandler, resolver );
         scssStylesheet.compile();
         String parsedCss = scssStylesheet.printState();
 

@@ -16,9 +16,12 @@
  */
 package com.inet.sass.resolver;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.List;
 
 import org.w3c.css.sac.InputSource;
@@ -27,20 +30,20 @@ import com.inet.sass.ScssStylesheet;
 
 public class FilesystemResolver extends AbstractResolver {
 
+    private Charset  cs;
     private String[] customPaths;
 
-    public FilesystemResolver(String... customPaths) {
+    public FilesystemResolver( Charset cs, String... customPaths ) {
+        this.cs = cs;
         this.customPaths = customPaths;
     }
 
     @Override
-    protected List<String> getPotentialParentPaths(
-            ScssStylesheet parentStyleSheet, String identifier) {
-        List<String> potentialPaths = super.getPotentialParentPaths(
-                parentStyleSheet, identifier);
-        if (customPaths != null) {
-            for (String path : customPaths) {
-                potentialPaths.add(extractFullPath(path, identifier));
+    protected List<String> getPotentialParentPaths( ScssStylesheet parentStyleSheet, String identifier ) {
+        List<String> potentialPaths = super.getPotentialParentPaths( parentStyleSheet, identifier );
+        if( customPaths != null ) {
+            for( String path : customPaths ) {
+                potentialPaths.add( extractFullPath( path, identifier ) );
             }
         }
 
@@ -48,24 +51,23 @@ public class FilesystemResolver extends AbstractResolver {
     }
 
     @Override
-    public InputSource resolveNormalized(String identifier) {
+    public InputSource resolveNormalized( String identifier ) {
         String fileName = identifier;
         if( !fileName.endsWith( ".css" ) && !fileName.endsWith( ".png" ) ) {
             fileName += ".scss";
         }
 
         try {
-            InputStream is = new FileInputStream(fileName);
+            InputStream is = new FileInputStream( fileName );
             InputSource source = new InputSource();
-            source.setByteStream(is);
-            source.setURI(fileName);
+            source.setByteStream( is ); // for images
+            source.setCharacterStream( new BufferedReader( new InputStreamReader( is, cs ) ) );
+            source.setURI( fileName );
             return source;
 
-        } catch (FileNotFoundException e) {
+        } catch( FileNotFoundException e ) {
             // not found, try something else
             return null;
         }
-
     }
-
 }

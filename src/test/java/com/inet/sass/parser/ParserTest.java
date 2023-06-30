@@ -23,19 +23,22 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.w3c.css.sac.InputSource;
 
-import com.inet.sass.handler.SCSSDocumentHandler;
-import com.inet.sass.parser.Parser;
+import com.inet.sass.ScssStylesheet;
+import com.inet.sass.resolver.ScssStylesheetResolver;
+import com.inet.sass.testcases.scss.AssertErrorHandler;
 
 public class ParserTest {
 
     @Test
     public void testCanIngoreSingleLineComment() {
-        Parser parser = new Parser();
-        SCSSDocumentHandler handler = new SCSSDocumentHandler();
-        parser.setDocumentHandler(handler);
         try {
-            parser.parseStyleSheet(new InputSource(new StringReader(
-                    "//kjaljsföajsfalkj\n@12abcg;")));
+            ScssStylesheetResolver resolver = new ScssStylesheetResolver() {
+                @Override
+                public InputSource resolve( ScssStylesheet parentStylesheet, String identifier ) {
+                    return new InputSource( new StringReader( "//kjaljsföajsfalkj\n@12abcg;" ) );
+                }
+            };
+            ScssStylesheet.get( "", new AssertErrorHandler(), resolver );
             Assert.assertTrue(true);
         } catch (Exception e) {
             Assert.fail(e.getMessage());

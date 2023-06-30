@@ -18,15 +18,15 @@
 package com.inet.sass.testcases.scss;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.w3c.css.sac.CSSException;
 
 import com.inet.sass.AbstractTestBase;
 import com.inet.sass.ScssStylesheet;
-import com.inet.sass.handler.SCSSDocumentHandler;
-import com.inet.sass.parser.Parser;
 import com.inet.sass.tree.BlockNode;
 import com.inet.sass.tree.MixinDefNode;
 import com.inet.sass.tree.MixinNode;
@@ -35,20 +35,14 @@ import com.inet.sass.tree.controldirective.EachDefNode;
 import com.inet.sass.tree.controldirective.ForNode;
 import com.inet.sass.tree.controldirective.IfElseDefNode;
 
-import org.junit.Assert;
-
 public class ControlDirectives extends AbstractTestBase {
 
     String scss = "/scss/control-directives.scss";
     String css = "/css/control-directives.css";
 
     @Test
-    public void testParser() throws CSSException, IOException {
-        Parser parser = new Parser();
-        SCSSDocumentHandler handler = new SCSSDocumentHandler();
-        parser.setDocumentHandler(handler);
-        parser.parseStyleSheet(getClass().getResource(scss).getPath());
-        ScssStylesheet root = handler.getStyleSheet();
+    public void testParser() throws CSSException, IOException, URISyntaxException {
+        ScssStylesheet root = getStyleSheet(scss);
         Assert.assertNotNull(root);
 
         List<Node> children = root.getChildren();

@@ -21,15 +21,15 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.IOUtils;
+import org.junit.Assert;
 import org.w3c.css.sac.CSSException;
 
-import com.inet.sass.ScssStylesheet;
-import com.inet.sass.handler.SCSSDocumentHandler;
+import com.inet.sass.resolver.FilesystemResolver;
+import com.inet.sass.resolver.ScssStylesheetResolver;
 import com.inet.sass.testcases.scss.AssertErrorHandler;
-
-import org.junit.Assert;
 
 public abstract class AbstractTestBase {
 
@@ -40,10 +40,14 @@ public abstract class AbstractTestBase {
     protected String parsedScss;
     protected String comparisonCss;
 
+    protected ScssStylesheetResolver getResolver( String filename ) {
+        return new FilesystemResolver( StandardCharsets.UTF_8 );
+    }
+
     public ScssStylesheet getStyleSheet(String filename)
             throws URISyntaxException, CSSException, IOException {
         File file = getFile(filename);
-        stylesheet = ScssStylesheet.get(file.getAbsolutePath(), null, new SCSSDocumentHandler(), new AssertErrorHandler() );
+        stylesheet = ScssStylesheet.get( file.getAbsolutePath(), new AssertErrorHandler(), getResolver( filename ) );
         return stylesheet;
     }
 

@@ -37,11 +37,7 @@ public class Extends extends AbstractTestBase {
     @Test
     public void testParser() throws CSSException, URISyntaxException,
             IOException {
-        Parser parser = new Parser();
-        SCSSDocumentHandler handler = new SCSSDocumentHandler();
-        parser.setDocumentHandler(handler);
-        parser.parseStyleSheet(getClass().getResource(scss).getPath());
-        ScssStylesheet root = handler.getStyleSheet();
+        ScssStylesheet root = getStyleSheet(scss);
 
         Assert.assertTrue(root.getChildren().get(2).getChildren().get(0) instanceof ExtendNode);
     }

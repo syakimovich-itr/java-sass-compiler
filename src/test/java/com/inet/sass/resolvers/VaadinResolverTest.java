@@ -18,6 +18,7 @@
 package com.inet.sass.resolvers;
 
 import java.lang.reflect.Method;
+import java.nio.charset.StandardCharsets;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -29,7 +30,7 @@ public class VaadinResolverTest {
 
     @Test
     public void testFilesystemResolverPathNormalization() throws Exception {
-        testPathNormalization(new FilesystemResolver());
+        testPathNormalization( new FilesystemResolver( StandardCharsets.UTF_8 ) );
     }
 
     public void testPathNormalization(AbstractResolver resolver)

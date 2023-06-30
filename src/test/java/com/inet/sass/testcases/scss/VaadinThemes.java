@@ -15,14 +15,22 @@
  */
 package com.inet.sass.testcases.scss;
 
+import java.nio.charset.StandardCharsets;
+
 import org.junit.Assert;
 import org.junit.Test;
 
 import com.inet.sass.AbstractTestBase;
+import com.inet.sass.resolver.FilesystemResolver;
+import com.inet.sass.resolver.ScssStylesheetResolver;
 
 public class VaadinThemes extends AbstractTestBase {
     String scssFolder = "/vaadin-themes/scss";
     String cssFolder = "/vaadin-themes/css";
+
+    protected ScssStylesheetResolver getResolver( String filename ) {
+        return new FilesystemResolver( StandardCharsets.US_ASCII ); // the source is UTF8 but the references are saved for the old ASCII encoding
+    }
 
     @Test
     public void compileValo() throws Exception {

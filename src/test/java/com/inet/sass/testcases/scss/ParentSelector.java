@@ -18,6 +18,7 @@
 package com.inet.sass.testcases.scss;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -25,8 +26,6 @@ import org.w3c.css.sac.CSSException;
 
 import com.inet.sass.AbstractTestBase;
 import com.inet.sass.ScssStylesheet;
-import com.inet.sass.handler.SCSSDocumentHandler;
-import com.inet.sass.parser.Parser;
 import com.inet.sass.tree.BlockNode;
 
 public class ParentSelector extends AbstractTestBase {
@@ -34,12 +33,8 @@ public class ParentSelector extends AbstractTestBase {
     String css = "/css/parent-selector.css";
 
     @Test
-    public void testParser() throws CSSException, IOException {
-        Parser parser = new Parser();
-        SCSSDocumentHandler handler = new SCSSDocumentHandler();
-        parser.setDocumentHandler(handler);
-        parser.parseStyleSheet(getClass().getResource(scss).getPath());
-        ScssStylesheet root = handler.getStyleSheet();
+    public void testParser() throws CSSException, IOException, URISyntaxException {
+        ScssStylesheet root = getStyleSheet(scss);
         BlockNode blockNode = (BlockNode) root.getChildren().get(0);
         Assert.assertEquals(5, blockNode.getChildren().size());
         BlockNode nestedBlock1 = (BlockNode) blockNode.getChildren().get(3);

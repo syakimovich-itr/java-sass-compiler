@@ -18,31 +18,25 @@
 package com.inet.sass.testcases.scss;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.w3c.css.sac.CSSException;
 
 import com.inet.sass.AbstractTestBase;
 import com.inet.sass.ScssStylesheet;
-import com.inet.sass.handler.SCSSDocumentHandler;
-import com.inet.sass.parser.Parser;
 import com.inet.sass.tree.BlockNode;
 import com.inet.sass.tree.NestPropertiesNode;
 import com.inet.sass.tree.RuleNode;
-
-import org.junit.Assert;
 
 public class NestedProperties extends AbstractTestBase {
     String scss = "/scss/nested-properties.scss";
     String css = "/css/nested-properties.css";
 
     @Test
-    public void testParser() throws CSSException, IOException {
-        Parser parser = new Parser();
-        SCSSDocumentHandler handler = new SCSSDocumentHandler();
-        parser.setDocumentHandler(handler);
-        parser.parseStyleSheet(getClass().getResource(scss).getPath());
-        ScssStylesheet root = handler.getStyleSheet();
+    public void testParser() throws CSSException, IOException, URISyntaxException {
+        ScssStylesheet root = getStyleSheet(scss);
         Assert.assertEquals(1, root.getChildren().size());
 
         BlockNode blockNode = (BlockNode) root.getChildren().get(0);

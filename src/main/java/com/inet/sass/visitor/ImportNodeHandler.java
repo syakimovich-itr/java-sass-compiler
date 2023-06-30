@@ -24,7 +24,6 @@ import java.util.List;
 
 import com.inet.sass.ScssContext;
 import com.inet.sass.ScssStylesheet;
-import com.inet.sass.handler.SCSSDocumentHandler;
 import com.inet.sass.handler.SCSSErrorHandler;
 import com.inet.sass.tree.ImportNode;
 import com.inet.sass.tree.Node;
@@ -42,8 +41,7 @@ public class ImportNodeHandler {
             try {
                 // set parent's charset to imported node.
 
-                imported = ScssStylesheet.get(importNode.getUri(), styleSheet,
-                        new SCSSDocumentHandler(), SCSSErrorHandler.get());
+                imported = styleSheet.importStylesheet( importNode.getUri() );
                 if (imported == null) {
                     SCSSErrorHandler.get().error( "Import '" + importNode.getUri() + "' in '" + styleSheet.getUri() + "' could not be found" );
                     return Collections.emptyList();

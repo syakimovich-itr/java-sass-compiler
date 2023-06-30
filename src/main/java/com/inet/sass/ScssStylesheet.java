@@ -54,35 +54,8 @@ public class ScssStylesheet extends Node {
      * @param file
      * @throws IOException
      */
-    public ScssStylesheet() {
+    private ScssStylesheet() {
         super();
-    }
-
-    /**
-     * Main entry point for the SASS compiler. Takes in a file, an optional
-     * parent stylesheet, and document and error handlers. Then builds up a
-     * ScssStylesheet tree out of it. Calling compile() on it will transform
-     * SASS into CSS. Calling printState() will print out the SCSS/CSS.
-     * 
-     * @param identifier
-     *            The file path. If null then null is returned.
-     * @param parentStylesheet
-     *            Style sheet from which to inherit resolvers and encoding. May
-     *            be null.
-     * @param documentHandler
-     *            Instance of document handler. May not be null.
-     * @param errorHandler
-     *            Instance of error handler. May not be null.
-     * @return
-     * @throws CSSException
-     * @throws IOException
-     */
-    public static ScssStylesheet get(String identifier,
-            ScssStylesheet parentStylesheet,
-            SCSSDocumentHandler documentHandler, SCSSErrorHandler errorHandler)
-            throws CSSException, IOException {
-        ScssStylesheetResolver resolver = parentStylesheet != null ? parentStylesheet.resolver : null;
-        return get( identifier, parentStylesheet, documentHandler, errorHandler, resolver );
     }
 
     /**
@@ -105,11 +78,33 @@ public class ScssStylesheet extends Node {
      * @throws CSSException
      * @throws IOException
      */
-    public static ScssStylesheet get(String identifier,
-            ScssStylesheet parentStylesheet,
-            SCSSDocumentHandler documentHandler, SCSSErrorHandler errorHandler, ScssStylesheetResolver resolver )
-            throws CSSException, IOException {
-        SCSSErrorHandler.set(errorHandler);
+    public static ScssStylesheet get( String identifier, SCSSErrorHandler errorHandler, ScssStylesheetResolver resolver ) throws IOException {
+        SCSSErrorHandler.set( errorHandler );
+        return load( identifier, null, resolver );
+    }
+
+    public ScssStylesheet importStylesheet( String identifier ) throws IOException {
+        return load( identifier, this, resolver );
+    }
+
+    /**
+     * Main entry point for the SASS compiler. Takes in a file, an optional
+     * parent stylesheet, and document and error handlers. Then builds up a
+     * ScssStylesheet tree out of it. Calling compile() on it will transform
+     * SASS into CSS. Calling printState() will print out the SCSS/CSS.
+     * 
+     * @param identifier
+     *            The file path. If null then null is returned.
+     * @param parentStylesheet
+     *            Style sheet from which to inherit resolvers and encoding. May
+     *            be null.
+     * @param documentHandler
+     *            Instance of document handler. May not be null.
+     * @return
+     * @throws CSSException
+     * @throws IOException
+     */
+    private static ScssStylesheet load( String identifier, ScssStylesheet parentStylesheet, ScssStylesheetResolver resolver ) throws IOException {
         /*
          * The encoding to be used is passed through "encoding" parameter. the
          * imported children scss node will have the same encoding as their
@@ -123,14 +118,10 @@ public class ScssStylesheet extends Node {
             return null;
         }
 
-        ScssStylesheet stylesheet = documentHandler.getStyleSheet();
-        if (resolver == null) {
-            // Use default resolvers
-            stylesheet.resolver = new FilesystemResolver();
-        } else {
-            // Use parent resolvers
-            stylesheet.resolver = resolver;
-        }
+        ScssStylesheet stylesheet = new ScssStylesheet();
+        stylesheet.resolver = resolver;
+        SCSSDocumentHandler documentHandler = new SCSSDocumentHandler( stylesheet );
+
         InputSource source = stylesheet.resolveSource( identifier, parentStylesheet );
         if( source == null ) {
             return null;
@@ -141,7 +132,7 @@ public class ScssStylesheet extends Node {
             source.setEncoding(parentStylesheet.getCharset());
         }
         Parser parser = new Parser();
-        parser.setErrorHandler(errorHandler);
+        parser.setErrorHandler( SCSSErrorHandler.get() );
         parser.setDocumentHandler(documentHandler);
         parser.parseStyleSheet(source);
 

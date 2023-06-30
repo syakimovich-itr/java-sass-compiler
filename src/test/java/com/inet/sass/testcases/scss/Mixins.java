@@ -26,9 +26,7 @@ import org.w3c.css.sac.CSSException;
 
 import com.inet.sass.AbstractTestBase;
 import com.inet.sass.ScssStylesheet;
-import com.inet.sass.handler.SCSSDocumentHandler;
 import com.inet.sass.parser.LexicalUnitImpl;
-import com.inet.sass.parser.Parser;
 import com.inet.sass.parser.SCSSLexicalUnit;
 import com.inet.sass.tree.BlockNode;
 import com.inet.sass.tree.MixinDefNode;
@@ -42,11 +40,7 @@ public class Mixins extends AbstractTestBase {
     @Test
     public void testParser() throws CSSException, URISyntaxException,
             IOException {
-        Parser parser = new Parser();
-        SCSSDocumentHandler handler = new SCSSDocumentHandler();
-        parser.setDocumentHandler(handler);
-        parser.parseStyleSheet(getClass().getResource(scss).getPath());
-        ScssStylesheet root = handler.getStyleSheet();
+        ScssStylesheet root = getStyleSheet(scss);
 
         MixinDefNode mixinDefNode0 = (MixinDefNode) root.getChildren().get(0);
         Assert.assertEquals("font-settings", mixinDefNode0.getName());

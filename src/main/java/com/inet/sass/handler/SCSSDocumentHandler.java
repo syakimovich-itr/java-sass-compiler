@@ -17,7 +17,6 @@
 
 package com.inet.sass.handler;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Stack;
 
@@ -31,7 +30,6 @@ import com.inet.sass.parser.MediaList;
 import com.inet.sass.parser.SCSSLexicalUnit;
 import com.inet.sass.parser.SassListItem;
 import com.inet.sass.parser.StringInterpolationSequence;
-import com.inet.sass.parser.Variable;
 import com.inet.sass.selector.Selector;
 import com.inet.sass.tree.BlockNode;
 import com.inet.sass.tree.CommentNode;
@@ -64,10 +62,6 @@ public class SCSSDocumentHandler {
 
     private final ScssStylesheet styleSheet;
     Stack<Node> nodeStack = new Stack<Node>();
-
-    public SCSSDocumentHandler() {
-        this(new ScssStylesheet());
-    }
 
     public SCSSDocumentHandler(ScssStylesheet styleSheet) {
         this.styleSheet = styleSheet;
