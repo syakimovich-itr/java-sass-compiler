@@ -90,13 +90,20 @@ public abstract class AbstractTestBase {
     public ScssStylesheet testCompiler(String scss, String css)
             throws Exception {
         comparisonCss = getFileContent(css);
-        comparisonCss = comparisonCss.replaceAll(CR, "");
+        comparisonCss = normalize(comparisonCss);
         ScssStylesheet sheet = getStyleSheet(scss);
         sheet.compile();
         parsedScss = sheet.printState();
-        parsedScss = parsedScss.replaceAll(CR, "");
+        parsedScss = normalize(parsedScss);
         Assert.assertEquals("Original CSS and parsed CSS do not match",
                 comparisonCss, parsedScss);
         return sheet;
+    }
+
+    static String normalize( String css) {
+        css = css.replaceAll(CR, "");
+        // add newline,tab before comments after semicolon
+        css = css.replaceAll(";\\/\\*", ";\n\t/*");
+        return css;
     }
 }
