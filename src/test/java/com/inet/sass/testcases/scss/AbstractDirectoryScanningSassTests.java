@@ -35,6 +35,7 @@ import com.inet.sass.ScssStylesheet;
 import com.inet.sass.handler.SCSSDocumentHandler;
 import com.inet.sass.handler.SCSSErrorHandler;
 import com.inet.sass.resolver.FilesystemResolver;
+import com.inet.sass.resolver.ScssStylesheetResolver;
 import com.inet.sass.testcases.scss.SassTestRunner.FactoryTest;
 
 public abstract class AbstractDirectoryScanningSassTests {
@@ -81,14 +82,17 @@ public abstract class AbstractDirectoryScanningSassTests {
 
     protected abstract URL getResourceURL(String path);
 
+    protected ScssStylesheetResolver getResolver( String filename ) {
+        return new FilesystemResolver( StandardCharsets.UTF_8 );
+    }
+
     @FactoryTest
     public void compareScssWithCss(String scssResourceName) throws Exception {
         File scssFile = getSassLangResourceFile(scssResourceName);
 
         SCSSErrorHandler errorHandler = new AssertErrorHandler();
 
-        FilesystemResolver resolver = new FilesystemResolver( StandardCharsets.UTF_8 );
-        ScssStylesheet scssStylesheet = ScssStylesheet.get( scssFile.getCanonicalPath(), errorHandler, resolver );
+        ScssStylesheet scssStylesheet = ScssStylesheet.get( scssFile.getCanonicalPath(), errorHandler, getResolver( scssResourceName ) );
         scssStylesheet.compile();
         String parsedCss = scssStylesheet.printState();
 

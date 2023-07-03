@@ -22,6 +22,7 @@ import java.io.PrintStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
@@ -35,6 +36,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.junit.runner.RunWith;
 
+import com.inet.sass.resolver.FilesystemResolver;
+import com.inet.sass.resolver.ScssStylesheetResolver;
 import com.inet.sass.testcases.scss.SassTestRunner.TestFactory;
 
 @RunWith(SassTestRunner.class)
@@ -53,6 +56,21 @@ public class W3ConformanceTests extends AbstractDirectoryScanningSassTests {
     public static Collection<String> getScssResourceNames()
             throws URISyntaxException, IOException {
         return getScssResourceNames(getResourceURLInternal(""));
+    }
+
+    @Override
+    protected ScssStylesheetResolver getResolver( String filename ) {
+        switch( filename ) {
+            case "at-charset-quotes-001.1.scss":
+            case "at-charset-space-001.1.scss":
+            case "at-charset-space-002.1.scss":
+            case "at-charset-utf16-be-001.1.scss":
+            case "charset-attr-001.1.scss":
+                return new FilesystemResolver( StandardCharsets.UTF_16BE );
+            case "at-charset-utf16-le-001.1.scss":
+                return new FilesystemResolver( StandardCharsets.UTF_16LE );
+        }
+        return super.getResolver( filename );
     }
 
     @Override
