@@ -30,18 +30,15 @@ import com.inet.sass.testcases.scss.AssertErrorHandler;
 public class ParserTest {
 
     @Test
-    public void testCanIngoreSingleLineComment() {
-        try {
-            ScssStylesheetResolver resolver = new ScssStylesheetResolver() {
-                @Override
-                public InputSource resolve( ScssStylesheet parentStylesheet, String identifier ) {
-                    return new InputSource( new StringReader( "//kjaljsföajsfalkj\n@12abcg;" ) );
-                }
-            };
-            ScssStylesheet.get( "", new AssertErrorHandler(), resolver );
-            Assert.assertTrue(true);
-        } catch (Exception e) {
-            Assert.fail(e.getMessage());
-        }
+    public void testCanIngoreSingleLineComment() throws Exception {
+        ScssStylesheetResolver resolver = new ScssStylesheetResolver() {
+            @Override
+            public InputSource resolve( ScssStylesheet parentStylesheet, String identifier ) {
+                return new InputSource( new StringReader( "//kjaljsföajsfalkj\n@12abcg;" ) );
+            }
+        };
+        ScssStylesheet stylesheet = ScssStylesheet.get( "", new AssertErrorHandler(), resolver );
+        stylesheet.compile();
+        Assert.assertEquals( "@12abcg;", stylesheet.printState() );
     }
 }
