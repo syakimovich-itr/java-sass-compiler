@@ -24,7 +24,7 @@ import com.inet.sass.parser.SassList;
 import com.inet.sass.parser.SassListItem;
 
 /**
- * The SASS function "map-get(map,x)".
+ * The SASS function "map-has-key(map,x)".
  */
 class MapHasKeyFunctionGenerator extends MapFunctionGenerator {
 
