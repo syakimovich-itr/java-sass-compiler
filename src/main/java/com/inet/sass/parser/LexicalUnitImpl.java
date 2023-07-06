@@ -809,6 +809,7 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
                     case "translatey":
                     case "translatex":
                     case "translatez":
+                    case "url":
                     case "var":
                         // ignore well known CSS functions
                         break;
