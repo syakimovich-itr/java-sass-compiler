@@ -26,7 +26,7 @@ attrib .attrib {
 	type: pseudo-class;
 }
 
-.pseudo:nth-child(odd), .pseudo:nth-child(even) {
+ .pseudo:parent .pseudo:nth-child(odd), .pseudo:parent .pseudo:nth-child(even) {
 	type: pseudo-class;
 }
 

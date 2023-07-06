@@ -26,8 +26,10 @@ attrib .attrib {
 	type: pseudo-class;
 }
 
-.pseudo:nth-child(odd), .pseudo:nth-child(even) {
-	type: pseudo-class;
+.pseudo:parent {
+    .pseudo:nth-child(odd), .pseudo:nth-child(even) {
+        type: pseudo-class;
+    }
 }
 
 .pseudo:nth-child(2n+1), .pseudo:nth-child(4n+3), .pseudo:nth-child(0n+5), .pseudo:nth-child(n) {
