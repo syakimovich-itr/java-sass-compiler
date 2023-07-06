@@ -8,20 +8,20 @@
 
 @-webkit-keyframes v-notification-animate-out {
 		100% {
-		opacity: 0;
-	}
+	opacity: 0;
+}
 	}
 
 @-moz-keyframes v-notification-animate-out {
 		100% {
-		opacity: 0;
-	}
+	opacity: 0;
+}
 	}
 
 @keyframes v-notification-animate-out {
 		100% {
-		opacity: 0;
-	}
+	opacity: 0;
+}
 	}
 
 .v-vaadin-version:after {
