@@ -1,0 +1,5 @@
+.class {
+  $first: top;
+  $second: right;
+  x: func($first $second);
+}
