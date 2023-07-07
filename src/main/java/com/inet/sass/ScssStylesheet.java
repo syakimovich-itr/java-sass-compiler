@@ -29,8 +29,7 @@ import org.w3c.css.sac.InputSource;
 
 import com.inet.sass.handler.SCSSDocumentHandler;
 import com.inet.sass.handler.SCSSErrorHandler;
-import com.inet.sass.parser.Parser;
-import com.inet.sass.resolver.FilesystemResolver;
+import com.inet.sass.parser.ScssParser;
 import com.inet.sass.resolver.ScssStylesheetResolver;
 import com.inet.sass.tree.Node;
 import com.inet.sass.visitor.ExtendNodeHandler;
@@ -131,10 +130,8 @@ public class ScssStylesheet extends Node {
         if (parentStylesheet != null) {
             source.setEncoding(parentStylesheet.getCharset());
         }
-        Parser parser = new Parser();
-        parser.setErrorHandler( SCSSErrorHandler.get() );
-        parser.setDocumentHandler(documentHandler);
-        parser.parseStyleSheet(source);
+        ScssParser parser = new ScssParser();
+        parser.parseStyleSheet(documentHandler,source);
 
         stylesheet.setCharset( source.getEncoding() );
         stylesheet.sourceUris.add(source.getURI());

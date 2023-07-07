@@ -26,8 +26,6 @@ import org.w3c.css.sac.CSSException;
 
 import com.inet.sass.AbstractTestBase;
 import com.inet.sass.ScssStylesheet;
-import com.inet.sass.handler.SCSSDocumentHandler;
-import com.inet.sass.parser.Parser;
 import com.inet.sass.tree.ExtendNode;
 
 public class Extends extends AbstractTestBase {

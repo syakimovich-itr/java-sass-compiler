@@ -41,15 +41,15 @@
 }
 
 @font-face {
-	font-family: FontAwesome;
-	src: url(../base/fonts/fontawesome-webfont.eot);
-	src: url(../base/fonts/fontawesome-webfont.eot?#iefix) format("embedded-opentype"), url(../base/fonts/fontawesome-webfont.woff) format("woff"), url(../base/fonts/fontawesome-webfont.ttf) format("truetype"), url(../base/fonts/fontawesome-webfont.svg) format("svg");
+	font-family: "FontAwesome";
+	src: url("fontawesome-webfont.eot");
+	src: url("fontawesome-webfont.eot?#iefix") format("embedded-opentype"), url("fontawesome-webfont.woff") format("woff"), url("fontawesome-webfont.ttf") format("truetype"), url("fontawesome-webfont.svg") format("svg");
 	font-weight: normal;
 	font-style: normal;
 }
 
 .FontAwesome {
-	font-family: FontAwesome;
+	font-family: "FontAwesome";
 	font-style: normal;
 	font-weight: normal;
 	-webkit-font-smoothing: antialiased;
@@ -71,6 +71,55 @@
 
 .v-generated-body {
 	background: #f5f5f5;
+}
+
+.reindeer {
+	/***************** COLOR HISTORY COMPONENT *****************************/
+	/***********************************************************************/
+	/**************** COLOR POPUP COMPONENT ********************************/
+	/***********************************************************************/
+	/*********************** COLOR GRADIENT *******************************/
+	/**********************************************************************/
+	/************************ COLOR SLIDER ********************************/
+	/****************************************************************/
+	/****************** COLOR PREVIEW *******************************/
+	/****************************************************************/
+	/*************** COLOR SELECT ***********************************/
+	/****************************************************************/
+	/**
+ * Try to handle printing somehow. Reasonable printing support 
+ * needs application specific planning and CSS tuning.
+ */
+	/*************************************
+ * Drag'n'drop styles
+ *************************************/
+	/**************************
+ * Black style
+ **************************/
+	/**********************
+ * Black styles
+ **********************/
+	/**********************
+ * Blue styles
+ **********************/
+	/**********************
+ * Default & white styles
+ **********************/
+	/**
+ * Tabsheet "minimal" style --------------
+ */
+	/**
+ * Tabsheet bar style ---------------
+ */
+	/***************************************
+ * Drag'n'drop styles
+ ***************************************/
+	/**
+ Light style window -----------------------------
+**/
+	/**
+ Black style window -----------------------------
+**/
 }
 
 .reindeer .v-widget {
