@@ -67,13 +67,22 @@ public class ExtendNode extends Node implements IVariableNode {
         return b.toString();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Collection<Node> traverse(ScssContext context) {
+    public Collection<Node> traverse( ScssContext context ) {
         try {
-            // TODO here or later?
-            traverseChildren(context);
-            return ExtendNodeHandler.traverse(context, this);
-        } catch (Exception e) {
+            List<Selector> list = this.list;
+            for( int i = 0; i < list.size(); i++ ) {
+                list.set( i, list.get( i ).replaceVariables( context ) );
+            }
+
+            // Only extend if the @content rule is really added to the output
+            return context.isInContentNode() ? //
+                Collections.singleton( this ) : //
+                ExtendNodeHandler.traverse( context, this );
+        } catch( Exception e ) {
             SCSSErrorHandler.get().error( e );
             return Collections.emptyList();
         }

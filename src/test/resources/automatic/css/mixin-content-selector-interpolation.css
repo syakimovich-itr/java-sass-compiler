@@ -1,0 +1,19 @@
+.class .container-sm {
+  max-width: 540px;
+}
+
+.class .container-md {
+  max-width: 720px;
+}
+
+.class .container-lg {
+  max-width: 960px;
+}
+
+.class .container-xl {
+  max-width: 1140px;
+}
+
+.class .container-xxl {
+  max-width: 1320px;
+}
