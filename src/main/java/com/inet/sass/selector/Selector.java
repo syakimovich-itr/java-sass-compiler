@@ -96,8 +96,7 @@ public class Selector {
     }
 
     public boolean isSimple() {
-        return parts.size() == 1
-                && (parts.get(0) instanceof SimpleSelectorSequence);
+        return parts.size() == 1 && (parts.get( 0 ).getClass() == SimpleSelectorSequence.class);
     }
 
     public SimpleSelectorSequence firstSimple() {

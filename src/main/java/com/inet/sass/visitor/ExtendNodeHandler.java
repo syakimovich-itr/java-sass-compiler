@@ -42,20 +42,19 @@ public class ExtendNodeHandler {
      * lost.
      */
 
-    public static Collection<Node> traverse(ScssContext context, ExtendNode node)
-            throws Exception {
-        for (Selector s : node.getList()) {
-            if (!s.isSimple()) {
+    public static Collection<Node> traverse( ScssContext context, ExtendNode node ) throws Exception {
+        for( Selector s : node.getList() ) {
+            if( !s.isSimple() ) {
                 // @extend-selectors must not be nested
-                throw new ParseException(
-                        "Nested selector not allowed in @extend-clause");
+                throw new ParseException( "Nested selector not allowed in @extend-clause" );
             }
-            if (node.getNormalParentNode() instanceof BlockNode) {
-                BlockNode parentBlock = (BlockNode) node.getNormalParentNode();
+            Node parentNode = node.getNormalParentNode();
+            if( parentNode instanceof BlockNode ) {
+                BlockNode parentBlock = (BlockNode)parentNode;
                 SimpleSelectorSequence extendSelector = s.firstSimple();
-                for (Selector sel : parentBlock.getSelectorList()) {
+                for( Selector sel : parentBlock.getSelectorList() ) {
                     Collection<Selector> ctx = parentBlock.getParentSelectors();
-                    context.addExtension(new Extension(extendSelector, sel, ctx));
+                    context.addExtension( new Extension( extendSelector, sel, ctx ) );
                 }
             }
         }
