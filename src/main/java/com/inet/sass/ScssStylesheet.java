@@ -24,9 +24,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.w3c.css.sac.CSSException;
-import org.w3c.css.sac.InputSource;
-
 import com.inet.sass.handler.SCSSDocumentHandler;
 import com.inet.sass.handler.SCSSErrorHandler;
 import com.inet.sass.parser.ScssParser;
@@ -74,7 +71,6 @@ public class ScssStylesheet extends Node {
      *            Instance of error handler. May not be null.
      * @param resolver the used resolver
      * @return
-     * @throws CSSException
      * @throws IOException
      */
     public static ScssStylesheet get( String identifier, SCSSErrorHandler errorHandler, ScssStylesheetResolver resolver ) throws IOException {
@@ -100,7 +96,6 @@ public class ScssStylesheet extends Node {
      * @param documentHandler
      *            Instance of document handler. May not be null.
      * @return
-     * @throws CSSException
      * @throws IOException
      */
     private static ScssStylesheet load( String identifier, ScssStylesheet parentStylesheet, ScssStylesheetResolver resolver ) throws IOException {
@@ -128,12 +123,11 @@ public class ScssStylesheet extends Node {
         stylesheet.uri = source.getURI();
 
         if (parentStylesheet != null) {
-            source.setEncoding(parentStylesheet.getCharset());
+            stylesheet.setCharset(parentStylesheet.getCharset());
         }
         ScssParser parser = new ScssParser();
         parser.parseStyleSheet(documentHandler,source);
 
-        stylesheet.setCharset( source.getEncoding() );
         stylesheet.sourceUris.add(source.getURI());
 
         return stylesheet;

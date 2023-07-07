@@ -23,7 +23,6 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.w3c.css.sac.CSSException;
 
 import com.inet.sass.AbstractTestBase;
 import com.inet.sass.ScssStylesheet;
@@ -38,36 +37,36 @@ import com.inet.sass.tree.controldirective.IfElseDefNode;
 public class ControlDirectives extends AbstractTestBase {
 
     String scss = "/scss/control-directives.scss";
-    String css = "/css/control-directives.css";
+    String css  = "/css/control-directives.css";
 
     @Test
-    public void testParser() throws CSSException, IOException, URISyntaxException {
-        ScssStylesheet root = getStyleSheet(scss);
-        Assert.assertNotNull(root);
+    public void testParser() throws IOException, URISyntaxException {
+        ScssStylesheet root = getStyleSheet( scss );
+        Assert.assertNotNull( root );
 
         List<Node> children = root.getChildren();
-        Assert.assertEquals(10, root.getChildren().size());
+        Assert.assertEquals( 10, root.getChildren().size() );
 
-        Assert.assertTrue(children.get(1) instanceof MixinDefNode);
-        Assert.assertTrue(children.get(2) instanceof MixinDefNode);
-        Assert.assertTrue(children.get(3) instanceof MixinNode);
-        Assert.assertTrue(children.get(4) instanceof BlockNode);
-        Assert.assertTrue(children.get(5) instanceof BlockNode);
-        Assert.assertTrue(children.get(6) instanceof BlockNode);
-        Assert.assertTrue(children.get(8) instanceof ForNode);
-        Assert.assertTrue(children.get(9) instanceof ForNode);
+        Assert.assertTrue( children.get( 1 ) instanceof MixinDefNode );
+        Assert.assertTrue( children.get( 2 ) instanceof MixinDefNode );
+        Assert.assertTrue( children.get( 3 ) instanceof MixinNode );
+        Assert.assertTrue( children.get( 4 ) instanceof BlockNode );
+        Assert.assertTrue( children.get( 5 ) instanceof BlockNode );
+        Assert.assertTrue( children.get( 6 ) instanceof BlockNode );
+        Assert.assertTrue( children.get( 8 ) instanceof ForNode );
+        Assert.assertTrue( children.get( 9 ) instanceof ForNode );
 
-        Assert.assertTrue(!(children.get(1).getChildren().get(0) instanceof IfElseDefNode));
-        Assert.assertTrue(children.get(2).getChildren().get(0) instanceof EachDefNode);
-        Assert.assertTrue(children.get(4).getChildren().get(0) instanceof IfElseDefNode);
-        Assert.assertTrue(children.get(5).getChildren().get(0) instanceof IfElseDefNode);
+        Assert.assertTrue( !(children.get( 1 ).getChildren().get( 0 ) instanceof IfElseDefNode) );
+        Assert.assertTrue( children.get( 2 ).getChildren().get( 0 ) instanceof EachDefNode );
+        Assert.assertTrue( children.get( 4 ).getChildren().get( 0 ) instanceof IfElseDefNode );
+        Assert.assertTrue( children.get( 5 ).getChildren().get( 0 ) instanceof IfElseDefNode );
 
-        Assert.assertEquals(1, children.get(1).getChildren().size());
+        Assert.assertEquals( 1, children.get( 1 ).getChildren().size() );
 
     }
 
     @Test
     public void testCompiler() throws Exception {
-        testCompiler(scss, css);
+        testCompiler( scss, css );
     }
 }

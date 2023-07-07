@@ -22,7 +22,6 @@ import java.net.URISyntaxException;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.w3c.css.sac.CSSException;
 
 import com.inet.sass.AbstractTestBase;
 import com.inet.sass.ScssStylesheet;
@@ -32,10 +31,9 @@ public class Interpolation extends AbstractTestBase {
     String scss = "/scss/interpolation.scss";
 
     @Test
-    public void testParser() throws CSSException, URISyntaxException, IOException {
-        ScssStylesheet root = getStyleSheet(scss);
-        Assert.assertEquals(3, root.getChildren().size());
-        BlockNode blockNodeWithInterpolation = (BlockNode) root.getChildren()
-                .get(2);
+    public void testParser() throws URISyntaxException, IOException {
+        ScssStylesheet root = getStyleSheet( scss );
+        Assert.assertEquals( 3, root.getChildren().size() );
+        BlockNode blockNodeWithInterpolation = (BlockNode)root.getChildren().get( 2 );
     }
 }

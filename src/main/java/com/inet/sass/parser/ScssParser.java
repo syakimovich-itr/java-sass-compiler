@@ -18,12 +18,12 @@ package com.inet.sass.parser;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.w3c.css.sac.InputSource;
-
+import com.inet.sass.InputSource;
 import com.inet.sass.handler.SCSSDocumentHandler;
 import com.inet.sass.parser.SassList.Separator;
 import com.inet.sass.selector.AttributeSelector;
@@ -74,7 +74,7 @@ public final class ScssParser {
 
         Reader stream = source.getCharacterStream();
         if( stream == null ) {
-            stream = new InputStreamReader( source.getByteStream() );
+            stream = new InputStreamReader( source.getByteStream(), StandardCharsets.UTF_8 );
         }
         try {
             reader = new ScssLookAheadReader( stream, source.getURI() );
@@ -527,7 +527,7 @@ public final class ScssParser {
                 case "@charset":
                     String encoding = parseQuotedString( consumeMarkers( '\'', '\"' ) );
                     consumeMarker( ';' );
-                    source.setEncoding( encoding );
+                    documentHandler.getStyleSheet().setCharset( encoding );
                     return;
 
                 case "@import":

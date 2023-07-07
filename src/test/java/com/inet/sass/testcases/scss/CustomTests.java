@@ -31,8 +31,8 @@ import java.util.Collection;
 import javax.imageio.ImageIO;
 
 import org.junit.runner.RunWith;
-import org.w3c.css.sac.InputSource;
 
+import com.inet.sass.InputSource;
 import com.inet.sass.ScssContext;
 import com.inet.sass.ScssStylesheet;
 import com.inet.sass.function.AbstractFunctionGenerator;

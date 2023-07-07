@@ -25,7 +25,6 @@ import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
-import org.w3c.css.sac.CSSException;
 
 import com.inet.sass.resolver.FilesystemResolver;
 import com.inet.sass.resolver.ScssStylesheetResolver;
@@ -45,19 +44,17 @@ public abstract class AbstractTestBase {
     }
 
     public ScssStylesheet getStyleSheet(String filename)
-            throws URISyntaxException, CSSException, IOException {
+            throws URISyntaxException, IOException {
         File file = getFile(filename);
         stylesheet = ScssStylesheet.get( file.getAbsolutePath(), new AssertErrorHandler(), getResolver( filename ) );
         return stylesheet;
     }
 
-    public File getFile(String filename) throws URISyntaxException,
-            CSSException, IOException {
+    public File getFile(String filename) throws URISyntaxException, IOException {
         return new File(getClass().getResource(filename).toURI());
     }
 
-    public String getFileContent(String filename) throws IOException,
-            CSSException, URISyntaxException {
+    public String getFileContent(String filename) throws IOException, URISyntaxException {
         File file = getFile(filename);
         return getFileContent(file);
     }
@@ -75,8 +72,7 @@ public abstract class AbstractTestBase {
         return IOUtils.toString(new FileReader(file));
     }
 
-    public ScssStylesheet testParser(String file) throws CSSException,
-            IOException, URISyntaxException {
+    public ScssStylesheet testParser(String file) throws IOException, URISyntaxException {
         originalScss = getFileContent(file);
         originalScss = originalScss.replaceAll(CR, "");
         ScssStylesheet sheet = getStyleSheet(file);

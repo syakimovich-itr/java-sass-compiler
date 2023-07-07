@@ -20,14 +20,11 @@ package com.inet.sass.handler;
 import java.util.List;
 import java.util.Stack;
 
-import org.w3c.css.sac.CSSException;
-import org.w3c.css.sac.InputSource;
-
+import com.inet.sass.InputSource;
 import com.inet.sass.ScssStylesheet;
 import com.inet.sass.parser.ActualArgumentList;
 import com.inet.sass.parser.FormalArgumentList;
 import com.inet.sass.parser.MediaList;
-import com.inet.sass.parser.SCSSLexicalUnit;
 import com.inet.sass.parser.SassListItem;
 import com.inet.sass.parser.StringInterpolationSequence;
 import com.inet.sass.selector.Selector;
@@ -61,27 +58,27 @@ import com.inet.sass.tree.controldirective.WhileNode;
 public class SCSSDocumentHandler {
 
     private final ScssStylesheet styleSheet;
-    Stack<Node> nodeStack = new Stack<Node>();
+    Stack<Node>                  nodeStack = new Stack<Node>();
 
-    public SCSSDocumentHandler(ScssStylesheet styleSheet) {
+    public SCSSDocumentHandler( ScssStylesheet styleSheet ) {
         this.styleSheet = styleSheet;
-        nodeStack.push(styleSheet);
+        nodeStack.push( styleSheet );
     }
 
     public ScssStylesheet getStyleSheet() {
         return styleSheet;
     }
 
-    public void startDocument(InputSource source) throws CSSException {
-        nodeStack.push(styleSheet);
+    public void startDocument( InputSource source ) {
+        nodeStack.push( styleSheet );
     }
 
-    public void endDocument(InputSource source) throws CSSException {
+    public void endDocument( InputSource source ) {
     }
 
-    public void variable(String name, SassListItem value, boolean guarded) {
-        VariableNode node = new VariableNode(name, value, guarded);
-        nodeStack.peek().appendChild(node);
+    public void variable( String name, SassListItem value, boolean guarded ) {
+        VariableNode node = new VariableNode( name, value, guarded );
+        nodeStack.peek().appendChild( node );
     }
 
     public void debugDirective( SassListItem message ) {
@@ -99,11 +96,10 @@ public class SCSSDocumentHandler {
         nodeStack.peek().appendChild( node );
     }
 
-    public void startForDirective(String var, SassListItem from,
-            SassListItem to, boolean exclusive) {
-        ForNode node = new ForNode(var, from, to, exclusive);
-        nodeStack.peek().appendChild(node);
-        nodeStack.push(node);
+    public void startForDirective( String var, SassListItem from, SassListItem to, boolean exclusive ) {
+        ForNode node = new ForNode( var, from, to, exclusive );
+        nodeStack.peek().appendChild( node );
+        nodeStack.push( node );
     }
 
     public void endForDirective() {
@@ -112,102 +108,96 @@ public class SCSSDocumentHandler {
 
     public void startEachDirective( List<String> variables, SassListItem list ) {
         EachDefNode node = new EachDefNode( variables, list );
-        nodeStack.peek().appendChild(node);
-        nodeStack.push(node);
+        nodeStack.peek().appendChild( node );
+        nodeStack.push( node );
     }
 
     public void endEachDirective() {
         nodeStack.pop();
     }
 
-    public void startWhileDirective(SassListItem condition) {
-        WhileNode node = new WhileNode(condition);
-        nodeStack.peek().appendChild(node);
-        nodeStack.push(node);
+    public void startWhileDirective( SassListItem condition ) {
+        WhileNode node = new WhileNode( condition );
+        nodeStack.peek().appendChild( node );
+        nodeStack.push( node );
     }
 
     public void endWhileDirective() {
         nodeStack.pop();
     }
 
-    public void comment(String text) throws CSSException {
-        CommentNode node = new CommentNode(text);
-        nodeStack.peek().appendChild(node);
+    public void comment( String text ) {
+        CommentNode node = new CommentNode( text );
+        nodeStack.peek().appendChild( node );
     }
 
-    public void ignorableAtRule(String atRule) throws CSSException {
-        log("ignorableAtRule(String atRule): " + atRule);
+    public void ignorableAtRule( String atRule ) {
+        log( "ignorableAtRule(String atRule): " + atRule );
     }
 
-    public void namespaceDeclaration(String prefix, String uri)
-            throws CSSException {
-        log("namespaceDeclaration(String prefix, String uri): " + prefix + ", "
-                + uri);
+    public void namespaceDeclaration( String prefix, String uri ) {
+        log( "namespaceDeclaration(String prefix, String uri): " + prefix + ", " + uri );
     }
 
-    public void importStyle( String uri, MediaList media, String defaultNamespaceURI ) throws CSSException {
+    public void importStyle( String uri, MediaList media, String defaultNamespaceURI ) {
     }
 
-    public void startMedia( MediaList media ) throws CSSException {
+    public void startMedia( MediaList media ) {
         MediaNode node = new MediaNode( media );
         nodeStack.peek().appendChild( node );
         nodeStack.push( node );
     }
 
-    public void endMedia() throws CSSException {
+    public void endMedia()  {
         nodeStack.pop();
     }
 
-    public void startPage(String name, String pseudo_page) throws CSSException {
-        log("startPage(String name, String pseudo_page): " + name + ", "
-                + pseudo_page);
+    public void startPage( String name, String pseudo_page ) {
+        log( "startPage(String name, String pseudo_page): " + name + ", " + pseudo_page );
     }
 
-    public void endPage(String name, String pseudo_page) throws CSSException {
-        log("endPage(String name, String pseudo_page): " + name + ", "
-                + pseudo_page);
+    public void endPage( String name, String pseudo_page ) {
+        log( "endPage(String name, String pseudo_page): " + name + ", " + pseudo_page );
     }
 
-    public void startFontFace() throws CSSException {
+    public void startFontFace() {
         FontFaceNode node = new FontFaceNode();
-        nodeStack.peek().appendChild(node);
-        nodeStack.push(node);
+        nodeStack.peek().appendChild( node );
+        nodeStack.push( node );
     }
 
-    public void endFontFace() throws CSSException {
+    public void endFontFace() {
         nodeStack.pop();
     }
 
-    public void startSelector( String uri, int line, int column, List<Selector> selectors ) throws CSSException {
+    public void startSelector( String uri, int line, int column, List<Selector> selectors ) {
         BlockNode node = new BlockNode( uri, line, column, selectors );
         nodeStack.peek().appendChild( node );
         nodeStack.push( node );
     }
 
-    public void endSelector() throws CSSException {
+    public void endSelector() {
         nodeStack.pop();
     }
 
-    public void property(StringInterpolationSequence name, SassListItem value,
-            boolean important) throws CSSException {
-        property(name, value, important, null);
+    public void property( StringInterpolationSequence name, SassListItem value, boolean important ) {
+        property( name, value, important, null );
     }
 
-    public void property(StringInterpolationSequence name, SassListItem value,
-            boolean important, String comment) {
-        RuleNode node = new RuleNode(name, value, important, comment);
-        nodeStack.peek().appendChild(node);
+    public void property( StringInterpolationSequence name, SassListItem value, boolean important, String comment ) {
+        RuleNode node = new RuleNode( name, value, important, comment );
+        nodeStack.peek().appendChild( node );
     }
 
-    public void extendDirective(List<Selector> list, boolean optional) {
-        ExtendNode node = new ExtendNode(list, optional);
-        nodeStack.peek().appendChild(node);
+    public void extendDirective( List<Selector> list, boolean optional ) {
+        ExtendNode node = new ExtendNode( list, optional );
+        nodeStack.peek().appendChild( node );
     }
 
-    public void startNestedProperties(StringInterpolationSequence name) {
-        NestPropertiesNode node = new NestPropertiesNode(name);
-        nodeStack.peek().appendChild(node);
-        nodeStack.push(node);
+    public void startNestedProperties( StringInterpolationSequence name ) {
+        NestPropertiesNode node = new NestPropertiesNode( name );
+        nodeStack.peek().appendChild( node );
+        nodeStack.push( node );
     }
 
     public void endNestedProperties() {
@@ -241,31 +231,30 @@ public class SCSSDocumentHandler {
 
     public void startIfElseDirective() {
         final IfElseDefNode node = new IfElseDefNode();
-        nodeStack.peek().appendChild(node);
-        nodeStack.push(node);
+        nodeStack.peek().appendChild( node );
+        nodeStack.push( node );
     }
 
-    public void ifDirective(SassListItem evaluator) {
-        if (nodeStack.peek() instanceof IfNode) {
+    public void ifDirective( SassListItem evaluator ) {
+        if( nodeStack.peek() instanceof IfNode ) {
             nodeStack.pop();
         }
-        IfNode node = new IfNode(evaluator);
-        nodeStack.peek().appendChild(node);
-        nodeStack.push(node);
+        IfNode node = new IfNode( evaluator );
+        nodeStack.peek().appendChild( node );
+        nodeStack.push( node );
     }
 
     public void elseDirective() {
-        if (nodeStack.peek() instanceof IfNode) {
+        if( nodeStack.peek() instanceof IfNode ) {
             nodeStack.pop();
         }
         ElseNode node = new ElseNode();
-        nodeStack.peek().appendChild(node);
-        nodeStack.push(node);
+        nodeStack.peek().appendChild( node );
+        nodeStack.push( node );
     }
 
     public void endIfElseDirective() {
-        if ((nodeStack.peek() instanceof ElseNode)
-                || (nodeStack.peek() instanceof IfNode)) {
+        if( (nodeStack.peek() instanceof ElseNode) || (nodeStack.peek() instanceof IfNode) ) {
             nodeStack.pop();
         }
         nodeStack.pop();
@@ -273,16 +262,15 @@ public class SCSSDocumentHandler {
 
     // rule that is passed to the output as-is (except variable value
     // substitution) - no children
-    public void unrecognizedRule(String text) {
-        SimpleNode node = new SimpleNode(text);
-        nodeStack.peek().appendChild(node);
+    public void unrecognizedRule( String text ) {
+        SimpleNode node = new SimpleNode( text );
+        nodeStack.peek().appendChild( node );
     }
 
-    public void startKeyFrames(String keyframeName,
-            StringInterpolationSequence animationName) {
-        KeyframesNode node = new KeyframesNode(keyframeName, animationName);
-        nodeStack.peek().appendChild(node);
-        nodeStack.push(node);
+    public void startKeyFrames( String keyframeName, StringInterpolationSequence animationName ) {
+        KeyframesNode node = new KeyframesNode( keyframeName, animationName );
+        nodeStack.peek().appendChild( node );
+        nodeStack.push( node );
 
     }
 
@@ -291,10 +279,10 @@ public class SCSSDocumentHandler {
 
     }
 
-    public void startKeyframeSelector(String selector) {
-        KeyframeSelectorNode node = new KeyframeSelectorNode(selector);
-        nodeStack.peek().appendChild(node);
-        nodeStack.push(node);
+    public void startKeyframeSelector( String selector ) {
+        KeyframeSelectorNode node = new KeyframeSelectorNode( selector );
+        nodeStack.peek().appendChild( node );
+        nodeStack.push( node );
 
     }
 
@@ -304,18 +292,18 @@ public class SCSSDocumentHandler {
 
     public void contentDirective() {
         ContentNode node = new ContentNode();
-        nodeStack.peek().appendChild(node);
+        nodeStack.peek().appendChild( node );
     }
 
-    public void returnDirective(SassListItem expr) {
-        ReturnNode node = new ReturnNode(expr);
-        nodeStack.peek().appendChild(node);
+    public void returnDirective( SassListItem expr ) {
+        ReturnNode node = new ReturnNode( expr );
+        nodeStack.peek().appendChild( node );
     }
 
-    public void startInclude(String name, ActualArgumentList args ) {
-        MixinNode node = new MixinNode(name, args );
-        nodeStack.peek().appendChild(node);
-        nodeStack.push(node);
+    public void startInclude( String name, ActualArgumentList args ) {
+        MixinNode node = new MixinNode( name, args );
+        nodeStack.peek().appendChild( node );
+        nodeStack.push( node );
 
     }
 
@@ -323,15 +311,7 @@ public class SCSSDocumentHandler {
         nodeStack.pop();
     }
 
-    private void log(String msg) {
+    private void log( String msg ) {
         SCSSErrorHandler.get().debug( msg );
     }
-
-    public void property(String name, SCSSLexicalUnit value, boolean important)
-            throws CSSException {
-        // This method needs to be here due to an implemented interface.
-        throw new CSSException("Unsupported call: property(" + name + ", "
-                + value + ", important: " + important + ")");
-    }
-
 }

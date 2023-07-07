@@ -21,8 +21,8 @@ import java.io.StringReader;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.w3c.css.sac.InputSource;
 
+import com.inet.sass.InputSource;
 import com.inet.sass.ScssStylesheet;
 import com.inet.sass.resolver.ScssStylesheetResolver;
 import com.inet.sass.testcases.scss.AssertErrorHandler;

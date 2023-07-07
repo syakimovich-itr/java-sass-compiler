@@ -16,8 +16,7 @@
  */
 package com.inet.sass.resolver;
 
-import org.w3c.css.sac.InputSource;
-
+import com.inet.sass.InputSource;
 import com.inet.sass.ScssStylesheet;
 
 public interface ScssStylesheetResolver {

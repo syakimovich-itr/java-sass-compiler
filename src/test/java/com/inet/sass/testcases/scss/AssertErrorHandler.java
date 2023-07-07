@@ -18,18 +18,17 @@
 package com.inet.sass.testcases.scss;
 
 import org.junit.Assert;
-import org.w3c.css.sac.CSSException;
 
 import com.inet.sass.handler.SCSSErrorHandler;
 
 public class AssertErrorHandler extends SCSSErrorHandler {
     @Override
-    public void error( Throwable th ) throws CSSException {
+    public void error( Throwable th ) {
         throw new AssertionError( th );
     }
 
     @Override
-    public void error( String msg ) throws CSSException {
+    public void error( String msg ) {
         Assert.fail( msg );
     }
 

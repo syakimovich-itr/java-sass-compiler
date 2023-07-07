@@ -23,8 +23,8 @@ import java.util.Collection;
 
 import org.junit.Assert;
 import org.junit.runner.RunWith;
-import org.w3c.css.sac.CSSException;
 
+import com.inet.sass.parser.ParseException;
 import com.inet.sass.testcases.scss.SassTestRunner.TestFactory;
 
 @RunWith(SassTestRunner.class)
@@ -57,7 +57,7 @@ public class SassLangTestsBroken extends AbstractDirectoryScanningSassTests {
         try {
             super.compareScssWithCss(scssResourceName);
             success = true;
-        } catch (CSSException e) {
+        } catch (ParseException e) {
             // this is an expected outcome
         } catch (AssertionError e) {
             // this is an expected outcome

@@ -22,8 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import org.w3c.css.sac.InputSource;
-
+import com.inet.sass.InputSource;
 import com.inet.sass.ScssStylesheet;
 
 /**

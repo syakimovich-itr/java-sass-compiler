@@ -22,7 +22,6 @@ import java.net.URISyntaxException;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.w3c.css.sac.CSSException;
 
 import com.inet.sass.AbstractTestBase;
 import com.inet.sass.ScssStylesheet;
@@ -30,20 +29,19 @@ import com.inet.sass.tree.CommentNode;
 
 public class Comments extends AbstractTestBase {
     String scss = "/scss/comments.scss";
-    String css = "/css/comments.css";
+    String css  = "/css/comments.css";
 
     @Test
-    public void testParser() throws CSSException, URISyntaxException,
-            IOException {
-        ScssStylesheet root = getStyleSheet(scss);
-        Assert.assertNotNull(root);
-        Assert.assertEquals(6, root.getChildren().size());
-        Assert.assertTrue(root.getChildren().get(1) instanceof CommentNode);
-        Assert.assertTrue(root.getChildren().get(2) instanceof CommentNode);
+    public void testParser() throws URISyntaxException, IOException {
+        ScssStylesheet root = getStyleSheet( scss );
+        Assert.assertNotNull( root );
+        Assert.assertEquals( 6, root.getChildren().size() );
+        Assert.assertTrue( root.getChildren().get( 1 ) instanceof CommentNode );
+        Assert.assertTrue( root.getChildren().get( 2 ) instanceof CommentNode );
     }
 
     @Test
     public void testCompiler() throws Exception {
-        testCompiler(scss, css);
+        testCompiler( scss, css );
     }
 }

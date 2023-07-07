@@ -24,8 +24,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.List;
 
-import org.w3c.css.sac.InputSource;
-
+import com.inet.sass.InputSource;
 import com.inet.sass.ScssStylesheet;
 
 public class FilesystemResolver extends AbstractResolver {

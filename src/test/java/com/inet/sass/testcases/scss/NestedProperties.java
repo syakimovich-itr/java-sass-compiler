@@ -22,7 +22,6 @@ import java.net.URISyntaxException;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.w3c.css.sac.CSSException;
 
 import com.inet.sass.AbstractTestBase;
 import com.inet.sass.ScssStylesheet;
@@ -32,32 +31,28 @@ import com.inet.sass.tree.RuleNode;
 
 public class NestedProperties extends AbstractTestBase {
     String scss = "/scss/nested-properties.scss";
-    String css = "/css/nested-properties.css";
+    String css  = "/css/nested-properties.css";
 
     @Test
-    public void testParser() throws CSSException, IOException, URISyntaxException {
-        ScssStylesheet root = getStyleSheet(scss);
-        Assert.assertEquals(1, root.getChildren().size());
+    public void testParser() throws IOException, URISyntaxException {
+        ScssStylesheet root = getStyleSheet( scss );
+        Assert.assertEquals( 1, root.getChildren().size() );
 
-        BlockNode blockNode = (BlockNode) root.getChildren().get(0);
-        Assert.assertEquals(1, blockNode.getChildren().size());
+        BlockNode blockNode = (BlockNode)root.getChildren().get( 0 );
+        Assert.assertEquals( 1, blockNode.getChildren().size() );
 
-        NestPropertiesNode nestPropertiesNode = (NestPropertiesNode) blockNode
-                .getChildren().get(0);
-        Assert.assertEquals("font", nestPropertiesNode.getName().toString());
-        RuleNode nestedProperty0 = (RuleNode) nestPropertiesNode.getChildren()
-                .get(0);
-        RuleNode nestedProperty1 = (RuleNode) nestPropertiesNode.getChildren()
-                .get(1);
-        RuleNode nestedProperty2 = (RuleNode) nestPropertiesNode.getChildren()
-                .get(2);
-        Assert.assertEquals("family", nestedProperty0.getVariable().toString());
-        Assert.assertEquals("weight", nestedProperty1.getVariable().toString());
-        Assert.assertEquals("size", nestedProperty2.getVariable().toString());
+        NestPropertiesNode nestPropertiesNode = (NestPropertiesNode)blockNode.getChildren().get( 0 );
+        Assert.assertEquals( "font", nestPropertiesNode.getName().toString() );
+        RuleNode nestedProperty0 = (RuleNode)nestPropertiesNode.getChildren().get( 0 );
+        RuleNode nestedProperty1 = (RuleNode)nestPropertiesNode.getChildren().get( 1 );
+        RuleNode nestedProperty2 = (RuleNode)nestPropertiesNode.getChildren().get( 2 );
+        Assert.assertEquals( "family", nestedProperty0.getVariable().toString() );
+        Assert.assertEquals( "weight", nestedProperty1.getVariable().toString() );
+        Assert.assertEquals( "size", nestedProperty2.getVariable().toString() );
     }
 
     @Test
     public void testCompiler() throws Exception {
-        testCompiler(scss, css);
+        testCompiler( scss, css );
     }
 }

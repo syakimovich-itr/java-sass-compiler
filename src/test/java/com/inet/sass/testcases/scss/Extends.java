@@ -22,7 +22,6 @@ import java.net.URISyntaxException;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.w3c.css.sac.CSSException;
 
 import com.inet.sass.AbstractTestBase;
 import com.inet.sass.ScssStylesheet;
@@ -30,18 +29,17 @@ import com.inet.sass.tree.ExtendNode;
 
 public class Extends extends AbstractTestBase {
     String scss = "/scss/extends.scss";
-    String css = "/css/extends.css";
+    String css  = "/css/extends.css";
 
     @Test
-    public void testParser() throws CSSException, URISyntaxException,
-            IOException {
-        ScssStylesheet root = getStyleSheet(scss);
+    public void testParser() throws URISyntaxException, IOException {
+        ScssStylesheet root = getStyleSheet( scss );
 
-        Assert.assertTrue(root.getChildren().get(2).getChildren().get(0) instanceof ExtendNode);
+        Assert.assertTrue( root.getChildren().get( 2 ).getChildren().get( 0 ) instanceof ExtendNode );
     }
 
     @Test
     public void testCompiler() throws Exception {
-        testCompiler(scss, css);
+        testCompiler( scss, css );
     }
 }

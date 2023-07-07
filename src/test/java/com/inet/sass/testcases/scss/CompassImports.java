@@ -24,7 +24,6 @@ import java.nio.charset.StandardCharsets;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.w3c.css.sac.CSSException;
 
 import com.inet.sass.AbstractTestBase;
 import com.inet.sass.ScssStylesheet;
@@ -34,44 +33,42 @@ import com.inet.sass.tree.ImportNode;
 public class CompassImports extends AbstractTestBase {
 
     String scssOtherDirectory = "/scss/compass-test/compass-import.scss";
-    String scssSameDirectory = "/scss/compass-test2/compass-import2.scss";
-    String css = "/css/compass-import.css";
+    String scssSameDirectory  = "/scss/compass-test2/compass-import2.scss";
+    String css                = "/css/compass-import.css";
 
-    String compassPath = "/scss/compass-test2";
+    String compassPath        = "/scss/compass-test2";
 
     @Test
-    public void testParser() throws CSSException, IOException, URISyntaxException {
-        ScssStylesheet root = getStyleSheet(scssOtherDirectory);
-        ImportNode importVariableNode = (ImportNode) root.getChildren().get(0);
-        Assert.assertEquals("compass", importVariableNode.getUri());
-        Assert.assertFalse(importVariableNode.isPureCssImport());
+    public void testParser() throws IOException, URISyntaxException {
+        ScssStylesheet root = getStyleSheet( scssOtherDirectory );
+        ImportNode importVariableNode = (ImportNode)root.getChildren().get( 0 );
+        Assert.assertEquals( "compass", importVariableNode.getUri() );
+        Assert.assertFalse( importVariableNode.isPureCssImport() );
     }
 
     @Test
     public void testCompiler() throws Exception {
-        testCompiler(scssSameDirectory, css, null);
+        testCompiler( scssSameDirectory, css, null );
     }
 
     @Test
     public void testCompilerWithCustomPath() throws Exception {
-        File rootPath = new File(getClass().getResource(compassPath).toURI());
+        File rootPath = new File( getClass().getResource( compassPath ).toURI() );
 
-        testCompiler(scssOtherDirectory, css, rootPath.getPath());
+        testCompiler( scssOtherDirectory, css, rootPath.getPath() );
     }
 
-    public void testCompiler(String scss, String css, String additionalPath)
-            throws Exception {
-        comparisonCss = getFileContent(css);
-        comparisonCss = comparisonCss.replaceAll(CR, "");
-        File file = getFile(scss);
+    public void testCompiler( String scss, String css, String additionalPath ) throws Exception {
+        comparisonCss = getFileContent( css );
+        comparisonCss = comparisonCss.replaceAll( CR, "" );
+        File file = getFile( scss );
         FilesystemResolver resolver = new FilesystemResolver( StandardCharsets.UTF_8, additionalPath );
         ScssStylesheet sheet = ScssStylesheet.get( file.getAbsolutePath(), new AssertErrorHandler(), resolver );
-        Assert.assertNotNull(sheet);
+        Assert.assertNotNull( sheet );
 
         sheet.compile();
         parsedScss = sheet.printState();
-        parsedScss = parsedScss.replaceAll(CR, "");
-        Assert.assertEquals("Original CSS and parsed CSS do not match",
-                comparisonCss, parsedScss);
+        parsedScss = parsedScss.replaceAll( CR, "" );
+        Assert.assertEquals( "Original CSS and parsed CSS do not match", comparisonCss, parsedScss );
     }
 }

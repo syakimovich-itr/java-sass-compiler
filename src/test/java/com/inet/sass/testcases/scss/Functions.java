@@ -22,7 +22,6 @@ import java.net.URISyntaxException;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.w3c.css.sac.CSSException;
 
 import com.inet.sass.AbstractTestBase;
 import com.inet.sass.ScssStylesheet;
@@ -31,18 +30,18 @@ import com.inet.sass.tree.BlockNode;
 public class Functions extends AbstractTestBase {
 
     String scss = "/scss/functions.scss";
-    String css = "/css/functions.css";
+    String css  = "/css/functions.css";
 
     @Test
-    public void testParser() throws CSSException, IOException, URISyntaxException {
-        ScssStylesheet root = getStyleSheet(scss);
-        Assert.assertEquals(6, root.getChildren().size());
-        BlockNode blockNode = (BlockNode) root.getChildren().get(5);
-        Assert.assertEquals(18, blockNode.getChildren().size());
+    public void testParser() throws IOException, URISyntaxException {
+        ScssStylesheet root = getStyleSheet( scss );
+        Assert.assertEquals( 6, root.getChildren().size() );
+        BlockNode blockNode = (BlockNode)root.getChildren().get( 5 );
+        Assert.assertEquals( 18, blockNode.getChildren().size() );
     }
 
     @Test
     public void testCompiler() throws Exception {
-        testCompiler(scss, css);
+        testCompiler( scss, css );
     }
 }

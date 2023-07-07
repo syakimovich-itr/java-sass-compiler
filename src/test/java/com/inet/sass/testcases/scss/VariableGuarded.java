@@ -20,7 +20,6 @@ import java.net.URISyntaxException;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.w3c.css.sac.CSSException;
 
 import com.inet.sass.AbstractTestBase;
 import com.inet.sass.ScssStylesheet;
@@ -30,7 +29,7 @@ public class VariableGuarded extends AbstractTestBase {
     String css = "/css/var-guarded.css";
 
     @Test
-    public void testParser() throws CSSException, IOException, URISyntaxException {
+    public void testParser() throws  IOException, URISyntaxException {
         ScssStylesheet root = getStyleSheet(scss);
         Assert.assertEquals(4, root.getChildren().size());
     }

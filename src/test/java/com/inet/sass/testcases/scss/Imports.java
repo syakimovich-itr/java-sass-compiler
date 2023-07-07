@@ -22,7 +22,6 @@ import java.net.URISyntaxException;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.w3c.css.sac.CSSException;
 
 import com.inet.sass.AbstractTestBase;
 import com.inet.sass.ScssStylesheet;
@@ -31,18 +30,18 @@ import com.inet.sass.tree.ImportNode;
 public class Imports extends AbstractTestBase {
 
     String scss = "/scss/imports.scss";
-    String css = "/css/imports.css";
+    String css  = "/css/imports.css";
 
     @Test
-    public void testParser() throws CSSException, IOException, URISyntaxException {
-        ScssStylesheet root = getStyleSheet(scss);
-        ImportNode importNode = (ImportNode) root.getChildren().get(0);
-        Assert.assertEquals("_partial-for-import", importNode.getUri());
-        Assert.assertFalse(importNode.isPureCssImport());
+    public void testParser() throws IOException, URISyntaxException {
+        ScssStylesheet root = getStyleSheet( scss );
+        ImportNode importNode = (ImportNode)root.getChildren().get( 0 );
+        Assert.assertEquals( "_partial-for-import", importNode.getUri() );
+        Assert.assertFalse( importNode.isPureCssImport() );
     }
 
     @Test
     public void testCompiler() throws Exception {
-        testCompiler(scss, css);
+        testCompiler( scss, css );
     }
 }
