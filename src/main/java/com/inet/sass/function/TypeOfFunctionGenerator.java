@@ -21,6 +21,7 @@ import com.inet.sass.parser.FormalArgumentList;
 import com.inet.sass.parser.LexicalUnitImpl;
 import com.inet.sass.parser.SassList;
 import com.inet.sass.parser.SassListItem;
+import com.inet.sass.parser.SassList.Separator;
 import com.inet.sass.util.ColorUtil;
 
 class TypeOfFunctionGenerator extends AbstractFunctionGenerator {
@@ -39,6 +40,14 @@ class TypeOfFunctionGenerator extends AbstractFunctionGenerator {
 
         if (param instanceof SassList) {
             type = "list";
+            SassList list = (SassList)param;
+            if( list.size() > 0 ) {
+                // we need only to check the first entry, the other has the parser already checked
+                SassListItem first = list.get( 0 );
+                if( first.getClass() == SassList.class && ((SassList)first).getSeparator() == Separator.COLON ) {
+                    type = "map";
+                }
+            }
         } else if (param instanceof LexicalUnitImpl) {
             LexicalUnitImpl unit = (LexicalUnitImpl) param;
             if (unit.getLexicalUnitType() == LexicalUnitImpl.SCSS_NULL) {
@@ -49,9 +58,9 @@ class TypeOfFunctionGenerator extends AbstractFunctionGenerator {
                 type = "bool";
             } else if (unit.getLexicalUnitType() == LexicalUnitImpl.SAC_RGBCOLOR) {
                 type = "color";
-            } else if (unit.getLexicalUnitType() == LexicalUnitImpl.SAC_IDENT
-                    && ColorUtil.isHexColor(unit.getStringValue())) {
-                // TODO support also named colors
+            } else if( ColorUtil.isColorName( unit ) ) {
+                type = "color";
+            } else if( ColorUtil.isHexColor( unit ) ) {
                 type = "color";
             } else if (unit.getLexicalUnitType() == LexicalUnitImpl.SAC_FUNCTION) {
                 if ("rgb".equals(unit.getFunctionName())

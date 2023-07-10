@@ -267,7 +267,7 @@ public class ColorUtil {
      */
     public static boolean isHexColor(LexicalUnitImpl unit) {
         return unit.getLexicalUnitType() == SCSSLexicalUnit.SAC_IDENT
-                && isHexColor(unit.getStringValue());
+                && HEX_COLOR_PATTERN.matcher(unit.getStringValue()).matches();
     }
 
     /**
@@ -421,18 +421,6 @@ public class ColorUtil {
         }
         float hsl[] = calculateHsl(rgb[0], rgb[1], rgb[2]);
         return hsl;
-    }
-
-    /**
-     * Returns true if the string represents a valid color in the hexadecimal
-     * form (three or six digits), false otherwise.
-     * 
-     * @param string
-     *            string that might represent a hex color
-     * @return true if string represents a hexadecimal color
-     */
-    public static boolean isHexColor(String string) {
-        return HEX_COLOR_PATTERN.matcher(string).matches();
     }
 
     /**

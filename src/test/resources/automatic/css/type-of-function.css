@@ -12,8 +12,11 @@
   c2: color;
   c3: color;
   c4: color;
+  c5: color;
   l1: list;
   l2: list;
+  l3: list;
   hsl: color;
   hsla: color;
+  m1: map;
 }
