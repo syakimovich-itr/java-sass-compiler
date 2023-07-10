@@ -46,7 +46,8 @@ public class MixinNode extends Node implements IVariableNode,
     private ActualArgumentList arglist;
     private String name;
 
-    public MixinNode( String name, ActualArgumentList args ) {
+    public MixinNode( String uri, int line, int column, String name, ActualArgumentList args ) {
+        super( uri, line, column );
         this.name = name;
         this.arglist = args;
     }

@@ -590,7 +590,7 @@ public final class ScssParser {
                             break;
 
                     }
-                    documentHandler.startInclude( name, args );
+                    documentHandler.startInclude( this.uri, reader.getLine(), reader.getColumn(), name, args );
                     if( ch == '{' ) {
                         parse( false );
                     }

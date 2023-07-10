@@ -23,6 +23,7 @@ import java.util.Collections;
 import com.inet.sass.Scope;
 import com.inet.sass.ScssContext;
 import com.inet.sass.handler.SCSSErrorHandler;
+import com.inet.sass.parser.ParseException;
 import com.inet.sass.parser.Variable;
 import com.inet.sass.tree.MixinDefNode;
 import com.inet.sass.tree.MixinNode;
@@ -39,7 +40,7 @@ public class MixinNodeHandler {
             MixinNode node) {
         MixinDefNode mixinDef = context.getMixinDefinition(node.getName());
         if (mixinDef == null) {
-            SCSSErrorHandler.get().error( "Mixin Definition: " + node.getName() + " not found" );
+            SCSSErrorHandler.get().error( new ParseException( "Mixin Definition: " + node.getName() + " not found", node ) );
             return Collections.emptyList();
         }
         return replaceMixinNode(context, node, mixinDef);

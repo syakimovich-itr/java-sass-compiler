@@ -300,8 +300,8 @@ public class SCSSDocumentHandler {
         nodeStack.peek().appendChild( node );
     }
 
-    public void startInclude( String name, ActualArgumentList args ) {
-        MixinNode node = new MixinNode( name, args );
+    public void startInclude( String uri, int line, int column, String name, ActualArgumentList args ) {
+        MixinNode node = new MixinNode( uri, line, column, name, args );
         nodeStack.peek().appendChild( node );
         nodeStack.push( node );
 
