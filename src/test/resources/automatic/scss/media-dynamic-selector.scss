@@ -1,0 +1,16 @@
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+  xxl: 1320px
+);
+
+@each $breakpoint, $container-max-width in $container-max-widths {
+    @media (min-width: $container-max-width) {
+        min-width: $container-max-width;
+    }
+    @media (max-width: #{$container-max-width}) {
+        max-width: $container-max-width;
+    }
+}

@@ -134,7 +134,7 @@ public class BlockNodeHandler {
         if( medias == null ) {
             medias = new ArrayList<>();
         }
-        MediaNode media = new MediaNode( child.getMedia() );
+        MediaNode media = new MediaNode( child.getUri(), child.getLineNumber(), child.getColumnNumber(), child.getMedia() );
         media.appendChild( new BlockNode( node, child.getChildren() ) );
         medias.addAll( media.traverse( context ) );
         return medias;

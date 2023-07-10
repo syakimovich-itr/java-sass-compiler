@@ -850,7 +850,7 @@ public final class ScssParser {
     private void media() {
         MediaList media = mediaStatement();
         consumeMarker( '{' );
-        documentHandler.startMedia( media );
+        documentHandler.startMedia( uri, reader.getLine(), reader.getColumn(), media );
         parse( false );
         documentHandler.endMedia();
     }

@@ -142,8 +142,8 @@ public class SCSSDocumentHandler {
     public void importStyle( String uri, MediaList media, String defaultNamespaceURI ) {
     }
 
-    public void startMedia( MediaList media ) {
-        MediaNode node = new MediaNode( media );
+    public void startMedia( String uri, int line, int column, MediaList media ) {
+        MediaNode node = new MediaNode( uri, line, column, media );
         nodeStack.peek().appendChild( node );
         nodeStack.push( node );
     }

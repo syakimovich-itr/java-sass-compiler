@@ -24,6 +24,8 @@
  */
 package com.inet.sass.parser;
 
+import java.util.Arrays;
+
 import com.inet.sass.ScssContext;
 
 /**
@@ -31,8 +33,17 @@ import com.inet.sass.ScssContext;
  */
 public class MediaList {
 
-    Object[] array = new Object[10];
-    int current;
+    private Object[] array;
+    private int current;
+
+    public MediaList() {
+        array = new Object[10];
+    }
+
+    private MediaList( Object[] array, int current ) {
+        this.array = array;
+        this.current = current;
+    }
 
     public int getLength() {
         return current;
@@ -98,12 +109,25 @@ public class MediaList {
         }
     }
 
-    public void replaceVariables( ScssContext context ) {
+    public MediaList replaceVariables( ScssContext context ) {
+        boolean changed = false;
+        Object[] array = this.array;
         for( int i = 0; i < current; i++ ) {
             Object medium = array[i];
             if( medium.getClass() == StringInterpolationSequence.class ) {
-                array[i] = ((StringInterpolationSequence)medium).replaceVariables( context );
+                StringInterpolationSequence replaced = ((StringInterpolationSequence)medium).replaceVariables( context );
+                if( medium != replaced ) {
+                    if( !changed ) {
+                        changed = true;
+                        array = Arrays.copyOf( array, current );
+                    }
+                    array[i] = replaced;
+                }
             }
         }
+        if( changed ) {
+            return new MediaList( array, current );
+        }
+        return this;
     }
 }

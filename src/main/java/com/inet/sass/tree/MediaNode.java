@@ -29,8 +29,8 @@ public class MediaNode extends Node {
 
     MediaList media;
 
-    public MediaNode( MediaList media ) {
-        super();
+    public MediaNode( String uri, int line, int column, MediaList media ) {
+        super( uri, line, column );
         this.media = media;
     }
 
@@ -68,7 +68,7 @@ public class MediaNode extends Node {
         result.add( this );
 
         if( media != null ) {
-            media.replaceVariables( context );
+            media = media.replaceVariables( context );
         }
 
         for( Iterator<Node> it = children.iterator(); it.hasNext(); ) {
