@@ -126,6 +126,7 @@ public interface SCSSFunctionGenerator {
             list.add( new UnitlessFunctionGenerator() );
             list.add( new QuoteUnquoteFunctionGenerator() );
             list.add( new VariableExistsFunctionGenerator() );
+            list.add( new ZipFunctionGenerator() );
             return list;
         }
     }

@@ -1,0 +1,10 @@
+.class {
+  a: zip(10px 50px 100px, short mid long);
+  b: zip(10px 50px 100px, short mid);
+  c: zip(10px 50px 100px);
+  d: zip(10px);
+  e: zip();
+  $list: 10px, 50px, 100px;
+  $val: short;
+  f: zip($list,$val);
+}

@@ -1,0 +1,7 @@
+.class {
+  a: 10px short, 50px mid, 100px long;
+  b: 10px short, 50px mid;
+  c: 10px, 50px, 100px;
+  d: 10px;
+  f: 10px short;
+}
