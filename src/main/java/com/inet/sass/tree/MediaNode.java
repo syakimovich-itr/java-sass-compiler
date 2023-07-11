@@ -59,6 +59,10 @@ public class MediaNode extends Node {
 
     @Override
     public Collection<Node> traverse(ScssContext context) {
+        if( media != null ) {
+            media = media.replaceVariables( context );
+        }
+
         if( getNormalParentNode() instanceof BlockNode ) {
             // we are inside a call of BlockNodeHandler.traverse(). The caller must reorder first bubbleMedia() before we can continue with traverse.
             return Collections.singletonList( this );
@@ -66,10 +70,6 @@ public class MediaNode extends Node {
         Collection<Node> children = traverseChildren(context);
         ArrayList<Node> result = new ArrayList<>();
         result.add( this );
-
-        if( media != null ) {
-            media = media.replaceVariables( context );
-        }
 
         for( Iterator<Node> it = children.iterator(); it.hasNext(); ) {
             Node child = it.next();

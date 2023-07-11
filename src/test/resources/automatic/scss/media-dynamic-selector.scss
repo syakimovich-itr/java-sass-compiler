@@ -14,3 +14,16 @@ $container-max-widths: (
         max-width: $container-max-width;
     }
 }
+
+@mixin media-mixin($paramMax) {
+  $localMax: $paramMax;
+  @media (max-width: $localMax) {
+    @content;
+  }
+}
+
+.class {
+    @include media-mixin(666px){
+        a:red;
+    }
+}
