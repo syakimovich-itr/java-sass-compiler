@@ -25,3 +25,11 @@ $colors-base: (
   @include map-args( $colors-base... );
 }
 
+.mapWithSpacesList {
+    $values: (fill: 1 1 auto);
+    type: type-of($values);
+    @each $key, $value in $values {
+        k: $key;
+        v: $value;
+    }
+}

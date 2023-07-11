@@ -7,3 +7,9 @@
   s: green;
   v: 255;
 }
+
+.mapWithSpacesList {
+  type: map;
+  k: fill;
+  v: 1 1 auto;
+}

@@ -1167,7 +1167,7 @@ public final class ScssParser {
                 case ':':
                     // map
                     left = concatIfnotEmpty( left, builder );
-                    right = parseExpression( first );
+                    right = parseExpressionOrList( parseExpression( true ), true );
                     return new SassList( Separator.COLON, toSassListItem( left, first ), right );
                 case '"':
                 case '\'':
