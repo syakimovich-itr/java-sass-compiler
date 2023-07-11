@@ -23,6 +23,7 @@ import java.util.List;
 
 import com.inet.sass.ScssContext;
 import com.inet.sass.parser.LexicalUnitImpl;
+import com.inet.sass.parser.ParseException;
 import com.inet.sass.parser.SassList;
 import com.inet.sass.parser.SassListItem;
 import com.inet.sass.parser.Variable;
@@ -46,7 +47,12 @@ public class EachNodeHandler extends LoopNodeHandler {
             } else {
                 List<Variable> eachVars = new ArrayList<>();
                 loopVariables.add( eachVars );
-                SassList varList = (SassList)var;
+                SassList varList;
+                try {
+                    varList = (SassList)var;
+                } catch( Exception e ) {
+                    throw new ParseException( "Each item is not a list and can't expand to multiple variables " + names, var );
+                }
                 int count = varList.size();
                 for( int i = 0; i < size; i++ ) {
                     SassListItem value = count > i ? //
