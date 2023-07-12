@@ -24,6 +24,8 @@ package com.inet.sass.parser;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -570,7 +572,7 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
         return new LexicalUnitImpl( uri, line, column, SAC_STRING_VALUE, s );
     }
 
-    public static LexicalUnitImpl createURL( String uri, int line, int column, String s ) {
+    public static LexicalUnitImpl createURL( String uri, int line, int column, StringInterpolationSequence s ) {
         return new LexicalUnitImpl( uri, line, column, SAC_URI, s );
     }
 
@@ -1031,14 +1033,21 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
     @Override
     public LexicalUnitImpl updateUrl(String prefix) {
         if (getLexicalUnitType() == SAC_URI) {
-            String path = getStringValue().replaceAll("^\"|\"$", "")
-                    .replaceAll("^'|'$", "");
-            if (!path.startsWith("/") && !path.contains(":")) {
-                path = prefix + path;
-                path = StringUtil.cleanPath(path);
-            }
             LexicalUnitImpl copy = copy();
-            copy.setStringValue(path);
+            if( s.containsInterpolation() ) {
+                List<SassListItem> items = new ArrayList<>();
+                items.add( new StringItem( prefix ) );
+                items.addAll( s.getItems() );
+                copy.s = new StringInterpolationSequence( items );
+            } else {
+                String path = getStringValue().replaceAll("^\"|\"$", "")
+                        .replaceAll("^'|'$", "");
+                if (!path.startsWith("/") && !path.contains(":")) {
+                    path = prefix + path;
+                    path = StringUtil.cleanPath(path);
+                }
+                copy.setStringValue(path);
+            }
             return copy;
         } else if (containsInterpolation()) {
             // s might contain URLs in its Interpolation objects

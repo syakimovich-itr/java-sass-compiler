@@ -241,7 +241,7 @@ public final class ScssParser {
      * </pre>
      */
     private void parseNestedProperties() {
-        StringInterpolationSequence name = parseStringInterpolationSequence();
+        StringInterpolationSequence name = parseStringInterpolationSequence( false );
         consumeMarker( ':' );
         consumeMarker( '{' );
         documentHandler.startNestedProperties( name );
@@ -417,7 +417,7 @@ public final class ScssParser {
      * @return the selector
      */
     private AttributeSelector parseAttributeSelector() {
-        StringInterpolationSequence attribute = parseStringInterpolationSequence();
+        StringInterpolationSequence attribute = parseStringInterpolationSequence( false );
         char ch = reader.read();
         MatchRelation matchRelation;
         switch( ch ) {
@@ -451,7 +451,7 @@ public final class ScssParser {
             default:
                 throw reader.createException( "Unrecognized input: '" + ch + "'" );
         }
-        StringInterpolationSequence value = matchRelation == null ? null : parseStringInterpolationSequence();
+        StringInterpolationSequence value = matchRelation == null ? null : parseStringInterpolationSequence( false );
         consumeMarker( ']' );
         return new AttributeSelector( attribute, matchRelation, value );
     }
@@ -461,7 +461,7 @@ public final class ScssParser {
      * @return the selector
      */
     private PseudoClassSelector parsePseudoClassSelector() {
-        StringInterpolationSequence pseudoClass = parseStringInterpolationSequence();
+        StringInterpolationSequence pseudoClass = parseStringInterpolationSequence( false );
         String argument;
         char ch = reader.read();
         if( ch == '(' ) {
@@ -860,7 +860,7 @@ public final class ScssParser {
      * @param keyframeName the specific keyframe rule name
      */
     private void parseKeyframes( String keyframeName ) {
-        StringInterpolationSequence animationName = parseStringInterpolationSequence();
+        StringInterpolationSequence animationName = parseStringInterpolationSequence( false );
         documentHandler.startKeyFrames( keyframeName, animationName );
         consumeMarker( '{' );
 
@@ -1591,7 +1591,7 @@ public final class ScssParser {
                     case '$':
                         break;
                     default:
-                        LexicalUnitImpl left = LexicalUnitImpl.createURL( uri, reader.getLine(), reader.getColumn(), ch + parseQuotedString( ch ) + ch );
+                        LexicalUnitImpl left = LexicalUnitImpl.createURL( uri, reader.getLine(), reader.getColumn(), new StringInterpolationSequence( ch + parseQuotedString( ch ) + ch ) );
                         consumeMarker( ')' );
                         return left;
                 }
@@ -1603,7 +1603,9 @@ public final class ScssParser {
                 return LexicalUnitImpl.createFunction( uri, reader.getLine(), reader.getColumn(), "url", params );
             default:
                 reader.back( ch );
-                return LexicalUnitImpl.createURL( uri, reader.getLine(), reader.getColumn(), parseUnquotedString() );
+                StringInterpolationSequence url = parseStringInterpolationSequence( true );
+                consumeMarker( ')' );
+                return LexicalUnitImpl.createURL( uri, reader.getLine(), reader.getColumn(), url );
         }
     }
 
@@ -1611,7 +1613,7 @@ public final class ScssParser {
      * Parse sequence of strings and interpolation
      * @return a StringInterpolationSequence
      */
-    private StringInterpolationSequence parseStringInterpolationSequence() {
+    private StringInterpolationSequence parseStringInterpolationSequence( boolean untilClosingParenthesis ) {
         StringBuilder builder = cachesBuilder;
 
         LOOP: for( ;; ) {
@@ -1653,6 +1655,11 @@ public final class ScssParser {
                 case ']':
                 case '.':
                 case ',':
+                    if( untilClosingParenthesis ) {
+                        break;
+                    }
+                    //$FALL-THROUGH$
+                case ')':
                     reader.back( ch );
                     break LOOP;
             }
@@ -1690,10 +1697,8 @@ public final class ScssParser {
     /**
      * Parse a interpolation like #{xxxx}. The '#' character must already consumed from the caller.
      * <p>
-     * Set the flag <code>wasInterpolation</code>. If there is a interpolation. If not then the caller must handle the '#' character self.
-     * @param sequence a possible previous parsed sequence, can be null
      * @param builder before consumed characters. Must add to the sequence first. Is empty if flag <code>wasInterpolation</code> is true.
-     * @return the list, create if needed
+     * @return true, if there is a interpolation
      */
     private boolean parseInterpolation( StringBuilder builder ) {
         char ch = reader.read();

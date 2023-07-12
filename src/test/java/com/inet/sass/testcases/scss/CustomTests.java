@@ -41,6 +41,7 @@ import com.inet.sass.parser.FormalArgumentList;
 import com.inet.sass.parser.LexicalUnitImpl;
 import com.inet.sass.parser.ParseException;
 import com.inet.sass.parser.SassListItem;
+import com.inet.sass.parser.StringInterpolationSequence;
 import com.inet.sass.testcases.scss.SassTestRunner.TestFactory;
 import com.inet.sass.util.ColorUtil;
 
@@ -156,7 +157,7 @@ public class CustomTests extends AbstractDirectoryScanningSassTests {
                 ImageIO.write( image, "PNG", out );
 
                 String base64url = "\"data:image/png;base64," + Base64.getEncoder().encodeToString( out.toByteArray() ) + '\"';
-                return LexicalUnitImpl.createURL( function.getUri(), function.getLineNumber(), function.getColumnNumber(), base64url );
+                return LexicalUnitImpl.createURL( function.getUri(), function.getLineNumber(), function.getColumnNumber(), new StringInterpolationSequence( base64url ) );
             } catch( IOException ex ) {
                 throw new RuntimeException( ex );
             }
