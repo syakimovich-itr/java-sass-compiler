@@ -716,8 +716,14 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
                 BlockNode parentBlock = context.getParentBlock();
                 return parentBlock != null ? new StringItem( parentBlock.getSelectors() ): createNull( uri, line, column );
             default:
-                if( containsInterpolation() ) {
-                    return lui.replaceInterpolation(context);
+                StringInterpolationSequence s = this.s;
+                if( s!= null && s.containsInterpolation() ) {
+                    StringInterpolationSequence sis = s.replaceVariables(context);
+                    if (sis != s) {
+                        LexicalUnitImpl copy = lui.copy();
+                        copy.s = sis;
+                        return copy;
+                    }
                 }
         }
         return lui;
@@ -738,43 +744,6 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
 
     private boolean containsInterpolation() {
         return s != null && s.containsInterpolation();
-    }
-
-    private SassListItem replaceInterpolation(ScssContext context) {
-        // replace interpolation
-        if (containsInterpolation()) {
-            // handle Interpolation objects
-            StringInterpolationSequence sis = s.replaceVariables(context);
-            // handle strings with interpolation
-            for (Variable var : context.getVariables()) {
-                if (!sis.containsInterpolation()) {
-                    break;
-                }
-                String interpolation = "#{$" + var.getName() + "}";
-                String stringValue = sis.toString();
-                SassListItem expr = var.getExpr();
-                // strings should be unquoted
-                if (stringValue.equals(interpolation)
-                        && !checkLexicalUnitType(expr,
-                                LexicalUnitImpl.SAC_STRING_VALUE)) {
-                    // no more replacements needed, use data type of expr
-                    return expr.replaceVariables(context);
-                } else if (stringValue.contains(interpolation)) {
-                    String replacementString = expr.replaceVariables(context)
-                            .unquotedString();
-                    sis = new StringInterpolationSequence(
-                            stringValue.replaceAll(
-                                    Pattern.quote(interpolation),
-                                    Matcher.quoteReplacement(replacementString)));
-                }
-            }
-            if (sis != s) {
-                LexicalUnitImpl copy = copy();
-                copy.s = sis;
-                return copy;
-            }
-        }
-        return this;
     }
 
     @Override
