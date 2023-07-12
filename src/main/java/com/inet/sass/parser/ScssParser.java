@@ -1615,6 +1615,7 @@ public final class ScssParser {
      */
     private StringInterpolationSequence parseStringInterpolationSequence( boolean untilClosingParenthesis ) {
         StringBuilder builder = cachesBuilder;
+        boolean appendQuote = false;
 
         LOOP: for( ;; ) {
             char ch = reader.read();
@@ -1635,6 +1636,10 @@ public final class ScssParser {
                     break;
                 case '"':
                 case '\'':
+                    if( appendQuote ) {
+                        appendQuote = false;
+                        break;
+                    }
                     List<SassListItem> sequence = stringSequence;
                     if( sequence == null ) {
                         sequence = stringSequence = new ArrayList<>();
@@ -1645,7 +1650,16 @@ public final class ScssParser {
                             sequence.add( new StringItem( trim ) );
                         }
                     }
-                    sequence.add( LexicalUnitImpl.createString( uri, reader.getLine(), reader.getColumn(), parseQuotedString( ch ) ) );
+                    String str = parseQuotedString( ch );
+                    int idx = str.indexOf( "#{" );
+                    if( idx >= 0 ) {
+                        sequence.add( new StringItem( ch + str.substring( 0, idx ) ) );
+                        reader.back( ch );
+                        reader.back( str.substring( idx ) );
+                        appendQuote = true;
+                    } else {
+                        sequence.add( LexicalUnitImpl.createString( uri, reader.getLine(), reader.getColumn(), str ) );
+                    }
                     continue LOOP;
                 case ':':
                 case '{':
