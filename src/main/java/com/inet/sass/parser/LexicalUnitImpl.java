@@ -697,7 +697,14 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
     @Override
     public SassListItem replaceVariables(ScssContext context) {
         // replace function parameters (if any)
-        LexicalUnitImpl lui = replaceParams(context);
+        LexicalUnitImpl lui;
+        ActualArgumentList params = this.params;
+        if( params != null && (params != (params = params.replaceVariables( context ))) ) {
+            lui = copy();
+            lui.params = params;
+        } else {
+            lui = this;
+        }
 
         // replace parameters in string value
         switch( type ) {
@@ -712,16 +719,6 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
                 }
         }
         return lui;
-    }
-
-    private LexicalUnitImpl replaceParams(ScssContext context) {
-        if (params != null) {
-            LexicalUnitImpl copy = copy();
-            copy.setParameterList(params.replaceVariables(context));
-            return copy;
-        } else {
-            return this;
-        }
     }
 
     private SassListItem replaceSimpleVariable(ScssContext context) {
