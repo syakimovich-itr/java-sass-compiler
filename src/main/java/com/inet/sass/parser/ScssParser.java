@@ -1581,7 +1581,7 @@ public final class ScssParser {
      */
     private LexicalUnitImpl parseUrlFunction() {
         char ch = readNonWhitespace();
-        switch( ch ) {
+        SWITCH: switch( ch ) {
             case '\'':
             case '"':
                 char ch2 = reader.read();
@@ -1591,9 +1591,7 @@ public final class ScssParser {
                     case '$':
                         break;
                     default:
-                        LexicalUnitImpl left = LexicalUnitImpl.createURL( uri, reader.getLine(), reader.getColumn(), new StringInterpolationSequence( ch + parseQuotedString( ch ) + ch ) );
-                        consumeMarker( ')' );
-                        return left;
+                        break SWITCH;
                 }
                 //$FALL-THROUGH$
             case '$':
@@ -1602,11 +1600,11 @@ public final class ScssParser {
                 ActualArgumentList params = argValuelist( false );
                 return LexicalUnitImpl.createFunction( uri, reader.getLine(), reader.getColumn(), "url", params );
             default:
-                reader.back( ch );
-                StringInterpolationSequence url = parseStringInterpolationSequence( true );
-                consumeMarker( ')' );
-                return LexicalUnitImpl.createURL( uri, reader.getLine(), reader.getColumn(), url );
         }
+        reader.back( ch );
+        StringInterpolationSequence url = parseStringInterpolationSequence( true );
+        consumeMarker( ')' );
+        return LexicalUnitImpl.createURL( uri, reader.getLine(), reader.getColumn(), url );
     }
 
     /**
