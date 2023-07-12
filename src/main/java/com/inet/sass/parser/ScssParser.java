@@ -1613,7 +1613,6 @@ public final class ScssParser {
      */
     private StringInterpolationSequence parseStringInterpolationSequence( boolean untilClosingParenthesis ) {
         StringBuilder builder = cachesBuilder;
-        boolean appendQuote = false;
 
         LOOP: for( ;; ) {
             char ch = reader.read();
@@ -1634,10 +1633,6 @@ public final class ScssParser {
                     break;
                 case '"':
                 case '\'':
-                    if( appendQuote ) {
-                        appendQuote = false;
-                        break;
-                    }
                     List<SassListItem> sequence = stringSequence;
                     if( sequence == null ) {
                         sequence = stringSequence = new ArrayList<>();
@@ -1649,12 +1644,24 @@ public final class ScssParser {
                         }
                     }
                     String str = parseQuotedString( ch );
-                    int idx = str.indexOf( "#{" );
-                    if( idx >= 0 ) {
-                        sequence.add( new StringItem( ch + str.substring( 0, idx ) ) );
-                        reader.back( ch );
-                        reader.back( str.substring( idx ) );
-                        appendQuote = true;
+                    int idx1 = str.indexOf( "#{" );
+                    if( idx1 >= 0 ) {
+                        // interpolation in quotes
+                        sequence.add( new StringItem( ch + str.substring( 0, idx1 ) ) );
+                        int idx2;
+                        for(;;) {
+                            idx1++;
+                            idx2 = str.indexOf( '}', idx1 + 1 ) + 1;
+                            reader.back( str.substring( idx1, idx2 ) );
+                            parseInterpolation( builder );
+                            idx1 = str.indexOf( "#{", idx2 );
+                            if( idx1 > 0 ) {
+                                sequence.add( new StringItem( str.substring( idx2, idx1 ) ) );
+                                continue;
+                            }
+                            break;
+                        }
+                        sequence.add( new StringItem( str.substring( idx2 ) + ch ) );
                     } else {
                         sequence.add( LexicalUnitImpl.createString( uri, reader.getLine(), reader.getColumn(), str ) );
                     }
