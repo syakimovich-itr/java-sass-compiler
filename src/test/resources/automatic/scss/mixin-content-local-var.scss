@@ -1,0 +1,16 @@
+@mixin content-mixin {
+  @content;
+}
+
+@mixin utility {
+  $local-var: true;
+  .class {
+     @if $local-var {
+       local-var: local;
+     }
+  }
+}
+
+@include content-mixin() {
+   @include utility;
+}

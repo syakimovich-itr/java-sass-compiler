@@ -57,11 +57,7 @@ public class BlockNodeHandler {
         }
 
         ArrayList<Node> result = new ArrayList<Node>();
-        boolean inContentNode = context.isInContentNode();
-        if( !inContentNode ) {
-            // the selector will be evaluate after the @content was replaced in the tree
-            updateSelectors( node );
-        }
+        updateSelectors( node );
 
         List<Node> children = node.getChildren();
         if( !children.isEmpty() ) {
@@ -110,9 +106,6 @@ public class BlockNodeHandler {
             }
         }
 
-        if( inContentNode ) {
-            return Collections.singletonList( node );
-        }
         return result;
     }
 

@@ -15,38 +15,58 @@
  * the License.
  */
 
-/**
- * ContentNode represents a {@literal @}content in a SCSS tree. 
- */
 package com.inet.sass.tree;
 
 import java.util.Collection;
-import java.util.Collections;
 
+import com.inet.sass.Scope;
 import com.inet.sass.ScssContext;
+import com.inet.sass.tree.controldirective.TemporaryNode;
 
+/**
+ * ContentNode represents a {@literal @}content in a SCSS tree. 
+ */
 public class ContentNode extends Node {
+
+    MixinNode     mixinNode;
+    private Scope scope;
 
     public ContentNode() {
     }
 
-    private ContentNode(Node nodeToCopy) {
-        super(nodeToCopy);
+    private ContentNode( ContentNode nodeToCopy ) {
+        super( nodeToCopy );
+        this.mixinNode = nodeToCopy.mixinNode;
+        this.scope = nodeToCopy.scope;
     }
 
+    /**
+     * Bind this placeholder (@content rule) with the block and scope of the caller (@include rule).
+     * @param mixinNode the caller (@include rule)
+     * @param scope the state of the variables of the caller
+     */
+    void bind( MixinNode mixinNode, Scope scope ) {
+        this.mixinNode = mixinNode;
+        this.scope = scope;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Collection<Node> traverse(ScssContext context) {
-        /*
-         * ContentNode is basically just a placeholder for some content which
-         * will be included. So for traverse of this node, it does nothing. it
-         * will be replaced when traversing MixinDefNode which contains it.
-         */
-        return Collections.singleton((Node) this);
+    public Collection<Node> traverse( ScssContext context ) {
+        // evaluate the @content rule with the variables of the @include rule
+        Scope previousScope = context.openVariableScope( scope );
+        try {
+            Node tempParent = new TemporaryNode( getParentNode(), mixinNode.copyChildren() );
+            return tempParent.traverse( context );
+        } finally {
+            context.closeVariableScope( previousScope );
+        }
     }
 
     @Override
     public ContentNode copy() {
-        return new ContentNode(this);
+        return new ContentNode( this );
     }
-
 }

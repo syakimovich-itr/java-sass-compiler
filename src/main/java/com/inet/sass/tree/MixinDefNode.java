@@ -24,6 +24,9 @@ import java.util.Collections;
 import com.inet.sass.ScssContext;
 import com.inet.sass.parser.FormalArgumentList;
 
+/**
+ * The definition of a mixin (@mixin rule).
+ */
 public class MixinDefNode extends DefNode {
 
     public MixinDefNode( String name, FormalArgumentList args ) {
@@ -55,22 +58,11 @@ public class MixinDefNode extends DefNode {
     private static void findAndReplaceContentNodeInChildren( ScssContext context, Node node, MixinNode mixinNode ) {
         for( Node child : new ArrayList<Node>( node.getChildren() ) ) {
             if( child instanceof ContentNode ) {
-                replaceContentNode( context, (ContentNode)child, mixinNode );
+                ((ContentNode)child).bind( mixinNode, context.getCurrentScope() );
             } else {
                 findAndReplaceContentNodeInChildren( context, child, mixinNode );
             }
         }
-    }
-
-    private static void replaceContentNode( ScssContext context, ContentNode contentNode, MixinNode mixinNode ) {
-        // traverse @content rule before the mixin with scope of the caller and not the used place 
-        context.setInContentNode( true );
-        ArrayList<Node> children = new ArrayList<>();
-        for( Node child : mixinNode.copyChildren() ) {
-            children.addAll( child.traverse( context ) );
-        }
-        context.setInContentNode( false );
-        contentNode.getParentNode().replaceNode( contentNode, children );
     }
 
     @Override

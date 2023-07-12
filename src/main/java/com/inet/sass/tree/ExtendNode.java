@@ -78,10 +78,7 @@ public class ExtendNode extends Node implements IVariableNode {
                 list.set( i, list.get( i ).replaceVariables( context ) );
             }
 
-            // Only extend if the @content rule is really added to the output
-            return context.isInContentNode() ? //
-                Collections.singleton( this ) : //
-                ExtendNodeHandler.traverse( context, this );
+            return ExtendNodeHandler.traverse( context, this );
         } catch( Exception e ) {
             SCSSErrorHandler.get().error( e );
             return Collections.emptyList();
