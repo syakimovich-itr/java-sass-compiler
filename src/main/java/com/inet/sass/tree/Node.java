@@ -213,12 +213,13 @@ public abstract class Node implements SourceLocation {
 
     // to be used primarily from inside the class Node
     protected Collection<Node> copyChildren() {
-        if (getChildren(false).isEmpty()) {
+        ArrayList<Node> children = this.children;
+        if( children == null || children.isEmpty() ) {
             return Collections.emptyList();
         }
         ArrayList<Node> result = new ArrayList<Node>();
-        for (Node child : getChildren(false)) {
-            result.add(child.copy());
+        for( Node child : children ) {
+            result.add( child.copy() );
         }
         return result;
     }
