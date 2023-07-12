@@ -72,19 +72,18 @@ public class Interpolation implements SassListItem {
     }
 
     @Override
-    public Interpolation evaluateFunctionsAndExpressions(ScssContext context,
-            boolean evaluateArithmetics) {
+    public SassListItem evaluateFunctionsAndExpressions( ScssContext context, boolean evaluateArithmetics ) {
         // Interpolation ignores evaluateArithmetics - whether there are
         // arithmetic operations has been determined in the constructor.
-        return new Interpolation(expression.evaluateFunctionsAndExpressions(
-                context, this.evaluateArithmetics), getLineNumber(),
-                getColumnNumber());
+        String str = expression.evaluateFunctionsAndExpressions( context, this.evaluateArithmetics ).unquotedString();
+        return new StringItem( str );
     }
 
     @Override
-    public Interpolation replaceVariables(ScssContext context) {
-        return new Interpolation(expression.replaceVariables(context),
-                getLineNumber(), getColumnNumber(), evaluateArithmetics);
+    public SassListItem replaceVariables(ScssContext context) {
+        SassListItem item = expression.replaceVariables(context);
+        String str = item.evaluateFunctionsAndExpressions(context, this.evaluateArithmetics).unquotedString();
+        return new StringItem( str );
     }
 
     @Override
@@ -118,23 +117,6 @@ public class Interpolation implements SassListItem {
     public LexicalUnitImpl getContainedValue() {
         throw new ParseException(
                 "getContainedValue() is not supported for interpolation");
-    }
-
-    /**
-     * Returns the value of the expression, with quotation marks removed if the
-     * value is a single textual value. Before this method the methods
-     * replaceVariables and evaluateFunctionsAndExpressions should be called to
-     * determine the evaluated value of the expression.
-     * 
-     * @return The value of the evaluated expression, a SassListItem.
-     */
-    public SassListItem replaceInterpolation() {
-        if (expression instanceof LexicalUnitImpl) {
-            String unquotedString = expression.unquotedString();
-            return new LexicalUnitImpl( null, getLineNumber(), getLineNumber(), LexicalUnitImpl.SAC_IDENT, unquotedString );
-        } else {
-            return expression;
-        }
     }
 
     @Override

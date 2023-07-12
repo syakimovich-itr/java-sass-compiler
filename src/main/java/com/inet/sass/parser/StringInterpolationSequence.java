@@ -59,14 +59,6 @@ public class StringInterpolationSequence {
             if (item instanceof Interpolation) {
                 containsInterpolation = true;
                 break;
-            } else {
-                String itemString = item.printState();
-                if (itemString.contains("#{")) {
-                    // This is inexact but sufficient for avoiding most cases of
-                    // unnecessary evaluation.
-                    containsInterpolation = true;
-                    break;
-                }
             }
         }
         items = new SassList(SassList.Separator.SPACE, sequence);
@@ -89,35 +81,8 @@ public class StringInterpolationSequence {
         if( !containsInterpolation ) {
             return this;
         }
-        SassList resultList = items.replaceVariables(context);
-        if (!resultList.containsVariable()) {
-            resultList = resultList.evaluateFunctionsAndExpressions(context,
-                    false);
-            resultList = replaceInterpolation(resultList);
-        }
-        return new StringInterpolationSequence(resultList);
-    }
-
-    /**
-     * Returns a new SassList that is obtained from list by replacing all
-     * occurrences of interpolation with the contents of the interpolation.
-     * 
-     * It is assumed that variable replacement and the evaluation of functions
-     * and arithmetic expressions have been performed before calling this
-     * method.
-     * 
-     * @return A new StringInterpolationSequence.
-     */
-    private static SassList replaceInterpolation(SassList list) {
-        List<SassListItem> newItems = new ArrayList<SassListItem>();
-        for (SassListItem item : list) {
-            if (item instanceof Interpolation) {
-                newItems.add(((Interpolation) item).replaceInterpolation());
-            } else {
-                newItems.add(item);
-            }
-        }
-        return new SassList(SassList.Separator.SPACE, newItems);
+        SassList resultList = items.replaceVariables( context );
+        return new StringInterpolationSequence( resultList );
     }
 
     /**
