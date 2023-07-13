@@ -1,15 +1,21 @@
 .class {
   color: red;
 }
+
 @media screen {
   .class {
     transition: none;
   }
 }
+
 @media print {
   .class {
     transition: width 2s;
   }
+}
+
+.class .sub {
+  color: blue;
 }
 
 @media (hover: hover) {
@@ -17,6 +23,7 @@
     border: 2px solid black;
   }
 }
+
 @media (hover: hover) and (color) {
   .button:hover {
     border-color: #036;

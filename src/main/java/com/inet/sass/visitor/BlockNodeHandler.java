@@ -65,14 +65,13 @@ public class BlockNodeHandler {
             BlockNode oldParent = context.getParentBlock();
             context.setParentBlock( node );
             try {
-                ArrayList<Node> medias = null;
                 ArrayList<Node> newChildren = null;
                 for( Node child : children ) {
                     if( child.getClass() == BlockNode.class ) {
                         ((BlockNode)child).setParentSelectors( node.getSelectorList() );
                         result.addAll( child.traverse( context ) );
                     } else if( child.getClass() == MediaNode.class ) {
-                        medias = bubbleMedia( medias, context, node, (MediaNode)child );
+                        bubbleMedia( result, context, node, (MediaNode)child );
                     } else {
                         Collection<Node> childTraversed = child.traverse( context );
                         for( Node n : childTraversed ) {
@@ -80,7 +79,7 @@ public class BlockNodeHandler {
                                 // already traversed
                                 result.add( n );
                             } else if( n.getClass() == MediaNode.class ) {
-                                medias = bubbleMedia( medias, context, node, (MediaNode)n );
+                                bubbleMedia( result, context, node, (MediaNode)n );
                             } else {
                                 if( newChildren == null ) {
                                     newChildren = new ArrayList<Node>();
@@ -89,9 +88,6 @@ public class BlockNodeHandler {
                             }
                         }
                     }
-                }
-                if( medias != null ) {
-                    result = medias;
                 }
                 // add the node with the remaining non-block children at the
                 // beginning
@@ -111,26 +107,22 @@ public class BlockNodeHandler {
 
     /**
      * Reorder the @media rule on top
-     * @param medias container for the medias, will be null on first call
+     * @param result container for the traversed media
      * @param context current context
      * @param node the parent node of the MediaNode
      * @param child the media node which is child
      * @return the container, never null
      */
-    static ArrayList<Node> bubbleMedia( ArrayList<Node> medias, ScssContext context, BlockNode node, MediaNode child ) {
+    static void bubbleMedia( ArrayList<Node> result, ScssContext context, BlockNode node, MediaNode child ) {
         for( Selector selector : node.getSelectorList() ) {
             if( selector.isPlaceholder() ) {
                 //TODO placeholder selectors must handle other
-                return medias;
+                return;
             }
-        }
-        if( medias == null ) {
-            medias = new ArrayList<>();
         }
         MediaNode media = new MediaNode( child.getUri(), child.getLineNumber(), child.getColumnNumber(), child.getMedia() );
         media.appendChild( new BlockNode( node, child.getChildren() ) );
-        medias.addAll( media.traverse( context ) );
-        return medias;
+        result.addAll( media.traverse( context ) );
     }
 
     private static void updateSelectors( BlockNode node) {

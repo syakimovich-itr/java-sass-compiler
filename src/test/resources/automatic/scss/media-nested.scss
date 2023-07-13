@@ -10,6 +10,9 @@
 .class {
     @include my-mixin;
     color: red;
+    .sub {
+        color: blue;
+    }
 }
 
 @media (hover: hover) {
