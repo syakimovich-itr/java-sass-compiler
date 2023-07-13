@@ -140,7 +140,7 @@ public final class ScssParser {
                     continue LOOP;
                 }
                 if( builder.charAt( 0 ) == '@' ) {
-                    parseAtRule( trim( builder ) );
+                    parseAtRule( trim( builder ), false );
                     return;
                 }
                 builder.append( ch );
@@ -177,7 +177,7 @@ public final class ScssParser {
                     }
                     if( builder.charAt( 0 ) == '@' ) {
                         reader.back( ch );
-                        parseAtRule( trim( builder ) );
+                        parseAtRule( trim( builder ), false );
                         return;
                     }
                     throw reader.createException( "Unrecognized input: '" + builder + "'" );
@@ -218,7 +218,7 @@ public final class ScssParser {
                     break;
 
                 case '@':
-                    parseAtRule( '@' + parseName( false ) );
+                    parseAtRule( '@' + parseName( false ), true );
                     return;
             }
             reader.back( ch );
@@ -519,7 +519,7 @@ public final class ScssParser {
      * Parse the rules starts with an @ character
      * @param rule the name of the rule
      */
-    private void parseAtRule( String rule ) {
+    private void parseAtRule( String rule, boolean block ) {
         char ch;
 
         SWITCH: for( ;; ) {
@@ -717,7 +717,16 @@ public final class ScssParser {
                     return;
 
                 default:
-                    parseUnrecognizedAtRule( rule );
+                    if( block ) {
+                        reader.back( rule );
+                        selectorList = parseSelectorList( false );
+                        consumeMarker( '{' );
+                        documentHandler.startSelector( source.getURI(), reader.getLine(), reader.getColumn(), selectorList );
+                        parse( false );
+                        documentHandler.endSelector();
+                    } else {
+                        parseUnrecognizedAtRule( rule );
+                    }
                     return;
             }
         }
@@ -1679,9 +1688,9 @@ public final class ScssParser {
                     }
                     //$FALL-THROUGH$
                 case ')':
-                    reader.back( ch );
-                    break LOOP;
-            }
+                        reader.back( ch );
+                        break LOOP;
+                    }
             builder.append( ch );
         }
         return createStringInterpolationSequence( builder );
