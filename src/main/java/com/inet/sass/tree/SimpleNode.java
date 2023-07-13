@@ -20,8 +20,6 @@ import java.util.Collection;
 import java.util.Collections;
 
 import com.inet.sass.ScssContext;
-import com.inet.sass.parser.Variable;
-import com.inet.sass.util.StringUtil;
 
 /**
  * A simple BlockNode where input text equals output. <b>Note : </b> ignores any
@@ -56,17 +54,10 @@ public class SimpleNode extends Node implements IVariableNode {
 
     @Override
     public void replaceVariables(ScssContext context) {
-        for (final Variable var : context.getVariables()) {
-            if (StringUtil.containsVariable(text, var.getName())) {
-                text = StringUtil.replaceVariable(text, var.getName(), var
-                        .getExpr().printState());
-            }
-        }
     }
 
     @Override
     public Collection<Node> traverse(ScssContext context) {
-        replaceVariables(context);
         return Collections.singleton((Node) this);
     }
 

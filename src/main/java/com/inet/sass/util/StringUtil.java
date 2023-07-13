@@ -18,14 +18,10 @@
 package com.inet.sass.util;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class StringUtil {
     private static final String FOLDER_SEPARATOR = "/"; // folder separator
@@ -137,103 +133,5 @@ public class StringUtil {
     public static String collectionToDelimitedString(Collection coll,
             String delim) {
         return collectionToDelimitedString(coll, delim, "", "");
-    }
-
-    /**
-     * Check if a String contains a SCSS variable, using whole word match.
-     * 
-     * @param text
-     *            text to be checked
-     * @Param varName SCSS variable name to be checked. (Without '$' sign)
-     * @return true if the text contains the SCSS variable, false if not
-     */
-    public static boolean containsVariable(String text, String varName) {
-        return containsSubString(text, "$" + varName);
-    }
-
-    /**
-     * Replace the SCSS variable in a String to its corresponding value, using
-     * whole word match.
-     * 
-     * @param text
-     *            text which contains the SCSS variable
-     * @param varName
-     *            SCSS variable name (Without '$' sign)
-     * @param value
-     *            the value of the SCSS variable
-     * @return the String after replacing
-     */
-    public static String replaceVariable(String text, String varName,
-            String value) {
-        return replaceSubString(text, "$" + varName, value);
-    }
-
-    /**
-     * Check if a String contains a sub string, using whole word match.
-     * 
-     * @param text
-     *            text to be checked
-     * @Param sub Sub String to be checked.
-     * @return true if the text contains the sub string, false if not
-     */
-    public static boolean containsSubString(String text, String sub) {
-        StringBuilder builder = new StringBuilder();
-        // (?![\\w-]) means lookahead, the next one shouldn't be a word
-        // character nor a dash.
-        builder.append("(?<![\\w-])").append(Pattern.quote(sub))
-                .append("(?![\\w-])");
-        Pattern pattern = Pattern.compile(builder.toString());
-        Matcher matcher = pattern.matcher(text);
-        return matcher.find();
-    }
-
-    /**
-     * Replace the sub string in a String to a value, using whole word match.
-     * 
-     * @param text
-     *            text which contains the sub string
-     * @param sub
-     *            the sub string
-     * @param value
-     *            the new value
-     * @return the String after replacing
-     */
-    public static String replaceSubString(String text, String sub, String value) {
-        StringBuilder builder = new StringBuilder();
-        // (?![\\w-]) means lookahead, the next one shouldn't be a word
-        // character nor a dash.
-        builder.append("(?<![\\w-])").append(Pattern.quote(sub))
-                .append("(?![\\w-])");
-        return text.replaceAll(builder.toString(),
-                Matcher.quoteReplacement(value));
-    }
-
-    /**
-     * Remove duplicated sub string in a String given a splitter. Can be used to
-     * removed duplicated selectors, e.g., in ".error.error", one duplicated
-     * ".error" can be removed.
-     * 
-     * @param motherString
-     *            string which may contains duplicated sub strings
-     * @param splitter
-     *            the splitter splits the mother string to sub strings
-     * @return the mother string with duplicated sub strings removed
-     */
-    public static String removeDuplicatedSubString(String motherString,
-            String splitter) {
-        List<String> subStrings = Arrays.asList(motherString.split(Pattern
-                .quote(splitter)));
-        LinkedHashSet<String> uniqueSubStrings = new LinkedHashSet<String>(
-                subStrings);
-        StringBuilder builder = new StringBuilder();
-        int count = 0;
-        for (String uniqueSubString : uniqueSubStrings) {
-            count++;
-            builder.append(uniqueSubString);
-            if (count < uniqueSubStrings.size()) {
-                builder.append(splitter);
-            }
-        }
-        return builder.toString();
     }
 }
