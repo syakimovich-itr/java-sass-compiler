@@ -56,7 +56,6 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
     private int line;
     private int column;
 
-    private int i;
     private float f;
     private String sdimension;
     private StringInterpolationSequence s;
@@ -77,13 +76,6 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
     LexicalUnitImpl( String uri, int line, int column, short type, float f ) {
         this( uri, line, column, type );
         this.f = f;
-        i = (int) f;
-    }
-
-    LexicalUnitImpl( String uri, int line, int column, short type, int i ) {
-        this( uri, line, column, type );
-        this.i = i;
-        f = i;
     }
 
     LexicalUnitImpl( String uri, int line, int column, short type, String sdimension, float f ) {
@@ -170,12 +162,7 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
     }
 
     public int getIntegerValue() {
-        return i;
-    }
-
-    private void setIntegerValue(int i) {
-        this.i = i;
-        f = i;
+        return (int)f;
     }
 
     public float getFloatValue() {
@@ -200,7 +187,6 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
 
     private void setFloatValue(float f) {
         this.f = f;
-        i = (int) f;
     }
 
     public String getDimensionUnitText() {
@@ -392,9 +378,7 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
         if( !checkLexicalUnitType( another, type, SAC_INTEGER, SAC_REAL ) ) {
             throw createIncompatibleUnitsException( another );
         }
-        LexicalUnitImpl copy = copy();
-        copy.setIntegerValue(getIntegerValue() % another.getIntegerValue());
-        return copy;
+        return copyWithValue( (int)getIntegerValue() % (int)another.getIntegerValue() );
     }
 
     /**
@@ -406,7 +390,6 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
      */
     public LexicalUnitImpl copy() {
         LexicalUnitImpl copy = new LexicalUnitImpl( uri, line, column, type );
-        copy.i = i;
         copy.f = f;
         copy.s = s;
         copy.fname = fname;
@@ -452,13 +435,10 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
     }
 
     public static LexicalUnitImpl createPercentage( String uri, int line, int column, float v ) {
-        LexicalUnitImpl result = new LexicalUnitImpl( uri, line, column, SAC_PERCENTAGE, v );
-
         if( Math.round( v * 100 * PRECISION ) == (((int)v) * 100 * PRECISION) ) {
-            result.setIntegerValue( (int)v );
+            v = (int)v;
         }
-
-        return result;
+        return new LexicalUnitImpl( uri, line, column, SAC_PERCENTAGE, v );
     }
 
     static LexicalUnitImpl createEMS( String uri, int line, int column, float v ) {
