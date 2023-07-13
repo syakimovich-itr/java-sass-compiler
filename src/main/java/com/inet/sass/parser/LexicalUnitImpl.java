@@ -26,8 +26,6 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import com.inet.sass.ScssContext;
 import com.inet.sass.function.SCSSFunctionGenerator;
@@ -51,6 +49,8 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
 
     private static final DecimalFormat CSS_FLOAT_FORMAT = new DecimalFormat(
             "0.0####");
+
+    public static final LexicalUnitImpl WHITESPACE = new LexicalUnitImpl( null, 0, 0, SAC_IDENT, " " );
 
     private short type;
     private int line;
@@ -628,10 +628,6 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
         return new LexicalUnitImpl( uri, line, column, SAC_OPERATOR_COMMA );
     }
 
-    public static LexicalUnitImpl createSpace( String uri, int line, int column ) {
-        return new LexicalUnitImpl( uri, line, column, SAC_IDENT, " " );
-    }
-
     public static LexicalUnitImpl createSlash( String uri, int line, int column ) {
         return new LexicalUnitImpl( uri, line, column, SAC_OPERATOR_SLASH );
     }
@@ -742,7 +738,7 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
         return this;
     }
 
-    private boolean containsInterpolation() {
+    public boolean containsInterpolation() {
         return s != null && s.containsInterpolation();
     }
 

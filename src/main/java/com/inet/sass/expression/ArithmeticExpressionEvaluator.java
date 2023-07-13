@@ -67,7 +67,7 @@ public class ArithmeticExpressionEvaluator {
         int termCount = terms.size();
         inputTermLoop: for( int i = 0; i < termCount; ++i ) {
             current = terms.get( i ).evaluateFunctionsAndExpressions( context, true );
-            if( SassExpression.isWhitespace( current ) ) {
+            if( current == LexicalUnitImpl.WHITESPACE ) {
                 continue;
             }
             if( afterOperand ) {

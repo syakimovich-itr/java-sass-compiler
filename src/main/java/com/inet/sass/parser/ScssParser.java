@@ -1012,7 +1012,7 @@ public final class ScssParser {
                         wasWhite = true;
                     }
                     // for extra spaces in the output, required for the tests
-                    left = concat( left, LexicalUnitImpl.createSpace( uri, reader.getLine(), reader.getColumn() ) );
+                    left = concat( left, LexicalUnitImpl.WHITESPACE );
                 }
                 continue LOOP;
             }

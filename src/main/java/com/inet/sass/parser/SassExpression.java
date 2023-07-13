@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import com.inet.sass.ScssContext;
 import com.inet.sass.expression.ArithmeticExpressionEvaluator;
@@ -37,9 +36,6 @@ import com.inet.sass.tree.Node.BuildStringStrategy;
  */
 public class SassExpression implements SassListItem {
 
-    private static final Pattern WHITESPACE_PATTERN = Pattern.compile("\\s+");
-    private static final Pattern INTERPOLATION_PATTERN = Pattern
-            .compile(".*#[{][$][^\\s]+[}].*");
     private List<SassListItem> items;
     private int line = 0;
     private int column = 0;
@@ -92,7 +88,7 @@ public class SassExpression implements SassListItem {
         // filter out trailing whitespace
         int lastNonWhitespace = items.size() - 1;
         while (lastNonWhitespace > 0
-                && isWhitespace(items.get(lastNonWhitespace))) {
+                && items.get(lastNonWhitespace) == LexicalUnitImpl.WHITESPACE) {
             --lastNonWhitespace;
         }
         if (lastNonWhitespace < items.size() - 1) {
@@ -178,7 +174,10 @@ public class SassExpression implements SassListItem {
     }
 
     private boolean containsInterpolation(SassListItem item) {
-        return INTERPOLATION_PATTERN.matcher(item.printState()).matches();
+        if( item.getClass() == LexicalUnitImpl.class ) {
+            return ((LexicalUnitImpl)item).containsInterpolation();
+        }
+        return false;
     }
 
     /**
@@ -197,7 +196,7 @@ public class SassExpression implements SassListItem {
     public static int getNextNonspaceIndex(List<SassListItem> list,
             int startIndex) {
         for (int i = startIndex; i < list.size(); ++i) {
-            if (!isWhitespace(list.get(i))) {
+            if (!(list.get(i) == LexicalUnitImpl.WHITESPACE)) {
                 return i;
             }
         }
@@ -273,17 +272,6 @@ public class SassExpression implements SassListItem {
                             + toString());
         }
         return (LexicalUnitImpl) items.get(0);
-    }
-
-    public static boolean isWhitespace(SassListItem item) {
-        // optimization as this is called very frequently
-        if (item instanceof LexicalUnitImpl) {
-            LexicalUnitImpl unit = (LexicalUnitImpl) item;
-            return unit.getLexicalUnitType() == SCSSLexicalUnit.SAC_IDENT
-                    && WHITESPACE_PATTERN.matcher(unit.getStringValue())
-                            .matches();
-        }
-        return WHITESPACE_PATTERN.matcher(item.printState()).matches();
     }
 
     @Override
