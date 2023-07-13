@@ -137,7 +137,7 @@ public abstract class Node implements SourceLocation {
     }
 
     public List<Node> getChildren() {
-        return Collections.unmodifiableList(getChildren(false));
+        return getChildren( false );
     }
 
     // avoid calling this method whenever possible

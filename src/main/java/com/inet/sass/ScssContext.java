@@ -16,7 +16,6 @@
  */
 package com.inet.sass;
 
-import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -176,7 +175,7 @@ public class ScssContext {
     }
 
     public Iterable<Extension> getExtensions() {
-        return Collections.unmodifiableCollection(extendsSet);
+        return extendsSet;
     }
 
     public UrlMode getUrlMode() {

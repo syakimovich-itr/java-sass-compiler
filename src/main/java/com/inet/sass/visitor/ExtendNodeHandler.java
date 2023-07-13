@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
 
 import com.inet.sass.ScssContext;
 import com.inet.sass.parser.ParseException;
@@ -63,18 +62,20 @@ public class ExtendNodeHandler {
     }
 
     public static void modifyTree(ScssContext context, Node node) {
-        for( Node child : new ArrayList<>( node.getChildren() ) ) {
+        Iterable<Extension> extensions = context.getExtensions();
+
+        for( Iterator<Node> nodeIt = node.getChildren().iterator(); nodeIt.hasNext(); ) {
+            Node child = nodeIt.next();
 
             Class<?> clazz = child.getClass();
             if( clazz == BlockNode.class ) {
                 BlockNode blockNode = (BlockNode)child;
                 // need a copy as the selector list is modified below
-                List<Selector> selectorList = new ArrayList<Selector>( blockNode.getSelectorList() );
                 SelectorSet newSelectors = new SelectorSet();
-                for( Selector selector : selectorList ) {
+                for( Selector selector : blockNode.getSelectorList() ) {
                     // keep order while avoiding duplicates
                     newSelectors.add( selector );
-                    newSelectors.addAll( createSelectorsForExtensions( selector, context.getExtensions() ) );
+                    newSelectors.addAll( createSelectorsForExtensions( selector, extensions ) );
                 }
 
                 // remove all placeholder selectors
@@ -88,7 +89,7 @@ public class ExtendNodeHandler {
 
                 // remove block if selector list is empty
                 if( newSelectors.isEmpty() ) {
-                    blockNode.getParentNode().replaceNode( blockNode, Collections.<Node> emptyList() );
+                    nodeIt.remove();
                 } else {
                     blockNode.setSelectorList( new ArrayList<Selector>( newSelectors ) );
                 }
