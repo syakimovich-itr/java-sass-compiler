@@ -27,11 +27,10 @@ import com.inet.sass.parser.LexicalUnitImpl;
 class PercentageFunctionGenerator extends
         AbstractSingleParameterFunctionGenerator {
 
-    private static String[] argumentNames = { "value" };
-    private static long PERC_PRECISION_FACTOR = 100 * LexicalUnitImpl.PRECISION;
+    private static final long PERC_PRECISION_FACTOR = 100 * LexicalUnitImpl.PRECISION;
 
     PercentageFunctionGenerator() {
-        super(createArgumentList(argumentNames, false), "percentage");
+        super(createArgumentList( new String[]{ "value" }, false), "percentage");
     }
 
     @Override
