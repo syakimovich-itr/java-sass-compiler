@@ -20,7 +20,6 @@ package com.inet.sass.util;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.regex.Pattern;
 
 import com.inet.sass.parser.ActualArgumentList;
 import com.inet.sass.parser.LexicalUnitImpl;
@@ -31,8 +30,6 @@ import com.inet.sass.parser.SassList.Separator;
 
 public class ColorUtil {
 
-    private static final Pattern HEX_COLOR_PATTERN = Pattern
-            .compile("#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})");
     private static Map<String, String> colorNameToHex = new HashMap<String, String>();
     private static Map<String, String> hexToColorName = new HashMap<String, String>();
 
@@ -266,8 +263,34 @@ public class ColorUtil {
      * @return true if unit represents a hexadecimal color
      */
     public static boolean isHexColor(LexicalUnitImpl unit) {
-        return unit.getLexicalUnitType() == SCSSLexicalUnit.SAC_IDENT
-                && HEX_COLOR_PATTERN.matcher(unit.getStringValue()).matches();
+        if( unit.getLexicalUnitType() != SCSSLexicalUnit.SAC_IDENT ) {
+            return false;
+        }
+        String str = unit.getStringValue();
+        int length = str.length();
+        switch( length ) {
+            case 4:
+            case 7:
+                if( str.charAt( 0 ) != '#' ) {
+                    return false;
+                }
+                for( int i = 1; i < length; i++ ) {
+                    char ch = str.charAt( i );
+                    if( ch >= '0' && ch <='9' ) {
+                        continue;
+                    }
+                    if( ch >= 'a' && ch <='f' ) {
+                        continue;
+                    }
+                    if( ch >= 'A' && ch <='F' ) {
+                        continue;
+                    }
+                    return false;
+                }
+                return true;
+            default:
+                return false;
+        }
     }
 
     /**
