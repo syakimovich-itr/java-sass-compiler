@@ -30,6 +30,7 @@ import com.inet.sass.selector.SelectorSet;
 import com.inet.sass.selector.SimpleSelectorSequence;
 import com.inet.sass.tree.BlockNode;
 import com.inet.sass.tree.ExtendNode;
+import com.inet.sass.tree.MediaNode;
 import com.inet.sass.tree.Node;
 
 public class ExtendNodeHandler {
@@ -61,44 +62,38 @@ public class ExtendNodeHandler {
         return Collections.emptyList();
     }
 
-    public static void modifyTree(ScssContext context, Node node)
-            throws Exception {
-        Iterator<Node> nodeIt = new ArrayList<Node>(node.getChildren())
-                .iterator();
+    public static void modifyTree(ScssContext context, Node node) {
+        for( Node child : new ArrayList<>( node.getChildren() ) ) {
 
-        while (nodeIt.hasNext()) {
-            final Node child = nodeIt.next();
-
-            if (child instanceof BlockNode) {
-                BlockNode blockNode = (BlockNode) child;
+            Class<?> clazz = child.getClass();
+            if( clazz == BlockNode.class ) {
+                BlockNode blockNode = (BlockNode)child;
                 // need a copy as the selector list is modified below
-                List<Selector> selectorList = new ArrayList<Selector>(
-                        blockNode.getSelectorList());
+                List<Selector> selectorList = new ArrayList<Selector>( blockNode.getSelectorList() );
                 SelectorSet newSelectors = new SelectorSet();
-                for (Selector selector : selectorList) {
+                for( Selector selector : selectorList ) {
                     // keep order while avoiding duplicates
-                    newSelectors.add(selector);
-                    newSelectors.addAll(createSelectorsForExtensions(selector,
-                            context.getExtensions()));
+                    newSelectors.add( selector );
+                    newSelectors.addAll( createSelectorsForExtensions( selector, context.getExtensions() ) );
                 }
 
                 // remove all placeholder selectors
                 Iterator<Selector> it = newSelectors.iterator();
-                while (it.hasNext()) {
+                while( it.hasNext() ) {
                     Selector s = it.next();
-                    if (s.isPlaceholder()) {
+                    if( s.isPlaceholder() ) {
                         it.remove();
                     }
                 }
 
                 // remove block if selector list is empty
-                if (newSelectors.isEmpty()) {
-                    blockNode.getParentNode().replaceNode(blockNode,
-                            Collections.<Node> emptyList());
+                if( newSelectors.isEmpty() ) {
+                    blockNode.getParentNode().replaceNode( blockNode, Collections.<Node> emptyList() );
                 } else {
-                    blockNode.setSelectorList(new ArrayList<Selector>(
-                            newSelectors));
+                    blockNode.setSelectorList( new ArrayList<Selector>( newSelectors ) );
                 }
+            } else if( clazz == MediaNode.class ) {
+                modifyTree( context, child );
             }
         }
 
