@@ -204,20 +204,33 @@ public class SimpleSelectorSequence implements SelectorSegment {
         return false;
     }
 
+    /**
+     * Replace the parent selector "&" with the replacement selector or remove it, if there is no replacement
+     * @param replacement the replacement for the "&" selector or null
+     * @return the replaces sequence or this if there is no parent selector
+     */
+    SimpleSelectorSequence replaceParentReference( Selector replacement ) {
+        List<SimpleSelector> selectors = this.selectors;
+        boolean parentFound = false;
+        for( int i = selectors.size() - 1; i >= 0; i-- ) {
+            SimpleSelector sel = selectors.get( i );
+            if( sel == ParentSelector.it ) {
+                if( !parentFound ) {
+                    parentFound = true;
+                    selectors = new ArrayList<>( selectors );
+                }
+                selectors.remove( i );
+                if( replacement != null ) {
+                    selectors.addAll( i, replacement.lastSimple().selectors );
+                }
+            }
+        }
+        return parentFound ? new SimpleSelectorSequence( selectors ) : this;
+    }
+
     public TypeSelector getTypeSelector() {
         SimpleSelector head = selectors.get(0);
         return head instanceof TypeSelector ? (TypeSelector) head : null;
-    }
-
-    public SimpleSelectorSequence getNonTypeSelectors() {
-        SimpleSelector head = selectors.get(0);
-        if (head instanceof TypeSelector) {
-            // note that the sublist may be backed by the original list
-            List<SimpleSelector> tail = selectors.subList(1, selectors.size());
-            return new SimpleSelectorSequence(tail);
-        } else {
-            return this;
-        }
     }
 
     // optimization - note that the result is backed by selectors of this
@@ -261,19 +274,6 @@ public class SimpleSelectorSequence implements SelectorSegment {
             sb.append(s.toString());
         }
         return sb.toString();
-    }
-
-    /**
-     * Returns the same sequence, but without type selector if one was present.
-     */
-    public SimpleSelectorSequence withoutTypeSelector() {
-        ArrayList<SimpleSelector> list = new ArrayList<SimpleSelector>();
-        for (SimpleSelector sel : selectors) {
-            if (!(sel instanceof TypeSelector)) {
-                list.add(sel);
-            }
-        }
-        return new SimpleSelectorSequence(list);
     }
 
     /**

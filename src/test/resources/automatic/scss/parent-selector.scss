@@ -20,3 +20,9 @@ $sel: if( &, "&", ".top");
         color:green;
     }
 }
+
++ .navbar {
+  &-md {
+    flex-wrap: nowrap;
+  }
+}

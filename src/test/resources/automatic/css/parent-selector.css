@@ -12,3 +12,7 @@
 .class.sub {
   color: green;
 }
+
++ .navbar-md {
+  flex-wrap: nowrap;
+}

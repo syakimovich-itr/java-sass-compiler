@@ -107,7 +107,7 @@ public class Selector {
         return null;
     }
 
-    private SimpleSelectorSequence lastSimple() {
+    SimpleSelectorSequence lastSimple() {
 //        if( parts.size() == 0 || !(parts.get( parts.size() - 1 ) instanceof SimpleSelectorSequence) ) {
 //            throw new ParseException( "Invalid last part of selector: " + toString() );
 //        }
@@ -181,26 +181,39 @@ public class Selector {
             SelectorSegment segment = parts.get(i);
             if (segment instanceof SimpleSelectorSequence) {
                 SimpleSelectorSequence simple = (SimpleSelectorSequence) segment;
-                if (ParentSelector.it.equals(simple.getTypeSelector())) {
+                SimpleSelectorSequence replacedSimple = simple.replaceParentReference( replacement );
+                if( simple != replacedSimple ) {
                     foundParentReference = true;
-                    if (replacement != null) {
-                        /*
-                        On evaluation the @Content of a @include/mixin this is to early 
-                        if (replacement.hasLeadingCombinator()) {
-                            throw new ParseException( "Parent selector should not have a leading combinator when using & parent selector reference: '" + replacement + '\'', location );
+                    if( replacement != null ) {
+                        List<SelectorSegment> replacemnetParts = replacement.parts;
+                        int count = replacemnetParts.size() - 1;
+                        for( int j = 0; j < count; j++ ) {
+                            sel.parts.add(replacemnetParts.get( j ));
                         }
-                         */
-                        // splice in each sequence from replacement
-                        sel.parts.addAll(replacement.parts);
-                        // replace "&" with new type selector in the last part,
-                        // keeping all the non-type selectors
-                        SimpleSelectorSequence last = replacement.lastSimple();
-                        last = last.union(simple.withoutTypeSelector());
-                        sel.parts.set(sel.parts.size() - 1, last);
-                    } else {
-                        // remove the type selector "&"
-                        sel.parts.add(simple.withoutTypeSelector());
                     }
+                    sel.parts.add( replacedSimple );
+//                }
+//                if (ParentSelector.it.equals(simple.getTypeSelector())) {
+//                    foundParentReference = true;
+//                    if (replacement != null) {
+//                        /*
+//                        On evaluation the @Content of a @include/mixin this is to early 
+//                        if (replacement.hasLeadingCombinator()) {
+//                            throw new ParseException( "Parent selector should not have a leading combinator when using & parent selector reference: '" + replacement + '\'', location );
+//                        }
+//                         */
+//                        // splice in each sequence from replacement
+//                        sel.parts.addAll(replacement.parts);
+//                        // replace "&" with new type selector in the last part,
+//                        // keeping all the non-type selectors
+////                        SimpleSelectorSequence last = replacement.lastSimple();
+////                        last = last.union(simple.withoutTypeSelector());
+//                        SimpleSelectorSequence last = simple.replaceParentReference( replacement );
+//                        sel.parts.set(sel.parts.size() - 1, last);
+//                    } else {
+//                        // remove the type selector "&"
+//                        sel.parts.add(simple.withoutTypeSelector());
+//                    }
                 } else {
                     // no parent to replace
                     sel.parts.add(simple);
