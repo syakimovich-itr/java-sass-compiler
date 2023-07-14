@@ -10416,8 +10416,8 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .valo .v-splitpanel-horizontal.large  > div > .v-splitpanel-hsplitter:after {
-	left: 0px;
-	right: 0px;
+	left: -0px;
+	right: -0px;
 }
 
 .valo .v-splitpanel-horizontal.large  > div > .v-splitpanel-hsplitter div:before {
@@ -10490,8 +10490,8 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .valo .v-splitpanel-vertical.large  > div > .v-splitpanel-vsplitter:after {
-	top: 0px;
-	bottom: 0px;
+	top: -0px;
+	bottom: -0px;
 }
 
 .valo .v-splitpanel-vertical.large  > div > .v-splitpanel-vsplitter div:before {

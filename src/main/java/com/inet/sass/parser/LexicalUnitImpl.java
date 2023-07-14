@@ -26,6 +26,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import com.inet.sass.ScssContext;
 import com.inet.sass.function.SCSSFunctionGenerator;
@@ -47,8 +48,12 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
 
     public static final long PRECISION = 100000L;
 
-    private static final DecimalFormat CSS_FLOAT_FORMAT = new DecimalFormat(
-            "0.0####");
+    private static final ThreadLocal<DecimalFormat> CSS_FLOAT_FORMAT = new ThreadLocal<>() {
+        @Override
+        protected DecimalFormat initialValue() {
+            return new DecimalFormat("0.#####", DecimalFormatSymbols.getInstance(Locale.US) );
+        }
+    };
 
     public static final LexicalUnitImpl WHITESPACE = new LexicalUnitImpl( null, 0, 0, SAC_IDENT, " " );
 
@@ -176,13 +181,7 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
      * @return a string representing the value, either with or without decimals
      */
     public String getDoubleOrInteger() {
-        double f = getDoubleValue();
-        long i = (long) f;
-        if (i == f) {
-            return Long.toString(i);
-        } else {
-            return CSS_FLOAT_FORMAT.format(f);
-        }
+        return CSS_FLOAT_FORMAT.get().format( f );
     }
 
     private void setDoubleValue( double f ) {
@@ -908,7 +907,7 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
                             text = ColorUtil.rgbToColorString( rgb );
                             break;
                         } else if( params.size() == 2 || ColorUtil.isHsla( this ) ) {
-                            String alphaText = alpha == 0.0f ? "0" : CSS_FLOAT_FORMAT.format( alpha );
+                            String alphaText = alpha == 0.0f ? "0" : CSS_FLOAT_FORMAT.get().format( alpha );
                             text = "rgba(" + rgb[0] + ", " + rgb[1] + ", " + rgb[2] + ", " + alphaText + ")";
                             break;
                         }
@@ -960,12 +959,6 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
         int green = ((LexicalUnitImpl) params.get(1)).getIntegerValue();
         int blue = ((LexicalUnitImpl) params.get(2)).getIntegerValue();
         return new int[] { red, green, blue };
-    }
-
-    static {
-        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
-        symbols.setDecimalSeparator('.');
-        CSS_FLOAT_FORMAT.setDecimalFormatSymbols(symbols);
     }
 
     @Override
