@@ -403,10 +403,6 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
         return result;
     }
 
-    private void setParameterList(ActualArgumentList params) {
-        this.params = params;
-    }
-
     public String getSdimension() {
         return sdimension;
     }
