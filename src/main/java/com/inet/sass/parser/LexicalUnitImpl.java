@@ -56,7 +56,7 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
     private int line;
     private int column;
 
-    private float f;
+    private double f;
     private String sdimension;
     private StringInterpolationSequence s;
     private String fname;
@@ -73,12 +73,12 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
         this.type = type;
     }
 
-    LexicalUnitImpl( String uri, int line, int column, short type, float f ) {
+    LexicalUnitImpl( String uri, int line, int column, short type, double f ) {
         this( uri, line, column, type );
         this.f = f;
     }
 
-    LexicalUnitImpl( String uri, int line, int column, short type, String sdimension, float f ) {
+    LexicalUnitImpl( String uri, int line, int column, short type, String sdimension, double f ) {
         this( uri, line, column, type, f );
         this.sdimension = sdimension;
     }
@@ -165,27 +165,27 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
         return (int)f;
     }
 
-    public float getFloatValue() {
+    public double getDoubleValue() {
         return f;
     }
 
     /**
-     * Returns the float value as a string unless the value is an integer. In
+     * Returns the double value as a string unless the value is an integer. In
      * that case returns the integer value as a string.
      * 
      * @return a string representing the value, either with or without decimals
      */
-    public String getFloatOrInteger() {
-        float f = getFloatValue();
-        int i = (int) f;
+    public String getDoubleOrInteger() {
+        double f = getDoubleValue();
+        long i = (long) f;
         if (i == f) {
-            return Integer.toString(i);
+            return Long.toString(i);
         } else {
             return CSS_FLOAT_FORMAT.format(f);
         }
     }
 
-    private void setFloatValue(float f) {
+    private void setDoubleValue( double f ) {
         this.f = f;
     }
 
@@ -311,7 +311,7 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
             // then this is not a numeric division
             return new LexicalUnitImpl( uri, line, column, SAC_IDENT, printState()+'/'+denominator.printState() );
         }
-        LexicalUnitImpl copy = copyWithValue( getFloatValue() / denominator.getFloatValue() );
+        LexicalUnitImpl copy = copyWithValue( getDoubleValue() / denominator.getDoubleValue() );
         if( type == denominator.type ) {
             copy.setLexicalUnitType( SAC_REAL );
         }
@@ -319,22 +319,22 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
     }
 
     public LexicalUnitImpl add(LexicalUnitImpl another) {
-        LexicalUnitImpl copy = copyWithValue(getFloatValue()
-                + another.getFloatValue());
+        LexicalUnitImpl copy = copyWithValue(getDoubleValue()
+                + another.getDoubleValue());
         copy.setLexicalUnitType(checkAndGetUnit(another));
         return copy;
     }
 
     public LexicalUnitImpl minus(LexicalUnitImpl another) {
-        LexicalUnitImpl copy = copyWithValue(getFloatValue()
-                - another.getFloatValue());
+        LexicalUnitImpl copy = copyWithValue(getDoubleValue()
+                - another.getDoubleValue());
         copy.setLexicalUnitType(checkAndGetUnit(another));
         return copy;
     }
 
     public LexicalUnitImpl multiply(LexicalUnitImpl another) {
-        LexicalUnitImpl copy = copyWithValue(getFloatValue()
-                * another.getFloatValue());
+        LexicalUnitImpl copy = copyWithValue(getDoubleValue()
+                * another.getDoubleValue());
         copy.setLexicalUnitType(checkAndGetUnit(another));
         return copy;
     }
@@ -398,9 +398,9 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
         return copy;
     }
 
-    public LexicalUnitImpl copyWithValue(float value) {
+    public LexicalUnitImpl copyWithValue( double value ) {
         LexicalUnitImpl result = copy();
-        result.setFloatValue(value);
+        result.setDoubleValue( value );
         return result;
     }
 
@@ -421,7 +421,7 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
         return new LexicalUnitImpl( uri, line, column, SCSS_NULL, "null" );
     }
 
-    public static LexicalUnitImpl createNumber( String uri, int line, int column, float v ) {
+    public static LexicalUnitImpl createNumber( String uri, int line, int column, double v ) {
         int i = (int)v;
         if( v == i ) {
             return new LexicalUnitImpl( uri, line, column, SAC_INTEGER, i );
@@ -434,94 +434,94 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
         return new LexicalUnitImpl( uri, line, column, SAC_INTEGER, i );
     }
 
-    public static LexicalUnitImpl createPercentage( String uri, int line, int column, float v ) {
+    public static LexicalUnitImpl createPercentage( String uri, int line, int column, double v ) {
         if( Math.round( v * 100 * PRECISION ) == (((int)v) * 100 * PRECISION) ) {
             v = (int)v;
         }
         return new LexicalUnitImpl( uri, line, column, SAC_PERCENTAGE, v );
     }
 
-    static LexicalUnitImpl createEMS( String uri, int line, int column, float v ) {
+    static LexicalUnitImpl createEMS( String uri, int line, int column, double v ) {
         return new LexicalUnitImpl( uri, line, column, SAC_EM, v );
     }
 
-    static LexicalUnitImpl createLEM( String uri, int line, int column, float v ) {
+    static LexicalUnitImpl createLEM( String uri, int line, int column, double v ) {
         return new LexicalUnitImpl( uri, line, column, SCSSLexicalUnit.SAC_LEM, v );
     }
 
-    static LexicalUnitImpl createREM( String uri, int line, int column, float v ) {
+    static LexicalUnitImpl createREM( String uri, int line, int column, double v ) {
         return new LexicalUnitImpl( uri, line, column, SCSSLexicalUnit.SAC_REM, v );
     }
 
-    static LexicalUnitImpl createEXS( String uri, int line, int column, float v ) {
+    static LexicalUnitImpl createEXS( String uri, int line, int column, double v ) {
         return new LexicalUnitImpl( uri, line, column, SAC_EX, v );
     }
 
-    public static LexicalUnitImpl createPX( String uri, int line, int column, float v ) {
+    public static LexicalUnitImpl createPX( String uri, int line, int column, double v ) {
         return new LexicalUnitImpl( uri, line, column, SAC_PIXEL, v );
     }
 
-    public static LexicalUnitImpl createCM( String uri, int line, int column, float v ) {
+    public static LexicalUnitImpl createCM( String uri, int line, int column, double v ) {
         return new LexicalUnitImpl( uri, line, column, SAC_CENTIMETER, v );
     }
 
-    static LexicalUnitImpl createMM( String uri, int line, int column, float v ) {
+    static LexicalUnitImpl createMM( String uri, int line, int column, double v ) {
         return new LexicalUnitImpl( uri, line, column, SAC_MILLIMETER, v );
     }
 
-    static LexicalUnitImpl createIN( String uri,int line, int column, float v) {
+    static LexicalUnitImpl createIN( String uri,int line, int column, double v) {
         return new LexicalUnitImpl(uri, line, column, SAC_INCH, v);
     }
 
-    static LexicalUnitImpl createPT( String uri, int line, int column, float v ) {
+    static LexicalUnitImpl createPT( String uri, int line, int column, double v ) {
         return new LexicalUnitImpl( uri, line, column, SAC_POINT, v );
     }
 
-    static LexicalUnitImpl createPC( String uri, int line, int column, float v ) {
+    static LexicalUnitImpl createPC( String uri, int line, int column, double v ) {
         return new LexicalUnitImpl( uri, line, column, SAC_PICA, v );
     }
 
-    public static LexicalUnitImpl createDEG( String uri, int line, int column, float v ) {
+    public static LexicalUnitImpl createDEG( String uri, int line, int column, double v ) {
         return new LexicalUnitImpl( uri, line, column, SAC_DEGREE, v );
     }
 
-    static LexicalUnitImpl createRAD( String uri, int line, int column, float v ) {
+    static LexicalUnitImpl createRAD( String uri, int line, int column, double v ) {
         return new LexicalUnitImpl( uri, line, column, SAC_RADIAN, v );
     }
 
-    static LexicalUnitImpl createGRAD( String uri, int line, int column, float v ) {
+    static LexicalUnitImpl createGRAD( String uri, int line, int column, double v ) {
         return new LexicalUnitImpl( uri, line, column, SAC_GRADIAN, v );
     }
 
-    static LexicalUnitImpl createMS( String uri, int line, int column, float v ) {
+    static LexicalUnitImpl createMS( String uri, int line, int column, double v ) {
         if( v < 0 ) {
             throw new ParseException( "Time values may not be negative", uri, line, column );
         }
         return new LexicalUnitImpl( uri, line, column, SAC_MILLISECOND, v );
     }
 
-    static LexicalUnitImpl createS( String uri, int line, int column, float v ) {
+    static LexicalUnitImpl createS( String uri, int line, int column, double v ) {
         if( v < 0 ) {
             throw new ParseException( "Time values may not be negative", uri, line, column );
         }
         return new LexicalUnitImpl( uri, line, column, SAC_SECOND, v );
     }
 
-    static LexicalUnitImpl createHZ( String uri, int line, int column, float v ) {
+    static LexicalUnitImpl createHZ( String uri, int line, int column, double v ) {
         if( v < 0 ) {
             throw new ParseException( "Frequency values may not be negative", uri, line, column );
         }
         return new LexicalUnitImpl( uri, line, column, SAC_HERTZ, v );
     }
 
-    static LexicalUnitImpl createKHZ( String uri, int line, int column, float v ) {
+    static LexicalUnitImpl createKHZ( String uri, int line, int column, double v ) {
         if( v < 0 ) {
             throw new ParseException( "Frequency values may not be negative", uri, line, column );
         }
         return new LexicalUnitImpl( uri, line, column, SAC_KILOHERTZ, v );
     }
 
-    static LexicalUnitImpl createDimen( String uri, int line, int column, float v, String s ) {
+    static LexicalUnitImpl createDimen( String uri, int line, int column, double v, String s ) {
         return new LexicalUnitImpl( uri, line, column, SAC_DIMENSION, s, v );
     }
 
@@ -847,10 +847,8 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
             text = "inherit";
             break;
         case SAC_INTEGER:
-            text = Integer.toString(getIntegerValue());
-            break;
         case SAC_REAL:
-            text = getFloatOrInteger();
+            text = getDoubleOrInteger();
             break;
         case SAC_EM:
         case SAC_LEM:
@@ -871,7 +869,7 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
         case SAC_HERTZ:
         case SAC_KILOHERTZ:
         case SAC_DIMENSION:
-            text = getFloatOrInteger() + getDimensionUnitText();
+            text = getDoubleOrInteger() + getDimensionUnitText();
             break;
         }
         return text;
@@ -900,7 +898,7 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
                     text = ColorUtil.rgbToColorString( ColorUtil.colorToRgb( this ) );
                     break;
                 } else if( ColorUtil.isRgba( this ) || ColorUtil.isHsla( this ) ) {
-                    float alpha = params.get( params.size() - 1 ).getContainedValue().getFloatValue();
+                    double alpha = params.get( params.size() - 1 ).getContainedValue().getDoubleValue();
                     rgb = ColorUtil.colorToRgb( this );
                     if( rgb != null ) {
                         if( alpha == 0.0f && rgb[0] == 0 && rgb[1] == 0 && rgb[2] == 0 ) {
@@ -1015,7 +1013,7 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
                     return false;
                 }
             }
-            return getFloatValue() == other.getFloatValue()
+            return getDoubleValue() == other.getDoubleValue()
                     && getIntegerValue() == other.getIntegerValue();
         } else if (getLexicalUnitType() != other.getLexicalUnitType()) {
             return false;

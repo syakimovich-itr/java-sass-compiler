@@ -331,11 +331,11 @@ public class ColorUtil {
      *            An object representing a valid color.
      * @return The alpha component of color.
      */
-    public static float getAlpha(LexicalUnitImpl color) {
+    public static double getAlpha(LexicalUnitImpl color) {
         if (isHsla(color) || isRgba(color)) {
             ActualArgumentList params = color.getParameterList();
             return params.get(params.size() - 1).getContainedValue()
-                    .getFloatValue();
+                    .getDoubleValue();
         } else if (isColor(color)) {
             return 1;
         }
@@ -403,17 +403,17 @@ public class ColorUtil {
      *            the HSL components of a color
      * @return a valid string representation of the color
      */
-    public static int[] hslToRgb(float[] hsl) {
-        float h = ((hsl[0] % 360) + 360) % 360 / 360f;
-        float s = hsl[1] / 100;
-        float l = hsl[2] / 100;
-        float m2, m1;
+    public static int[] hslToRgb(double[] hsl) {
+        double h = ((hsl[0] % 360) + 360) % 360 / 360.0;
+        double s = hsl[1] / 100;
+        double l = hsl[2] / 100;
+        double m2, m1;
         int[] rgb = new int[3];
         m2 = l <= 0.5 ? l * (s + 1) : l + s - l * s;
         m1 = l * 2 - m2;
-        rgb[0] = Math.round(hueToRgb(m1, m2, h + 1f / 3) * 255);
-        rgb[1] = Math.round(hueToRgb(m1, m2, h) * 255);
-        rgb[2] = Math.round(hueToRgb(m1, m2, h - 1f / 3) * 255);
+        rgb[0] = (int)Math.round(hueToRgb(m1, m2, h + 1f / 3) * 255);
+        rgb[1] = (int)Math.round(hueToRgb(m1, m2, h) * 255);
+        rgb[2] = (int)Math.round(hueToRgb(m1, m2, h - 1f / 3) * 255);
         return rgb;
     }
 
@@ -425,15 +425,13 @@ public class ColorUtil {
      *            a lexical unit that represents a color
      * @return HSL components or null if not a color
      */
-    public static float[] colorToHsl(LexicalUnitImpl color) {
+    public static double[] colorToHsl(LexicalUnitImpl color) {
         if (isHslColor(color) || isHsla(color)) {
-            float hue = color.getParameterList().get(0).getContainedValue()
-                    .getFloatValue();
-            float saturation = color.getParameterList().get(1)
-                    .getContainedValue().getFloatValue();
-            float lightness = color.getParameterList().get(2)
-                    .getContainedValue().getFloatValue();
-            return new float[] { hue, saturation, lightness };
+            ActualArgumentList params = color.getParameterList();
+            double hue = params.get( 0 ).getContainedValue().getDoubleValue();
+            double saturation = params.get( 1 ).getContainedValue().getDoubleValue();
+            double lightness = params.get( 2 ).getContainedValue().getDoubleValue();
+            return new double[] { hue, saturation, lightness };
         }
         // TODO shortcut path for hsl()? need to take percent vs. integer vs.
         // real into account
@@ -442,7 +440,7 @@ public class ColorUtil {
         if (rgb == null) {
             return null;
         }
-        float hsl[] = calculateHsl(rgb[0], rgb[1], rgb[2]);
+        double hsl[] = calculateHsl(rgb[0], rgb[1], rgb[2]);
         return hsl;
     }
 
@@ -544,7 +542,7 @@ public class ColorUtil {
     }
 
     private static LexicalUnitImpl colorToHslUnit(LexicalUnitImpl color) {
-        float[] hsl = colorToHsl(color);
+        double[] hsl = colorToHsl(color);
 
         return createHslFunction(hsl[0], hsl[1], hsl[2], color.getLineNumber(),
                 color.getColumnNumber());
@@ -557,25 +555,25 @@ public class ColorUtil {
                     "The function hsl() requires exactly three parameters", hsl);
         }
 
-        float hue = hslParam.get(0).getContainedValue().getFloatValue();
-        float saturation = hslParam.get(1).getContainedValue().getFloatValue();
-        float lightness = hslParam.get(2).getContainedValue().getFloatValue();
+        double hue = hslParam.get(0).getContainedValue().getDoubleValue();
+        double saturation = hslParam.get(1).getContainedValue().getDoubleValue();
+        double lightness = hslParam.get(2).getContainedValue().getDoubleValue();
 
-        return hslToRgb(new float[] { hue, saturation, lightness });
+        return hslToRgb(new double[] { hue, saturation, lightness });
     }
 
-    private static float[] calculateHsl(int red, int green, int blue) {
-        float[] hsl = new float[3];
+    private static double[] calculateHsl(int red, int green, int blue) {
+        double[] hsl = new double[3];
 
-        float r = red / 255f;
-        float g = green / 255f;
-        float b = blue / 255f;
+        double r = red / 255.0;
+        double g = green / 255.0;
+        double b = blue / 255.0;
 
-        float max = Math.max(Math.max(r, g), b);
-        float min = Math.min(Math.min(r, g), b);
-        float d = max - min;
+        double max = Math.max(Math.max(r, g), b);
+        double min = Math.min(Math.min(r, g), b);
+        double d = max - min;
 
-        float h = 0f, s = 0f, l = 0f;
+        double h = 0, s = 0, l = 0;
 
         if (max == min) {
             h = 0;
@@ -588,7 +586,7 @@ public class ColorUtil {
             h = 60 * (r - g) / d + 240;
         }
 
-        l = (max + min) / 2f;
+        l = (max + min) / 2.0;
 
         if (max == min) {
             s = 0;
@@ -610,7 +608,7 @@ public class ColorUtil {
         return hsl;
     }
 
-    private static float hueToRgb(float m1, float m2, float h) {
+    private static double hueToRgb(double m1, double m2, double h) {
         if (h < 0) {
             h = h + 1;
         }
@@ -633,7 +631,7 @@ public class ColorUtil {
         return LexicalUnitImpl.createIdent( uri, line, column, rgbToColorString( rgb ) );
     }
 
-    public static LexicalUnitImpl createRgbaColor( String uri, int line, int column, int red, int green, int blue, float alpha ) {
+    public static LexicalUnitImpl createRgbaColor( String uri, int line, int column, int red, int green, int blue, double alpha ) {
         LexicalUnitImpl redUnit = LexicalUnitImpl.createNumber( null, line, column, red );
         LexicalUnitImpl greenUnit = LexicalUnitImpl.createNumber( null, line, column, green );
         LexicalUnitImpl blueUnit = LexicalUnitImpl.createNumber( null, line, column, blue );
@@ -642,7 +640,7 @@ public class ColorUtil {
         return LexicalUnitImpl.createFunction( uri, line, column, "rgba", args );
     }
 
-    public static LexicalUnitImpl createHslaColor( float hue, float saturation, float lightness, float alpha, int line, int column ) {
+    public static LexicalUnitImpl createHslaColor( double hue, double saturation, double lightness, double alpha, int line, int column ) {
         LexicalUnitImpl hueUnit = LexicalUnitImpl.createNumber( null, line, column, hue );
         LexicalUnitImpl saturationUnit = LexicalUnitImpl.createPercentage( null, line, column, saturation );
         LexicalUnitImpl lightnessUnit = LexicalUnitImpl.createPercentage( null, line, column, lightness );
@@ -651,7 +649,7 @@ public class ColorUtil {
         return LexicalUnitImpl.createFunction( null, line, column, "hsla", args );
     }
 
-    public static LexicalUnitImpl createHslaOrHslColor( float[] hsl, float alpha, int line, int column ) {
+    public static LexicalUnitImpl createHslaOrHslColor( double[] hsl, double alpha, int line, int column ) {
         if (alpha < 1.0f) {
             return createHslaColor(hsl[0], hsl[1], hsl[2], alpha, line, column);
         } else {
@@ -665,7 +663,7 @@ public class ColorUtil {
      * 
      * @return An object representing a color.
      */
-    public static LexicalUnitImpl createRgbaOrHexColor( int[] rgb, float alpha, int line, int column ) {
+    public static LexicalUnitImpl createRgbaOrHexColor( int[] rgb, double alpha, int line, int column ) {
         if( alpha < 1.0f ) {
             return createRgbaColor( null, line, column, rgb[0], rgb[1], rgb[2], alpha );
         } else {
@@ -673,7 +671,7 @@ public class ColorUtil {
         }
     }
 
-    private static LexicalUnitImpl createHslFunction( float hue, float saturation, float lightness, int ln, int cn ) {
+    private static LexicalUnitImpl createHslFunction( double hue, double saturation, double lightness, int ln, int cn ) {
         LexicalUnitImpl hueUnit = LexicalUnitImpl.createNumber( null, ln, cn, hue );
         LexicalUnitImpl saturationUnit = LexicalUnitImpl.createPercentage( null, ln, cn, saturation );
         LexicalUnitImpl lightnessUnit = LexicalUnitImpl.createPercentage( null, ln, cn, lightness );
@@ -681,10 +679,9 @@ public class ColorUtil {
         return LexicalUnitImpl.createFunction( null, ln, cn, "hsl", hslParams );
     }
 
-    private static LexicalUnitImpl adjust(LexicalUnitImpl color,
-            float amountByPercent, ColorOperation op) {
+    private static LexicalUnitImpl adjust(LexicalUnitImpl color, double amountByPercent, ColorOperation op) {
 
-        float[] hsl = colorToHsl(color);
+        double[] hsl = colorToHsl(color);
         if (op == ColorOperation.Darken) {
             hsl[2] = hsl[2] - amountByPercent;
             hsl[2] = hsl[2] < 0 ? 0 : hsl[2];
@@ -692,23 +689,23 @@ public class ColorUtil {
             hsl[2] = hsl[2] + amountByPercent;
             hsl[2] = hsl[2] > 100 ? 100 : hsl[2];
         }
-        float alpha = getAlpha(color);
+        double alpha = getAlpha(color);
         return createHslaOrHslColor(hsl, alpha, color.getLineNumber(),
                 color.getColumnNumber());
     }
 
-    public static LexicalUnitImpl darken(LexicalUnitImpl color, float amount) {
+    public static LexicalUnitImpl darken(LexicalUnitImpl color, double amount) {
         return adjust(color, amount, ColorOperation.Darken);
     }
 
-    public static LexicalUnitImpl lighten(LexicalUnitImpl color, float amount) {
+    public static LexicalUnitImpl lighten(LexicalUnitImpl color, double amount) {
         return adjust(color, amount, ColorOperation.Lighten);
     }
 
-    private static float getAmountValue(ActualArgumentList params) {
-        float amount = 10f;
+    private static double getAmountValue(ActualArgumentList params) {
+        double amount = 10;
         if (params.size() > 1) {
-            amount = params.get(1).getContainedValue().getFloatValue();
+            amount = params.get(1).getContainedValue().getDoubleValue();
         }
         return amount;
     }

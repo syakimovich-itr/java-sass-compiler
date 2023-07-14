@@ -46,11 +46,11 @@ class MinMaxFunctionGenerator extends AbstractFunctionGenerator {
         for (int i = 1; i < params.size(); ++i) {
             LexicalUnitImpl value = getParam(function, params.get(i));
             if ("min".equals(function.getFunctionName())) {
-                if (value.getFloatValue() < result.getFloatValue()) {
+                if (value.getDoubleValue() < result.getDoubleValue()) {
                     result = value;
                 }
             } else {
-                if (value.getFloatValue() > result.getFloatValue()) {
+                if (value.getDoubleValue() > result.getDoubleValue()) {
                     result = value;
                 }
             }

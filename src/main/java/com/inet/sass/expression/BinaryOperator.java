@@ -62,28 +62,28 @@ public enum BinaryOperator {
         @Override
         public LexicalUnitImpl evalInternal(LexicalUnitImpl leftValue,
                 LexicalUnitImpl rightValue) {
-            return createBooleanUnit(getFloatValue(leftValue) < getFloatValue(rightValue));
+            return createBooleanUnit(getDoubleValue(leftValue) < getDoubleValue(rightValue));
         }
     },
     GREATER_THAN(LexicalUnitImpl.SAC_OPERATOR_GT, 3) {
         @Override
         public LexicalUnitImpl evalInternal(LexicalUnitImpl leftValue,
                 LexicalUnitImpl rightValue) {
-            return createBooleanUnit(getFloatValue(leftValue) > getFloatValue(rightValue));
+            return createBooleanUnit(getDoubleValue(leftValue) > getDoubleValue(rightValue));
         }
     },
     LESS_THAN_OR_EQUALS(LexicalUnitImpl.SAC_OPERATOR_LE, 3) {
         @Override
         public LexicalUnitImpl evalInternal(LexicalUnitImpl leftValue,
                 LexicalUnitImpl rightValue) {
-            return createBooleanUnit(getFloatValue(leftValue) <= getFloatValue(rightValue));
+            return createBooleanUnit(getDoubleValue(leftValue) <= getDoubleValue(rightValue));
         }
     },
     GREATER_THAN_OR_EQUALS(LexicalUnitImpl.SAC_OPERATOR_GE, 3) {
         @Override
         public LexicalUnitImpl evalInternal(LexicalUnitImpl leftValue,
                 LexicalUnitImpl rightValue) {
-            return createBooleanUnit(getFloatValue(leftValue) >= getFloatValue(rightValue));
+            return createBooleanUnit(getDoubleValue(leftValue) >= getDoubleValue(rightValue));
         }
     },
     ADD(LexicalUnitImpl.SAC_OPERATOR_PLUS, 4) {
@@ -180,13 +180,13 @@ public enum BinaryOperator {
         return !"false".equals(item.printState());
     }
 
-    private static float getFloatValue(LexicalUnitImpl unit) {
+    private static double getDoubleValue(LexicalUnitImpl unit) {
         if (!unit.isNumber()) {
             throw new ParseException(
                     "The arguments of arithmetic expressions must be numbers:",
                     unit);
         }
-        return unit.getFloatValue();
+        return unit.getDoubleValue();
     }
 
     private static LexicalUnitImpl createBooleanUnit(boolean value) {

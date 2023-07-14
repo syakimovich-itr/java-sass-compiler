@@ -37,9 +37,9 @@ class SaturationModificationFunctionGenerator extends
     public SassListItem computeForArgumentList(ScssContext context,
             LexicalUnitImpl function, FormalArgumentList actualArguments) {
         LexicalUnitImpl color = checkAndGetColor(function, actualArguments);
-        float amount = checkAndGetAmount(function, actualArguments);
-        float alpha = ColorUtil.getAlpha(color);
-        float[] hsl = ColorUtil.colorToHsl(color);
+        double amount = checkAndGetAmount(function, actualArguments);
+        double alpha = ColorUtil.getAlpha(color);
+        double[] hsl = ColorUtil.colorToHsl(color);
         if ("saturate".equals(function.getFunctionName())) {
             hsl[1] += amount;
         } else {
@@ -68,7 +68,7 @@ class SaturationModificationFunctionGenerator extends
         return color;
     }
 
-    private float checkAndGetAmount(LexicalUnitImpl function,
+    private double checkAndGetAmount(LexicalUnitImpl function,
             FormalArgumentList actualArguments) {
         SassListItem amountItem = getParam(actualArguments, "amount");
         if (!LexicalUnitImpl.checkLexicalUnitType(amountItem,
@@ -77,7 +77,7 @@ class SaturationModificationFunctionGenerator extends
                     + function.getFunctionName()
                     + "() must be a percentage value", function);
         }
-        float amount = amountItem.getContainedValue().getFloatValue();
+        double amount = amountItem.getContainedValue().getDoubleValue();
         if (amount < 0 || amount > 100) {
             throw new ParseException("The amount argument of "
                     + function.getFunctionName()

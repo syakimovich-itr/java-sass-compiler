@@ -29,7 +29,7 @@ class FloorFunctionGenerator extends
 
     @Override
     protected LexicalUnitImpl computeForParam( LexicalUnitImpl function, LexicalUnitImpl param ) {
-        return param.copyWithValue( (float)Math.floor( param.getFloatValue() ) );
+        return param.copyWithValue( Math.floor( param.getDoubleValue() ) );
     }
 
 }

@@ -31,7 +31,7 @@ class RoundFunctionGenerator extends
     protected LexicalUnitImpl computeForParam( LexicalUnitImpl function, LexicalUnitImpl param ) {
         // duplicate the behavior of sass-lang implementation, as Math.round()
         // behaves differently for negative halves
-        float value = param.getFloatValue();
+        double value = param.getDoubleValue();
         return param.copyWithValue( Math.signum( value ) * Math.round( Math.abs( value ) ) );
     }
 }

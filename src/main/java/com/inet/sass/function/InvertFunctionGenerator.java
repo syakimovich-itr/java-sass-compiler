@@ -44,16 +44,16 @@ class InvertFunctionGenerator extends AbstractFunctionGenerator {
         }
 
         SassListItem weightParam = getParam( actualArguments, "weight" );
-        float weight = 1;
+        double weight = 1;
         if( weightParam != null && weightParam.getClass() == LexicalUnitImpl.class ) {
             LexicalUnitImpl weightExpr = (LexicalUnitImpl)weightParam;
             switch( weightExpr.getLexicalUnitType() ) {
                 case LexicalUnitImpl.SAC_PERCENTAGE:
-                    weight = weightExpr.getFloatValue() / 100;
+                    weight = weightExpr.getDoubleValue() / 100;
                     break;
                 case LexicalUnitImpl.SAC_INTEGER:
                 case LexicalUnitImpl.SAC_REAL:
-                    weight = weightExpr.getFloatValue();
+                    weight = weightExpr.getDoubleValue();
                     break;
             }
         }
@@ -65,7 +65,7 @@ class InvertFunctionGenerator extends AbstractFunctionGenerator {
         int[] newRgb = new int[3];
         for( int i = 0; i < 3; i++ ) {
             int val = rgb[i];
-            newRgb[i] = Math.round( val * (1-weight) + (255 - val) * weight );
+            newRgb[i] = (int)Math.round( val * (1-weight) + (255 - val) * weight );
         }
         return ColorUtil.createHexColor( function.getUri(), function.getLineNumber(), function.getColumnNumber(), newRgb );
     }

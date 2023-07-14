@@ -39,28 +39,28 @@ class MixFunctionGenerator extends AbstractFunctionGenerator {
                 function);
         LexicalUnitImpl color2 = checkAndGetColor(actualArguments, "color2",
                 function);
-        float weight = getParam(actualArguments, "weight").getContainedValue()
-                .getFloatValue();
-        float alpha1 = ColorUtil.getAlpha(color1);
-        float alpha2 = ColorUtil.getAlpha(color2);
-        float p = weight / 100;
-        float w = p * 2 - 1;
-        float a = alpha1 - alpha2;
+        double weight = getParam(actualArguments, "weight").getContainedValue()
+                .getDoubleValue();
+        double alpha1 = ColorUtil.getAlpha(color1);
+        double alpha2 = ColorUtil.getAlpha(color2);
+        double p = weight / 100;
+        double w = p * 2 - 1;
+        double a = alpha1 - alpha2;
         boolean transparent = (w * a == -1);
         if (transparent) {
             // p is 0 or 1 here, return one of the input colors depending on the
             // value of p
             return p <= 0.5 ? color2 : color1;
         }
-        float w1 = ((w + a) / (1 + w * a) + 1) / 2.0f;
-        float w2 = 1 - w1;
+        double w1 = ((w + a) / (1 + w * a) + 1) / 2.0;
+        double w2 = 1 - w1;
         int[] rgb1 = ColorUtil.colorToRgb(color1);
         int[] rgb2 = ColorUtil.colorToRgb(color2);
         int[] result = new int[3];
         for (int i = 0; i < 3; i++) {
-            result[i] = Math.round(w1 * rgb1[i] + w2 * rgb2[i]);
+            result[i] = (int)Math.round(w1 * rgb1[i] + w2 * rgb2[i]);
         }
-        float alpha = alpha1 * p + alpha2 * (1 - p);
+        double alpha = alpha1 * p + alpha2 * (1 - p);
         return ColorUtil.createRgbaOrHexColor(result, alpha,
                 function.getLineNumber(), function.getColumnNumber());
     }

@@ -39,8 +39,7 @@ class DarkenFunctionGenerator extends AbstractFunctionGenerator {
             LexicalUnitImpl function, FormalArgumentList actualArguments) {
         LexicalUnitImpl color = getParam(actualArguments, "color")
                 .getContainedValue();
-        float amount = getParam(actualArguments, "amount").getContainedValue()
-                .getFloatValue();
+        double amount = getParam( actualArguments, "amount" ).getContainedValue().getDoubleValue();
         return ColorUtil.darken(color, amount);
     }
 

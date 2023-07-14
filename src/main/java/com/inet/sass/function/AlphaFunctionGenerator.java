@@ -41,13 +41,13 @@ class AlphaFunctionGenerator extends AbstractFunctionGenerator {
             return function; // css filter function
         }
 
-        float opacity;
+        double opacity;
         if( ColorUtil.isRgba( color ) || ColorUtil.isHsla( color ) ) {
             ActualArgumentList parameterList = color.getParameterList();
             SassListItem last = parameterList.get( parameterList.size() - 1 );
-            opacity = ((LexicalUnitImpl)last).getFloatValue();
+            opacity = ((LexicalUnitImpl)last).getDoubleValue();
         } else if( ColorUtil.isColor( color ) ) {
-            opacity = 1.0f;
+            opacity = 1.0;
         } else {
             throw new ParseException( "The function " + function.getFunctionName() + " requires a color as its first parameter: " + color, function );
         }

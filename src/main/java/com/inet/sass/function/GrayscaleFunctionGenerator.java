@@ -32,9 +32,9 @@ class GrayscaleFunctionGenerator extends
     @Override
     protected LexicalUnitImpl computeForParam( LexicalUnitImpl function, LexicalUnitImpl firstParam ) {
         if( ColorUtil.isColor( firstParam ) || ColorUtil.isRgba( firstParam ) || ColorUtil.isHsla( firstParam ) ) {
-            float[] hsl = ColorUtil.colorToHsl( firstParam );
+            double[] hsl = ColorUtil.colorToHsl( firstParam );
             hsl[1] = 0;
-            float alpha = ColorUtil.getAlpha( firstParam );
+            double alpha = ColorUtil.getAlpha( firstParam );
             return ColorUtil.createHslaOrHslColor( hsl, alpha, firstParam.getLineNumber(), firstParam.getColumnNumber() );
         }
         if( firstParam.isNumber() ) {

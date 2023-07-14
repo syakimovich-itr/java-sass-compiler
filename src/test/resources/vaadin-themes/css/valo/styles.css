@@ -9196,7 +9196,7 @@ div.v-layout.v-horizontal.v-widget {
 	background-image: -webkit-radial-gradient(50% 50%, circle, #222, #0e0e0e);
 	background-image: radial-gradient(  circle at 50% 50%, #222, #0e0e0e);
 	opacity: 0.72;
-	filter: opacity(72.00001%);
+	filter: opacity(72%);
 	-webkit-animation: valo-animate-in-fade 400ms 100ms;
 	-moz-animation: valo-animate-in-fade 400ms 100ms;
 	animation: valo-animate-in-fade 400ms 100ms;
@@ -10470,8 +10470,8 @@ div.v-layout.v-horizontal.v-widget {
 .valo .v-splitpanel-horizontal.large  > div > .v-splitpanel-hsplitter div:after {
 	content: "";
 	border: 1px solid #dadada;
-	border-top-color: #bababa;
-	border-left-color: #bababa;
+	border-top-color: #bbbbbb;
+	border-left-color: #bbbbbb;
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -10541,8 +10541,8 @@ div.v-layout.v-horizontal.v-widget {
 .valo .v-splitpanel-vertical.large  > div > .v-splitpanel-vsplitter div:after {
 	content: "";
 	border: 1px solid #dadada;
-	border-top-color: #bababa;
-	border-left-color: #bababa;
+	border-top-color: #bbbbbb;
+	border-left-color: #bbbbbb;
 	position: absolute;
 	top: 50%;
 	left: 50%;

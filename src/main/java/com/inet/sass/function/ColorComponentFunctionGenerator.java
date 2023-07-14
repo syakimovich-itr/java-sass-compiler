@@ -58,7 +58,7 @@ class ColorComponentFunctionGenerator extends AbstractFunctionGenerator {
         LexicalUnitImpl color = getParam(actualArguments, "color")
                 .getContainedValue();
         if (hslComponent) {
-            float[] components = ColorUtil.colorToHsl(color);
+            double[] components = ColorUtil.colorToHsl(color);
             if (componentNumber == 0) {
                 return LexicalUnitImpl.createDEG( color.getUri(), color.getLineNumber(), color.getColumnNumber(), components[componentNumber] );
             } else {

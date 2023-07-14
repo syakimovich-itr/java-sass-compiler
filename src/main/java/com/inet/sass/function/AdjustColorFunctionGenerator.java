@@ -44,19 +44,19 @@ class AdjustColorFunctionGenerator extends AbstractFunctionGenerator {
         String functionName = function.getFunctionName();
         checkParams(function, actualArguments);
         LexicalUnitImpl color = getColor(function, actualArguments);
-        float alpha = 1;
+        double alpha = 1;
         if (ColorUtil.isRgba(color) || ColorUtil.isHsla(color)) {
             int lastIndex = color.getParameterList().size() - 1;
             alpha = color.getParameterList().get(lastIndex).getContainedValue()
-                    .getFloatValue();
+                    .getDoubleValue();
         }
-        Float[] adjustBy = getAdjustments(function, actualArguments);
+        Double[] adjustBy = getAdjustments(function, actualArguments);
         if (adjustBy[6] != null) {
             if ("adjust-color".equals(functionName)) {
                 alpha += adjustBy[6];
             } else {
-                float diff = adjustBy[6] > 0 ? 1 - alpha : alpha;
-                float adjustAmount = diff * adjustBy[6] / 100;
+                double diff = adjustBy[6] > 0 ? 1 - alpha : alpha;
+                double adjustAmount = diff * adjustBy[6] / 100;
                 alpha = alpha + adjustAmount;
             }
             alpha = Math.min(1, Math.max(0, alpha));
@@ -79,7 +79,7 @@ class AdjustColorFunctionGenerator extends AbstractFunctionGenerator {
                     function.getLineNumber(), function.getColumnNumber());
         }
         if (adjustHsl) {
-            float[] hsl = ColorUtil.colorToHsl(color);
+            double[] hsl = ColorUtil.colorToHsl(color);
             if ("adjust-color".equals(functionName)) {
                 adjustHsl(hsl, adjustBy);
             } else {
@@ -102,20 +102,20 @@ class AdjustColorFunctionGenerator extends AbstractFunctionGenerator {
         }
     }
 
-    private void scaleHsl(float[] hsl, Float[] adjustBy) {
+    private void scaleHsl(double[] hsl, Double[] adjustBy) {
         // Only saturation and lightness can be scaled
         for (int i = 1; i < 3; i++) {
-            Float adjustment = adjustBy[3 + i];
+            Double adjustment = adjustBy[3 + i];
             if (adjustment != null) {
-                float diff = adjustment > 0 ? 100 - hsl[i] : hsl[i];
-                float adjustAmount = diff * adjustment / 100;
-                float newValue = hsl[i] + adjustAmount;
+                double diff = adjustment > 0 ? 100 - hsl[i] : hsl[i];
+                double adjustAmount = diff * adjustment / 100;
+                double newValue = hsl[i] + adjustAmount;
                 hsl[i] = newValue;
             }
         }
     }
 
-    private void adjustHsl(float[] hsl, Float[] adjustBy) {
+    private void adjustHsl(double[] hsl, Double[] adjustBy) {
         hsl[0] += adjustBy[3] == null ? 0 : adjustBy[3];
         hsl[0] = ((hsl[0] % 360) + 360) % 360;
         hsl[1] += adjustBy[4] == null ? 0 : adjustBy[4];
@@ -124,18 +124,18 @@ class AdjustColorFunctionGenerator extends AbstractFunctionGenerator {
         hsl[2] = Math.min(100, Math.max(0, hsl[2]));
     }
 
-    private void scaleRgb(int[] rgb, Float[] adjustBy) {
+    private void scaleRgb(int[] rgb, Double[] adjustBy) {
         for (int i = 0; i < 3; i++) {
             if (adjustBy[i] != null) {
                 int diff = (adjustBy[i] > 0 ? 255 - rgb[i] : rgb[i]);
-                float adjustAmount = diff * adjustBy[i] / 100;
-                float newValue = rgb[i] + adjustAmount;
+                double adjustAmount = diff * adjustBy[i] / 100;
+                double newValue = rgb[i] + adjustAmount;
                 rgb[i] = (int) newValue;
             }
         }
     }
 
-    private void adjustRgb(int[] rgb, Float[] adjustBy) {
+    private void adjustRgb(int[] rgb, Double[] adjustBy) {
         rgb[0] += adjustBy[0] == null ? 0 : adjustBy[0];
         rgb[0] = Math.min(255, Math.max(0, rgb[0]));
         rgb[1] += adjustBy[1] == null ? 0 : adjustBy[1];
@@ -168,9 +168,9 @@ class AdjustColorFunctionGenerator extends AbstractFunctionGenerator {
      * @param actualArguments
      * 
      */
-    private Float[] getAdjustments(LexicalUnitImpl function,
+    private Double[] getAdjustments(LexicalUnitImpl function,
             FormalArgumentList actualArguments) {
-        Float[] result = new Float[7];
+        Double[] result = new Double[7];
         for (int i = 0; i < 7; i++) {
             SassListItem valueItem = getParam(actualArguments, i + 1);
             if (valueItem == null) {
@@ -182,7 +182,7 @@ class AdjustColorFunctionGenerator extends AbstractFunctionGenerator {
                         "The parameters of adjust-color must be numeric values",
                         function);
             }
-            result[i] = ((LexicalUnitImpl) valueItem).getFloatValue();
+            result[i] = ((LexicalUnitImpl) valueItem).getDoubleValue();
         }
         return result;
     }

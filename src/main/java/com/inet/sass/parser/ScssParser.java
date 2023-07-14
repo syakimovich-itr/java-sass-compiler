@@ -1472,7 +1472,7 @@ public final class ScssParser {
                     break LOOP;
             }
         }
-        float val = Float.parseFloat( trim( builder ) );
+        double val = Double.parseDouble( trim( builder ) );
 
         // parse the unit value
         LOOP: for( ;; ) {

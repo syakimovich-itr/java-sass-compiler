@@ -35,10 +35,10 @@ class PercentageFunctionGenerator extends
 
     @Override
     protected LexicalUnitImpl computeForParam( LexicalUnitImpl function, LexicalUnitImpl firstParam ) {
-        float value = firstParam.getFloatValue();
+        double value = firstParam.getDoubleValue();
         value *= PERC_PRECISION_FACTOR;
-        int intValue = Math.round( value );
-        value = ((float)intValue) / LexicalUnitImpl.PRECISION;
+        int intValue = (int)Math.round( value );
+        value = ((double)intValue) / LexicalUnitImpl.PRECISION;
 
         return LexicalUnitImpl.createPercentage( firstParam.getUri(), firstParam.getLineNumber(), firstParam.getColumnNumber(), value );
     }

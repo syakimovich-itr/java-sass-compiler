@@ -78,62 +78,42 @@ public interface SCSSLexicalUnit {
     public static final short SAC_INTEGER               = 13;
     /**
      * reals.
-     * @see #getFloatValue
-     * @see #getDimensionUnitText
      */
     public static final short SAC_REAL                  = 14;
     /**
      * Relative length<code>em</code>.
-     * @see #getFloatValue
-     * @see #getDimensionUnitText
      */
     public static final short SAC_EM                    = 15;
     /**
      * Relative length<code>ex</code>.
-     * @see #getFloatValue
-     * @see #getDimensionUnitText
      */
     public static final short SAC_EX                    = 16;
     /**
      * Relative length <code>px</code>.
-     * @see #getFloatValue
-     * @see #getDimensionUnitText
      */
     public static final short SAC_PIXEL                 = 17;
     /**
      * Absolute length <code>in</code>.
-     * @see #getFloatValue
-     * @see #getDimensionUnitText
      */
     public static final short SAC_INCH                  = 18;
     /**
      * Absolute length <code>cm</code>.
-     * @see #getFloatValue
-     * @see #getDimensionUnitText
      */
     public static final short SAC_CENTIMETER            = 19;
     /**
      * Absolute length <code>mm</code>.
-     * @see #getFloatValue
-     * @see #getDimensionUnitText
      */
     public static final short SAC_MILLIMETER            = 20;
     /**
      * Absolute length <code>pt</code>.
-     * @see #getFloatValue
-     * @see #getDimensionUnitText
      */
     public static final short SAC_POINT                 = 21;
     /**
      * Absolute length <code>pc</code>.
-     * @see #getFloatValue
-     * @see #getDimensionUnitText
      */
     public static final short SAC_PICA                  = 22;
     /**
      * Percentage.
-     * @see #getFloatValue
-     * @see #getDimensionUnitText
      */
     public static final short SAC_PERCENTAGE            = 23;
     /**
@@ -143,73 +123,51 @@ public interface SCSSLexicalUnit {
     public static final short SAC_URI                   = 24;
     /**
      * function <code>counter</code>.
-     * @see #getFunctionName
-     * @see #getParameters
      */
     public static final short SAC_COUNTER_FUNCTION      = 25;
     /**
      * function <code>counters</code>.
-     * @see #getFunctionName
-     * @see #getParameters
      */
     public static final short SAC_COUNTERS_FUNCTION     = 26;
     /**
      * RGB Colors. <code>rgb(0, 0, 0)</code> and <code>#000</code>
-     * @see #getFunctionName
-     * @see #getParameters
      */
     public static final short SAC_RGBCOLOR              = 27;
     /**
      * Angle <code>deg</code>.
-     * @see #getFloatValue
-     * @see #getDimensionUnitText
      */
     public static final short SAC_DEGREE                = 28;
     /**
      * Angle <code>grad</code>.
-     * @see #getFloatValue
-     * @see #getDimensionUnitText
      */
     public static final short SAC_GRADIAN               = 29;
     /**
      * Angle <code>rad</code>.
-     * @see #getFloatValue
-     * @see #getDimensionUnitText
      */
     public static final short SAC_RADIAN                = 30;
     /**
      * Time <code>ms</code>.
-     * @see #getFloatValue
-     * @see #getDimensionUnitText
      */
     public static final short SAC_MILLISECOND           = 31;
     /**
      * Time <code>s</code>.
-     * @see #getFloatValue
-     * @see #getDimensionUnitText
      */
     public static final short SAC_SECOND                = 32;
     /**
      * Frequency <code>Hz</code>.
-     * @see #getFloatValue
-     * @see #getDimensionUnitText
      */
     public static final short SAC_HERTZ                 = 33;
     /**
      * Frequency <code>kHz</code>.
-     * @see #getFloatValue
-     * @see #getDimensionUnitText
      */
     public static final short SAC_KILOHERTZ             = 34;
 
     /**
      * any identifier except <code>inherit</code>.
-     * @see #getStringValue
      */
     public static final short SAC_IDENT                 = 35;
     /**
      * A string.
-     * @see #getStringValue
      */
     public static final short SAC_STRING_VALUE          = 36;
     /**
@@ -242,8 +200,6 @@ public interface SCSSLexicalUnit {
     public static final short SAC_FUNCTION              = 41;
     /**
      * unknown dimension.
-     * @see #getFloatValue
-     * @see #getDimensionUnitText
      */
     public static final short SAC_DIMENSION             = 42;
 

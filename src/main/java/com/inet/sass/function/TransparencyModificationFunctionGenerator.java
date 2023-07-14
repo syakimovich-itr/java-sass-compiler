@@ -38,23 +38,23 @@ class TransparencyModificationFunctionGenerator extends
     protected SassListItem computeForArgumentList(ScssContext context,
             LexicalUnitImpl function, FormalArgumentList actualArguments) {
         checkParameters(function, actualArguments);
-        float factor = 1.0f; // for opacify/fade-in
+        double factor = 1.0; // for opacify/fade-in
         if ("fade-out".equals(function.getFunctionName())
                 || "transparentize".equals(function.getFunctionName())) {
-            factor = -1.0f;
+            factor = -1.0;
         }
-        float amount = getParam(actualArguments, "amount").getContainedValue()
-                .getFloatValue();
+        double amount = getParam(actualArguments, "amount").getContainedValue()
+                .getDoubleValue();
         LexicalUnitImpl color = (LexicalUnitImpl) getParam(actualArguments,
                 "color");
-        float opacity = 1.0f;
+        double opacity = 1.0;
         boolean rgba = ColorUtil.isRgba(color);
         boolean hsla = ColorUtil.isHsla(color);
         boolean hsl = ColorUtil.isHslColor(color);
         if (rgba || hsla) {
             ActualArgumentList colorComponents = color.getParameterList();
             int lastIndex = colorComponents.size() - 1;
-            opacity = getFloat(colorComponents, lastIndex);
+            opacity = getDouble(colorComponents, lastIndex);
         }
         opacity += factor * amount;
         opacity = Math.min(1, Math.max(0, opacity));
@@ -89,7 +89,7 @@ class TransparencyModificationFunctionGenerator extends
                     + function.getFunctionName()
                     + "requires a number as its second parameter", function);
         }
-        float amount = amountItem.getContainedValue().getFloatValue();
+        double amount = amountItem.getContainedValue().getDoubleValue();
         if (amount < 0.0 || amount > 1.0) {
             throw new ParseException(
                     "The function "
@@ -99,8 +99,8 @@ class TransparencyModificationFunctionGenerator extends
         }
     }
 
-    private float getFloat(ActualArgumentList params, int i) {
-        return params.get(i).getContainedValue().getFloatValue();
+    private double getDouble(ActualArgumentList params, int i) {
+        return params.get(i).getContainedValue().getDoubleValue();
     }
 
     private int getInteger(ActualArgumentList colorComponents, int i) {

@@ -29,7 +29,7 @@ class CeilFunctionGenerator extends
 
     @Override
     protected LexicalUnitImpl computeForParam( LexicalUnitImpl function, LexicalUnitImpl param ) {
-        return param.copyWithValue( (float)Math.ceil( param.getFloatValue() ) );
+        return param.copyWithValue( Math.ceil( param.getDoubleValue() ) );
     }
 
 }
