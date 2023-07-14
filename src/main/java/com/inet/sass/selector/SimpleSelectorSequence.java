@@ -106,7 +106,7 @@ public class SimpleSelectorSequence implements SelectorSegment {
      * @param list
      *            the simple selector list to sort
      */
-    private static void ensureOrdering(ArrayList<SimpleSelector> list) {
+    private static void ensureOrdering(List<SimpleSelector> list) {
 
         Comparator<SimpleSelector> c = new Comparator<SimpleSelector>() {
 
@@ -225,7 +225,11 @@ public class SimpleSelectorSequence implements SelectorSegment {
                 }
             }
         }
-        return parentFound ? new SimpleSelectorSequence( selectors ) : this;
+        if( parentFound ) {
+            ensureOrdering(selectors);
+            return new SimpleSelectorSequence( selectors );
+        }
+        return this;
     }
 
     public TypeSelector getTypeSelector() {
