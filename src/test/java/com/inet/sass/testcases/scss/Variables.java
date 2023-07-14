@@ -49,7 +49,7 @@ public class Variables extends AbstractTestBase {
 
         VariableNode varNode2 = (VariableNode)root.getChildren().get( 1 );
         Assert.assertEquals( "margin", varNode2.getName() );
-        Assert.assertEquals( 8f, varNode2.getExpr().getContainedValue().getFloatValue(), 0 );
+        Assert.assertEquals( 8f, varNode2.getExpr().getContainedValue().getDoubleValue(), 0 );
         Assert.assertEquals( "px", varNode2.getExpr().getContainedValue().getDimensionUnitText() );
 
         BlockNode blockNode1 = (BlockNode)root.getChildren().get( 6 );

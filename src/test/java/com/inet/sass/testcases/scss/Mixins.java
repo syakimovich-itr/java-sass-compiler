@@ -51,7 +51,7 @@ public class Mixins extends AbstractTestBase {
         Assert.assertEquals( "thickness", mixinDefNode1.getArglist().get( 0 ).getName() );
         Assert.assertEquals( "radius", mixinDefNode1.getArglist().get( 1 ).getName() );
         Assert.assertEquals( SCSSLexicalUnit.SAC_PIXEL, mixinDefNode1.getArglist().get( 1 ).getExpr().getContainedValue().getLexicalUnitType() );
-        Assert.assertEquals( 3f, mixinDefNode1.getArglist().get( 1 ).getExpr().getContainedValue().getFloatValue(), 0f );
+        Assert.assertEquals( 3f, mixinDefNode1.getArglist().get( 1 ).getExpr().getContainedValue().getDoubleValue(), 0f );
 
         Assert.assertEquals( 4, mixinDefNode1.getChildren().size() );
 
