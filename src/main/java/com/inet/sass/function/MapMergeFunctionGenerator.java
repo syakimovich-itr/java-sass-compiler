@@ -17,13 +17,14 @@
 package com.inet.sass.function;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 import com.inet.sass.ScssContext;
 import com.inet.sass.parser.FormalArgumentList;
 import com.inet.sass.parser.LexicalUnitImpl;
 import com.inet.sass.parser.SassList;
-import com.inet.sass.parser.SassListItem;
 import com.inet.sass.parser.SassList.Separator;
+import com.inet.sass.parser.SassListItem;
 
 class MapMergeFunctionGenerator extends MapFunctionGenerator {
 
@@ -36,10 +37,22 @@ class MapMergeFunctionGenerator extends MapFunctionGenerator {
         SassList x = getMapParam( "map1", function, actualArguments );
         SassList y = getMapParam( "map2", function, actualArguments );
 
-        ArrayList<SassListItem> items = new ArrayList<>();
-        x.addAllTo( items );
-        y.addAllTo( items );
+        LinkedHashMap<String, SassListItem> map = new LinkedHashMap<>();
+        addAllTo( map, x );
+        addAllTo( map, y );
         //a map is a COMMA separated list, which contains n lists with 2 items and COLON as separator
-        return new SassList( Separator.COMMA, items );
+        return new SassList( Separator.COMMA, new ArrayList<>( map.values() ) );
+    }
+
+    /**
+     * Add the map entries in the original order and remove duplicate (key) entries
+     * @param target the target container
+     * @param map the source map
+     */
+    private static void addAllTo( LinkedHashMap<String, SassListItem> target, SassList map ) {
+        for( SassListItem item : map ) {
+            String key = ((SassList)item).get( 0 ).printState();
+            target.put( key, item );
+        }
     }
 }

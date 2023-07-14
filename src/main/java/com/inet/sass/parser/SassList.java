@@ -338,10 +338,6 @@ public class SassList implements SassListItem, Iterable<SassListItem> {
         return items.get(index);
     }
 
-    public void addAllTo( List<SassListItem> target ) {
-        target.addAll( items );
-    }
-
     @Override
     public Iterator<SassListItem> iterator() {
         return items.iterator();

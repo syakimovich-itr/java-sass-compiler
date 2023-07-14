@@ -9,6 +9,13 @@ $colors-base: (
 $colors: map-merge(
     $colors-base,
     (
+       "info":       green
+    )
+);
+
+$colors: map-merge(
+    $colors,
+    (
        "info":       blue
     )
 );
