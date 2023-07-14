@@ -48,7 +48,7 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
 
     public static final long PRECISION = 100000L;
 
-    private static final ThreadLocal<DecimalFormat> CSS_FLOAT_FORMAT = new ThreadLocal<>() {
+    private static final ThreadLocal<DecimalFormat> CSS_FLOAT_FORMAT = new ThreadLocal<DecimalFormat>() {
         @Override
         protected DecimalFormat initialValue() {
             return new DecimalFormat("0.#####", DecimalFormatSymbols.getInstance(Locale.US) );
