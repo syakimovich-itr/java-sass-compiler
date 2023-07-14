@@ -21,7 +21,6 @@ import java.util.Collection;
 import java.util.List;
 
 import com.inet.sass.ScssContext;
-import com.inet.sass.parser.ParseException;
 import com.inet.sass.tree.SourceLocation;
 import com.inet.sass.visitor.Extension;
 
@@ -109,12 +108,10 @@ public class Selector {
     }
 
     private SimpleSelectorSequence lastSimple() {
-        if (parts.size() == 0
-                || !(parts.get(parts.size() - 1) instanceof SimpleSelectorSequence)) {
-            throw new ParseException("Invalid last part of selector: "
-                    + toString());
-        }
-        return (SimpleSelectorSequence) parts.get(parts.size() - 1);
+//        if( parts.size() == 0 || !(parts.get( parts.size() - 1 ) instanceof SimpleSelectorSequence) ) {
+//            throw new ParseException( "Invalid last part of selector: " + toString() );
+//        }
+        return (SimpleSelectorSequence)parts.get( parts.size() - 1 );
     }
 
     /**
