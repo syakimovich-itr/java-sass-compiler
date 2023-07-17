@@ -48,7 +48,7 @@ class ListIndexFunctionGenerator extends AbstractFunctionGenerator {
             }
         }
         if( index == -1 ) {
-            return LexicalUnitImpl.createIdent( function.getUri(), function.getLineNumber(), function.getColumnNumber(), "false" );
+            return LexicalUnitImpl.createNull( function.getUri(), function.getLineNumber(), function.getColumnNumber() );
         } else {
             return LexicalUnitImpl.createInteger( function.getUri(), function.getLineNumber(), function.getColumnNumber(), index );
         }
