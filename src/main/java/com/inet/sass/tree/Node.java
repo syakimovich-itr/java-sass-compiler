@@ -91,22 +91,25 @@ public abstract class Node implements SourceLocation {
         }
     }
 
-    private void appendAfterNode(Node after, Collection<? extends Node> newNodes) {
-        if (newNodes != null && !newNodes.isEmpty()) {
+    private void appendAfterNode( Node after, Collection<? extends Node> newNodes ) {
+        if( newNodes != null && !newNodes.isEmpty() ) {
             // try to find last node with "after" as its original node and
             // append after it
-            for (int i = getChildren(false).size() - 1; i >= 0; --i) {
-                Node node = getChildren(false).get(i);
-                if (node == after) {
-                    getChildren(true).addAll(i + 1, newNodes);
-                    for (final Node child : newNodes) {
-                        child.removeFromParent();
-                        child.parentNode = this;
+            ArrayList<Node> children = this.children;
+            if( children != null ) {
+                for( int i = children.size() - 1; i >= 0; --i ) {
+                    Node node = children.get( i );
+                    if( node == after ) {
+                        children.addAll( i + 1, newNodes );
+                        for( final Node child : newNodes ) {
+                            child.removeFromParent();
+                            child.parentNode = this;
+                        }
+                        return;
                     }
-                    return;
                 }
             }
-            throw new ParseException("after-node was not found", after);
+            throw new ParseException( "after-node was not found", after );
         }
     }
 

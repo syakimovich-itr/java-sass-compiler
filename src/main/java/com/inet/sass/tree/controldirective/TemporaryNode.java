@@ -59,7 +59,7 @@ public class TemporaryNode extends Node {
         // node needs to be appended before traversal so it can access its
         // parent and grandparent
         appendChild(node);
-        replaceNode(node, new ArrayList<Node>(node.traverse(context)));
+        replaceNode(node, node.traverse(context) );
     }
 
     @Override
