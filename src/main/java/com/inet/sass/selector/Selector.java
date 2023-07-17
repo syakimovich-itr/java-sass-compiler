@@ -192,28 +192,6 @@ public class Selector {
                         }
                     }
                     sel.parts.add( replacedSimple );
-//                }
-//                if (ParentSelector.it.equals(simple.getTypeSelector())) {
-//                    foundParentReference = true;
-//                    if (replacement != null) {
-//                        /*
-//                        On evaluation the @Content of a @include/mixin this is to early 
-//                        if (replacement.hasLeadingCombinator()) {
-//                            throw new ParseException( "Parent selector should not have a leading combinator when using & parent selector reference: '" + replacement + '\'', location );
-//                        }
-//                         */
-//                        // splice in each sequence from replacement
-//                        sel.parts.addAll(replacement.parts);
-//                        // replace "&" with new type selector in the last part,
-//                        // keeping all the non-type selectors
-////                        SimpleSelectorSequence last = replacement.lastSimple();
-////                        last = last.union(simple.withoutTypeSelector());
-//                        SimpleSelectorSequence last = simple.replaceParentReference( replacement );
-//                        sel.parts.set(sel.parts.size() - 1, last);
-//                    } else {
-//                        // remove the type selector "&"
-//                        sel.parts.add(simple.withoutTypeSelector());
-//                    }
                 } else {
                     // no parent to replace
                     sel.parts.add(simple);
