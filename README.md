@@ -32,3 +32,25 @@ dependencies {
     implementation 'com.github.i-net-software:sass-compiler:master-SNAPSHOT'
 }
 ```
+
+Dependencies
+====
+No dependencies to other libraries are needed.
+
+Using
+====
+```
+import com.inet.sass.ScssStylesheet;
+import com.inet.sass.handler.SCSSErrorHandler;
+import com.inet.sass.resolver.ScssStylesheetResolver;
+...
+ScssStylesheetResolver resolver = new FilesystemResolver( StandardCharsets.UTF_8 );
+SCSSErrorHandler errorHandler = new SCSSErrorHandler() {
+...
+};
+String scssFileName = ...;
+ScssStylesheet scss = ScssStylesheet.get( scssFileName, errorHandler, resolver );
+scss.compile( ScssContext.UrlMode.ABSOLUTE );
+String css = scss.printState();
+...
+```
