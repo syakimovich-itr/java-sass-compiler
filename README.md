@@ -3,7 +3,7 @@
 [![License](https://img.shields.io/github/license/i-net-software/sass-compiler.svg)](https://github.com/i-net-software/sass-compiler/blob/master/LICENSE.txt)
 [![JitPack](https://jitpack.io/v/i-net-software/sass-compiler.svg)](https://jitpack.io/#i-net-software/sass-compiler/master-SNAPSHOT)
 
-A pure Java implementation of the http://sass-lang.com compiler with the target to compile the [Bootstrap 5 framework](https://github.com/twbs/bootstrap).
+A pure Java implementation of the http://sass-lang.com compiler with the target to compile the scss sources of the [Bootstrap 5 framework](https://github.com/twbs/bootstrap) framework.
 
 Tests
 =====
