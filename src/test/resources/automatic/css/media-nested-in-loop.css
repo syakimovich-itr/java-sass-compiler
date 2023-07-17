@@ -1,0 +1,35 @@
+@media (min-width: 0) {
+  .navbar-xs {
+    flex-wrap: nowrap;
+  }
+}
+
+@media (min-width: 576px) {
+  .navbar-sm {
+    flex-wrap: nowrap;
+  }
+}
+
+@media (min-width: 768px) {
+  .navbar-md {
+    flex-wrap: nowrap;
+  }
+}
+
+@media (min-width: 992px) {
+  .navbar-lg {
+    flex-wrap: nowrap;
+  }
+}
+
+@media (min-width: 1200px) {
+  .navbar-xl {
+    flex-wrap: nowrap;
+  }
+}
+
+@media (min-width: 1400px) {
+  .navbar-xxl {
+    flex-wrap: nowrap;
+  }
+}

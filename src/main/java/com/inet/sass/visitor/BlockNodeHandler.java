@@ -71,7 +71,7 @@ public class BlockNodeHandler {
                         ((BlockNode)child).setParentSelectors( node.getSelectorList() );
                         result.addAll( child.traverse( context ) );
                     } else if( child.getClass() == MediaNode.class ) {
-                        bubbleMedia( result, context, node, (MediaNode)child );
+                        bubbleMedia( result, context, node, (MediaNode)child, true );
                     } else {
                         Collection<Node> childTraversed = child.traverse( context );
                         for( Node n : childTraversed ) {
@@ -79,7 +79,7 @@ public class BlockNodeHandler {
                                 // already traversed
                                 result.add( n );
                             } else if( n.getClass() == MediaNode.class ) {
-                                bubbleMedia( result, context, node, (MediaNode)n );
+                                bubbleMedia( result, context, node, (MediaNode)n, false );
                             } else {
                                 if( newChildren == null ) {
                                     newChildren = new ArrayList<Node>();
@@ -111,21 +111,32 @@ public class BlockNodeHandler {
      * @param context current context
      * @param node the parent node of the MediaNode
      * @param child the media node which is child
-     * @return the container, never null
+     * @param traverse true, child must traverse; false, child was already traverse
      */
-    static void bubbleMedia( ArrayList<Node> result, ScssContext context, BlockNode node, MediaNode child ) {
+    static void bubbleMedia( ArrayList<Node> result, ScssContext context, BlockNode node, MediaNode child, boolean traverse ) {
         for( Selector selector : node.getSelectorList() ) {
             if( selector.isPlaceholder() ) {
                 //TODO placeholder selectors must handle other
                 return;
             }
         }
+        TRAVERSE: if( !traverse ) {
+            List<Node> children = child.getChildren();
+            for( Node c : children ) {
+                if( c.getClass() != BlockNode.class ) {
+                    break TRAVERSE;
+                }
+            }
+            // the media has only sub blocks which was already traverse
+            result.add( child );
+            return;
+        }
         MediaNode media = new MediaNode( child.getUri(), child.getLineNumber(), child.getColumnNumber(), child.getMedia() );
         media.appendChild( new BlockNode( node, child.getChildren() ) );
         result.addAll( media.traverse( context ) );
     }
 
-    private static void updateSelectors( BlockNode node) {
+    private static void updateSelectors( BlockNode node ) {
         Node parentBlock = node.getNormalParentNode();
         if( parentBlock instanceof BlockNode ) {
             replaceParentSelectors( (BlockNode)parentBlock, node );
