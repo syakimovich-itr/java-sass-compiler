@@ -226,7 +226,6 @@ public class SimpleSelectorSequence implements SelectorSegment {
             }
         }
         if( parentFound ) {
-            ensureOrdering(selectors);
             return new SimpleSelectorSequence( selectors );
         }
         return this;
