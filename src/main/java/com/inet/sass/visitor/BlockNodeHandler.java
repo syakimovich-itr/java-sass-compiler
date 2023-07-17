@@ -148,7 +148,7 @@ public class BlockNodeHandler {
         ArrayList<Selector> newSelectors = new ArrayList<Selector>();
 
         for( Selector sel : node.getSelectorList() ) {
-            newSelectors.add( sel.replaceParentReference( null, node ) );
+            newSelectors.add( sel.replaceParentReference( null ) );
         }
 
         node.setSelectorList(newSelectors);
@@ -159,7 +159,7 @@ public class BlockNodeHandler {
 
         for (Selector parentSel : parentBlock.getSelectorList()) {
             for( Selector sel : node.getSelectorList() ) {
-                newSelectors.add( sel.replaceParentReference( parentSel, node ) );
+                newSelectors.add( sel.replaceParentReference( parentSel ) );
             }
         }
 

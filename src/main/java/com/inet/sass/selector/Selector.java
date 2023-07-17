@@ -21,7 +21,6 @@ import java.util.Collection;
 import java.util.List;
 
 import com.inet.sass.ScssContext;
-import com.inet.sass.tree.SourceLocation;
 import com.inet.sass.visitor.Extension;
 
 // note: a Selector is effectively immutable - only methods creating a new selector can modify its parts directly
@@ -174,7 +173,7 @@ public class Selector {
      * @return modified copy of this with parent selector prepended or
      *         substituted for the parent reference selector
      */
-    public Selector replaceParentReference( Selector replacement, SourceLocation location ) {
+    public Selector replaceParentReference( Selector replacement ) {
         boolean foundParentReference = false;
         Selector sel = new Selector();
         for (int i = 0; i < parts.size(); i++) {
