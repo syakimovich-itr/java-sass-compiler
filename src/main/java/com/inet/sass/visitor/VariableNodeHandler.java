@@ -36,11 +36,8 @@ public class VariableNodeHandler {
             context.setVariable( node.getVariable() );
         } else { // Handle the case where a variable has the value SCSS_NULL
             SassListItem value = variable.getExpr();
-            if( value instanceof LexicalUnitImpl ) {
-                LexicalUnitImpl unit = (LexicalUnitImpl)value;
-                if( unit.getItemType() == SCSSLexicalUnit.SCSS_NULL ) {
-                    context.setVariable( node.getVariable() );
-                }
+            if( value.getItemType() == SCSSLexicalUnit.SCSS_NULL ) {
+                context.setVariable( node.getVariable() );
             }
         }
     }

@@ -173,8 +173,7 @@ public enum BinaryOperator {
     }
 
     public static boolean isTrue(SassListItem item) {
-        if (LexicalUnitImpl.checkLexicalUnitType(item,
-                LexicalUnitImpl.SCSS_NULL)) {
+        if( item.getItemType() == LexicalUnitImpl.SCSS_NULL ) {
             return false;
         }
         return !"false".equals(item.printState());

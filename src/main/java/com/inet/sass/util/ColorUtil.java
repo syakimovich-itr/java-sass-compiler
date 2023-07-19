@@ -266,7 +266,10 @@ public class ColorUtil {
         if( unit.getItemType() != SCSSLexicalUnit.SAC_IDENT ) {
             return false;
         }
-        String str = unit.getStringValue();
+        return isHexColor( unit.getStringValue() );
+    }
+
+    public static boolean isHexColor( String str ) {
         int length = str.length();
         switch( length ) {
             case 4:
@@ -307,6 +310,10 @@ public class ColorUtil {
     public static boolean isColorName(LexicalUnitImpl unit) {
         return unit.getItemType() == SCSSLexicalUnit.SAC_IDENT
                 && colorNameToHex.containsKey(unit.getStringValue());
+    }
+
+    public static boolean isColorName( String str ) {
+        return colorNameToHex.containsKey( str );
     }
 
     /**

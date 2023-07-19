@@ -30,9 +30,8 @@ class InspectFunctionGenerator extends AbstractFunctionGenerator {
     protected SassListItem computeForArgumentList( ScssContext context, LexicalUnitImpl function, FormalArgumentList arglist ) {
         SassListItem param = getParam( arglist, 0 );
         String result;
-        if (LexicalUnitImpl.checkLexicalUnitType(param, LexicalUnitImpl.SCSS_NULL)) {
+        if( param.getItemType() == LexicalUnitImpl.SCSS_NULL ) {
             result = "null";
-//        } else if( param instanceof SassList ) {
         } else {
             result = param.printState();
         }
