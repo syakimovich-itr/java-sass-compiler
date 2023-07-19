@@ -646,7 +646,7 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
     }
 
     @Override
-    public SassListItem replaceVariables(ScssContext context) {
+    public SassListItem replaceVariables( ScssContext context ) {
         // replace function parameters (if any)
         LexicalUnitImpl lui;
         ActualArgumentList params = this.params;
@@ -660,15 +660,21 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
         // replace parameters in string value
         switch( type ) {
             case SCSS_VARIABLE:
-                return lui.replaceSimpleVariable(context);
+                String stringValue = lui.getStringValue();
+                Variable var = context.getVariable( stringValue );
+                if( var != null ) {
+                    return var.getExpr().replaceVariables( context );
+                }
+                varNotResolved = true;
+                break;
             case SCSS_PARENT:
                 BlockNode parentBlock = context.getParentBlock();
-                return parentBlock != null ? new StringItem( parentBlock.getSelectors() ): createNull( uri, line, column );
+                return parentBlock != null ? new StringItem( parentBlock.getSelectors() ) : createNull( uri, line, column );
             default:
                 StringInterpolationSequence s = this.s;
-                if( s!= null && s.containsInterpolation() ) {
-                    StringInterpolationSequence sis = s.replaceVariables(context);
-                    if (sis != s) {
+                if( s != null && s.containsInterpolation() ) {
+                    StringInterpolationSequence sis = s.replaceVariables( context );
+                    if( sis != s ) {
                         LexicalUnitImpl copy = lui.copy();
                         copy.s = sis;
                         return copy;
@@ -676,19 +682,6 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
                 }
         }
         return lui;
-    }
-
-    private SassListItem replaceSimpleVariable(ScssContext context) {
-        if (type == LexicalUnitImpl.SCSS_VARIABLE) {
-            // replace simple variable
-            String stringValue = getStringValue();
-            Variable var = context.getVariable(stringValue);
-            if (var != null) {
-                return var.getExpr().replaceVariables(context);
-            }
-            varNotResolved = true;
-        }
-        return this;
     }
 
     public boolean containsInterpolation() {
