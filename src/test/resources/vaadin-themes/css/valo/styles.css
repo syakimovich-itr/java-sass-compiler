@@ -518,7 +518,7 @@
  * @param {value} $var - the value to search for
  * @param {bool} $recursive (false) - should any contained lists be checked for the value
  * 
- * @return {bool}��true if the value is found from the list, false otherwise
+ * @return {bool} true if the value is found from the list, false otherwise
  * 
  * @group lists
  */
@@ -528,7 +528,7 @@
  * 
  * @param {list} $list - the list to check
  * 
- * @return {bool}��true of the list contains other nested lists, false otherwise
+ * @return {bool} true of the list contains other nested lists, false otherwise
  * 
  * @group lists
  */
@@ -587,7 +587,7 @@
 /**
  * Flatten nested lists to one list, while maintaining the original list separators.
  * 
- * @param {list}��$list - the list to flatten
+ * @param {list} $list - the list to flatten
  * 
  * @return {list} the same list with all nested lists flattened
  * 
@@ -976,7 +976,7 @@
  * 
  * @param {color} $color ($v-background-color) - The base color for the gradient color stops
  * @param {list} $gradient ($v-gradient) - Valo-specific gradient value. See the documentation for $v-gradient.
- * @param {color}��$fallback (null) - A fallback color for browser which do not support linear gradients (IE8 and IE9 in particular). If null, the base $color is used instead.
+ * @param {color} $fallback (null) - A fallback color for browser which do not support linear gradients (IE8 and IE9 in particular). If null, the base $color is used instead.
  * @param {string} $direction (to bottom) - the direction of the linear gradient. The color stops are by default so that a lighter shade is at the start and a darker shade is at the end.
  */
 
@@ -1010,7 +1010,7 @@
  *
  * @group style
  *
- * @param {list}��$border ($v-border) - CSS border value which can contain any of the color keywords
+ * @param {list} $border ($v-border) - CSS border value which can contain any of the color keywords
  * @param {color} $color ($v-background-color) - the base color to which the color keywords are applied to
  * @param {color} $context (null) - context/surrounding color where the border is expected to appear. The color of the final border is the darker of the two parameters passed to this function.
  * @param {number} $strength (1) - adjustment for the border contrast
@@ -1023,7 +1023,7 @@
  *
  * @group style
  *
- * @param {list}��$border ($v-border) - CSS border value which can contain any of the color keywords
+ * @param {list} $border ($v-border) - CSS border value which can contain any of the color keywords
  * @param {color} $color ($v-background-color) - the base color to which the color keywords are applied to
  * @param {color} $context (null) - context/surrounding color where the border is expected to appear. The color of the final border is the darker of the two parameters passed to this function.
  * @param {number} $strength (1) - adjustment for the border contrast
@@ -1039,8 +1039,8 @@
  * @param {number} $bevel-depth ($v-bevel-depth) - percentage defining the depth/amount of the bevel effect. Affects the color keywords specified in the $bevel parameter.
  * @param {list} $shadow (null) - box-shadow value according to $v-shadow documentation
  * @param {number} $shadow-opacity ($v-shadow-opacity) - percentage defining the opacity/amount of the shadow effect. Affects the color keywords specified in the $shadow parameter.
- * @param {color}��$background-color ($v-background-color) - the base color to which the color keywords are applied to
- * @param {list}��$gradient (null) - Valo specific gradient value. See the documentation for $v-gradient. Affects the color keywords specified in the $bevel parameter.
+ * @param {color} $background-color ($v-background-color) - the base color to which the color keywords are applied to
+ * @param {list} $gradient (null) - Valo specific gradient value. See the documentation for $v-gradient. Affects the color keywords specified in the $bevel parameter.
  * @param {bool} $include-focus (false) - should the box-shadow value include $v-focus-style as well (only added if $v-focus-style is a)
  *
  * @return {list} CSS box-shadow value, combined from $bevel and $shadow with all occurences of v-tint, v-shade and v-tone color keywords replaced with the corresponding actual color
@@ -1053,7 +1053,7 @@
  *
  * @param {list} $list - any CSS list with possible color keywords
  * @param {color} $color - The color to which color keywords are applied to
- * @param {list}��$gradient (null) - Valo specific gradient value. See the documentation for $v-gradient. Affects the replacement colors to accommodate the gradient.
+ * @param {list} $gradient (null) - Valo specific gradient value. See the documentation for $v-gradient. Affects the replacement colors to accommodate the gradient.
  *
  * @return {list} The input $list parameter with all occurences of v-tint, v-shade and v-tone color keywords replaced with the corresponding actual color
  */
@@ -1084,7 +1084,7 @@
  * 
  * @param {string} $to-align (()) - The selector to match the elements which you wish to align vertically. The targeted elements should be inline or inline-block elements.
  * @param {string} $align (middle) - The vertical-align value, e.g. top, middle, bottom
- * @param {string}��$pseudo-element (after) - Which pseudo element to use for the vertical align guide
+ * @param {string} $pseudo-element (after) - Which pseudo element to use for the vertical align guide
  * 
  * @group util
  */
@@ -1688,7 +1688,7 @@
  * Outputs the selectors and properties for the Accordion component.
  *
  * @param {string} $primary-stylename (v-accordion) - the primary style name for the selectors
- * @param {bool}��$include-additional-styles - should the mixin output all the different style variations of the component
+ * @param {bool} $include-additional-styles - should the mixin output all the different style variations of the component
  * @group accordion
  */
 
@@ -1718,7 +1718,7 @@
  * Outputs the selectors and properties for the Button component.
  *
  * @param {string} $primary-stylename (v-button) - the primary style name for the selectors
- * @param {bool}��$include-additional-styles - should the mixin output all the different style variations of the component
+ * @param {bool} $include-additional-styles - should the mixin output all the different style variations of the component
  *
  * @group button
  */
@@ -1735,7 +1735,7 @@
 /**
  * Outputs the styles for a button variant.
  *
- * @param {size}��$unit-size ($v-unit-size) - The sizing of the button, which corresponds its height
+ * @param {size} $unit-size ($v-unit-size) - The sizing of the button, which corresponds its height
  * @param {size | list} $padding (null) - The padding of the button. Computed from other parameters by default.
  * @param {color} $font-color (null) - The font color of the button. Computed from the $background-color by default.
  * @param {number} $font-weight ($v-font-weight + 100) - The font weight of the button
@@ -1791,7 +1791,7 @@
  * Output styles for a borderless button. Expects that the targeted element 
  * already has both valo-button-static-style and valo-button-style included.
  * 
- * @param {color}��$font-color (inherit) - The font color of the borderless button
+ * @param {color} $font-color (inherit) - The font color of the borderless button
  * 
  * @group button
  */
@@ -1864,7 +1864,7 @@
  * Outputs the selectors and properties for the CheckBox component.
  *
  * @param {string} $primary-stylename (v-checkbox) - the primary style name for the selectors
- * @param {bool}��$include-additional-styles - should the mixin output all the different style variations of the component
+ * @param {bool} $include-additional-styles - should the mixin output all the different style variations of the component
  *
  * @group checkbox
  */
@@ -1879,8 +1879,8 @@
  * Outputs the styles for a checkbox variant.
  * 
  * @param {color} $background-color ($v-background-color) - The background color of the checkbox
- * @param {size}��$unit-size ($v-unit-size) - The sizing of the checkbox. The width and height of the checkbox will be the unit-size divided by 2.
- * @param {color}��$selection-color ($v-selection-color) - The color of the checked state icon 
+ * @param {size} $unit-size ($v-unit-size) - The sizing of the checkbox. The width and height of the checkbox will be the unit-size divided by 2.
+ * @param {color} $selection-color ($v-selection-color) - The color of the checked state icon 
  * 
  * @group checkbox
  */
@@ -1906,7 +1906,7 @@
  * Outputs the selectors and properties for the ComboBox component.
  *
  * @param {string} $primary-stylename (v-filterselect) - the primary style name for the selectors
- * @param {bool}��$include-additional-styles - should the mixin output all the different style variations of the component
+ * @param {bool} $include-additional-styles - should the mixin output all the different style variations of the component
  *
  * @group combobox
  */
@@ -1914,7 +1914,7 @@
 /**
  * Outputs the styles for a combobox variant.
  *
- * @param {size}��$unit-size ($v-unit-size) - The sizing of the combobox, which corresponds its height
+ * @param {size} $unit-size ($v-unit-size) - The sizing of the combobox, which corresponds its height
  * @param {color} $font-color (null) - The font color of the combobox. Computed from the $background-color by default.
  * @param {number} $font-weight (max(400, $v-font-weight)) - The font weight of the combobox
  * @param {size} $font-size (null) - The font size of the combobox. Inherited from the parent by default.
@@ -1932,7 +1932,7 @@
 /**
  * Outputs the styles for a combobox variant input element.
  * 
- * @param {size}��$unit-size ($v-unit-size) - The sizing of the input (affects the padding only, width and height are 100%)
+ * @param {size} $unit-size ($v-unit-size) - The sizing of the input (affects the padding only, width and height are 100%)
  * @param {size | list} $padding (null) - The padding of the input. Computed from other parameters by default.
  * @param {color} $font-color (null) - The font color of the input. Computed from the $background-color by default.
  * @param {number} $font-weight (null) - The font weight of the input. Inherited from the parent by default.
@@ -1951,7 +1951,7 @@
 /**
  * Outputs the styles for a combobox variant button element.
  * 
- * @param {size}��$unit-size ($v-unit-size) - The sizing of the button, which corresponds its width.
+ * @param {size} $unit-size ($v-unit-size) - The sizing of the button, which corresponds its width.
  * @param {list} $bevel ($v-textfield-bevel) - Box-shadow value according to $v-bevel documentation
  * @param {color} $background-color ($v-textfield-background-color) - The background color of the input, which affects the font color of the button
  * @param {size} $border-radius ($v-textfield-border-radius) - The border-radius of the input, which affects the border-radius of the button
@@ -1983,7 +1983,7 @@
  * Outputs the additional styles for the CssLayout component. Does not produce any other output.
  * 
  * @param {string} $primary-stylename (v-csslayout) - the primary style name for the selectors
- * @param {bool}��$include-additional-styles - should the mixin output all the different style variations of the component
+ * @param {bool} $include-additional-styles - should the mixin output all the different style variations of the component
  *
  * @group csslayout
  */
@@ -2005,7 +2005,7 @@
  * Outputs the selectors and properties for the DateField component.
  *
  * @param {string} $primary-stylename (v-datefield) - the primary style name for the selectors
- * @param {bool}��$include-additional-styles - should the mixin output all the different style variations of the component
+ * @param {bool} $include-additional-styles - should the mixin output all the different style variations of the component
  *
  * @group datefield
  */
@@ -2023,7 +2023,7 @@
  *
  * @param {list} $bevel ($v-textfield-bevel) - Box-shadow value according to $v-bevel documentation
  * @param {list} $shadow ($v-textfield-shadow) - Box-shadow value according to $v-shadow documentation
- * @param {size}��$unit-size ($v-unit-size) - The sizing of the datefield, which corresponds its height
+ * @param {size} $unit-size ($v-unit-size) - The sizing of the datefield, which corresponds its height
  * @param {list} $border ($v-textfield-border) - The border of the datefield
  * @param {size} $border-radius ($v-textfield-border-radius) - The border-radius of the datefield
  * @param {color} $background-color ($v-textfield-background-color) - The background color of the datefield
@@ -2035,7 +2035,7 @@
 /**
  * Outputs the styles for a date field variant button element.
  * 
- * @param {size}��$unit-size ($v-unit-size) - The sizing of the button, which corresponds its width.
+ * @param {size} $unit-size ($v-unit-size) - The sizing of the button, which corresponds its width.
  * @param {list} $bevel ($v-textfield-bevel) - Box-shadow value according to $v-bevel documentation
  * @param {color} $background-color ($v-textfield-background-color) - The background color of the input, which affects the font color of the button
  * @param {size} $border-radius ($v-textfield-border-radius) - The border-radius of the input, which affects the border-radius of the button
@@ -2148,7 +2148,7 @@
  * Outputs the selectors and properties for the FormLayout component.
  *
  * @param {string} $primary-stylename (v-formlayout) - the primary style name for the selectors
- * @param {bool}��$include-additional-styles - should the mixin output all the different style variations of the component
+ * @param {bool} $include-additional-styles - should the mixin output all the different style variations of the component
  *
  * @group formlayout
  */
@@ -2172,7 +2172,7 @@
 /**
  * Outputs the styles for a light style form layout. This mixin expects the target to have the normal styles of a form layout applied.
  *
- * @param {size}��$row-height ($v-unit-size) - The height of an individual form layout row
+ * @param {size} $row-height ($v-unit-size) - The height of an individual form layout row
  *
  * @group formlayout
  */
@@ -2265,7 +2265,7 @@
  * Outputs the selectors and styles for the Label component.
  * 
  * @param {string} $primary-stylename (v-label) - the primary style name for the selectors
- * @param {bool}��$include-additional-styles - should the mixin output all the different style variations of the component
+ * @param {bool} $include-additional-styles - should the mixin output all the different style variations of the component
  *
  * @group label
  */
@@ -2308,7 +2308,7 @@
  * Outputs the selectors and properties for the TabSheet component.
  *
  * @param {string} $primary-stylename (v-tabsheet) - the primary style name for the selectors
- * @param {bool}��$include-additional-styles - should the mixin output all the different style variations of the component
+ * @param {bool} $include-additional-styles - should the mixin output all the different style variations of the component
  *
  * @group tabsheet
  */
@@ -2346,7 +2346,7 @@
 /**
  * Outputs the styles for the framed tabsheet style.
  * 
- * @param {string}��$primary-stylename (v-tabsheet) - The primary style name for the selectors
+ * @param {string} $primary-stylename (v-tabsheet) - The primary style name for the selectors
  * @param {bool} $frame-inactive-tabs (true) - Should inactive tabs be framed as well (the active tab is always framed with this style)
  * @param {bool} $outer-frame (true) - Should the frame contain the whole tabsheet (i.e. tabbar and tab content). If false, works like a "borderless" style.
  * @param {size} $tab-spacing ($v-unit-size/10) - The spacing between tabs
@@ -2357,8 +2357,8 @@
 /**
  * Outputs the styles for a tabsheet where the tabs are aligned to the position specified by the parameter in the tabbar.
  * 
- * @param {string}��$primary-stylename (v-tabsheet) - The primary style name for the selectors
- * @param {string}��$align (center) - The alignment of the tabs inside the tabbar. Possible values: left, right, center.
+ * @param {string} $primary-stylename (v-tabsheet) - The primary style name for the selectors
+ * @param {string} $align (center) - The alignment of the tabs inside the tabbar. Possible values: left, right, center.
  * 
  * @group tabsheet
  */
@@ -2366,7 +2366,7 @@
 /**
  * Outputs the styles for a tabsheet where all tabs in the tabbar have equal width and span the entire width of the tabbar.
  * 
- * @param {string}��$primary-stylename (v-tabsheet) - The primary style name for the selectors
+ * @param {string} $primary-stylename (v-tabsheet) - The primary style name for the selectors
  * @param {bool} $flex (false) - Should the size of the tabs be proportional to their content, i.e. should the available space in the tabbar be distributed to the tabs in relation to their content sizes.
  * 
  * @group tabsheet
@@ -2375,7 +2375,7 @@
 /**
  * Outputs the styles for a tabsheet where the icons of individual tabs are on top of the tab captions.
  * 
- * @param {string}��$primary-stylename (v-tabsheet) - The primary style name for the selectors
+ * @param {string} $primary-stylename (v-tabsheet) - The primary style name for the selectors
  *  
  * @group tabsheet
  */
@@ -2384,7 +2384,7 @@
  * Outputs the styles for a tabsheet where only the selected tab has the close button visible. 
  * Note that the other tabs can still be closed programmatically.
  * 
- * @param {string}��$primary-stylename (v-tabsheet) - The primary style name for the selectors
+ * @param {string} $primary-stylename (v-tabsheet) - The primary style name for the selectors
  *  
  * @group tabsheet
  */
@@ -2393,7 +2393,7 @@
  * Outputs the styles for a tabsheet where the tabbar has increased padding to separate the tabs 
  * inside it from their surrounding container.
  * 
- * @param {string}��$primary-stylename (v-tabsheet) - The primary style name for the selectors
+ * @param {string} $primary-stylename (v-tabsheet) - The primary style name for the selectors
  *  
  * @group tabsheet
  */
@@ -2442,7 +2442,7 @@
  * Outputs the selectors and properties for the TextField component.
  *
  * @param {string} $primary-stylename (v-textfield) - the primary style name for the selectors
- * @param {bool}��$include-additional-styles - should the mixin output all the different style variations of the component
+ * @param {bool} $include-additional-styles - should the mixin output all the different style variations of the component
  *
  * @group textfield
  */
@@ -2450,7 +2450,7 @@
 /**
  * Outputs the styles for a text field variant.
  *
- * @param {size}��$unit-size ($v-unit-size) - The sizing of the text field, which corresponds its height
+ * @param {size} $unit-size ($v-unit-size) - The sizing of the text field, which corresponds its height
  * @param {size | list} $padding (null) - The padding of the text field. Computed from other parameters by default.
  * @param {color} $font-color (null) - The font color of the text field. Computed from the $background-color by default.
  * @param {number} $font-weight (max(400, $v-font-weight)) - The font weight of the text field
@@ -2479,7 +2479,7 @@
  * @param {list} $bevel ($v-textfield-bevel) - Box-shadow value according to $v-bevel documentation
  * @param {list} $shadow ($v-textfield-shadow) - Box-shadow value according to $v-shadow documentation
  * @param {color} $background-color ($v-textfield-background-color) - The background color of the text field
- * @param {list}��$gradient (null) - Valo specific gradient value. See the documentation for $v-gradient.
+ * @param {list} $gradient (null) - Valo specific gradient value. See the documentation for $v-gradient.
  * 
  * @group textfield
  */
@@ -2511,7 +2511,7 @@
  * @param {string | list} $stylenames (inline-icon) - The additional style names which will define the inline-icon style
  * @param {string} $input-selector (null) - Additional selector for a nested input element which should be targeted
  * @param {size} $unit-size ($v-unit-size) - The unit size which the resulting style will support
- * @param {size}��$font-size ($v-font-size) - The font size which the resulting style will support (needed for font icons)
+ * @param {size} $font-size ($v-font-size) - The font size which the resulting style will support (needed for font icons)
  * @param {size} $image-icon-size (16px) - The image icon height which the resulting style will support (needed to center the icon vertically inside the text field)
  * 
  * @group text field
@@ -2521,7 +2521,7 @@
  * Outputs the selectors and properties for the TextArea component.
  *
  * @param {string} $primary-stylename (v-textarea) - the primary style name for the selectors
- * @param {bool}��$include-additional-styles - should the mixin output all the different style variations of the component
+ * @param {bool} $include-additional-styles - should the mixin output all the different style variations of the component
  *
  * @group textarea
  */
@@ -2529,7 +2529,7 @@
 /**
  * Outputs the styles for a text area variant.
  *
- * @param {size}��$unit-size ($v-unit-size) - The sizing of the text area, which corresponds its height
+ * @param {size} $unit-size ($v-unit-size) - The sizing of the text area, which corresponds its height
  * @param {size | list} $padding (null) - The padding of the text area. Computed from other parameters by default.
  * @param {color} $font-color (null) - The font color of the text area. Computed from the $background-color by default.
  * @param {number} $font-weight (max(400, $v-font-weight)) - The font weight of the text area
@@ -5559,19 +5559,19 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .valo [class*="margin-top"] > tbody > [class*="firstrow"] > td {
-	padding-top: 0;
+	padding-top: 37px;
 }
 
 .valo [class*="margin-bottom"] > tbody > [class*="lastrow"] > td {
-	padding-bottom: 0;
+	padding-bottom: 37px;
 }
 
 .valo [class*="margin-left"] > tbody > [class*="row"] > [class*="captioncell"] {
-	padding-left: 0;
+	padding-left: 37px;
 }
 
 .valo [class*="margin-right"] > tbody > [class*="row"] > [class*="contentcell"] {
-	padding-right: 0;
+	padding-right: 37px;
 }
 
 .valo .v-formlayout > table {

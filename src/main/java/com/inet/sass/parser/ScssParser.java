@@ -1477,7 +1477,7 @@ public final class ScssParser {
 
         // parse the unit value
         LOOP: for( ;; ) {
-            if( Character.isLetter( ch ) || ch == '%' || ch == '\ufffd' ) { //TODO the '\ufffd' is a hack for the valo test because it is read as ASCII
+            if( Character.isLetter( ch ) || ch == '%' ) {
                 builder.append( ch );
             } else {
                 reader.back( ch );
