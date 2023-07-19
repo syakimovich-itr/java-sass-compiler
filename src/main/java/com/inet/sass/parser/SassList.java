@@ -92,10 +92,6 @@ public class SassList implements SassListItem, Iterable<SassListItem> {
         return separator;
     }
 
-    public void setSeparator(Separator separator) {
-        this.separator = separator;
-    }
-
     /**
      * Returns the only LexicalUnitImpl contained in this list.
      * 
@@ -135,57 +131,6 @@ public class SassList implements SassListItem, Iterable<SassListItem> {
             result = result.substring(1, result.length() - 1);
         }
         return result;
-    }
-
-    /**
-     * Returns a SassListItem whose textual (CSS) representation is the same as
-     * that of this list. Any extra nesting is recursively removed. Nesting is
-     * extra if a list contains only one element. A list with extra nesting is
-     * replaced by its contents (a SassList or a SassListItem). The flattened
-     * representation of an empty list is the item itself.
-     * 
-     * For a non-empty list the definition of flatten is recursive. The
-     * flattened representation of a list containing a single value is the
-     * flattened representation of the value. For a list containing multiple
-     * values, the flattened representation is obtained by replacing all
-     * elements of the list by their flattened representations.
-     * 
-     * Examples of flattened representations: a) (1) -> 1 b) (1 (2) ((3)) ) ->
-     * (1 2 3) c) (1, (2, 3), 4) -> (1, (2, 3), 4) (i.e., no change).
-     * 
-     * Note that the flattened representation of a list can be a single value
-     * instead of a list, as in the example (a) above.
-     * 
-     * This method should only be called by the parser.
-     * 
-     * @return A flattened representation of this item.
-     */
-    public SassListItem flatten() {
-        return flatten(this);
-    }
-
-    private static SassListItem flatten( SassListItem item ) {
-        if( item instanceof SassList ) {
-            SassList sassList = (SassList)item;
-            int size = sassList.size();
-            if( size == 1 ) {
-                SassListItem first = sassList.get( 0 );
-                if( !(first instanceof SassList) ) {
-                    return first;
-                }
-                // does not destroy a map with a single entry
-                if( ((SassList)first).getSeparator() != Separator.COLON ) {
-                    return flatten( first );
-                }
-            }
-            List<SassListItem> items = sassList.items;
-            for( int i = 0; i < size; i++ ) {
-                items.set( i, flatten( items.get( i ) ) );
-            }
-            return sassList;
-        } else {
-            return item;
-        }
     }
 
     @Override
