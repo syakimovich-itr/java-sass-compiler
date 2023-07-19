@@ -142,7 +142,7 @@ public class ScssStylesheet extends Node {
     }
 
     public List<String> getSourceUris() {
-        return Collections.unmodifiableList(sourceUris);
+        return sourceUris;
     }
 
     public void addSourceUris(Collection<String> uris) {

@@ -18,7 +18,6 @@ package com.inet.sass.parser;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -310,7 +309,7 @@ public class FormalArgumentList implements Iterable<Variable> {
     }
 
     public List<Variable> getArguments() {
-        return Collections.unmodifiableList(arglist);
+        return arglist;
     }
 
     @Override

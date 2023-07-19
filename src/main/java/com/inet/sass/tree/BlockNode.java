@@ -73,7 +73,7 @@ public class BlockNode extends Node implements IVariableNode {
      *            new selector list
      */
     public void setSelectorList(List<Selector> selectorList) {
-        this.selectorList = Collections.unmodifiableList(selectorList);
+        this.selectorList = selectorList;
     }
 
     public String buildString(boolean indent) {

@@ -17,7 +17,6 @@
 package com.inet.sass.parser;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import com.inet.sass.ScssContext;
@@ -52,7 +51,7 @@ public class ArgumentList extends SassList {
     }
 
     public List<Variable> getNamedVariables() {
-        return Collections.unmodifiableList(namedVariables);
+        return namedVariables;
     }
 
     @Override
