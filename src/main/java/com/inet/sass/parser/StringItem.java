@@ -56,18 +56,7 @@ public class StringItem implements SassListItem {
 
     @Override
     public SassListItem replaceVariables(ScssContext context) {
-        // Handle a quoted string containing simple interpolation.
-        if (value.length() > 1
-                && ((value.charAt(0) == '"' && value.charAt(value.length() - 1) == '"') || (value
-                        .charAt(0) == '\'' && value.charAt(value.length() - 1) == '\''))) {
-            String stringValue = value;
-            for (Variable var : context.getVariables()) {
-                stringValue = var.replaceInterpolation(stringValue);
-            }
-            return new StringItem(stringValue);
-        } else {
-            return this;
-        }
+        return this;
     }
 
     @Override

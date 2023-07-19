@@ -1350,7 +1350,7 @@ public final class ScssParser {
             throw reader.createException( "Unrecognized input: '" + ch + "'" );
         }
         if( left.getClass() == ArrayList.class ) {
-            return SassExpression.createExpression( (ArrayList)left );
+            return SassExpression.createExpression( (ArrayList<SassListItem>)left );
         }
         return (SassListItem)left;
     }
@@ -1576,7 +1576,7 @@ public final class ScssParser {
     private String parseUnquotedString() {
         StringBuilder builder = cachesBuilder;
 
-        LOOP: for( ;; ) {
+        for( ;; ) {
             char ch = reader.read();
             if( ch == ')' ) {
                 return trim( builder );

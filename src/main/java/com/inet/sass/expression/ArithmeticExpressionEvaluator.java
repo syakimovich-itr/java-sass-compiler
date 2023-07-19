@@ -24,7 +24,6 @@ import com.inet.sass.ScssContext;
 import com.inet.sass.parser.LexicalUnitImpl;
 import com.inet.sass.parser.ParseException;
 import com.inet.sass.parser.SCSSLexicalUnit;
-import com.inet.sass.parser.SassExpression;
 import com.inet.sass.parser.SassList;
 import com.inet.sass.parser.SassList.Separator;
 import com.inet.sass.parser.SassListItem;

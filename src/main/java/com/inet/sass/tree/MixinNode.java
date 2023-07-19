@@ -17,15 +17,12 @@
 
 package com.inet.sass.tree;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
 import com.inet.sass.ScssContext;
 import com.inet.sass.handler.SCSSErrorHandler;
 import com.inet.sass.parser.ActualArgumentList;
-import com.inet.sass.parser.SassList;
-import com.inet.sass.parser.Variable;
 import com.inet.sass.visitor.MixinNodeHandler;
 
 /**

@@ -20,7 +20,6 @@ package com.inet.sass.handler;
 import java.util.List;
 import java.util.Stack;
 
-import com.inet.sass.InputSource;
 import com.inet.sass.ScssStylesheet;
 import com.inet.sass.parser.ActualArgumentList;
 import com.inet.sass.parser.FormalArgumentList;
@@ -67,13 +66,6 @@ public class SCSSDocumentHandler {
 
     public ScssStylesheet getStyleSheet() {
         return styleSheet;
-    }
-
-    public void startDocument( InputSource source ) {
-        nodeStack.push( styleSheet );
-    }
-
-    public void endDocument( InputSource source ) {
     }
 
     public void variable( String name, SassListItem value, boolean guarded ) {
@@ -131,17 +123,6 @@ public class SCSSDocumentHandler {
         nodeStack.peek().appendChild( node );
     }
 
-    public void ignorableAtRule( String atRule ) {
-        log( "ignorableAtRule(String atRule): " + atRule );
-    }
-
-    public void namespaceDeclaration( String prefix, String uri ) {
-        log( "namespaceDeclaration(String prefix, String uri): " + prefix + ", " + uri );
-    }
-
-    public void importStyle( String uri, MediaList media, String defaultNamespaceURI ) {
-    }
-
     public void startMedia( String uri, int line, int column, MediaList media ) {
         MediaNode node = new MediaNode( uri, line, column, media );
         nodeStack.peek().appendChild( node );
@@ -150,14 +131,6 @@ public class SCSSDocumentHandler {
 
     public void endMedia()  {
         nodeStack.pop();
-    }
-
-    public void startPage( String name, String pseudo_page ) {
-        log( "startPage(String name, String pseudo_page): " + name + ", " + pseudo_page );
-    }
-
-    public void endPage( String name, String pseudo_page ) {
-        log( "endPage(String name, String pseudo_page): " + name + ", " + pseudo_page );
     }
 
     public void startFontFace() {
@@ -178,10 +151,6 @@ public class SCSSDocumentHandler {
 
     public void endSelector() {
         nodeStack.pop();
-    }
-
-    public void property( StringInterpolationSequence name, SassListItem value, boolean important ) {
-        property( name, value, important, null );
     }
 
     public void property( StringInterpolationSequence name, SassListItem value, boolean important, String comment ) {
@@ -309,9 +278,5 @@ public class SCSSDocumentHandler {
 
     public void endInclude() {
         nodeStack.pop();
-    }
-
-    private void log( String msg ) {
-        SCSSErrorHandler.get().debug( msg );
     }
 }

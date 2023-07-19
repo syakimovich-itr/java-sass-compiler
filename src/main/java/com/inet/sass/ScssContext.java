@@ -158,10 +158,6 @@ public class ScssContext {
         return scope.getVariable(string);
     }
 
-    public Iterable<Variable> getVariables() {
-        return scope.getVariables();
-    }
-
     public MixinDefNode getMixinDefinition(String name) {
         return scope.getMixinDefinition(name);
     }

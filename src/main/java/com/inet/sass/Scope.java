@@ -18,7 +18,6 @@ package com.inet.sass;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.inet.sass.parser.Variable;
@@ -101,42 +100,6 @@ public class Scope {
             }
         }
 
-        /**
-         * Returns an {@link Iterable} of all variables defined in this scope
-         * and its parents. Variables that are masked by a similarly named copy
-         * in an inner scope are not returned, but only the innermost instance
-         * is used.
-         * 
-         * @return iterable over all definitions in scope, generated iterators
-         *         are unmodifiable
-         */
-        public Iterable<T> getIterable() {
-            if (cache != null) {
-                return cache;
-            }
-            // no need to copy contents in the top-level scope
-            if (parent == null) {
-                return Collections.unmodifiableCollection(getDefinitions(false)
-                        .values());
-            }
-            if (definitions == null) {
-                return parent.getIterable();
-            }
-            // optimize this?
-            LinkedHashMap<String, T> result = new LinkedHashMap<String, T>();
-            addVariablesToMap(result);
-            cache = Collections.unmodifiableCollection(result.values());
-            return cache;
-        }
-
-        private void addVariablesToMap(Map<String, T> map) {
-            // parent first so that this scope can override its variables
-            if (parent != null) {
-                parent.addVariablesToMap(map);
-            }
-            map.putAll(getDefinitions(false));
-        }
-
         @Override
         public String toString() {
             if (definitions != null) {
@@ -205,18 +168,6 @@ public class Scope {
 
     public Variable getVariable(String name) {
         return variables.get(name);
-    }
-
-    /**
-     * Returns an {@link Iterable} of all variables defined in this scope and
-     * its parents. Variables that are masked by a similarly named copy in an
-     * inner scope are not returned, but only the innermost instance is used.
-     * 
-     * @return iterable over all variables in scope, generated iterators are
-     *         unmodifiable
-     */
-    public Iterable<Variable> getVariables() {
-        return variables.getIterable();
     }
 
     public void defineFunction(FunctionDefNode function) {
