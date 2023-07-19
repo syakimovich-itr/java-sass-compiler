@@ -35,16 +35,16 @@ import com.inet.sass.ScssContext;
  * 
  */
 public class StringInterpolationSequence {
-    private boolean containsInterpolation = false;
-    private SassList items;
+    private boolean containsInterpolation;
+    private List<SassListItem> items;
     private String toString;
 
     /**
-     * Creates a new StringInterpolationSequence containing only the given item.
-     * 
+     * Creates a new StringInterpolationSequence containing only the given item without interpolation.
+     * @param value single string value
      */
-    public StringInterpolationSequence(String value) {
-        this(Collections.<SassListItem> singletonList(new StringItem(value)));
+    public StringInterpolationSequence( String value ) {
+        items = Collections.<SassListItem> singletonList( new StringItem( value ) );
     }
 
     /**
@@ -61,11 +61,7 @@ public class StringInterpolationSequence {
                 break;
             }
         }
-        items = new SassList(SassList.Separator.SPACE, sequence);
-    }
-
-    private StringInterpolationSequence(SassList list) {
-        this(list.getItems());
+        items = sequence;
     }
 
     /**
@@ -77,12 +73,12 @@ public class StringInterpolationSequence {
      *            current compilation context
      * @return A new StringInterpolationSequence.
      */
-    public StringInterpolationSequence replaceVariables(ScssContext context) {
+    public StringInterpolationSequence replaceVariables( ScssContext context ) {
         if( !containsInterpolation ) {
             return this;
         }
-        SassList resultList = items.replaceVariables( context );
-        return new StringInterpolationSequence( resultList );
+
+        return new StringInterpolationSequence( SassList.replaceVariables( context, items ) );
     }
 
     /**
@@ -96,17 +92,21 @@ public class StringInterpolationSequence {
      */
     public StringInterpolationSequence append(StringInterpolationSequence other) {
         ArrayList<SassListItem> result = new ArrayList<SassListItem>(
-                items.getItems());
-        result.addAll(other.items.getItems());
+                items);
+        result.addAll(other.items);
         return new StringInterpolationSequence(result);
     }
 
     @Override
     public String toString() {
-        if (toString == null) {
+        if( toString == null ) {
+            List<SassListItem> items = this.items;
+            if( items.size() == 1 ) {
+                return items.get( 0 ).printState();
+            }
             StringBuilder result = new StringBuilder();
-            for (SassListItem item : items) {
-                result.append(item.printState());
+            for( SassListItem item : items ) {
+                result.append( item.printState() );
             }
             toString = result.toString();
         }
@@ -129,12 +129,12 @@ public class StringInterpolationSequence {
     }
 
     public List<SassListItem> getItems() {
-        return items.getItems();
+        return items;
     }
 
     public StringInterpolationSequence updateUrl(String prefix) {
         if( containsInterpolation ) {
-            return new StringInterpolationSequence(items.updateUrl(prefix));
+            return new StringInterpolationSequence( SassList.updateUrl( items, prefix ) );
         }
         return this;
     }

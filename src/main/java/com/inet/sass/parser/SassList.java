@@ -167,11 +167,16 @@ public class SassList implements SassListItem, Iterable<SassListItem> {
     public SassList replaceVariables(ScssContext context) {
         // The actual replacing happens in LexicalUnitImpl, which also
         // implements SassListItem.
-        List<SassListItem> list = new ArrayList<SassListItem>();
-        for (SassListItem item : this) {
-            list.add(item.replaceVariables(context));
+        return new SassList(getSeparator(), replaceVariables( context, items ) );
+    }
+
+    static List<SassListItem> replaceVariables( ScssContext context, List<SassListItem> items ) {
+        int size = items.size();
+        List<SassListItem> list = new ArrayList<SassListItem>( size );
+        for( int i = 0; i < size; i++ ) {
+            list.add( items.get( i ).replaceVariables( context ) );
         }
-        return new SassList(getSeparator(), list);
+        return list;
     }
 
     @Override
@@ -237,17 +242,20 @@ public class SassList implements SassListItem, Iterable<SassListItem> {
     @Override
     public SassList updateUrl(String prefix) {
         if (size() > 0) {
-            ArrayList<SassListItem> newItems = new ArrayList<SassListItem>(
-                    size());
-            for (SassListItem item : this) {
-                newItems.add(item.updateUrl(prefix));
-            }
-            SassList result = new SassList(getSeparator(), newItems);
-            result.setSourcePosition(getLineNumber(), getColumnNumber());
+            SassList result = new SassList( getSeparator(), updateUrl( items, prefix ) );
             return result;
         } else {
             return this;
         }
+    }
+
+    static List<SassListItem> updateUrl( List<SassListItem> items, String prefix ) {
+        int size = items.size();
+        ArrayList<SassListItem> newItems = new ArrayList<SassListItem>( size );
+        for( int i = 0; i < size; i++ ) {
+            newItems.add( items.get( i ).updateUrl( prefix ) );
+        }
+        return newItems;
     }
 
     @Override
