@@ -551,10 +551,6 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
         return new LexicalUnitImpl( uri, line, column, SAC_URI, s );
     }
 
-    public static LexicalUnitImpl createAttr( String uri, int line, int column, String s ) {
-        return new LexicalUnitImpl( uri, line, column, SAC_ATTR, s );
-    }
-
     public static LexicalUnitImpl createRGBColor( String uri, int line, int column, ActualArgumentList params ) {
         return new LexicalUnitImpl( uri, SAC_RGBCOLOR, line, column, "rgb", params );
     }
@@ -593,12 +589,6 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
         return false;
     }
 
-    public static LexicalUnitImpl createUnicodeRange( String uri, int line, int column, SassList params ) {
-        // @@ return new LexicalUnitImpl( uri, line, column, previous, null,
-        // SAC_UNICODERANGE, params);
-        return null;
-    }
-
     public static LexicalUnitImpl createComma( String uri, int line, int column ) {
         return new LexicalUnitImpl( uri, line, column, SAC_OPERATOR_COMMA );
     }
@@ -621,14 +611,6 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
 
     public static LexicalUnitImpl createModulo( String uri, int line, int column ) {
         return new LexicalUnitImpl( uri, line, column, SAC_OPERATOR_MOD );
-    }
-
-    public static LexicalUnitImpl createLeftParenthesis( String uri, int line, int column ) {
-        return new LexicalUnitImpl( uri, line, column, SCSS_OPERATOR_LEFT_PAREN );
-    }
-
-    public static LexicalUnitImpl createRightParenthesis( String uri, int line, int column ) {
-        return new LexicalUnitImpl( uri, line, column, SCSS_OPERATOR_RIGHT_PAREN );
     }
 
     public static LexicalUnitImpl createIdent( String s ) {
@@ -802,12 +784,6 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
         case SAC_OPERATOR_EXP:
             text = "^";
             break;
-        case SCSS_OPERATOR_LEFT_PAREN:
-            text = "(";
-            break;
-        case SCSS_OPERATOR_RIGHT_PAREN:
-            text = ")";
-            break;
         case SCSS_OPERATOR_EQUALS:
             text = "==";
             break;
@@ -920,12 +896,6 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
             case SAC_STRING_VALUE:
                 // @@SEEME. not exact
                 text = "\"" + getStringValue() + "\"";
-                break;
-            case SAC_ATTR:
-                text = "attr(" + getStringValue() + ")";
-                break;
-            case SAC_UNICODERANGE:
-                text = "@@TODO";
                 break;
             case SAC_SUB_EXPRESSION:
                 text = strategy.build(getParameterList());

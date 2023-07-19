@@ -170,21 +170,13 @@ public interface SCSSLexicalUnit {
      * A string.
      */
     public static final short SAC_STRING_VALUE          = 36;
-    /**
-     * Attribute: <code>attr(...)</code>.
-     * @see #getStringValue
-     */
-    public static final short SAC_ATTR                  = 37;
+
     /**
      * function <code>rect</code>.
      * @see #getFunctionName
      * @see #getParameters
      */
     public static final short SAC_RECT_FUNCTION         = 38;
-    /**
-     * A unicode range. @@TO BE DEFINED
-     */
-    public static final short SAC_UNICODERANGE          = 39;
 
     /**
      * sub expressions <code>(a)</code> <code>(a + b)</code> <code>(normal/none)</code>
@@ -204,8 +196,6 @@ public interface SCSSLexicalUnit {
     public static final short SAC_DIMENSION             = 42;
 
     static final short        SCSS_VARIABLE             = 100;
-    static final short        SCSS_OPERATOR_LEFT_PAREN  = 101;
-    static final short        SCSS_OPERATOR_RIGHT_PAREN = 102;
     static final short        SCSS_OPERATOR_EQUALS      = 103;
     static final short        SCSS_OPERATOR_NOT_EQUAL   = 104;
     static final short        SCSS_OPERATOR_AND         = 105;

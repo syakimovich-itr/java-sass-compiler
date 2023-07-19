@@ -23,7 +23,6 @@ import java.util.Stack;
 import com.inet.sass.ScssContext;
 import com.inet.sass.parser.LexicalUnitImpl;
 import com.inet.sass.parser.ParseException;
-import com.inet.sass.parser.SCSSLexicalUnit;
 import com.inet.sass.parser.SassList;
 import com.inet.sass.parser.SassList.Separator;
 import com.inet.sass.parser.SassListItem;
@@ -70,13 +69,6 @@ public class ArithmeticExpressionEvaluator {
                 continue;
             }
             if( afterOperand ) {
-                if( LexicalUnitImpl.checkLexicalUnitType( current, SCSSLexicalUnit.SCSS_OPERATOR_RIGHT_PAREN ) ) {
-                    Object operator = null;
-                    while( !operators.isEmpty() && ((operator = operators.pop()) != Parentheses.LEFT) ) {
-                        createNewOperand( (BinaryOperator)operator, operands );
-                    }
-                    continue;
-                }
                 afterOperand = false;
                 for( BinaryOperator operator : BinaryOperator.values() ) {
                     if( LexicalUnitImpl.checkLexicalUnitType( current, operator.type ) ) {
@@ -89,14 +81,7 @@ public class ArithmeticExpressionEvaluator {
                         }
 
                         if( isShortCircuitEvaluation( operator, operands ) ) {
-                            while( i < termCount ) {
-                                current = terms.get( i );
-                                if( LexicalUnitImpl.checkLexicalUnitType( current, SCSSLexicalUnit.SCSS_OPERATOR_RIGHT_PAREN ) ) {
-                                    break;
-                                }
-                                i++;
-                            }
-                            continue inputTermLoop;
+                            break inputTermLoop;
                         }
                         operators.push( operator );
 
@@ -104,10 +89,6 @@ public class ArithmeticExpressionEvaluator {
                     }
                 }
                 throw new ParseException( "Illegal arithmetic expression: " + new SassList( Separator.SPACE, terms ).printState(), current );
-            }
-            if( LexicalUnitImpl.checkLexicalUnitType( current, SCSSLexicalUnit.SCSS_OPERATOR_LEFT_PAREN ) ) {
-                operators.push( Parentheses.LEFT );
-                continue;
             }
             afterOperand = true;
 
