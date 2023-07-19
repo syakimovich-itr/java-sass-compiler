@@ -16,9 +16,7 @@
  */
 package com.inet.sass;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
 
 import com.inet.sass.parser.Variable;
 import com.inet.sass.tree.FunctionDefNode;
@@ -29,72 +27,66 @@ import com.inet.sass.tree.MixinDefNode;
  */
 public class Scope {
 
+    private static final Definition MISSING = new Variable( null, null );
+
     private static class DefinitionScope<T extends Definition> {
         private DefinitionScope<T> parent;
         // optimization: create map only when needed
         private HashMap<String, T> definitions;
-        // cached iterable, null when invalid
-        // Note that the set of variables in parent scope is not modified
-        // directly while a child scope is active even though the values of the
-        // variables may change.
-        private Iterable<T> cache;
 
-        public DefinitionScope(DefinitionScope<T> parent) {
+        public DefinitionScope( DefinitionScope<T> parent ) {
             this.parent = parent;
         }
 
         /**
-         * Sets a definition value in the largest scope where it is already
-         * defined. If the variable isn't defined, set it in the current scope.
-         * 
-         * @param node
-         *            definition to set
+         * Sets a definition value in the largest scope where it is already defined. If the variable isn't defined, set it in the current scope.
+         * @param node definition to set
          */
-        public void set(T node) {
-            if (parent == null || !parent.setIfPresent(node)) {
-                add(node);
+        public void set( T node ) {
+            if( parent == null || !parent.setIfPresent( node ) ) {
+                add( node );
             }
-            cache = null;
         }
 
         /**
-         * Sets a definition in the current scope without checking parent
-         * scopes.
-         * 
-         * @param node
-         *            definition to set
+         * Sets a definition in the current scope without checking parent scopes.
+         * @param node definition to set
          */
-        public void add(T node) {
-            getDefinitions(true).put(node.getName(), node);
-            cache = null;
+        public void add( T node ) {
+            HashMap<String, T> definitions = this.definitions;
+            if( definitions == null ) {
+                definitions = this.definitions = new HashMap<String, T>();
+            }
+            definitions.put( node.getName(), node );
         }
 
         /**
-         * Sets a definition and returns true if it is already defined in the
-         * scope or its parents. Otherwise returns false.
-         * 
-         * @param node
-         *            definition to set
+         * Sets a definition and returns true if it is already defined in the scope or its parents. Otherwise returns false.
+         * @param node definition to set
          * @return true if the definition was set
          */
-        private boolean setIfPresent(T node) {
-            if (parent != null && parent.setIfPresent(node)) {
-                cache = null;
+        private boolean setIfPresent( T node ) {
+            if( parent != null && parent.setIfPresent( node ) ) {
                 return true;
             }
-            if (getDefinitions(false).containsKey(node.getName())) {
-                getDefinitions(true).put(node.getName(), node);
-                cache = null;
-                return true;
+            HashMap<String, T> definitions = this.definitions;
+            if( definitions != null ) {
+                return definitions.replace( node.getName(), node ) != null;
             }
             return false;
         }
 
-        public T get(String name) {
-            if (getDefinitions(false).containsKey(name)) {
-                return getDefinitions(false).get(name);
-            } else if (parent != null) {
-                return parent.get(name);
+        public T get( String name ) {
+            HashMap<String, T> definitions = this.definitions;
+            if( definitions != null ) {
+                T value = definitions.getOrDefault( name, (T)MISSING );
+                if( value != MISSING ) {
+                    return value;
+                }
+            }
+            DefinitionScope<T> parent = this.parent;
+            if( parent != null ) {
+                return parent.get( name );
             } else {
                 return null;
             }
@@ -102,43 +94,30 @@ public class Scope {
 
         @Override
         public String toString() {
-            if (definitions != null) {
-                return getDefinitions(false).keySet().toString()
-                        + ", parent = " + parent;
+            if( definitions != null ) {
+                return definitions.keySet().toString() + ", parent = " + parent;
             } else {
                 return "{}, parent = " + parent;
             }
         }
-
-        private Map<String, T> getDefinitions(boolean create) {
-            if (create && definitions == null) {
-                definitions = new HashMap<String, T>();
-            }
-            if (definitions != null) {
-                return definitions;
-            } else {
-                return Collections.emptyMap();
-            }
-        }
-
     }
 
-    private Scope parent;
-    private DefinitionScope<Variable> variables;
+    private Scope                            parent;
+    private DefinitionScope<Variable>        variables;
     private DefinitionScope<FunctionDefNode> functions;
-    private DefinitionScope<MixinDefNode> mixins;
+    private DefinitionScope<MixinDefNode>    mixins;
 
     public Scope() {
-        variables = new DefinitionScope<Variable>(null);
-        functions = new DefinitionScope<FunctionDefNode>(null);
-        mixins = new DefinitionScope<MixinDefNode>(null);
+        variables = new DefinitionScope<Variable>( null );
+        functions = new DefinitionScope<FunctionDefNode>( null );
+        mixins = new DefinitionScope<MixinDefNode>( null );
     }
 
-    public Scope(Scope parent) {
+    public Scope( Scope parent ) {
         this.parent = parent;
-        variables = new DefinitionScope<Variable>(parent.variables);
-        functions = new DefinitionScope<FunctionDefNode>(parent.functions);
-        mixins = new DefinitionScope<MixinDefNode>(parent.mixins);
+        variables = new DefinitionScope<Variable>( parent.variables );
+        functions = new DefinitionScope<FunctionDefNode>( parent.functions );
+        mixins = new DefinitionScope<MixinDefNode>( parent.mixins );
     }
 
     public Scope getParent() {
@@ -146,50 +125,44 @@ public class Scope {
     }
 
     /**
-     * Sets a variable value in the largest scope where it is already defined.
-     * If the variable isn't defined, set it in the current scope.
-     * 
-     * @param node
-     *            variable to set
+     * Sets a variable value in the largest scope where it is already defined. If the variable isn't defined, set it in the current scope.
+     * @param node variable to set
      */
-    public void setVariable(Variable node) {
-        variables.set(node);
+    public void setVariable( Variable node ) {
+        variables.set( node );
     }
 
     /**
      * Sets a variable in the current scope without checking parent scopes.
-     * 
-     * @param node
-     *            variable to set
+     * @param node variable to set
      */
-    public void addVariable(Variable node) {
-        variables.add(node);
+    public void addVariable( Variable node ) {
+        variables.add( node );
     }
 
-    public Variable getVariable(String name) {
-        return variables.get(name);
+    public Variable getVariable( String name ) {
+        return variables.get( name );
     }
 
-    public void defineFunction(FunctionDefNode function) {
-        functions.add(function);
+    public void defineFunction( FunctionDefNode function ) {
+        functions.add( function );
     }
 
-    public void defineMixin(MixinDefNode mixin) {
-        mixins.add(mixin);
+    public void defineMixin( MixinDefNode mixin ) {
+        mixins.add( mixin );
     }
 
-    public FunctionDefNode getFunctionDefinition(String name) {
-        return functions.get(name);
+    public FunctionDefNode getFunctionDefinition( String name ) {
+        return functions.get( name );
     }
 
-    public MixinDefNode getMixinDefinition(String name) {
-        return mixins.get(name);
+    public MixinDefNode getMixinDefinition( String name ) {
+        return mixins.get( name );
     }
 
     @Override
     public String toString() {
-        return "Variables: " + variables.toString() + "\nFunctions: "
-                + functions.toString() + "\nMixins: " + mixins.toString();
+        return "Variables: " + variables.toString() + "\nFunctions: " + functions.toString() + "\nMixins: " + mixins.toString();
     }
 
 }
