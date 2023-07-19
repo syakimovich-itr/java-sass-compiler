@@ -39,8 +39,7 @@ class ListNthFunctionGenerator extends AbstractFunctionGenerator {
             listAsItem = new SassList(listAsItem);
         }
         SassListItem nAsItem = getParam(actualArguments, "n");
-        if (!(nAsItem instanceof LexicalUnitImpl)
-                || ((LexicalUnitImpl) nAsItem).getLexicalUnitType() != LexicalUnitImpl.SAC_INTEGER) {
+        if( nAsItem.getItemType() != LexicalUnitImpl.SAC_INTEGER ) {
             throw new ParseException(
                     "The second parameter of nth() must be an integer. Actual value: "
                             + nAsItem);

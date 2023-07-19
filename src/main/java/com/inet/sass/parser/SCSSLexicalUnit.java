@@ -208,15 +208,18 @@ public interface SCSSLexicalUnit {
      */
     static final short        SCSS_GET_FUNCTION         = 111;
 
-    /**
-     * "!important" rule
-     */
-    static final short        SCSS_IMPORTANT            = 112;
+    static final short        SCSS_INTERPOLATION        = 112; 
 
     /**
      * "&" placeholder for the parent selector reference
      */
     static final short        SCSS_PARENT               = 113;
+
+    static final short        SCSS_EXPRESSION           = 114; 
+
+    static final short        SCSS_LIST                 = 115; 
+
+    static final short        SCSS_STRING               = 116; 
 
     static final short        SAC_LEM                   = 200;
     static final short        SAC_REM                   = 201;

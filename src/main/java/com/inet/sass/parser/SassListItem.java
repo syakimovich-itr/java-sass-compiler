@@ -38,6 +38,12 @@ import com.inet.sass.tree.Node.BuildStringStrategy;
  */
 public interface SassListItem extends SourceLocation {
 
+    /**
+     * A type constant from {@link SCSSLexicalUnit}.
+     * @return the type
+     */
+    public short getItemType();
+
     public int getLineNumber();
 
     public int getColumnNumber();

@@ -45,15 +45,14 @@ class InvertFunctionGenerator extends AbstractFunctionGenerator {
 
         SassListItem weightParam = getParam( actualArguments, "weight" );
         double weight = 1;
-        if( weightParam != null && weightParam.getClass() == LexicalUnitImpl.class ) {
-            LexicalUnitImpl weightExpr = (LexicalUnitImpl)weightParam;
-            switch( weightExpr.getLexicalUnitType() ) {
+        if( weightParam != null ) {
+            switch( weightParam.getItemType() ) {
                 case LexicalUnitImpl.SAC_PERCENTAGE:
-                    weight = weightExpr.getDoubleValue() / 100;
+                    weight = ((LexicalUnitImpl)weightParam).getDoubleValue() / 100;
                     break;
                 case LexicalUnitImpl.SAC_INTEGER:
                 case LexicalUnitImpl.SAC_REAL:
-                    weight = weightExpr.getDoubleValue();
+                    weight = ((LexicalUnitImpl)weightParam).getDoubleValue();
                     break;
             }
         }

@@ -234,7 +234,7 @@ public class ColorUtil {
      * @return true if unit represents an RGBA value
      */
     public static boolean isRgba(LexicalUnitImpl unit) {
-        return unit.getLexicalUnitType() == SCSSLexicalUnit.SAC_FUNCTION
+        return unit.getItemType() == SCSSLexicalUnit.SAC_FUNCTION
                 && "rgba".equals(unit.getFunctionName())
                 && (unit.getParameterList().size() == 2 || unit
                         .getParameterList().size() == 4);
@@ -249,7 +249,7 @@ public class ColorUtil {
      * @return true if unit represents an HSLA value
      */
     public static boolean isHsla(LexicalUnitImpl unit) {
-        return unit.getLexicalUnitType() == SCSSLexicalUnit.SAC_FUNCTION
+        return unit.getItemType() == SCSSLexicalUnit.SAC_FUNCTION
                 && "hsla".equals(unit.getFunctionName())
                 && unit.getParameterList().size() == 4;
     }
@@ -263,7 +263,7 @@ public class ColorUtil {
      * @return true if unit represents a hexadecimal color
      */
     public static boolean isHexColor(LexicalUnitImpl unit) {
-        if( unit.getLexicalUnitType() != SCSSLexicalUnit.SAC_IDENT ) {
+        if( unit.getItemType() != SCSSLexicalUnit.SAC_IDENT ) {
             return false;
         }
         String str = unit.getStringValue();
@@ -305,7 +305,7 @@ public class ColorUtil {
      * @return true if unit represents a color name
      */
     public static boolean isColorName(LexicalUnitImpl unit) {
-        return unit.getLexicalUnitType() == SCSSLexicalUnit.SAC_IDENT
+        return unit.getItemType() == SCSSLexicalUnit.SAC_IDENT
                 && colorNameToHex.containsKey(unit.getStringValue());
     }
 
@@ -318,7 +318,7 @@ public class ColorUtil {
      * @return true if unit represents as HSL color
      */
     public static boolean isHslColor(LexicalUnitImpl unit) {
-        return unit.getLexicalUnitType() == SCSSLexicalUnit.SAC_FUNCTION
+        return unit.getItemType() == SCSSLexicalUnit.SAC_FUNCTION
                 && "hsl".equals(unit.getFunctionName())
                 && unit.getParameterList().size() == 3;
     }

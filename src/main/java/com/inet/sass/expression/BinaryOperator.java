@@ -227,7 +227,7 @@ public enum BinaryOperator {
             throw new ParseException( (isLeftOperand ? "Left" : "Right") + " operand of the operator is not a simple value", item );
         }
         LexicalUnitImpl operand = (LexicalUnitImpl)item;
-        if( operand.getLexicalUnitType() == LexicalUnitImpl.SCSS_VARIABLE ) {
+        if( item.getItemType() == LexicalUnitImpl.SCSS_VARIABLE ) {
             // should already resolved
             throw new ParseException( "Variable was not resolved: " + operand, operand );
         }

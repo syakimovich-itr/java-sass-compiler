@@ -17,6 +17,20 @@
 
 package com.inet.sass.expression;
 
+import static com.inet.sass.parser.SCSSLexicalUnit.SAC_OPERATOR_GE;
+import static com.inet.sass.parser.SCSSLexicalUnit.SAC_OPERATOR_GT;
+import static com.inet.sass.parser.SCSSLexicalUnit.SAC_OPERATOR_LE;
+import static com.inet.sass.parser.SCSSLexicalUnit.SAC_OPERATOR_LT;
+import static com.inet.sass.parser.SCSSLexicalUnit.SAC_OPERATOR_MINUS;
+import static com.inet.sass.parser.SCSSLexicalUnit.SAC_OPERATOR_MOD;
+import static com.inet.sass.parser.SCSSLexicalUnit.SAC_OPERATOR_MULTIPLY;
+import static com.inet.sass.parser.SCSSLexicalUnit.SAC_OPERATOR_PLUS;
+import static com.inet.sass.parser.SCSSLexicalUnit.SAC_OPERATOR_SLASH;
+import static com.inet.sass.parser.SCSSLexicalUnit.SCSS_OPERATOR_AND;
+import static com.inet.sass.parser.SCSSLexicalUnit.SCSS_OPERATOR_EQUALS;
+import static com.inet.sass.parser.SCSSLexicalUnit.SCSS_OPERATOR_NOT_EQUAL;
+import static com.inet.sass.parser.SCSSLexicalUnit.SCSS_OPERATOR_OR;
+
 import java.util.List;
 import java.util.Stack;
 
@@ -64,35 +78,74 @@ public class ArithmeticExpressionEvaluator {
         Stack<Object> operators = new Stack<Object>();
         int termCount = terms.size();
         inputTermLoop: for( int i = 0; i < termCount; ++i ) {
-            current = terms.get( i ).evaluateFunctionsAndExpressions( context, true );
+            current = terms.get( i );
             if( current == LexicalUnitImpl.WHITESPACE ) {
                 continue;
             }
             if( afterOperand ) {
                 afterOperand = false;
-                for( BinaryOperator operator : BinaryOperator.values() ) {
-                    if( LexicalUnitImpl.checkLexicalUnitType( current, operator.type ) ) {
-                        while( !operators.isEmpty() ) {
-                            Object previous = operators.peek();
-                            if( previous == Parentheses.LEFT || ((BinaryOperator)previous).precedence < operator.precedence ) {
-                                break;
-                            }
-                            createNewOperand( (BinaryOperator)operators.pop(), operands );
-                        }
-
-                        if( isShortCircuitEvaluation( operator, operands ) ) {
-                            break inputTermLoop;
-                        }
-                        operators.push( operator );
-
-                        continue inputTermLoop;
-                    }
+                BinaryOperator operator;
+                switch( current.getItemType() ) {
+                    case SCSS_OPERATOR_OR:
+                        operator = BinaryOperator.OR;
+                        break;
+                    case SCSS_OPERATOR_AND:
+                        operator = BinaryOperator.AND;
+                        break;
+                    case SCSS_OPERATOR_EQUALS:
+                        operator = BinaryOperator.EQUALS;
+                        break;
+                    case SCSS_OPERATOR_NOT_EQUAL:
+                        operator = BinaryOperator.NOT_EQUAL;
+                        break;
+                    case SAC_OPERATOR_LT:
+                        operator = BinaryOperator.LESS_THAN;
+                        break;
+                    case SAC_OPERATOR_GT:
+                        operator = BinaryOperator.GREATER_THAN;
+                        break;
+                    case SAC_OPERATOR_LE:
+                        operator = BinaryOperator.LESS_THAN_OR_EQUALS;
+                        break;
+                    case SAC_OPERATOR_GE:
+                        operator = BinaryOperator.GREATER_THAN_OR_EQUALS;
+                        break;
+                    case SAC_OPERATOR_PLUS:
+                        operator = BinaryOperator.ADD;
+                        break;
+                    case SAC_OPERATOR_MINUS:
+                        operator = BinaryOperator.MINUS;
+                        break;
+                    case SAC_OPERATOR_MULTIPLY:
+                        operator = BinaryOperator.MUL;
+                        break;
+                    case SAC_OPERATOR_SLASH:
+                        operator = BinaryOperator.DIV;
+                        break;
+                    case SAC_OPERATOR_MOD:
+                        operator = BinaryOperator.MOD;
+                        break;
+                    default:
+                        throw new ParseException( "Illegal arithmetic expression: " + new SassList( Separator.SPACE, terms ).printState(), current );
                 }
-                throw new ParseException( "Illegal arithmetic expression: " + new SassList( Separator.SPACE, terms ).printState(), current );
+                while( !operators.isEmpty() ) {
+                    Object previous = operators.peek();
+                    if( previous == Parentheses.LEFT || ((BinaryOperator)previous).precedence < operator.precedence ) {
+                        break;
+                    }
+                    createNewOperand( (BinaryOperator)operators.pop(), operands );
+                }
+
+                if( isShortCircuitEvaluation( operator, operands ) ) {
+                    break inputTermLoop;
+                }
+                operators.push( operator );
+
+                continue inputTermLoop;
             }
             afterOperand = true;
 
-            operands.push( current );
+            operands.push( current.evaluateFunctionsAndExpressions( context, true ) );
         }
 
         while( !operators.isEmpty() ) {

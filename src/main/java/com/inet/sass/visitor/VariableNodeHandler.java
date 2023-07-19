@@ -38,7 +38,7 @@ public class VariableNodeHandler {
             SassListItem value = variable.getExpr();
             if( value instanceof LexicalUnitImpl ) {
                 LexicalUnitImpl unit = (LexicalUnitImpl)value;
-                if( unit.getLexicalUnitType() == SCSSLexicalUnit.SCSS_NULL ) {
+                if( unit.getItemType() == SCSSLexicalUnit.SCSS_NULL ) {
                     context.setVariable( node.getVariable() );
                 }
             }

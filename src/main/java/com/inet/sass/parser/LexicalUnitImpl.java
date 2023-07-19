@@ -118,7 +118,7 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
         return column;
     }
 
-    public short getLexicalUnitType() {
+    public short getItemType() {
         return type;
     }
 
@@ -137,7 +137,7 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
     }
 
     public boolean isNumber() {
-        short type = getLexicalUnitType();
+        short type = getItemType();
         switch (type) {
         case SAC_INTEGER:
         case SAC_REAL:
@@ -567,10 +567,6 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
         return new LexicalUnitImpl( uri, SCSS_GET_FUNCTION, line, column, fname, null );
     }
 
-    public static LexicalUnitImpl createImportant(  String uri, int line, int column ) {
-        return new LexicalUnitImpl( uri, line, column, SCSS_IMPORTANT );
-    }
-
     public static LexicalUnitImpl createParent(  String uri, int line, int column ) {
         return new LexicalUnitImpl( uri, line, column, SCSS_PARENT );
     }
@@ -580,7 +576,7 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
         if (!(item instanceof LexicalUnitImpl)) {
             return false;
         }
-        short itemType = ((LexicalUnitImpl)item).getLexicalUnitType();
+        short itemType = ((LexicalUnitImpl)item).type;
         for (short s : lexicalUnitTypes) {
             if (itemType == s) {
                 return true;
@@ -900,9 +896,6 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
             case SAC_SUB_EXPRESSION:
                 text = strategy.build(getParameterList());
                 break;
-            case SCSS_IMPORTANT:
-                text = "!important";
-                break;
             case SCSS_PARENT:
                 text = "&";
                 break;
@@ -934,7 +927,7 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
 
     @Override
     public LexicalUnitImpl updateUrl(String prefix) {
-        if (getLexicalUnitType() == SAC_URI) {
+        if (getItemType() == SAC_URI) {
             LexicalUnitImpl copy = copy();
             if( s.containsInterpolation() ) {
                 List<SassListItem> items = new ArrayList<>();
@@ -968,13 +961,13 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
         LexicalUnitImpl other = (LexicalUnitImpl) o;
         if (isNumber() && other.isNumber()) {
             if (!isUnitlessNumber() && !other.isUnitlessNumber()) {
-                if (getLexicalUnitType() != other.getLexicalUnitType()) {
+                if (getItemType() != other.getItemType()) {
                     return false;
                 }
             }
             return getDoubleValue() == other.getDoubleValue()
                     && getIntegerValue() == other.getIntegerValue();
-        } else if (getLexicalUnitType() != other.getLexicalUnitType()) {
+        } else if (getItemType() != other.getItemType()) {
             return false;
         } else {
             return printState().equals(other.printState());

@@ -16,6 +16,8 @@
  */
 package com.inet.sass.parser;
 
+import static com.inet.sass.parser.SCSSLexicalUnit.SCSS_INTERPOLATION;
+
 import com.inet.sass.ScssContext;
 import com.inet.sass.tree.Node.BuildStringStrategy;
 
@@ -54,6 +56,14 @@ public class Interpolation implements SassListItem {
         lineNumber = line;
         columnNumber = column;
         this.evaluateArithmetics = evaluateArithmetics;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public short getItemType() {
+        return SCSS_INTERPOLATION;
     }
 
     @Override

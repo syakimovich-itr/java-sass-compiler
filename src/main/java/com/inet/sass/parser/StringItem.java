@@ -16,6 +16,8 @@
  */
 package com.inet.sass.parser;
 
+import static com.inet.sass.parser.SCSSLexicalUnit.SCSS_STRING;
+
 import com.inet.sass.ScssContext;
 import com.inet.sass.tree.Node.BuildStringStrategy;
 
@@ -31,6 +33,14 @@ public class StringItem implements SassListItem {
 
     public StringItem(String s) {
         value = s;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public short getItemType() {
+        return SCSS_STRING;
     }
 
     @Override

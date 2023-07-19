@@ -64,11 +64,11 @@ class RectFunctionGenerator extends AbstractFunctionGenerator {
                                 + actualParams);
             }
             LexicalUnitImpl lui = (LexicalUnitImpl) item;
-            if (lui.getLexicalUnitType() == SCSSLexicalUnit.SAC_INTEGER) {
+            if (lui.getItemType() == SCSSLexicalUnit.SAC_INTEGER) {
                 if (lui.getIntegerValue() != 0) {
                     paramOk = false;
                 }
-            } else if (lui.getLexicalUnitType() == SCSSLexicalUnit.SAC_IDENT) {
+            } else if (lui.getItemType() == SCSSLexicalUnit.SAC_IDENT) {
                 if (!"auto".equals(lui.getStringValue())) {
                     paramOk = false;
                 }

@@ -50,19 +50,19 @@ class TypeOfFunctionGenerator extends AbstractFunctionGenerator {
             }
         } else if (param instanceof LexicalUnitImpl) {
             LexicalUnitImpl unit = (LexicalUnitImpl) param;
-            if (unit.getLexicalUnitType() == LexicalUnitImpl.SCSS_NULL) {
+            if (unit.getItemType() == LexicalUnitImpl.SCSS_NULL) {
                 type = "null";
             } else if (isNumber(unit)) {
                 type = "number";
             } else if (isBoolean(unit)) {
                 type = "bool";
-            } else if (unit.getLexicalUnitType() == LexicalUnitImpl.SAC_RGBCOLOR) {
+            } else if (unit.getItemType() == LexicalUnitImpl.SAC_RGBCOLOR) {
                 type = "color";
             } else if( ColorUtil.isColorName( unit ) ) {
                 type = "color";
             } else if( ColorUtil.isHexColor( unit ) ) {
                 type = "color";
-            } else if (unit.getLexicalUnitType() == LexicalUnitImpl.SAC_FUNCTION) {
+            } else if (unit.getItemType() == LexicalUnitImpl.SAC_FUNCTION) {
                 if ("rgb".equals(unit.getFunctionName())
                         || "rgba".equals(unit.getFunctionName())
                         || "hsl".equals(unit.getFunctionName())
@@ -76,7 +76,7 @@ class TypeOfFunctionGenerator extends AbstractFunctionGenerator {
     }
 
     private boolean isBoolean(LexicalUnitImpl unit) {
-        if (unit.getLexicalUnitType() != LexicalUnitImpl.SAC_IDENT) {
+        if (unit.getItemType() != LexicalUnitImpl.SAC_IDENT) {
             return false;
         }
         return "true".equals(unit.getStringValue())

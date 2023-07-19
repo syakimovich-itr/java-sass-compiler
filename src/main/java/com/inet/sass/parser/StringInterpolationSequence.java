@@ -55,8 +55,8 @@ public class StringInterpolationSequence {
      *            A list of StringItem and Interpolation objects.
      */
     public StringInterpolationSequence(List<SassListItem> sequence) {
-        for (SassListItem item : sequence) {
-            if (item instanceof Interpolation) {
+        for( SassListItem item : sequence ) {
+            if( item.getItemType() == SCSSLexicalUnit.SCSS_INTERPOLATION ) {
                 containsInterpolation = true;
                 break;
             }

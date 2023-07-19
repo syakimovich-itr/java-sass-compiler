@@ -15,6 +15,7 @@
  * the License.
  */
 package com.inet.sass.parser;
+import static com.inet.sass.parser.SCSSLexicalUnit.SCSS_LIST;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -71,6 +72,14 @@ public class SassList implements SassListItem, Iterable<SassListItem> {
     public SassList(Separator sep, List<SassListItem> items) {
         separator = sep;
         this.items = items;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public short getItemType() {
+        return SCSS_LIST;
     }
 
     @Override

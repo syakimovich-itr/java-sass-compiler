@@ -41,7 +41,7 @@ class CallFunctionGenerator extends AbstractFunctionGenerator {
         SassListItem first = getParam( actualArguments, 0 );
         ArgumentList args = (ArgumentList)getParam( actualArguments, 1 );
 
-        if( !(first instanceof LexicalUnitImpl) || ((LexicalUnitImpl)first).getLexicalUnitType() != LexicalUnitImpl.SCSS_GET_FUNCTION ) {
+        if( first.getItemType() != LexicalUnitImpl.SCSS_GET_FUNCTION ) {
             throw new ParseException( "The first parameter of call() must be result of get-function()", function );
         }
         LexicalUnitImpl funct = (LexicalUnitImpl)first;

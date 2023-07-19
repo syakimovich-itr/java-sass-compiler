@@ -16,6 +16,8 @@
  */
 package com.inet.sass.parser;
 
+import static com.inet.sass.parser.SCSSLexicalUnit.SCSS_EXPRESSION;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -54,6 +56,14 @@ public class SassExpression implements SassListItem {
         }
 
         this.items = items;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public short getItemType() {
+        return SCSS_EXPRESSION;
     }
 
     /**
@@ -132,11 +142,7 @@ public class SassExpression implements SassListItem {
             previousIndex = currentIndex;
             currentIndex = nextIndex;
             nextIndex = getNextNonspaceIndex(items, nextIndex + 1);
-            if (!(current instanceof LexicalUnitImpl)) {
-                continue;
-            }
-            short currentType = ((LexicalUnitImpl) current)
-                    .getLexicalUnitType();
+            short currentType = current.getItemType();
             if (currentType == BinaryOperator.DIV.type) {
                 /*
                  * '/' is treated as an arithmetical operator when one of its
@@ -169,8 +175,7 @@ public class SassExpression implements SassListItem {
     }
 
     private boolean isVariable(SassListItem item) {
-        return item instanceof LexicalUnitImpl
-                && ((LexicalUnitImpl) item).getLexicalUnitType() == LexicalUnitImpl.SCSS_VARIABLE;
+        return item.getItemType() == LexicalUnitImpl.SCSS_VARIABLE;
     }
 
     private boolean containsInterpolation(SassListItem item) {
