@@ -56,34 +56,34 @@ public class Variables extends AbstractTestBase {
         Assert.assertEquals( 3, blockNode1.getChildren().size() );
         RuleNode ruleNode1Block1 = (RuleNode)blockNode1.getChildren().get( 2 );
         Assert.assertEquals( "border-color", ruleNode1Block1.getVariable().toString() );
-        Assert.assertEquals( SCSSLexicalUnit.SCSS_VARIABLE, ruleNode1Block1.getValue().getContainedValue().getLexicalUnitType() );
+        Assert.assertEquals( SCSSLexicalUnit.SCSS_VARIABLE, ruleNode1Block1.getValue().getContainedValue().getItemType() );
         Assert.assertEquals( "blue", ruleNode1Block1.getValue().getContainedValue().getStringValue() );
 
         RuleNode ruleNode2Block1 = (RuleNode)blockNode1.getChildren().get( 2 );
         Assert.assertEquals( "border-color", ruleNode2Block1.getVariable().toString() );
-        Assert.assertEquals( SCSSLexicalUnit.SCSS_VARIABLE, ruleNode2Block1.getValue().getContainedValue().getLexicalUnitType() );
+        Assert.assertEquals( SCSSLexicalUnit.SCSS_VARIABLE, ruleNode2Block1.getValue().getContainedValue().getItemType() );
         Assert.assertEquals( "blue", ruleNode2Block1.getValue().getContainedValue().getStringValue() );
 
         BlockNode blockNode2 = (BlockNode)root.getChildren().get( 6 );
         RuleNode ruleNode1Block2 = (RuleNode)blockNode2.getChildren().get( 0 );
         Assert.assertEquals( "padding", ruleNode1Block2.getVariable().toString() );
-        Assert.assertEquals( SCSSLexicalUnit.SCSS_VARIABLE, ruleNode1Block2.getValue().getContainedValue().getLexicalUnitType() );
+        Assert.assertEquals( SCSSLexicalUnit.SCSS_VARIABLE, ruleNode1Block2.getValue().getContainedValue().getItemType() );
         Assert.assertEquals( "margin", ruleNode1Block2.getValue().getContainedValue().getStringValue() );
 
         RuleNode ruleNode2Block2 = (RuleNode)blockNode2.getChildren().get( 1 );
         Assert.assertEquals( "margin", ruleNode2Block2.getVariable().toString() );
-        Assert.assertEquals( SCSSLexicalUnit.SCSS_VARIABLE, ruleNode2Block2.getValue().getContainedValue().getLexicalUnitType() );
+        Assert.assertEquals( SCSSLexicalUnit.SCSS_VARIABLE, ruleNode2Block2.getValue().getContainedValue().getItemType() );
         Assert.assertEquals( "margin", ruleNode2Block2.getValue().getContainedValue().getStringValue() );
 
         RuleNode ruleNode3Block2 = (RuleNode)blockNode2.getChildren().get( 2 );
         Assert.assertEquals( "border-color", ruleNode3Block2.getVariable().toString() );
-        Assert.assertEquals( SCSSLexicalUnit.SCSS_VARIABLE, ruleNode1Block2.getValue().getContainedValue().getLexicalUnitType() );
+        Assert.assertEquals( SCSSLexicalUnit.SCSS_VARIABLE, ruleNode1Block2.getValue().getContainedValue().getItemType() );
         Assert.assertEquals( "blue", ruleNode3Block2.getValue().getContainedValue().getStringValue() );
 
         BlockNode blockNode3 = (BlockNode)root.getChildren().get( 7 );
         RuleNode ruleNode1Block3 = (RuleNode)blockNode3.getChildren().get( 0 );
         Assert.assertEquals( "background-image", ruleNode1Block3.getVariable().toString() );
-        Assert.assertEquals( SCSSLexicalUnit.SAC_FUNCTION, ruleNode1Block3.getValue().getContainedValue().getLexicalUnitType() );
+        Assert.assertEquals( SCSSLexicalUnit.SAC_FUNCTION, ruleNode1Block3.getValue().getContainedValue().getItemType() );
         Assert.assertEquals( "url", ((LexicalUnitImpl)ruleNode1Block3.getValue()).getFunctionName() );
     }
 

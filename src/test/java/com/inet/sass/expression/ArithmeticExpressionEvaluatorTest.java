@@ -80,7 +80,7 @@ public class ArithmeticExpressionEvaluatorTest {
                 operand3);
         Assert.assertEquals(6, result.getIntegerValue());
         Assert.assertEquals(SCSSLexicalUnit.SAC_CENTIMETER,
-                result.getLexicalUnitType());
+                result.getItemType());
     }
 
     @Test
@@ -90,7 +90,7 @@ public class ArithmeticExpressionEvaluatorTest {
                 operand3cm);
         Assert.assertEquals(6, result.getIntegerValue());
         Assert.assertEquals(SCSSLexicalUnit.SAC_CENTIMETER,
-                result.getLexicalUnitType());
+                result.getItemType());
     }
 
     @Test
@@ -99,7 +99,7 @@ public class ArithmeticExpressionEvaluatorTest {
         LexicalUnitImpl result = evaluate(operand4cm, operatorDivide,
                 operand2cm);
         Assert.assertEquals(2, result.getIntegerValue());
-        Assert.assertEquals(SCSSLexicalUnit.SAC_REAL, result.getLexicalUnitType());
+        Assert.assertEquals(SCSSLexicalUnit.SAC_REAL, result.getItemType());
     }
 
     @Test
@@ -108,7 +108,7 @@ public class ArithmeticExpressionEvaluatorTest {
         LexicalUnitImpl result = evaluate(operand4cm, operatorDivide, operand2);
         Assert.assertEquals(2, result.getIntegerValue());
         Assert.assertEquals(SCSSLexicalUnit.SAC_CENTIMETER,
-                result.getLexicalUnitType());
+                result.getItemType());
     }
 
     @Test(expected = ParseException.class)

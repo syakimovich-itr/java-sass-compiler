@@ -50,7 +50,7 @@ public class Mixins extends AbstractTestBase {
         Assert.assertEquals( 2, mixinDefNode1.getArglist().size() );
         Assert.assertEquals( "thickness", mixinDefNode1.getArglist().get( 0 ).getName() );
         Assert.assertEquals( "radius", mixinDefNode1.getArglist().get( 1 ).getName() );
-        Assert.assertEquals( SCSSLexicalUnit.SAC_PIXEL, mixinDefNode1.getArglist().get( 1 ).getExpr().getContainedValue().getLexicalUnitType() );
+        Assert.assertEquals( SCSSLexicalUnit.SAC_PIXEL, mixinDefNode1.getArglist().get( 1 ).getExpr().getContainedValue().getItemType() );
         Assert.assertEquals( 3f, mixinDefNode1.getArglist().get( 1 ).getExpr().getContainedValue().getDoubleValue(), 0f );
 
         Assert.assertEquals( 4, mixinDefNode1.getChildren().size() );
@@ -60,7 +60,7 @@ public class Mixins extends AbstractTestBase {
         MixinNode mixinNode0MainBlock = (MixinNode)mainBlockNode.getChildren().get( 0 );
         Assert.assertEquals( "rounded-borders", mixinNode0MainBlock.getName() );
         Assert.assertEquals( "mixinVar", mixinNode0MainBlock.getArglist().get( 0 ).getContainedValue().getStringValue() );
-        Assert.assertEquals( LexicalUnitImpl.SCSS_VARIABLE, mixinNode0MainBlock.getArglist().get( 0 ).getContainedValue().getLexicalUnitType() );
+        Assert.assertEquals( LexicalUnitImpl.SCSS_VARIABLE, mixinNode0MainBlock.getArglist().get( 0 ).getContainedValue().getItemType() );
         MixinNode mixinNOde1MainBlock = (MixinNode)mainBlockNode.getChildren().get( 1 );
         Assert.assertEquals( "font-settings", mixinNOde1MainBlock.getName() );
         Assert.assertTrue( mixinNOde1MainBlock.getArglist().size() == 0 );
