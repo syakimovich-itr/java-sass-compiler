@@ -990,9 +990,4 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
     public LexicalUnitImpl getContainedValue() {
         return this;
     }
-
-    @Override
-    public boolean containsVariable() {
-        return getLexicalUnitType() == SCSS_VARIABLE;
-    }
 }

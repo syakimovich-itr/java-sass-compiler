@@ -119,11 +119,6 @@ public class Interpolation implements SassListItem {
                 "getContainedValue() is not supported for interpolation");
     }
 
-    @Override
-    public boolean containsVariable() {
-        return expression.containsVariable();
-    }
-
     /**
      * Returns true if this and o are equal interpolation objects. Two
      * interpolation objects are considered to be equal if their expressions are

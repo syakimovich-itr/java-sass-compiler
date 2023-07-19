@@ -92,11 +92,6 @@ public class StringItem implements SassListItem {
     }
 
     @Override
-    public boolean containsVariable() {
-        return false;
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (!(o instanceof StringItem)) {
             return false;

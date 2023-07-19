@@ -274,16 +274,6 @@ public class SassExpression implements SassListItem {
         return (LexicalUnitImpl) items.get(0);
     }
 
-    @Override
-    public boolean containsVariable() {
-        for (SassListItem item : items) {
-            if (item.containsVariable()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     /**
      * Tests whether this and o are equal expressions. Two expressions are
      * considered to be equal only if they have equal operands and operators in

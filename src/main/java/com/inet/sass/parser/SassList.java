@@ -345,14 +345,4 @@ public class SassList implements SassListItem, Iterable<SassListItem> {
     protected List<SassListItem> getItems() {
         return items;
     }
-
-    @Override
-    public boolean containsVariable() {
-        for (SassListItem item : this) {
-            if (item.containsVariable()) {
-                return true;
-            }
-        }
-        return false;
-    }
 }
