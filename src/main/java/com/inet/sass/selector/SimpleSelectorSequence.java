@@ -33,68 +33,36 @@ public class SimpleSelectorSequence implements SelectorSegment {
 
     private List<SimpleSelector> selectors;
 
-    public SimpleSelectorSequence() {
-        selectors = Collections.emptyList();
-    }
-
     /**
      * Constructs a {@link SimpleSelectorSequence} from a list of simple
      * selectors.
      * 
      * @param seq
-     *            list of simple selectors
+     *            list of simple selectors, should not change after creating
      */
-    public SimpleSelectorSequence(List<SimpleSelector> seq) {
-        // TODO this could be optimized by not always creating a new list, but
-        // that would open the possibility of the caller e.g. accidentally
-        // giving a list that is backing/backed by another list or otherwise
-        // shared
-        selectors = Collections.unmodifiableList(new ArrayList<SimpleSelector>(
-                seq));
-    }
-
-    public SimpleSelectorSequence(SimpleSelectorSequence prior,
-            SimpleSelector simpleSelector) {
-        ArrayList<SimpleSelector> list = new ArrayList<SimpleSelector>();
-        if (prior != null) {
-            list.addAll(prior.selectors);
-        }
-        list.add(simpleSelector);
-        selectors = Collections.unmodifiableList(list);
-    }
-
-    public SimpleSelectorSequence(SimpleSelector simpleSelector,
-            SimpleSelectorSequence tail) {
-        ArrayList<SimpleSelector> list = new ArrayList<SimpleSelector>();
-        list.add(simpleSelector);
-        if (tail != null) {
-            list.addAll(tail.selectors);
-        }
-        selectors = Collections.unmodifiableList(list);
+    public SimpleSelectorSequence( List<SimpleSelector> seq ) {
+        selectors = seq;
     }
 
     /**
      * Returns this \ that, set-theoretically
      */
-    public SimpleSelectorSequence difference(SimpleSelectorSequence that) {
-        ArrayList<SimpleSelector> result = new ArrayList<SimpleSelector>(
-                selectors);
-        result.removeAll(that.selectors);
-        return new SimpleSelectorSequence(result);
+    public SimpleSelectorSequence difference( SimpleSelectorSequence that ) {
+        ArrayList<SimpleSelector> result = new ArrayList<SimpleSelector>( selectors );
+        result.removeAll( that.selectors );
+        return new SimpleSelectorSequence( result );
     }
 
     /**
      * Returns this followed by all elements in that but not in this
      */
-    public SimpleSelectorSequence union(SimpleSelectorSequence that) {
-        ArrayList<SimpleSelector> union = new ArrayList<SimpleSelector>(
-                selectors);
-        ArrayList<SimpleSelector> newEntries = new ArrayList<SimpleSelector>(
-                that.selectors);
-        newEntries.removeAll(selectors);
-        union.addAll(newEntries);
-        ensureOrdering(union);
-        return new SimpleSelectorSequence(union);
+    public SimpleSelectorSequence union( SimpleSelectorSequence that ) {
+        ArrayList<SimpleSelector> union = new ArrayList<SimpleSelector>( selectors );
+        ArrayList<SimpleSelector> newEntries = new ArrayList<SimpleSelector>( that.selectors );
+        newEntries.removeAll( selectors );
+        union.addAll( newEntries );
+        ensureOrdering( union );
+        return new SimpleSelectorSequence( union );
     }
 
     /**
@@ -106,16 +74,16 @@ public class SimpleSelectorSequence implements SelectorSegment {
      * @param list
      *            the simple selector list to sort
      */
-    private static void ensureOrdering(List<SimpleSelector> list) {
+    private static void ensureOrdering( List<SimpleSelector> list ) {
 
         Comparator<SimpleSelector> c = new Comparator<SimpleSelector>() {
 
-            public int getOrdinal(SimpleSelector it) {
-                if (it instanceof TypeSelector) {
+            public int getOrdinal( SimpleSelector it ) {
+                if( it instanceof TypeSelector ) {
                     return -1;
-                } else if (it instanceof PseudoElementSelector) {
+                } else if( it instanceof PseudoElementSelector ) {
                     return 3;
-                } else if (it instanceof PseudoClassSelector) {
+                } else if( it instanceof PseudoClassSelector ) {
                     return 2;
                 } else {
                     return 0;
@@ -123,11 +91,11 @@ public class SimpleSelectorSequence implements SelectorSegment {
             }
 
             @Override
-            public int compare(SimpleSelector it, SimpleSelector that) {
-                return getOrdinal(it) - getOrdinal(that);
+            public int compare( SimpleSelector it, SimpleSelector that ) {
+                return getOrdinal( it ) - getOrdinal( that );
             }
         };
-        Collections.sort(list, c);
+        Collections.sort( list, c );
     }
 
     /**
@@ -144,10 +112,9 @@ public class SimpleSelectorSequence implements SelectorSegment {
      * Note: if extend lacks a type selector, this and extending must share the
      * same type selector.
      */
-    public SimpleSelectorSequence unify(SimpleSelectorSequence extend,
-            SimpleSelectorSequence extending) {
+    public SimpleSelectorSequence unify( SimpleSelectorSequence extend, SimpleSelectorSequence extending ) {
 
-        if (extend != null && extend.subsumes(this)) {
+        if( extend != null && extend.subsumes( this ) ) {
             /*
              * Check for type selector compatibility with the extending block.
              * Examples:
@@ -161,18 +128,16 @@ public class SimpleSelectorSequence implements SelectorSegment {
              * 
              * - a.foo with b.bar { @extend .foo }
              */
-            if (extend.getTypeSelector() == null
-                    && extending.getTypeSelector() != null) {
-                if (!(getTypeSelector() == null || extending.getTypeSelector()
-                        .equals(getTypeSelector()))) {
+            if( extend.getTypeSelector() == null && extending.getTypeSelector() != null ) {
+                if( !(getTypeSelector() == null || extending.getTypeSelector().equals( getTypeSelector() )) ) {
                     return null;
                 }
             }
 
-            SimpleSelectorSequence retval = difference(extend).union(extending);
+            SimpleSelectorSequence retval = difference( extend ).union( extending );
 
             // Do not return selectors such as #foo#bar
-            if (retval.cannotMatchAnything()) {
+            if( retval.cannotMatchAnything() ) {
                 return null;
             }
 
@@ -190,12 +155,12 @@ public class SimpleSelectorSequence implements SelectorSegment {
      */
     private boolean cannotMatchAnything() {
         IdSelector id = null;
-        for (SimpleSelector s : selectors) {
-            if (s instanceof IdSelector) {
-                if (id == null) {
-                    id = (IdSelector) s;
+        for( SimpleSelector s : selectors ) {
+            if( s instanceof IdSelector ) {
+                if( id == null ) {
+                    id = (IdSelector)s;
                 } else {
-                    if (!id.equals(s)) {
+                    if( !id.equals( s ) ) {
                         return true;
                     }
                 }
@@ -232,16 +197,16 @@ public class SimpleSelectorSequence implements SelectorSegment {
     }
 
     public TypeSelector getTypeSelector() {
-        SimpleSelector head = selectors.get(0);
-        return head instanceof TypeSelector ? (TypeSelector) head : null;
+        SimpleSelector head = selectors.get( 0 );
+        return head instanceof TypeSelector ? (TypeSelector)head : null;
     }
 
     // optimization - note that the result is backed by selectors of this
     private List<SimpleSelector> getNonTypeSelectorList() {
-        SimpleSelector head = selectors.get(0);
-        if (head instanceof TypeSelector) {
+        SimpleSelector head = selectors.get( 0 );
+        if( head instanceof TypeSelector ) {
             // note that the sublist may be backed by the original list
-            return selectors.subList(1, selectors.size());
+            return selectors.subList( 1, selectors.size() );
         } else {
             return selectors;
         }
@@ -253,28 +218,27 @@ public class SimpleSelectorSequence implements SelectorSegment {
      * selectors in this is a subset of those in that. If type selector is
      * universal in this, compare other kinds of simple selectors only.
      */
-    public boolean subsumes(SimpleSelectorSequence that) {
+    public boolean subsumes( SimpleSelectorSequence that ) {
         TypeSelector ts = getTypeSelector();
-        if (ts == null || ts.equals(UniversalSelector.it)) {
-            return that.getNonTypeSelectorList().containsAll(
-                    getNonTypeSelectorList());
+        if( ts == null || ts.equals( UniversalSelector.it ) ) {
+            return that.getNonTypeSelectorList().containsAll( getNonTypeSelectorList() );
         }
-        return that.selectors.containsAll(selectors);
+        return that.selectors.containsAll( selectors );
     }
 
-    public SimpleSelectorSequence replaceVariables(ScssContext context) {
+    public SimpleSelectorSequence replaceVariables( ScssContext context ) {
         ArrayList<SimpleSelector> list = new ArrayList<SimpleSelector>();
-        for (SimpleSelector s : selectors) {
-            list.add(s.replaceVariables(context));
+        for( SimpleSelector s : selectors ) {
+            list.add( s.replaceVariables( context ) );
         }
-        return new SimpleSelectorSequence(list);
+        return new SimpleSelectorSequence( list );
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (SimpleSelector s : selectors) {
-            sb.append(s.toString());
+        for( SimpleSelector s : selectors ) {
+            sb.append( s.toString() );
         }
         return sb.toString();
     }
@@ -283,8 +247,8 @@ public class SimpleSelectorSequence implements SelectorSegment {
      * Returns whether this selector contains a placeholder (%-selector)
      */
     public boolean isPlaceholder() {
-        for (SimpleSelector s : selectors) {
-            if (s instanceof PlaceholderSelector) {
+        for( SimpleSelector s : selectors ) {
+            if( s instanceof PlaceholderSelector ) {
                 return true;
             }
         }
@@ -292,11 +256,11 @@ public class SimpleSelectorSequence implements SelectorSegment {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == null || !obj.getClass().equals(getClass())) {
+    public boolean equals( Object obj ) {
+        if( obj == null || !obj.getClass().equals( getClass() ) ) {
             return false;
         }
-        return selectors.equals(((SimpleSelectorSequence) obj).selectors);
+        return selectors.equals( ((SimpleSelectorSequence)obj).selectors );
     }
 
     @Override

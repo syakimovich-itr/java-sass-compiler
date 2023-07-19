@@ -400,7 +400,7 @@ public final class ScssParser {
      * @return the new selector, never null
      */
     private Selector appendSelector( Selector selector, Combinator combiner, List<SimpleSelector> list ) {
-        SimpleSelectorSequence selSequence = new SimpleSelectorSequence( list );
+        SimpleSelectorSequence selSequence = new SimpleSelectorSequence( new ArrayList<>( list ) );
         list.clear();
         if( selector == null ) {
             return combiner == null ? new Selector( selSequence ) : new Selector( combiner, selSequence );
