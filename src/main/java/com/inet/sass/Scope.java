@@ -102,10 +102,10 @@ public class Scope {
         }
     }
 
-    private Scope                            parent;
-    private DefinitionScope<Variable>        variables;
-    private DefinitionScope<FunctionDefNode> functions;
-    private DefinitionScope<MixinDefNode>    mixins;
+    private Scope                                  parent;
+    private final DefinitionScope<Variable>        variables;
+    private final DefinitionScope<FunctionDefNode> functions;
+    private final DefinitionScope<MixinDefNode>    mixins;
 
     public Scope() {
         variables = new DefinitionScope<Variable>( null );
