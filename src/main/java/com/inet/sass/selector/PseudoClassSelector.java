@@ -18,23 +18,17 @@ package com.inet.sass.selector;
 
 import com.inet.sass.ScssContext;
 import com.inet.sass.parser.StringInterpolationSequence;
-import com.inet.sass.parser.Variable;
 
 /**
  * Single CSS3 pseudo-class selector such as ":active" or ":nth-child(2)".
- * 
- * See also {@link SimpleSelectorSequence} and {@link Selector}.
+ * @see SimpleSelectorSequence
+ * @see Selector
  */
 public class PseudoClassSelector extends SimpleSelector {
     private StringInterpolationSequence pseudoClass;
-    private String argument;
+    private StringInterpolationSequence argument;
 
-    public PseudoClassSelector(StringInterpolationSequence pseudoClass) {
-        this(pseudoClass, null);
-    }
-
-    public PseudoClassSelector(StringInterpolationSequence pseudoClass,
-            String argument) {
+    public PseudoClassSelector( StringInterpolationSequence pseudoClass, StringInterpolationSequence argument ) {
         this.pseudoClass = pseudoClass;
         this.argument = argument;
     }
@@ -45,7 +39,7 @@ public class PseudoClassSelector extends SimpleSelector {
 
     @Override
     public String toString() {
-        if (argument == null) {
+        if( argument == null ) {
             return ":" + getClassValue();
         } else {
             return ":" + getClassValue() + "(" + argument + ")";
@@ -53,22 +47,16 @@ public class PseudoClassSelector extends SimpleSelector {
     }
 
     @Override
-    public PseudoClassSelector replaceVariables(ScssContext context) {
-        if (argument == null) {
-            return new PseudoClassSelector(
-                    pseudoClass.replaceVariables(context));
+    public PseudoClassSelector replaceVariables( ScssContext context ) {
+        if( argument == null ) {
+            if( pseudoClass.containsInterpolation() ) {
+                return new PseudoClassSelector( pseudoClass.replaceVariables( context ), null );
+            }
         } else {
-            return new PseudoClassSelector(
-                    pseudoClass.replaceVariables(context),
-                    replaceInterpolation(context, argument));
+            if( pseudoClass.containsInterpolation() || argument.containsInterpolation() ) {
+                return new PseudoClassSelector( pseudoClass.replaceVariables( context ), argument.replaceVariables( context ) );
+            }
         }
-    }
-
-    private String replaceInterpolation(ScssContext context, String value) {
-        String result = value;
-        for (Variable var : context.getVariables()) {
-            result = var.replaceInterpolation(result);
-        }
-        return result;
+        return this;
     }
 }

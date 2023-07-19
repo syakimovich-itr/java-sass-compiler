@@ -462,10 +462,11 @@ public final class ScssParser {
      */
     private PseudoClassSelector parsePseudoClassSelector() {
         StringInterpolationSequence pseudoClass = parseStringInterpolationSequence( false );
-        String argument;
+        StringInterpolationSequence argument;
         char ch = reader.read();
         if( ch == '(' ) {
-            argument = parseUnquotedString();
+            argument = parseStringInterpolationSequence( true );
+            consumeMarker( ')' );
         } else {
             argument = null;
             reader.back( ch );
@@ -1626,7 +1627,7 @@ public final class ScssParser {
         LOOP: for( ;; ) {
             char ch = reader.read();
 
-            if( isWhitespace( ch ) ) {
+            if( !untilClosingParenthesis && isWhitespace( ch ) ) {
                 if( builder.length() == 0 ) {
                     continue LOOP;
                 }
