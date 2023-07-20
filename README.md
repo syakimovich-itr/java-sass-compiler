@@ -37,6 +37,17 @@ Dependencies
 ====
 No dependencies to other libraries are needed.
 
+```
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'de.inetsoftware:sass-compiler:+'
+}
+```
+
+
 Using
 ====
 ```
