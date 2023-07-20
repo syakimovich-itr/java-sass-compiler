@@ -26,8 +26,7 @@ import com.inet.sass.parser.SassListItem;
 import com.inet.sass.parser.Variable;
 import com.inet.sass.visitor.VariableNodeHandler;
 
-public class VariableNode extends Node implements Definition, IVariableNode,
-        NodeWithUrlContent {
+public class VariableNode extends Node implements Definition, NodeWithUrlContent {
 
     private final Variable variable;
 
@@ -64,10 +63,6 @@ public class VariableNode extends Node implements Definition, IVariableNode,
     @Override
     public String toString() {
         return "Variable node [" + buildString(TO_STRING_STRATEGY) + "]";
-    }
-
-    @Override
-    public void replaceVariables(ScssContext context) {
     }
 
     @Override

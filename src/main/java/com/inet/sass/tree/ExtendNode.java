@@ -27,7 +27,7 @@ import com.inet.sass.handler.SCSSErrorHandler;
 import com.inet.sass.selector.Selector;
 import com.inet.sass.visitor.ExtendNodeHandler;
 
-public class ExtendNode extends Node implements IVariableNode {
+public class ExtendNode extends Node {
 
     private List<Selector> list;
     private boolean optional;
@@ -46,11 +46,6 @@ public class ExtendNode extends Node implements IVariableNode {
 
     public List<Selector> getList() {
         return list;
-    }
-
-    @Override
-    public void replaceVariables(ScssContext context) {
-
     }
 
     @Override

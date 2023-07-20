@@ -22,8 +22,7 @@ import java.util.Collections;
 import com.inet.sass.ScssContext;
 import com.inet.sass.parser.SassListItem;
 
-public class ReturnNode extends Node implements IVariableNode,
-        NodeWithUrlContent {
+public class ReturnNode extends Node implements NodeWithUrlContent {
 
     private SassListItem expr;
 
@@ -34,10 +33,6 @@ public class ReturnNode extends Node implements IVariableNode,
     private ReturnNode(ReturnNode nodeToCopy) {
         super(nodeToCopy);
         expr = nodeToCopy.expr;
-    }
-
-    @Override
-    public void replaceVariables(ScssContext context) {
     }
 
     @Override

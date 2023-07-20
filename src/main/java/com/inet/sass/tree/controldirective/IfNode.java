@@ -21,10 +21,9 @@ import java.util.Collection;
 import com.inet.sass.ScssContext;
 import com.inet.sass.parser.LexicalUnitImpl;
 import com.inet.sass.parser.SassListItem;
-import com.inet.sass.tree.IVariableNode;
 import com.inet.sass.tree.Node;
 
-public class IfNode extends Node implements IfElseNode, IVariableNode {
+public class IfNode extends Node implements IfElseNode {
     private SassListItem expression;
 
     public IfNode(SassListItem expression) {
@@ -47,10 +46,6 @@ public class IfNode extends Node implements IfElseNode, IVariableNode {
     @Override
     public String toString() {
         return "@if " + expression.toString();
-    }
-
-    @Override
-    public void replaceVariables(ScssContext context) {
     }
 
     @Override

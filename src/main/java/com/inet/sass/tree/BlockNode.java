@@ -27,7 +27,7 @@ import com.inet.sass.handler.SCSSErrorHandler;
 import com.inet.sass.selector.Selector;
 import com.inet.sass.visitor.BlockNodeHandler;
 
-public class BlockNode extends Node implements IVariableNode {
+public class BlockNode extends Node {
 
     private List<Selector> selectorList;
 
@@ -90,9 +90,7 @@ public class BlockNode extends Node implements IVariableNode {
         return "BlockNode [" + buildString(true, TO_STRING_STRATEGY) + "]";
     }
 
-    @Override
-    public void replaceVariables(ScssContext context) {
-
+    private void replaceVariables(ScssContext context) {
         if (selectorList == null || selectorList.isEmpty()) {
             return;
         }

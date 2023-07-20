@@ -29,7 +29,7 @@ import com.inet.sass.ScssContext;
  * @author Sebastian Nyholm @ Vaadin Ltd
  * 
  */
-public class SimpleNode extends Node implements IVariableNode {
+public class SimpleNode extends Node {
 
     private String text;
 
@@ -50,10 +50,6 @@ public class SimpleNode extends Node implements IVariableNode {
     @Override
     public String toString() {
         return printState();
-    }
-
-    @Override
-    public void replaceVariables(ScssContext context) {
     }
 
     @Override

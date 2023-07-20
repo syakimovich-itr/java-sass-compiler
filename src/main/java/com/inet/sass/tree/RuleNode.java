@@ -24,7 +24,7 @@ import com.inet.sass.ScssContext;
 import com.inet.sass.parser.SassListItem;
 import com.inet.sass.parser.StringInterpolationSequence;
 
-public class RuleNode extends Node implements IVariableNode, NodeWithUrlContent {
+public class RuleNode extends Node implements NodeWithUrlContent {
 
     StringInterpolationSequence variable;
     SassListItem value;
@@ -82,10 +82,6 @@ public class RuleNode extends Node implements IVariableNode, NodeWithUrlContent 
 
     public void setComment(String comment) {
         this.comment = comment;
-    }
-
-    @Override
-    public void replaceVariables(ScssContext context) {
     }
 
     @Override

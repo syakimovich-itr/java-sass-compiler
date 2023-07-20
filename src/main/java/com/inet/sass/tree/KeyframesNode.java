@@ -23,7 +23,7 @@ import java.util.Collections;
 import com.inet.sass.ScssContext;
 import com.inet.sass.parser.StringInterpolationSequence;
 
-public class KeyframesNode extends Node implements IVariableNode {
+public class KeyframesNode extends Node {
     private String keyframeName;
     private StringInterpolationSequence animationName;
 
@@ -51,14 +51,9 @@ public class KeyframesNode extends Node implements IVariableNode {
 
     @Override
     public Collection<Node> traverse(ScssContext context) {
-        replaceVariables(context);
+        animationName = animationName.replaceVariables(context);
         traverseChildren(context);
         return Collections.singleton((Node) this);
-    }
-
-    @Override
-    public void replaceVariables(ScssContext context) {
-        animationName = animationName.replaceVariables(context);
     }
 
     private String buildString(BuildStringStrategy strategy) {

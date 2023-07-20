@@ -35,8 +35,7 @@ import com.inet.sass.visitor.MixinNodeHandler;
  * 
  * @author Vaadin
  */
-public class MixinNode extends Node implements IVariableNode,
-        NodeWithUrlContent {
+public class MixinNode extends Node implements NodeWithUrlContent {
 
     // these are the actual parameter values, not whether the definition node
     // uses varargs
@@ -67,15 +66,6 @@ public class MixinNode extends Node implements IVariableNode,
         return name;
     }
 
-    /**
-     * Replace variable references with their values in the argument list and
-     * name.
-     */
-    @Override
-    public void replaceVariables(ScssContext context) {
-        arglist = arglist.evaluateFunctionsAndExpressions(context, true);
-    }
-
     @Override
     public String printState() {
         return "name: " + getName() + " args: " + getArglist();
@@ -89,7 +79,7 @@ public class MixinNode extends Node implements IVariableNode,
     @Override
     public Collection<Node> traverse( ScssContext context ) {
         try {
-            replaceVariables( context );
+            arglist = arglist.evaluateFunctionsAndExpressions(context, true);
             expandVariableArguments();
             // inner scope is managed by MixinNodeHandler
             return MixinNodeHandler.traverse( context, this );

@@ -18,7 +18,6 @@ package com.inet.sass.tree;
 
 import com.inet.sass.Definition;
 import com.inet.sass.Scope;
-import com.inet.sass.ScssContext;
 import com.inet.sass.parser.ActualArgumentList;
 import com.inet.sass.parser.FormalArgumentList;
 
@@ -29,8 +28,7 @@ import com.inet.sass.parser.FormalArgumentList;
  * @author Vaadin
  * 
  */
-public abstract class DefNode extends Node implements Definition,
-        IVariableNode, NodeWithUrlContent {
+public abstract class DefNode extends Node implements Definition, NodeWithUrlContent {
     private String name;
     private FormalArgumentList arglist;
     private Scope definitionScope;
@@ -58,10 +56,6 @@ public abstract class DefNode extends Node implements Definition,
 
     public boolean hasVariableArguments() {
         return arglist.hasVariableArguments();
-    }
-
-    @Override
-    public void replaceVariables(ScssContext context) {
     }
 
     public void replacePossibleArguments(ActualArgumentList actualArgumentList) {

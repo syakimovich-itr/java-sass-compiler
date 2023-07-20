@@ -24,7 +24,7 @@ import java.util.List;
 import com.inet.sass.ScssContext;
 import com.inet.sass.parser.StringInterpolationSequence;
 
-public class NestPropertiesNode extends Node implements IVariableNode {
+public class NestPropertiesNode extends Node {
 
     private StringInterpolationSequence name;
 
@@ -70,14 +70,9 @@ public class NestPropertiesNode extends Node implements IVariableNode {
     }
 
     @Override
-    public void replaceVariables(ScssContext context) {
-        name = name.replaceVariables(context);
-    }
-
-    @Override
     public Collection<Node> traverse(ScssContext context) {
         traverseChildren(context);
-        replaceVariables(context);
+        name = name.replaceVariables(context);
         return unNesting();
     }
 

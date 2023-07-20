@@ -23,7 +23,7 @@ import com.inet.sass.ScssContext;
 import com.inet.sass.handler.SCSSErrorHandler;
 import com.inet.sass.parser.SassListItem;
 
-public class MessageNode extends Node implements IVariableNode {
+public class MessageNode extends Node {
 
     public static enum MessageLevel {
         debug, warn, error;
@@ -35,11 +35,6 @@ public class MessageNode extends Node implements IVariableNode {
     public MessageNode( SassListItem message, MessageLevel level ) {
         this.message = message;
         this.level = level;
-    }
-
-    @Override
-    public void replaceVariables( ScssContext context ) {
-        message = message.evaluateFunctionsAndExpressions( context, true );
     }
 
     @Override
@@ -55,7 +50,7 @@ public class MessageNode extends Node implements IVariableNode {
     @Override
     public Collection<Node> traverse( ScssContext context ) {
         SCSSErrorHandler handler = SCSSErrorHandler.get();
-        replaceVariables( context );
+        message = message.evaluateFunctionsAndExpressions( context, true );
         String msg = message.evaluateFunctionsAndExpressions( context, true ).unquotedString();
         switch( level ) {
             case debug:

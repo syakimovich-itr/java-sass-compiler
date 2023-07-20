@@ -22,13 +22,11 @@ import java.util.List;
 
 import com.inet.sass.ScssContext;
 import com.inet.sass.parser.SassListItem;
-import com.inet.sass.tree.IVariableNode;
 import com.inet.sass.tree.Node;
 import com.inet.sass.tree.NodeWithUrlContent;
 import com.inet.sass.visitor.EachNodeHandler;
 
-public class EachDefNode extends Node implements IVariableNode,
-        NodeWithUrlContent {
+public class EachDefNode extends Node implements NodeWithUrlContent {
 
     private List<String> variableNames;
     private SassListItem list;
@@ -57,10 +55,6 @@ public class EachDefNode extends Node implements IVariableNode,
     public String toString() {
         return "Each Definition Node: {variable : " + variableNames + ", "
                 + "children : " + list + "}";
-    }
-
-    @Override
-    public void replaceVariables(ScssContext context) {
     }
 
     @Override
