@@ -69,7 +69,7 @@ public abstract class AbstractTestBase {
      *             when file reading fails
      */
     public String getFileContent(File file) throws IOException {
-        return IOUtils.toString(new FileReader(file));
+        return IOUtils.toString( new FileReader( file, StandardCharsets.UTF_8 ) );
     }
 
     public ScssStylesheet testParser(String file) throws IOException, URISyntaxException {
