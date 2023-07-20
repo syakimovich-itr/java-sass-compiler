@@ -18,8 +18,8 @@
 package com.inet.sass.testcases.scss;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -96,7 +96,7 @@ public abstract class AbstractDirectoryScanningSassTests {
         String parsedCss = scssStylesheet.printState();
 
         if (getCssFile(scssFile) != null) {
-            String referenceCss = IOUtils.toString( new FileReader( getCssFile( scssFile ), StandardCharsets.UTF_8 ) );
+            String referenceCss = IOUtils.toString( new FileInputStream( getCssFile( scssFile ) ), "UTF-8" );
             String normalizedReference = normalize(referenceCss);
             String normalizedParsed = normalize(parsedCss);
 
