@@ -90,13 +90,6 @@ public class Interpolation implements SassListItem {
     }
 
     @Override
-    public SassListItem replaceVariables(ScssContext context) {
-        SassListItem item = expression.replaceVariables(context);
-        String str = item.evaluateFunctionsAndExpressions(context, this.evaluateArithmetics).unquotedString();
-        return new StringItem( str );
-    }
-
-    @Override
     public Interpolation updateUrl(String prefix) {
         return new Interpolation(expression.updateUrl(prefix), getLineNumber(),
                 getColumnNumber(), evaluateArithmetics);

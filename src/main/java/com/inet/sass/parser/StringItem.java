@@ -65,11 +65,6 @@ public class StringItem implements SassListItem {
     }
 
     @Override
-    public SassListItem replaceVariables(ScssContext context) {
-        return this;
-    }
-
-    @Override
     public StringItem updateUrl(String prefix) {
         // nothing to update
         return this;

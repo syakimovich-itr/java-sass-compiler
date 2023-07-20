@@ -155,15 +155,6 @@ public class ActualArgumentList {
         return this;
     }
 
-    public ActualArgumentList replaceVariables(ScssContext context) {
-        ArgumentList newArgList = arglist.replaceVariables(context);
-        SassListItem newVarArg = null;
-        if (hasVariableArguments()) {
-            newVarArg = variableArgument.replaceVariables(context);
-        }
-        return new ActualArgumentList(newArgList, newVarArg);
-    }
-
     public ActualArgumentList evaluateFunctionsAndExpressions(
             ScssContext context, boolean evaluateArithmetics) {
         ArgumentList newArgList = arglist.evaluateFunctionsAndExpressions(

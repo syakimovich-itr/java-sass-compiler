@@ -38,7 +38,6 @@ public class ReturnNode extends Node implements IVariableNode,
 
     @Override
     public void replaceVariables(ScssContext context) {
-        expr = expr.replaceVariables(context);
     }
 
     @Override
@@ -60,9 +59,8 @@ public class ReturnNode extends Node implements IVariableNode,
      * This method does not modify the ReturnNode itself.
      */
     public SassListItem evaluate(ScssContext context) {
-        SassListItem expr = getExpr();
+        SassListItem expr = this.expr;
         boolean arith = expr.containsArithmeticalOperator();
-        expr = expr.replaceVariables(context);
         expr = expr.evaluateFunctionsAndExpressions(context, arith);
         return expr;
     }

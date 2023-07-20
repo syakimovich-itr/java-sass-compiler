@@ -68,7 +68,6 @@ public class VariableNode extends Node implements Definition, IVariableNode,
 
     @Override
     public void replaceVariables(ScssContext context) {
-        variable.setExpr(variable.getExpr().replaceVariables(context));
     }
 
     @Override
@@ -80,7 +79,6 @@ public class VariableNode extends Node implements Definition, IVariableNode,
          * an arithmetic operator.
          */
         boolean hasOperator = variable.getExpr().containsArithmeticalOperator();
-        replaceVariables(context);
         variable.setExpr(variable.getExpr().evaluateFunctionsAndExpressions(
                 context, hasOperator));
         VariableNodeHandler.traverse(context, this);

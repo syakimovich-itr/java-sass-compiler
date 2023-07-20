@@ -62,7 +62,6 @@ public abstract class DefNode extends Node implements Definition,
 
     @Override
     public void replaceVariables(ScssContext context) {
-        arglist = arglist.replaceVariables(context);
     }
 
     public void replacePossibleArguments(ActualArgumentList actualArgumentList) {

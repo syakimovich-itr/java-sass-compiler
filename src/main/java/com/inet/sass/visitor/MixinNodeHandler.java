@@ -62,7 +62,7 @@ public class MixinNodeHandler {
         try {
             // add variables from argList
             for( Variable var : defClone.getArglist().getArguments() ) {
-                Variable evaluated = new Variable( var.getName(), var.getExpr().replaceVariables( context ).evaluateFunctionsAndExpressions( context, true ) );
+                Variable evaluated = new Variable( var.getName(), var.getExpr().evaluateFunctionsAndExpressions( context, true ) );
                 context.addVariable( evaluated );
             }
             // traverse child nodes in this scope

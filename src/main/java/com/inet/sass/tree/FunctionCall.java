@@ -47,8 +47,6 @@ public class FunctionCall {
         try {
             FormalArgumentList arglist = def.getArglist();
             arglist = arglist.replaceFormalArguments(invocationArglist, true);
-            // replace variables in default values of parameters
-            arglist = arglist.replaceVariables(context);
 
             // copying is necessary as traversal modifies the parent of the
             // node
@@ -59,8 +57,13 @@ public class FunctionCall {
             Scope previousScope = context.openVariableScope(def
                     .getDefinitionScope());
             try {
-                for (Variable param : arglist) {
-                    context.addVariable(param);
+                // replace variables in default values of parameters
+                for (Variable arg : arglist) {
+                    SassListItem expr = arg.getExpr();
+                    if (expr != null) {
+                        expr = expr.evaluateFunctionsAndExpressions( context, true );
+                    }
+                    context.addVariable(new Variable(arg.getName(), expr));
                 }
 
                 // only contains variable nodes, return nodes and control

@@ -86,8 +86,6 @@ public class RuleNode extends Node implements IVariableNode, NodeWithUrlContent 
 
     @Override
     public void replaceVariables(ScssContext context) {
-        variable = variable.replaceVariables(context);
-        value = value.replaceVariables(context);
     }
 
     @Override
@@ -99,7 +97,7 @@ public class RuleNode extends Node implements IVariableNode, NodeWithUrlContent 
          * an arithmetic operator.
          */
         boolean hasOperators = value.containsArithmeticalOperator();
-        replaceVariables(context);
+        variable = variable.replaceVariables(context);
         value = value.evaluateFunctionsAndExpressions(context, hasOperators);
         return Collections.singleton((Node) this);
     }

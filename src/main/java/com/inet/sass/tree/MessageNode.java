@@ -39,7 +39,7 @@ public class MessageNode extends Node implements IVariableNode {
 
     @Override
     public void replaceVariables( ScssContext context ) {
-        message = message.replaceVariables( context );
+        message = message.evaluateFunctionsAndExpressions( context, true );
     }
 
     @Override

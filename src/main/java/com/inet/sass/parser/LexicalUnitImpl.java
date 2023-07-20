@@ -645,93 +645,81 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
         return new LexicalUnitImpl( uri, line, column, SCSS_OPERATOR_OR );
     }
 
-    @Override
-    public SassListItem replaceVariables( ScssContext context ) {
-        // replace function parameters (if any)
-        LexicalUnitImpl lui;
-        ActualArgumentList params = this.params;
-        if( params != null && (params != (params = params.replaceVariables( context ))) ) {
-            lui = copy();
-            lui.params = params;
-        } else {
-            lui = this;
-        }
-
-        // replace parameters in string value
-        switch( type ) {
-            case SCSS_VARIABLE:
-                String stringValue = lui.getStringValue();
-                Variable var = context.getVariable( stringValue );
-                if( var != null ) {
-                    return var.getExpr().replaceVariables( context );
-                }
-                varNotResolved = true;
-                break;
-            case SCSS_PARENT:
-                BlockNode parentBlock = context.getParentBlock();
-                return parentBlock != null ? new StringItem( parentBlock.getSelectors() ) : createNull( uri, line, column );
-            default:
-                StringInterpolationSequence s = this.s;
-                if( s != null && s.containsInterpolation() ) {
-                    StringInterpolationSequence sis = s.replaceVariables( context );
-                    if( sis != s ) {
-                        LexicalUnitImpl copy = lui.copy();
-                        copy.s = sis;
-                        return copy;
-                    }
-                }
-        }
-        return lui;
-    }
-
     public boolean containsInterpolation() {
         return s != null && s.containsInterpolation();
     }
 
     @Override
     public SassListItem evaluateFunctionsAndExpressions( ScssContext context, boolean evaluateArithmetics ) {
-        String functionName = getFunctionName();
-        if( params != null && !"calc".equals( functionName ) ) {
-            SCSSFunctionGenerator generator = SCSSFunctionGenerator.getGenerator( functionName );
-            LexicalUnitImpl copy = this;
-            if( !"if".equals( functionName ) ) {
-                copy = createFunction( uri, line, column, fname, params.evaluateFunctionsAndExpressions( context, true ) );
-            }
-            if( generator == null ) {
-                SassListItem result = copy.replaceCustomFunctions( context );
-                if( result != null ) {
-                    return result;
+        switch( type ) {
+            case SCSS_VARIABLE:
+                String stringValue = getStringValue();
+                Variable var = context.getVariable( stringValue );
+                if( var != null ) {
+                    return var.getExpr().evaluateFunctionsAndExpressions( context, evaluateArithmetics );
                 }
-            }
-            if( generator == null ) {
-                // log unknown functions
-                switch( functionName.toLowerCase() ) {
-                    case "brightness":
-                    case "counters":
-                    case "hsl":
-                    case "hsla":
-                    case "linear-gradient":
-                    case "not ":
-                    case "rgba":
-                    case "rotate":
-                    case "scale":
-                    case "translate":
-                    case "translatey":
-                    case "translatex":
-                    case "translatez":
-                    case "url":
-                    case "var":
-                        // ignore well known CSS functions
-                        break;
-                    default:
-                        SCSSErrorHandler.get().warning( "Unknown function: " + functionName );
+                varNotResolved = true;
+                break;
+            case SCSS_PARENT:
+                BlockNode parentBlock = context.getParentBlock();
+                return parentBlock != null ? new StringItem( parentBlock.getSelectors() ) : createNull( uri, line, column );
+
+            case SAC_FUNCTION:
+            case SAC_RGBCOLOR:
+                String functionName = fname;
+                if( "calc".equals( functionName ) ) {
+                    return createFunction( uri, line, column, functionName, params.evaluateFunctionsAndExpressions( context, false ) );
                 }
-                return copy;
-            }
-            return generator.compute( context, copy );
-        } else {
-            return this;
+                SCSSFunctionGenerator generator = SCSSFunctionGenerator.getGenerator( functionName );
+                LexicalUnitImpl copy = this;
+                if( !"if".equals( functionName ) ) {
+                    copy = createFunction( uri, line, column, functionName, params.evaluateFunctionsAndExpressions( context, true ) );
+                }
+                if( generator == null ) {
+                    SassListItem result = copy.replaceCustomFunctions( context );
+                    if( result != null ) {
+                        return result;
+                    }
+                }
+                if( generator == null ) {
+                    // log unknown functions
+                    switch( functionName.toLowerCase() ) {
+                        case "brightness":
+                        case "counters":
+                        case "hsl":
+                        case "hsla":
+                        case "linear-gradient":
+                        case "not ":
+                        case "rgba":
+                        case "rotate":
+                        case "scale":
+                        case "translate":
+                        case "translatey":
+                        case "translatex":
+                        case "translatez":
+                        case "url":
+                        case "var":
+                            // ignore well known CSS functions
+                            break;
+                        default:
+                            SCSSErrorHandler.get().warning( "Unknown function: " + functionName );
+                    }
+                    return copy;
+                }
+                return generator.compute( context, copy );
+
+            default:
+                StringInterpolationSequence s = this.s;
+                if( s != null && s.containsInterpolation() ) {
+                    StringInterpolationSequence sis = s.replaceVariables( context );
+                    if( sis != s ) {
+                        copy = copy();
+                        copy.s = sis;
+                        return copy;
+                    }
+                }
         }
+        return this;
     }
 
     private SassListItem replaceCustomFunctions(ScssContext context) {

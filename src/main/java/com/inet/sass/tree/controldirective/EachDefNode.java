@@ -61,12 +61,10 @@ public class EachDefNode extends Node implements IVariableNode,
 
     @Override
     public void replaceVariables(ScssContext context) {
-        list = list.replaceVariables(context);
     }
 
     @Override
     public Collection<Node> traverse(ScssContext context) {
-        replaceVariables(context);
         return EachNodeHandler.traverse(context, this);
     }
 

@@ -73,7 +73,6 @@ public class MixinNode extends Node implements IVariableNode,
      */
     @Override
     public void replaceVariables(ScssContext context) {
-        arglist = arglist.replaceVariables(context);
         arglist = arglist.evaluateFunctionsAndExpressions(context, true);
     }
 

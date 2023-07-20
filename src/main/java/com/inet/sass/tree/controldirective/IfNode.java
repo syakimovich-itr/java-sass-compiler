@@ -51,7 +51,6 @@ public class IfNode extends Node implements IfElseNode, IVariableNode {
 
     @Override
     public void replaceVariables(ScssContext context) {
-        expression = expression.replaceVariables(context);
     }
 
     @Override

@@ -163,18 +163,11 @@ public class SassList implements SassListItem, Iterable<SassListItem> {
         return new SassList(getSeparator(), list);
     }
 
-    @Override
-    public SassList replaceVariables(ScssContext context) {
-        // The actual replacing happens in LexicalUnitImpl, which also
-        // implements SassListItem.
-        return new SassList(getSeparator(), replaceVariables( context, items ) );
-    }
-
     static List<SassListItem> replaceVariables( ScssContext context, List<SassListItem> items ) {
         int size = items.size();
         List<SassListItem> list = new ArrayList<SassListItem>( size );
         for( int i = 0; i < size; i++ ) {
-            list.add( items.get( i ).replaceVariables( context ) );
+            list.add( items.get( i ).evaluateFunctionsAndExpressions( context, true ) );
         }
         return list;
     }

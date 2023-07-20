@@ -36,7 +36,6 @@ public class IfElseNodeHandler {
         for (final Node child : node.getChildren()) {
             if (child instanceof IfNode) {
                 SassListItem expression = ((IfNode) child).getExpression();
-                expression = expression.replaceVariables(context);
                 expression = expression.evaluateFunctionsAndExpressions(
                         context, true);
 

@@ -21,8 +21,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import com.inet.sass.ScssContext;
-
 /**
  * FormalArgumentList is used for representing the parameter list of a mixin or
  * a function definition. Formal arguments are always named and may optionally
@@ -56,24 +54,6 @@ public class FormalArgumentList implements Iterable<Variable> {
         } else {
             arglist = new ArrayList<Variable>();
         }
-    }
-
-    public FormalArgumentList replaceVariables(ScssContext context) {
-        ArrayList<Variable> result = new ArrayList<Variable>();
-        for (final Variable arg : arglist) {
-            SassListItem expr = arg.getExpr();
-            if (expr != null) {
-                expr = expr.replaceVariables(context);
-            }
-            if (expr == null) {
-                Variable var = context.getVariable(arg.getName());
-                if (var != null) {
-                    expr = var.getExpr();
-                }
-            }
-            result.add(new Variable(arg.getName(), expr));
-        }
-        return new FormalArgumentList(result, hasVariableArguments());
     }
 
     /**

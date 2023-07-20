@@ -55,22 +55,6 @@ public class ArgumentList extends SassList {
     }
 
     @Override
-    public ArgumentList replaceVariables(ScssContext context) {
-        // The actual replacing happens in LexicalUnitImpl, which also
-        // implements SassListItem.
-        List<SassListItem> list = new ArrayList<SassListItem>();
-        for (SassListItem item : this) {
-            list.add(item.replaceVariables(context));
-        }
-        List<Variable> named = new ArrayList<Variable>();
-        for (Variable var : namedVariables) {
-            named.add(new Variable(var.getName(), var.getExpr()
-                    .replaceVariables(context), var.isGuarded()));
-        }
-        return new ArgumentList(getSeparator(), list, named);
-    }
-
-    @Override
     public ArgumentList evaluateFunctionsAndExpressions(ScssContext context,
             boolean evaluateArithmetics) {
         List<SassListItem> list = new ArrayList<SassListItem>();

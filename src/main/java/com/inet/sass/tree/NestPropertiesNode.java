@@ -23,7 +23,6 @@ import java.util.List;
 
 import com.inet.sass.ScssContext;
 import com.inet.sass.parser.StringInterpolationSequence;
-import com.inet.sass.visitor.NestedNodeHandler;
 
 public class NestPropertiesNode extends Node implements IVariableNode {
 
@@ -73,17 +72,13 @@ public class NestPropertiesNode extends Node implements IVariableNode {
     @Override
     public void replaceVariables(ScssContext context) {
         name = name.replaceVariables(context);
-        for (Node child : getChildren()) {
-            if (child instanceof RuleNode) {
-                ((RuleNode) child).replaceVariables(context);
-            }
-        }
     }
 
     @Override
     public Collection<Node> traverse(ScssContext context) {
         traverseChildren(context);
-        return NestedNodeHandler.traverse(context, this);
+        replaceVariables(context);
+        return unNesting();
     }
 
     @Override

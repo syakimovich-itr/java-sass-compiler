@@ -50,7 +50,6 @@ public class ForNodeHandler extends LoopNodeHandler {
     }
 
     private static int getInt(ScssContext context, SassListItem item) {
-        item = item.replaceVariables(context);
         SassListItem value = item
                 .evaluateFunctionsAndExpressions(context, true);
         if (value instanceof LexicalUnitImpl

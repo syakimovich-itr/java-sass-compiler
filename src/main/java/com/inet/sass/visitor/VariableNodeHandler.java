@@ -18,7 +18,6 @@
 package com.inet.sass.visitor;
 
 import com.inet.sass.ScssContext;
-import com.inet.sass.parser.LexicalUnitImpl;
 import com.inet.sass.parser.SCSSLexicalUnit;
 import com.inet.sass.parser.SassListItem;
 import com.inet.sass.parser.Variable;

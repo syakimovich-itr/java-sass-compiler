@@ -221,15 +221,6 @@ public class SassExpression implements SassListItem {
     }
 
     @Override
-    public SassExpression replaceVariables(ScssContext context) {
-        List<SassListItem> list = new ArrayList<SassListItem>();
-        for (SassListItem item : items) {
-            list.add(item.replaceVariables(context));
-        }
-        return new SassExpression(list);
-    }
-
-    @Override
     public SassExpression updateUrl(String prefix) {
         List<SassListItem> newItems = new ArrayList<SassListItem>(items.size());
         for (SassListItem item : items) {

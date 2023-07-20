@@ -54,7 +54,6 @@ public class WhileNodeHandler {
 
     private static boolean evaluateCondition( ScssContext context, WhileNode whileNode ) {
         SassListItem condition = whileNode.getCondition();
-        condition = condition.replaceVariables( context );
         condition = condition.evaluateFunctionsAndExpressions( context, true );
         return BinaryOperator.isTrue( condition );
     }

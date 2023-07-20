@@ -73,21 +73,7 @@ public interface SassListItem extends SourceLocation {
      *         expressions and functions have been replaced with their evaluated
      *         values.
      */
-    public SassListItem evaluateFunctionsAndExpressions(ScssContext context,
-            boolean evaluateArithmetics);
-
-    /**
-     * Returns a new item that is otherwise equal to this one but all
-     * occurrences of variables have been replaced by the values in the current
-     * variable scope. Does not modify this item.
-     * 
-     * @param context
-     *            the compilation context in which to evaluate functions,
-     *            variables etc.
-     * @return A SassListItem where all occurrences of variables have been
-     *         replaced by their values.
-     */
-    public SassListItem replaceVariables(ScssContext context);
+    public SassListItem evaluateFunctionsAndExpressions( ScssContext context, boolean evaluateArithmetics );
 
     /**
      * Returns a new item that is obtained from this by updating all url's by,
