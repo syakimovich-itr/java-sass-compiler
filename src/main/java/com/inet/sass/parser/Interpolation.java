@@ -23,8 +23,8 @@ import com.inet.sass.tree.Node.BuildStringStrategy;
 
 /**
  * Interpolation represents a single instance of interpolation. The string
- * representation of an Interpolation object is "#{<expression>}" (without
- * quotes) where <expression> is the textual representation of the expression of
+ * representation of an Interpolation object is "#{&lt;expression&gt;}" (without
+ * quotes) where &lt;expression&gt; is the textual representation of the expression of
  * the interpolation.
  * 
  * An Interpolation object is evaluated by calling replaceInterpolation(). The
@@ -33,9 +33,6 @@ import com.inet.sass.tree.Node.BuildStringStrategy;
  * marks are removed from the result. Variables should be replaced with their
  * values and functions and expressions evaluated before calling
  * replaceInterpolation().
- * 
- * @author Vaadin
- * 
  */
 public class Interpolation implements SassListItem {
     private int lineNumber;

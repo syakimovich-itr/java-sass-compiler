@@ -62,16 +62,11 @@ public class ScssStylesheet extends Node {
      * 
      * @param identifier
      *            The file path. If null then null is returned.
-     * @param parentStylesheet
-     *            Style sheet from which to inherit resolvers and encoding. May
-     *            be null.
-     * @param documentHandler
-     *            Instance of document handler. May not be null.
      * @param errorHandler
      *            Instance of error handler. May not be null.
      * @param resolver the used resolver
-     * @return
-     * @throws IOException
+     * @return the loaded ScssStylesheet
+     * @throws IOException if any i/O error occur
      */
     public static ScssStylesheet get( String identifier, SCSSErrorHandler errorHandler, ScssStylesheetResolver resolver ) throws IOException {
         SCSSErrorHandler.set( errorHandler );
@@ -203,7 +198,7 @@ public class ScssStylesheet extends Node {
 
     /**
      * Traverses a node and its children recursively, calling all the
-     * appropriate handlers via {@link Node#traverse()}.
+     * appropriate handlers via {@link Node#traverse}.
      * 
      * The node itself may be removed during the traversal and replaced with
      * other nodes at the same position or later on the child list of its

@@ -22,7 +22,7 @@ import com.inet.sass.ScssContext;
  * Simple CSS3 selector such as an id selector or an attribute selector.
  * 
  * {@link SimpleSelector} instances are immutable and
- * {@link #replaceVariables()} returns a modified copy of the selector if
+ * {@link #replaceVariables(ScssContext)} returns a modified copy of the selector if
  * necessary.
  * 
  * Multiple concatenated simple selectors are grouped in

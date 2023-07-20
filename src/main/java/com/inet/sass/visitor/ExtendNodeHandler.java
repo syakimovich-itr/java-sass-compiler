@@ -107,12 +107,12 @@ public class ExtendNodeHandler {
      * selectors (a selector is redundant in a set if subsumed by another
      * selector in the set).
      * 
-     * .a {...}; .b { @extend .a } ---> .b
-     * 
-     * .a.b {...}; .c { @extend .a } ---> .b.c
-     * 
-     * .a.b {...}; .c .c { @extend .a } ---> .c .b.c
-     * 
+     * .a {...}; .b { @extend .a } ---&gt; .b
+     * <p>
+     * .a.b {...}; .c { @extend .a } ---&gt; .b.c
+     * <p>
+     * .a.b {...}; .c .c { @extend .a } ---&gt; .c .b.c 
+     * <p>
      * @param target
      *            the selector to match
      * @param extendsMap

@@ -49,7 +49,6 @@ public class MixinDefNode extends DefNode {
      * 
      * @param context context with variables of the caller scope where it is defined
      * @param mixinNode
-     * @return
      */
     public void replaceContentDirective( ScssContext context, MixinNode mixinNode) {
         findAndReplaceContentNodeInChildren( context, this, mixinNode);

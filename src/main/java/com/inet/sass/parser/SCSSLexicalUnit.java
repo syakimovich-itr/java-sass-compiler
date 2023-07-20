@@ -47,19 +47,19 @@ public interface SCSSLexicalUnit {
      */
     public static final short SAC_OPERATOR_EXP          = 6;
     /**
-     * <
+     * &lt;
      */
     public static final short SAC_OPERATOR_LT           = 7;
     /**
-     * >
+     * &gt;
      */
     public static final short SAC_OPERATOR_GT           = 8;
     /**
-     * <=
+     * &lt;=
      */
     public static final short SAC_OPERATOR_LE           = 9;
     /**
-     * >=
+     * &gt;=
      */
     public static final short SAC_OPERATOR_GE           = 10;
     /**
@@ -73,7 +73,7 @@ public interface SCSSLexicalUnit {
     public static final short SAC_INHERIT               = 12;
     /**
      * Integers.
-     * @see #getIntegerValue
+     * @see LexicalUnitImpl#getIntegerValue
      */
     public static final short SAC_INTEGER               = 13;
     /**
@@ -118,7 +118,7 @@ public interface SCSSLexicalUnit {
     public static final short SAC_PERCENTAGE            = 23;
     /**
      * URI: <code>uri(...)</code>.
-     * @see #getStringValue
+     * @see LexicalUnitImpl#getStringValue
      */
     public static final short SAC_URI                   = 24;
     /**
@@ -173,21 +173,21 @@ public interface SCSSLexicalUnit {
 
     /**
      * function <code>rect</code>.
-     * @see #getFunctionName
-     * @see #getParameters
+     * @see LexicalUnitImpl#getFunctionName
+     * @see LexicalUnitImpl#getParameterList
      */
     public static final short SAC_RECT_FUNCTION         = 38;
 
     /**
      * sub expressions <code>(a)</code> <code>(a + b)</code> <code>(normal/none)</code>
-     * @see #getSubValues
+     * @see LexicalUnitImpl#getParameterList
      */
     public static final short SAC_SUB_EXPRESSION        = 40;
 
     /**
      * unknown function.
-     * @see #getFunctionName
-     * @see #getParameters
+     * @see LexicalUnitImpl#getFunctionName
+     * @see LexicalUnitImpl#getParameterList
      */
     public static final short SAC_FUNCTION              = 41;
     /**
@@ -211,7 +211,7 @@ public interface SCSSLexicalUnit {
     static final short        SCSS_INTERPOLATION        = 112; 
 
     /**
-     * "&" placeholder for the parent selector reference
+     * "&amp;" placeholder for the parent selector reference
      */
     static final short        SCSS_PARENT               = 113;
 

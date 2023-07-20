@@ -39,11 +39,6 @@ import com.inet.sass.tree.Node.BuildStringStrategy;
 import com.inet.sass.util.ColorUtil;
 import com.inet.sass.util.StringUtil;
 
-/**
- * @author Philippe Le Hegaret
- * 
- * @modified Sebastian Nyholm @ Vaadin Ltd
- */
 public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
 
     public static final long PRECISION = 100000L;

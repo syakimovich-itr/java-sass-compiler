@@ -27,6 +27,7 @@ import com.inet.sass.ScssStylesheet;
 import com.inet.sass.selector.Selector;
 import com.inet.sass.tree.BlockNode;
 import com.inet.sass.tree.MediaNode;
+import com.inet.sass.tree.NestPropertiesNode;
 import com.inet.sass.tree.Node;
 
 /**
@@ -45,7 +46,7 @@ import com.inet.sass.tree.Node;
  * }
  * </pre>
  * 
- * Note that nested properties are handled by {@link NestedNodeHandler}, not
+ * Note that nested properties are handled by {@link NestPropertiesNode}, not
  * here.
  */
 public class BlockNodeHandler {
