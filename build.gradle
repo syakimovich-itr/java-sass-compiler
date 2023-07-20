@@ -1,5 +1,6 @@
 plugins {
   id 'maven-publish'
+  id 'signing'
 }
 
 apply plugin: 'java'
@@ -14,14 +15,9 @@ dependencies {
     testImplementation 'commons-io:commons-io:2.2'
 }
 
-task sourcesJar(type: Jar, dependsOn: classes) {
-    archiveClassifier = 'sources'
-
-    from sourceSets.main.java
-}
-
-jar {
-    dependsOn sourcesJar
+java {
+    withJavadocJar()
+    withSourcesJar()
 }
 
 publishing {
@@ -55,7 +51,22 @@ publishing {
                     developerConnection = 'scm:git:git@github.com:i-net-software/sass-compiler.git'
                     url = 'https://github.com/i-net-software/sass-compiler'
                 }
-            } 
+            }
         }
     }
+
+    repositories {
+        maven {
+            name = 'sonatype'
+            url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+            credentials {
+                username = project.findProperty("ossrhUsername")
+                password = project.findProperty("ossrhPassword")
+            }
+        }
+    }
+}
+
+signing {
+    sign publishing.publications.maven
 }
