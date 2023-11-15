@@ -5,6 +5,7 @@
     ident-interpolation: -first-4-second--18;
     slash-not-as-division: 10/5;
     slash-as-division: 2;
+     trans: transform 5;
 }
 
 #idSelector-1 {

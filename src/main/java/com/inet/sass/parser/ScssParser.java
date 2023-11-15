@@ -1747,7 +1747,7 @@ public final class ScssParser {
 
         int line = reader.getLine();
         int column = reader.getColumn();
-        SassListItem item = parseExpression( true );
+        SassListItem item = parseExpressionOrList();
         sequence.add( new Interpolation( item, line, column ) );
         consumeMarker( '}' );
         stringSequence = sequence;
