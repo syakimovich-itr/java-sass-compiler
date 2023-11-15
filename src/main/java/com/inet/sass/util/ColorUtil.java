@@ -678,7 +678,7 @@ public class ColorUtil {
 
         double[] hsl = colorToHsl(color);
         if( hsl == null ) {
-            throw new ParseException( "The function adjust requires a color", color );
+            throw new ParseException( "The function " + op + " requires a color", color );
         }
         if (op == ColorOperation.Darken) {
             hsl[2] = hsl[2] - amountByPercent;
