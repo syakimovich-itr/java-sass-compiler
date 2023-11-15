@@ -79,7 +79,7 @@ class TransparencyModificationFunctionGenerator extends
                             .isHsla(color.getContainedValue()))) {
             throw new ParseException("The function "
                     + function.getFunctionName()
-                    + "requires a valid color as its first parameter", function);
+                    + " requires a valid color as its first parameter", function);
         }
         SassListItem amountItem = getParam(args, 1);
         if (!(amountItem instanceof LexicalUnitImpl)
@@ -87,7 +87,7 @@ class TransparencyModificationFunctionGenerator extends
                         LexicalUnitImpl.SAC_INTEGER, LexicalUnitImpl.SAC_REAL)) {
             throw new ParseException("The function "
                     + function.getFunctionName()
-                    + "requires a number as its second parameter", function);
+                    + " requires a number as its second parameter", function);
         }
         double amount = amountItem.getContainedValue().getDoubleValue();
         if (amount < 0.0 || amount > 1.0) {
