@@ -677,6 +677,9 @@ public class ColorUtil {
     private static LexicalUnitImpl adjust(LexicalUnitImpl color, double amountByPercent, ColorOperation op) {
 
         double[] hsl = colorToHsl(color);
+        if( hsl == null ) {
+            throw new ParseException( "The function adjust requires a color", color );
+        }
         if (op == ColorOperation.Darken) {
             hsl[2] = hsl[2] - amountByPercent;
             hsl[2] = hsl[2] < 0 ? 0 : hsl[2];
@@ -685,8 +688,7 @@ public class ColorUtil {
             hsl[2] = hsl[2] > 100 ? 100 : hsl[2];
         }
         double alpha = getAlpha(color);
-        return createHslaOrHslColor(hsl, alpha, color.getLineNumber(),
-                color.getColumnNumber());
+        return createHslaOrHslColor( hsl, alpha, color.getLineNumber(), color.getColumnNumber() );
     }
 
     public static LexicalUnitImpl darken(LexicalUnitImpl color, double amount) {
