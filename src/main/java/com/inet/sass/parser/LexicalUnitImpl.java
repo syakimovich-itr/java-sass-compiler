@@ -689,6 +689,7 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
                         case "rotate":
                         case "scale":
                         case "translate":
+                        case "translate3d":
                         case "translatey":
                         case "translatex":
                         case "translatez":
