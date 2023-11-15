@@ -679,6 +679,7 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
                 if( generator == null ) {
                     // log unknown functions
                     switch( functionName.toLowerCase() ) {
+                        case "blur":
                         case "brightness":
                         case "contrast":
                         case "counters":
@@ -686,9 +687,15 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
                         case "hsla":
                         case "linear-gradient":
                         case "not ":
+                        case "radial-gradient":
                         case "rgba":
                         case "rotate":
+                        case "rotatex":
+                        case "rotatey":
+                        case "perspective":
                         case "scale":
+                        case "scalex":
+                        case "scaley":
                         case "translate":
                         case "translate3d":
                         case "translatey":
