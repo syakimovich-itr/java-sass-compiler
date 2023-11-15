@@ -680,6 +680,7 @@ public class LexicalUnitImpl implements SCSSLexicalUnit, SassListItem {
                     // log unknown functions
                     switch( functionName.toLowerCase() ) {
                         case "brightness":
+                        case "contrast":
                         case "counters":
                         case "hsl":
                         case "hsla":
