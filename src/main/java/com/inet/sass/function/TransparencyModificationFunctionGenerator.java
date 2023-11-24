@@ -94,7 +94,7 @@ class TransparencyModificationFunctionGenerator extends
             throw new ParseException(
                     "The function "
                             + function.getFunctionName()
-                            + "requires a number in the range [0, 1] as its second parameter",
+                            + " requires a number in the range [0, 1] as its second parameter",
                     function);
         }
     }
