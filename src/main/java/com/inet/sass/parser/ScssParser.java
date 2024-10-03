@@ -694,6 +694,10 @@ public final class ScssParser {
                     media();
                     return;
 
+                case "@layer":
+                    layer();
+                    return;
+
                 case "@keyframes":
                 case "@-moz-keyframes":
                 case "@-o-keyframes":
@@ -863,6 +867,17 @@ public final class ScssParser {
         documentHandler.startMedia( uri, reader.getLine(), reader.getColumn(), media );
         parse( false );
         documentHandler.endMedia();
+    }
+
+    /**
+     * Parse @layer rule
+     */
+    private void layer() {
+        StringInterpolationSequence layerName = parseStringInterpolationSequence( false );
+        consumeMarker( '{' );
+        documentHandler.startLayer( layerName );
+        parse( false );
+        documentHandler.endLayer();
     }
 
     /**

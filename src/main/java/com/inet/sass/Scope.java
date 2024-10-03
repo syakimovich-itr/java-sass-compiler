@@ -57,7 +57,8 @@ public class Scope {
             if( definitions == null ) {
                 definitions = this.definitions = new HashMap<String, T>();
             }
-            definitions.put( node.getName(), node );
+            final String unifiedName = getUnifiedName(node.getName());
+            definitions.put( unifiedName, node );
         }
 
         /**
@@ -71,22 +72,24 @@ public class Scope {
             }
             HashMap<String, T> definitions = this.definitions;
             if( definitions != null ) {
-                return definitions.replace( node.getName(), node ) != null;
+                final String unifiedName = getUnifiedName(node.getName());
+                return definitions.replace( unifiedName, node ) != null;
             }
             return false;
         }
 
         public T get( String name ) {
+            final String unifiedName = getUnifiedName(name);
             HashMap<String, T> definitions = this.definitions;
             if( definitions != null ) {
-                T value = definitions.getOrDefault( name, (T)MISSING );
+                T value = definitions.getOrDefault( unifiedName, (T)MISSING );
                 if( value != MISSING ) {
                     return value;
                 }
             }
             DefinitionScope<T> parent = this.parent;
             if( parent != null ) {
-                return parent.get( name );
+                return parent.get( unifiedName );
             } else {
                 return null;
             }
@@ -99,6 +102,20 @@ public class Scope {
             } else {
                 return "{}, parent = " + parent;
             }
+        }
+
+        /**
+         * Sass treat hyphens and underscores as identical in  identifiers.
+         * This means that reset-list and reset_list both refer to the same mixin.
+         * This is a historical holdover from the very early days of Sass,
+         * when it only allowed underscores in identifier names.
+         * Once Sass added support for hyphens to match CSS’s syntax,
+         * the two were made equivalent to make migration easier.
+         */
+        private String getUnifiedName(final String name) {
+            return name != null
+                    ? name.replace("_", "-")
+                    : null;
         }
     }
 
