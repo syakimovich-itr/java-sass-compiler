@@ -36,6 +36,7 @@ import com.inet.sass.tree.FunctionDefNode;
 import com.inet.sass.tree.ImportNode;
 import com.inet.sass.tree.KeyframeSelectorNode;
 import com.inet.sass.tree.KeyframesNode;
+import com.inet.sass.tree.LayerNode;
 import com.inet.sass.tree.MediaNode;
 import com.inet.sass.tree.MessageNode;
 import com.inet.sass.tree.MessageNode.MessageLevel;
@@ -130,6 +131,16 @@ public class SCSSDocumentHandler {
     }
 
     public void endMedia()  {
+        nodeStack.pop();
+    }
+
+    public void startLayer( StringInterpolationSequence layerName ) {
+        LayerNode node = new LayerNode(layerName);
+        nodeStack.peek().appendChild( node );
+        nodeStack.push( node );
+    }
+
+    public void endLayer()  {
         nodeStack.pop();
     }
 

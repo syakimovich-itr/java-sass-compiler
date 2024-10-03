@@ -29,7 +29,7 @@ publishing {
         maven(MavenPublication) {
             groupId = 'de.inetsoftware'
             artifactId = 'sass-compiler'
-            version = '1.3'
+            version = '1.3-1c'
             from components.java
             pom {
                 name = 'Java Sass Compiler'
